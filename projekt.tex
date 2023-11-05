@@ -41,9 +41,17 @@
 %   it is necessary to use parameters english and enslovak as follows:
 %      \documentclass[english,enslovak]{fitthesis}
 
+
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{1}
+
+
 % Základní balíčky jsou dole v souboru šablony fitthesis.cls
 % Basic packages are at the bottom of template file fitthesis.cls
 % zde můžeme vložit vlastní balíčky / you can place own packages here
+
+% \usepackage{minted}
+\usepackage{listings}
 
 
 % Pro seznam zkratek lze využít balíček Glossaries - nutno odkomentovat i níže a při kompilaci z konzoly i v Makefile (plnou verzi pro Perl, nebo lite)

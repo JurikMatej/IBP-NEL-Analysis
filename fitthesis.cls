@@ -1372,6 +1372,9 @@ Management}{\@fit@EN}%
 \newcolumntype{L}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
 
 
+% Vlastné príkazy
+\def\code#1{\texttt{#1}}
+
 \endinput
 %%
 %% End of file `fitthesis.cls'.

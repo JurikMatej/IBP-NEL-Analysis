@@ -1,7 +1,8 @@
 \chapter{Network Error Logging a ďalšie relevantné technológie}
 \label{nel-and-related-technologies}
 
-V tejto kapitole popisujem podstatu samotného Network Error Logging-u (ďalej označovaný iba ako NEL) a ďalších technológií priamo súvisiacich s ním. Jedná sa tu čisto o teoretický základ nutný pre pochopenie nasledujúcich sekcií tejto práce. Aktuálny stav využívania technológií spomínaných nižšie bude uvedený a detailne rozpísaný v kapitole \nameref{related-work}.
+
+V tejto kapitole popisujem podstatu samotného Network Error Logging-u (ďalej označovaný iba ako NEL) a ďalších technológií priamo súvisiacich s ním. Jedná sa tu čisto o teoretický základ nutný pre pochopenie nasledujúcich sekcií tejto práce. Aktuálny stav využívania technológií spomínaných nižšie bude uvedený a detailne rozpísaný v kapitole \ref{related-work}.
 
 \section{HTTP ?}
 
@@ -22,24 +23,55 @@ Sekcia bude vychadzat z clanku zo zadania BP \cite{nel-client-side-measurement-e
 
 \section{Network Error Logging}
 
+\todo{Krátky náhľad na NEL a jeho ciele}
+
 NEL je štandard pre zachytávanie a získavanie chýb a zlyhaní na úrovni webového prehliadača navrhnutý organizáciou World Wide Web Consortium (ďalej v skratke iba W3C). Tento štandard bol prvýkrát popísaný v článku publikovanom 11/02/2014 a je dodnes aktualizovávaný s tým, že posledná verzia jeho špecifikácie bola vydaná práve v dobe vzniku tejto bakalárskej práce, a to presne 5/10/2023. 
 
-Hlavným cieľom NEL je poskytovať prevádzkovateľom webových serverov priamy pohľad na chybové stavy, ktoré môžu vzniknúť pri snahe klientských aplikácií komunikovať s nimi. Pri takejto klient-server komunikácií môže nastať hneď niekoľko kategórií problémov, kde v každej z nich si zaslúžia jednotlivé chyby svoje vysvetlenie. Dôležité je, že server v obyčajnom scenári takejto komunikácie nemá žiadnu možnosť dostať sa k informácií o tom, že sa niečo pokazilo, ani čo konkrétne bol samotný problém. Práve toto je cieľom napraviť pre tento štandard a tým pádom sa tvorcom tejto technológie jedná o postupné zvýšenie dostupnosti služieb poskytovaných na internete sprevádzkovaním NEL na svojich webových serveroch. \color{red} TODO \color{black}
+Hlavným cieľom NEL je poskytovať prevádzkovateľom webových serverov priamy pohľad na chybové stavy, ktoré môžu vzniknúť pri snahe klientských aplikácií komunikovať s nimi. Pri takejto klient-server komunikácií môže nastať hneď niekoľko kategórií problémov, kde v každej z nich si zaslúžia jednotlivé chyby svoje vysvetlenie. Dôležité je, že server v obyčajnom scenári takejto komunikácie nemá žiadnu možnosť dostať sa k informácií o tom, že sa niečo pokazilo, ani čo konkrétne bol samotný problém. Práve toto je cieľom napraviť pre tento štandard a tým pádom sa tvorcom tejto technológie jedná o postupné zvýšenie dostupnosti služieb poskytovaných na internete sprevádzkovaním NEL na svojich webových serveroch.
 
-\subsection{}
-
-
-
-\cite{W3C-NEL}
+V nasledujúcich sekciách chcem vysvetliť jednotlivé detaily týkajúce sa tejto technológie, ktoré sú naprosto potrebné k porozumeniu implementačnej časti tejto práce - kapitole č.\ref{analysis-and-its-results}. Pokiaľ nebude uvedené inak, v tejto kapitole čerpám hlavne z poslednej dostupnej verzie dokumentu špecifikácie NEL\cite{W3C-NEL}.
 
 
+\subsection{Základné funkčné prvky}
+\todo{Špecifikácia NEL, ktorá je jednoznačne potrebná pre účel pochopenia implementačnej časti (analýzy)} 
+
+NEL je možné využiť pri komunikácií klienta so serverom pomocou protokolu HTTP. Jeho funkcionalita je zapracovaná do užívateľských prehliadačov založených na open-source?? distribúcií projektu \textbf{Chromium}, a to menovite napríklad: Google Chrome, Opera alebo Microsoft Edge. \todo{CITE}
+
+Jeho vnútorné mechanizmy sú spustené práve vtedy, keď server pri vyhotovovaní novej požiadavky zašle v svojej odpovedi spolu s ostatnými aj hlavičku \code{NEL}. Tento proces sa nazýva \textbf{Policy delivery} a sprostredkuje dohodu o zbieraní, udržiavaní a nahlasovaní chýb vzniknutých pri komunikácií. Samotné politiky sú popísané vo väčšom detaile v sekcií \ref{nel-policies}.
+\\
+\\
+Hlavička \code{NEL} vo svojej najjednoduchšej podobe musí obsahovať nasledovné položky: 
+
+\begin{itemize}
+    \item \code{report\textunderscore to} - menom označená skupina zberačov reportov (collerctors, viď \ref{reporting-api}) 
+    \item \code{max\textunderscore age} - doba platnosti zaslanej politiky NEL
+\end{itemize}
+
+Tieto hlavičky musia byť zadané vo formáte \code{application\textbackslash json}, takže ukážkový obsah HTTP hlavičky NEL môže vyzerať napríklad takto:
+
+\begin{lstlisting}[caption={Ukážka obsahu najjednoduchšej/minimálnej HTTP hlavičky NEL. Akékoľvek chyby budú hlásené do skupiny \code{network-errors} po dobu platnosti tejto politiky, ktorá bola nastavená na 7 dní}]
+
+{"report_to": "network-errors", "max_age": 604800}
+\end{lstlisting}
+\todo{center only the lstlisting without the caption}
 
 
+% 
+% \label{nel-simple-example}
+
+
+\subsection{Konfigurácia}
+
+Všetky položky, ktoré je možné v NEL hlavičke uviezť.
+
+\subsection{Politiky a ich uskladňovanie na strane klienta}
+\label{nel-policies}
 
 
 
 
 
 \section{Reporting API}
+\label{reporting-api}
 
 Doplnkové info, ktoré je skrátka nutné spomenúť \cite{W3C-reporting-api}
