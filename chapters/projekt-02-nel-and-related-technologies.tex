@@ -1,7 +1,7 @@
 \chapter{Network Error Logging a ďalšie relevantné technológie}
 \label{nel-and-related-technologies}
 
-V tejto kapitole sa budem venovať...
+V tejto kapitole popisujem podstatu samotného Network Error Logging-u (ďalej označovaný iba ako NEL) a ďalších technológií priamo súvisiacich s ním. Jedná sa tu čisto o teoretický základ nutný pre pochopenie nasledujúcich sekcií tejto práce. Aktuálny stav využívania technológií spomínaných nižšie bude uvedený a detailne rozpísaný v kapitole \nameref{related-work}.
 
 \section{HTTP ?}
 
@@ -11,13 +11,34 @@ Ak ostane miesto, su aj dolezitejsie veci
 
 Vid HTTP
 
+\section{World Wide Web Consortium}
+
+Je to nutné vysvetľovať ?
+
 \section{E2E Reliability Monitoring}
 
 Sekcia bude vychadzat z clanku zo zadania BP \cite{nel-client-side-measurement-e2e-reliability}
 
+
 \section{Network Error Logging}
 
-Bread and butter \cite{W3C-NEL}
+NEL je štandard pre zachytávanie a získavanie chýb a zlyhaní na úrovni webového prehliadača navrhnutý organizáciou World Wide Web Consortium (ďalej v skratke iba W3C). Tento štandard bol prvýkrát popísaný v článku publikovanom 11/02/2014 a je dodnes aktualizovávaný s tým, že posledná verzia jeho špecifikácie bola vydaná práve v dobe vzniku tejto bakalárskej práce, a to presne 5/10/2023. 
+
+Hlavným cieľom NEL je poskytovať prevádzkovateľom webových serverov priamy pohľad na chybové stavy, ktoré môžu vzniknúť pri snahe klientských aplikácií komunikovať s nimi. Pri takejto klient-server komunikácií môže nastať hneď niekoľko kategórií problémov, kde v každej z nich si zaslúžia jednotlivé chyby svoje vysvetlenie. Dôležité je, že server v obyčajnom scenári takejto komunikácie nemá žiadnu možnosť dostať sa k informácií o tom, že sa niečo pokazilo, ani čo konkrétne bol samotný problém. Práve toto je cieľom napraviť pre tento štandard a tým pádom sa tvorcom tejto technológie jedná o postupné zvýšenie dostupnosti služieb poskytovaných na internete sprevádzkovaním NEL na svojich webových serveroch. \color{red} TODO \color{black}
+
+\subsection{}
+
+
+
+\cite{W3C-NEL}
+
+
+
+
+
+
+
+
 
 \section{Reporting API}
 
