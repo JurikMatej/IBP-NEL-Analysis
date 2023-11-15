@@ -1,14 +1,69 @@
 \chapter{Zdroje dát potrebných pre analýzu}
 \label{data-sources-available-for-research}
 
+Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
+Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
+odpovedajú na HTTP(S) požiadavky. V tejto kapitole bude do detailu rozvedené, aké zdroje dát sú dostupné a ktoré sú reálne
+použité v hotovej analýze z kapitoly \ref{analysis-and-its-results}.
+\\
 Zdroje dát, ich umiestnenie, formát, veľkosť, pokrytie, vhodnosť.
 \\
-Spôsoby ich získavania (možné a zvolené) budú popísané v kapitole \ref{possible-analysis-strategies}
+Spôsoby ich získavania (možné a zvolené) budú popísané v kapitole \ref{possible-analysis-strategies} \textbf{???}
 
+\section{HTTP Archive}
+
+Alexa TOP 1 milion (first 500 000?)
+
+Non-profit project - sponsors keep it alive
+
+https://almanac.httparchive.org/en/2021/methodology
+Google Cloud Locations, USA
+Desktop websites are run from within a desktop Chrome environment on a Linux VM. The network speed is equivalent to a cable connection.
+
+Mobile websites are run from within a mobile Chrome environment on an emulated Moto G4 device with a network speed equivalent to a 3G connection.
+
+Web Performance Working Group
+HAR files store session information in plain text file using the popular JSON format. The specifications for HAR file format were produced by the Web Performance Group of the World Web Consortium (W3C) but could not be published. However, it successfully defined an archival format for HTTP transactions.
+
+WebPageTest ??
+
+HTTPArchive Lens - "A lens focuses on a specific subset of websites. Through a lens, you'll see data about those particular websites only. For example, the WordPress lens focuses only on websites that are detected as being built with WordPress. We use \textbf{Wappalayzer} to detect over 1,000 web technologies and choose a few interesting ones to become lenses."
+
+https://docs.fileformat.com/web/har/
+
+\todo{Internet Archive 1996 ?}
+
+All pages are tested with an empty cache in a logged out state, which may not reflect how real users would access them.
+
+Lighthouse is used to run audits against the page to analyze its quality in areas like accessibility and SEO. The Tools section below goes into each of these tools in more detail.
+
+HTTP Archive je open source projekt, ktorého cieľom je získavať a skladovať dáta 
+týkajúce sa stavu webu, ktoré potom sprístupňujú verejnosti tak, aby ich mohla
+použiť na rôzne účely. V rámci získavania sa prehľadávajú milióny URLs (Uniform 
+Resource Locators) na ako počítačových zariadeniach, tak aj na mobiloch, kde v oboch prípadoch sa na tento účel používa webový prehliadač Google Chrome. 
+\todo{cite} Tieto URLs projekt HTTP Archive čerpá z 
+\textbf{Chrome User Experience Report}-u, čo je sada dát týkajúcich sa výkonnosti
+prehliadania?? od reálnych užívateľov pre najpopulárnejšie stránky na webe???
+\todo{cite}. Tieto dáta, ktoré sa do súčasnosti nahromadili sú vo svojej podstate popisom histórie a vývoja webu v čase od založenia HTTP Archive v roku 2010.
+
+Proces získavania dát sa začína vždy prvý deň každého mesiaca tým, že sa vezmú URLs uvedené vyššie a vložia sa ako vstup do inštancie nástroja 
+\textbf{Webpagetest}, ktorý je zodpovedný za samotné simulovanie komunikácie s 
+každou URL. Takéto testy sú vykonávané v prostredí prehliadača Google Chrome.
+Vždy sa načíta práve jedna URL a zašle sa na ňu najprv prvá HTTP(S) požiadavka pre zbieranie obyčajné metriky, a potom znova za použitia čistého prehliadacieho profilu v nástroji \textbf{Lighthouse} pre hĺbkovejšiu analýzu spojenia (pre viac info o nástroji Lighthouse zatiaľ pozri sem - \todo{co s tymto zas}. Výsledkom takéhoto testovacieho spojenia sú dáta, ktoré sa ukladajú vo formáte \textbf{HAR} (Http ARchive formát). Tieto HAR súbory sú potom prevzaté iným nástrojom od HTTP Archive, spracované a jedlotlivé položky sa postupne naplnia do tabuliek v BigQuery \todo{odkaz na vysvetlivku}.
+
+Tento proces sa nazýva \textbf{Web Crawling}
 
 \section{GCP BQ a HTTP Archive (+ iné zdroje v prípade potreby)}
 
 KJerabek Repository
+
+At the time of this writing, the free tier allows 10GB of storage and 1TB of data processing per month
+
+\textbf{Types of GCP BQ HTTP Archive tables}
+\\
+Some of the types of tables you'll find useful when getting started are described below. These table names all follow the format yyyy\textunderscore mm\textunderscore dd\textunderscore desktop and yyyy\textunderscore mm\textunderscore dd\textunderscore mobile.
+
+Detekcia kompresie. Detekcia chýb...
 
 \section{Teória k čomukoľvek ďalšiemu, čo sa bude používať}
 
