@@ -1,23 +1,61 @@
 \chapter{Zdroje dát potrebných pre analýzu}
 \label{data-sources-available-for-research}
 
+Rozstrel - OK
+Domains  -
+Spec     - 
+GC       -
+BQ and SQL     -
+HAR Tables   -
+Costs        -
+Alternatives -
+Selenium     - 
+
+
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
-odpovedajú na HTTP(S) požiadavky zaslané v reálnom čase. V tejto kapitole bude do detailu rozvedené, aké zdroje dát sú dostupné a ktoré sú reálne
-použité v praktickej časti tejto práce -- kapitole \ref{analysis-and-its-results}.
-\\
-Zdroje dát, ich umiestnenie, formát, veľkosť, pokrytie, vhodnosť.
-\\
-Spôsoby ich získavania (možné a zvolené) budú popísané v kapitole \ref{possible-analysis-strategies} \textbf{???}
+odpovedajú na HTTP(S) požiadavky zaslané v reálnom čase. V tejto kapitole budú do detailu rozvedené dostupné zdroje dát 
+a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kapitole \ref{analysis-and-its-results}.
 
-GCP intro. Iba čo to je, čo ponúka, na ktorú sekciu sa budeme zameriavať a používať
+\section{Potrebné dáta}
+
+To čo pre analýzu v tejto práci bude potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
+čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých webových domén dostupných verejne na internete 
+a prípadne aj ich subdomén, ktoré možno skúmať. Takýto zoznam je potrebný práve preto aby sme jednak vedeli, ktoré domény
+je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a nadväzovať 
+relevantné spojitosti ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
+
+Takýchto zoznamov existuje hneď niekoľko a budú spomenuté v ďalšej podkapitole, kde sú rozvedené do detailu aj ich dôležité vlastnosti.
+
+Následne, keď už je známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho
+sieťového prenosu. Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol HTTP(S). Existuje 
+celá sada metód, ako sa k tomuto prenosu dostať. Z hľadiska prítomnosti, a teda aktuálneho stavu na webe je možné použiť 
+takzvaný \textbf{Web Crawling}. \todo{web crawling basic info}. Na účel Web Crawlingu je možné použiť už existujúce technológie 
+ako napríklad \textbf{Selenium Web Driver}. V rámci toho je vhodné Selénium priblížiť viac a práve tomu sa venuje podkapitola \todo{ref}.
+No aby bol nadobudnutý celkový prehľad, užitočné je nahliadnuť taktiež do histórie prevádzky webu. V tomto bode je zasa nutné hľadať už
+spracované a uložené dáta získané či už Web Crawlingom, alebo inými spôsobmi. Vyhovujúcim sprostredkovávateľom takýchto historických dát
+je napríklad \textbf{HTTP Archive}, ktorému sa práca venuje primárne, Ide o službu, ktorá zaznamenáva vývoj webu od roku 2010 a teda
+jej vhodnosť sa potvrdzuje tým, že samotná špecifikácia skúmanej technológie v tejto práci bola publikovaná až v roku 2018.
+
+V oblasti zdrojov historických dát sa nachádzajú aj určité alternatívy, ktoré je možné využiť, no bude im tu venovaná iba okrajová
+pozornosť. Každá z nich ale za zmienku nepopierateľne stojí, a preto budú popísané v podkapitole \todo{ref}.
+
+\section{Zoznamy skúmateľných domén}
 
 Domény určené na analýzu - Zistiť ktoré zoznamy domén použijeme a potom spísať niečo aj o nich
+\\
+Alexa TOP 1 milion (first 500 000?)
+
+\todo{write this}
 
 \section{HTTP Archive}
 
-Alexa TOP 1 milion (first 500 000?)
-
+Zdroje dát, ich umiestnenie, formát, veľkosť, pokrytie, vhodnosť.
+\\
+Spôsoby ich získavania (možné a zvolené) budú popísané v kapitole \ref{possible-analysis-strategies} \textbf{???}
+\\
+GCP intro. Iba čo to je, čo ponúka, na ktorú sekciu sa budeme zameriavať a používať
+\\
 Non-profit project - sponsors keep it alive
 
 https://almanac.httparchive.org/en/2021/methodology
