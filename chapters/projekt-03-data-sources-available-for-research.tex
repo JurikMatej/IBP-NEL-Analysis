@@ -14,21 +14,23 @@ Selenium     -
 
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
-odpovedajú na HTTP(S) požiadavky zaslané v reálnom čase. V tejto kapitole budú do detailu rozvedené dostupné zdroje dát 
+odpovedajú na HTTP(S) požiadavky zaslané v reálnom čase. V tejto kapitole sú do detailu rozvedené dostupné zdroje dát 
 a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kapitole \ref{analysis-and-its-results}.
 
 \section{Potrebné dáta}
 
 To čo pre analýzu v tejto práci bude potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
 čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých webových domén dostupných verejne na internete 
-a prípadne aj ich subdomén, ktoré možno skúmať. Takýto zoznam je potrebný práve preto aby sme jednak vedeli, ktoré domény
-je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a nadväzovať 
-relevantné spojitosti ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
+a prípadne aj ich subdomén, ktoré možno skúmať (1). Takýto zoznam je potrebný práve preto aby sme jednak vedeli, ktoré domény
+je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať 
+relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. Práve touto spojitosťou sa postupne môžeme dostať napríklad 
+o prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
 
-Takýchto zoznamov existuje hneď niekoľko a budú spomenuté v ďalšej podkapitole, kde sú rozvedené do detailu aj ich dôležité vlastnosti.
+Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej podkapitole, kde sú rozvedené do detailu aj ich dôležité vlastnosti.
 
 Následne, keď už je známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho
-sieťového prenosu. Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol HTTP(S). Existuje 
+sieťového prenosu. Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol HTTP(S), v ktorom
+majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL (2). Existuje 
 celá sada metód, ako sa k tomuto prenosu dostať. Z hľadiska prítomnosti, a teda aktuálneho stavu na webe je možné použiť 
 takzvaný \textbf{Web Crawling}. \todo{web crawling basic info}. Na účel Web Crawlingu je možné použiť už existujúce technológie 
 ako napríklad \textbf{Selenium Web Driver}. V rámci toho je vhodné Selénium priblížiť viac a práve tomu sa venuje podkapitola \todo{ref}.
@@ -38,21 +40,76 @@ je napríklad \textbf{HTTP Archive}, ktorému sa práca venuje primárne, Ide o 
 jej vhodnosť sa potvrdzuje tým, že samotná špecifikácia skúmanej technológie v tejto práci bola publikovaná až v roku 2018.
 
 V oblasti zdrojov historických dát sa nachádzajú aj určité alternatívy, ktoré je možné využiť, no bude im tu venovaná iba okrajová
-pozornosť. Každá z nich ale za zmienku nepopierateľne stojí, a preto budú popísané v podkapitole \todo{ref}.
+pozornosť. Každá z nich ale za zmienku nepopierateľne stojí, a preto sú popísané v podkapitole \todo{ref}.
 
-\section{Zoznamy skúmateľných domén}
 
-Domény určené na analýzu - Zistiť ktoré zoznamy domén použijeme a potom spísať niečo aj o nich
-\\
-Alexa TOP 1 milion (first 500 000?)
+\section{TRANCO}
 
-\todo{write this}
+Ako už bolo spomenuté (1), vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
+mali by vystavovať verejnému internetu službu, ktorá je dosiahnuteľná, komunikuje protokolom HTTP, a ideálne je aj často navštevovaná,
+a tým pádom relevantná pre verejnosť. Najviac teda prichádza do úvahy zamerať sa na získanie zoznamu \textbf{web stránok}, zoradeného podľa
+ich popularity (návštevnosti), ktorý bude zároveň nadobúdať rozumnú veľkosť pre účely prieskumu. 
+
+Zaobstarávaniu zoznamov web stránok, ktoré majú spĺňať konkrétne predurčené kritéria sa venuje rad iných existujúcich prác/služieb 
+\cite{tranco}\cite{hacker-target-website-lists-overview}. Táto práca namiesto implementovania vlastného riešenia využíva jedno z nich -- TRANCO.
+
+TRANCO je zoznam webových stránok zoradených podľa hodnotenia ich populárnosti/navštevovanosti, ktorý je odolný proti manipuláciam a vhodný na výskumné účely. \cite{tranco-homepage} 
+Vznikol na základe častej potreby pre skúmanie práve takýchto stránok či už pre samotnú referenciu, alebo ako podklad pre ďalľí prieskum,
+Príkladom jeho využitia môže byť analýza využitia konkrétnych webových technológií na týchto stránkach -- od použitej metódy komprimácie po samotné rámce, pomocou ktorých je 
+stránka vyvinutá. TRANCO nie je prvým takýmto zoznamom, ale je prvým, ktorý sa zaoberá nedostatkami jeho predchodcov a spája stránky uvedené v nich do jednotného zoznamu, 
+ktorý je stabilnejší, reprezentuje stránky v globálnej škále a dokonca do určitej miery odstraňuje stránky s potencionálne nebezpečným obsahom (napríklad phishing). \cite{tranco} 
+
+\subsection{Generovanie zoznamu TRANCO}
+
+V jeho štandardnej forme, zoznam TRANCO sa generuje každý deň. Takáto štandardná forma má svoje nastavenia zdrojov a dátumového ohraničenia relevancie dát, 
+pravidiel filtrovania stránok a ich cieľový počet na zahrnutie do výsledného zoznamu. \cite{tranco-config}
+Je taktiež možné zažiadať o vygenerovanie zoznamu s vlastným nastavením spomínaných podrobností. Je to možné uskutočniť na oficiálnej stránke TRANCO \todo{link at the bottom reference},
+kde si užívateľ môže vyskladať žiadanú konfiguráciu a vygenerovať podľa nej nový zoznam. 
+
+Pre oba prípady generovania nového zoznamu sa spolu s nimi vytvorí na oficiálnom webe TRANCO jedinečná stránka obsahujúca odkaz na stiahnutie výsledného zoznamu a citáciu, 
+ktorou je možné jedinečne referencovať tento zoznam v prácach, ktoré ho použijú na svoje účely. 
+
+\subsection{Zdroje dát pre generovanie}
+
+Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva na vyťahovaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
+Zdrojom dát pre hodnotenie stránok TRANCO je teda sada niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú roôžne stratégie pre obstarávanie stránok a ich zoraďovanie 
+podľa hodnotenia navštevovanosti. \cite{tranco-methodology} V tejto podkapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
+a na základe ktorých je možné nový zoznam vygenerovať.
+
+\subsubsection{Alexa}
+
+Popis
+Ich zdroje
+Vypocet finalneho rebricka
+Plusy Minusy
+Cennik
+
+\subsubsection{Cisco Umbrella}
+
+...
++ Porovnanie s predoslymi
+
+\subsubsection{Majestic}
+...
+
+\subsubsection{Quantcast}
+...
+
+\subsubsection{Zhrnutie}
+
+Moz is a search engine optimization service (SEO). They have a large data set of search related data. Using this, Moz makes available the top 500 sites for Free.
+DomCop
+
+\subsection{Možnosti konfigurácie generovania}
+
+\todo{json s konfiguráciou}
+
 
 \section{HTTP Archive}
 
 Zdroje dát, ich umiestnenie, formát, veľkosť, pokrytie, vhodnosť.
 \\
-Spôsoby ich získavania (možné a zvolené) budú popísané v kapitole \ref{possible-analysis-strategies} \textbf{???}
+Spôsoby ich získavania (možné a zvolené) sú popísané v kapitole \ref{possible-analysis-strategies} \textbf{???}
 \\
 GCP intro. Iba čo to je, čo ponúka, na ktorú sekciu sa budeme zameriavať a používať
 \\
@@ -95,7 +152,7 @@ Vždy sa načíta práve jedna URL a zašle sa na ňu najprv prvá HTTP(S) poži
 
 Tento proces sa nazýva \textbf{Web Crawling}
 
-\section{GCP BQ a HTTP Archive (+ iné zdroje v prípade potreby)}
+\subsection{Google Cloud Platform}
 
 One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
 
@@ -109,10 +166,12 @@ Some of the types of tables you'll find useful when getting started are describe
 
 Detekcia kompresie. Detekcia chýb...
 
+\section{Alternatívy k HTTP Archive}
+
 \section{Teória k čomukoľvek ďalšiemu, čo sa bude používať}
 
 Našiel som napríklad \textbf{crawler.ninja} - web crawled data od 09.05.2021 do 1.10.2023 dostupné na stiahnutie (ale zdroj sú asi stále HTTP Archive dáta)
 
-\section{Nástroje pre automatickú analýzu stavu nasadenia NEL - teória (selenium, bs4, pandas...)}
+\subsection{Nástroje pre automatickú analýzu stavu nasadenia NEL - teória (selenium, bs4, pandas...)}
 
 Selenium teória apod.
