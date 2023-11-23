@@ -19,7 +19,7 @@ a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kap
 
 \section{Potrebné dáta}
 
-To čo pre analýzu v tejto práci bude potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
+To čo pre analýzu v tejto práci je potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
 čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých webových domén dostupných verejne na internete 
 a prípadne aj ich subdomén, ktoré možno skúmať (1). Takýto zoznam je potrebný práve preto aby sme jednak vedeli, ktoré domény
 je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať 
@@ -69,31 +69,43 @@ kde si užívateľ môže vyskladať žiadanú konfiguráciu a vygenerovať pod�
 Pre oba prípady generovania nového zoznamu sa spolu s nimi vytvorí na oficiálnom webe TRANCO jedinečná stránka obsahujúca odkaz na stiahnutie výsledného zoznamu a citáciu, 
 ktorou je možné jedinečne referencovať tento zoznam v prácach, ktoré ho použijú na svoje účely. 
 
-\subsection{Zdroje dát pre generovanie}
+\subsection{Zoraďovacie zoznamy použité v TRANCO}
 
 Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva na vyťahovaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
-Zdrojom dát pre hodnotenie stránok TRANCO je teda sada niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú roôžne stratégie pre obstarávanie stránok a ich zoraďovanie 
+Zdrojom dát pre hodnotenie stránok TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôžne stratégie pre obstarávanie stránok a ich zoraďovanie 
 podľa hodnotenia navštevovanosti. \cite{tranco-methodology} V tejto podkapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
 a na základe ktorých je možné nový zoznam vygenerovať.
 
 \subsubsection{Alexa}
 
-Popis
-Ich zdroje
-Vypocet finalneho rebricka
-Plusy Minusy
-Cennik
+Alexa, dcérska spoločnosť Amazon.com, publikovala na svojich stránkach od decembra 2008 až po začiatok augusta 2023 zoznam \textbf{Alexa top sites}, v ktorom zoraďovala 1 milión najnavšetevovanejších webstránok. \cite{tranco-methodology}
+Zdrojom dát pre jeho tvorbu bolo rozšírenie pre webové prehliadače, ktoré si užívatelia mohli stiahnuť a po jeho inštalácií na vybranom prehliadači začalo zbierať a odosielať
+dáta o prehliadaní internetu do Alexy. Pre účely vytvorenia hodnotenia stránok sa teda využíva sieťová prevádzka priamo vedená cez protokol HTTP(S). Počet užívateľov s nainštalovaným rozšírením bol však obmedzený 
+a to mohlo spôsovovať značné skreslenie celkových výsledkov kvôli malému zastúpeniu vzoriek prehliadania z celkovej sady -- všetkých používateľov internetu. Avšak, existujú zmienky, 
+kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto užívateľov sa pohyboval v ráde niekoľkých miliónov. \cite{tranco}
 
-\subsubsection{Cisco Umbrella}
+Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article}\cite{tranco}
+\begin{itemize}
+    \item Počet návštevníkov stránky za daný deň (viac návštev od jedného sa počíta ako jediná návšteva)
+    \item Spriemerovaný počet otvorení hocijakej podstránky (URL v rámci sledovanej domény)
+\end{itemize}
 
-...
-+ Porovnanie s predoslymi
+Zo spomenutých metrík má vyššiu váhu pri rozhodovaní o popularite práve počet návštevníkov stránky za daný deň, čož môžeme podľa jej popisu nazvať aj počet unikátnych návštev za deň. \cite{tranco}
+Obe metriky sa pre špecifický deň následne spriemerovali so všetkými takto napočítanými hodnotami za posledné tri mesiace, aby zoznam nadobudol určitú mieru stability. 
+Tým pádom sú do úvahy pre každodenný zoznam vzané aj aktuálne trendy v prehliadaní. Vo výsledku sa tým predchádza nepresnému celkovému hodnoteniu popularity v prípadoch, 
+kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej stránky mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej stránky v zozname. 
+Koncom roka 2016 bol na nejakú dobu odstavený z prevádzky pre verejnosť na hlavných stránkach Alexy a znova bol sprístupnený pod záštitou Amazon Web Services ako platená služba \textbf{Alexa Top Sites}. 
+Neskôr, začiatkom roka 2018 sa zhoršila jeho celková stabilita z toho dôvodu, že jeho algoritmus vyhodnocovania zaradenia stránok prestal brať ohľad na priemerovanie dát za predošlé mesiace.
+Od vtedy, konkrétne 30.01.2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 01.08.2023, čo z nej teraz robí \textbf{zastaraný zoznam} \cite{tranco-methodology}.
+
+
+Ake domeny rata alexa
+Tranco dve metody urcenia vahy zaradenia
 
 \subsubsection{Majestic}
-...
 
-\subsubsection{Quantcast}
-...
+popisat zatial iba majestic, lebo neviem ci budeme pouzivat ostatne
+
 
 \subsubsection{Zhrnutie}
 
