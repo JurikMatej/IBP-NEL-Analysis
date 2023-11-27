@@ -102,19 +102,37 @@ Od vtedy, konkrétne 30.01.2018, bol zhotovovaný striktne iba za každý konkr�
 Ake domeny rata alexa
 Tranco dve metody urcenia vahy zaradenia
 
-\subsubsection{Majestic}
+\subsubsection{Majestic Million}
 
-popisat zatial iba majestic, lebo neviem ci budeme pouzivat ostatne
+Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domien zoradených podľa množstva spätných odkazov na ne ukazujúcich. \cite{majestic-million-homepage}\cite{majestic-million-ranking}
+Ako individuálne technologické riešenie bolo uverejnené na webe Majestic 1.10.2012. \cite{majestic-million-publication}
+V jednoduchosti to znamená, že čím viac priamych odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto zozname zaradená. 
+Majestic Million je vyvinutý spoločnosťou Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
+Majestic na dennej báze prehľadáva globálne zhruba 450 miliárd URL v rámci verejného internetu aby svoj zoznam zostavil. 
+Hodnotenie je založené na počte spätných odkazov smerujúcich na jednotlivé domény. Tieto spätné odkazy, iným názvom \textbf{backlinks}, sú vlastne podsiete triedy C (IPv4 /24), ktoré odkazujú
+na hodnotenú doménu minimálne jedenkrát.
+Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní. \cite{tranco-methodology}
+Okrem iného je tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti. \cite{majestic-million-homepage}
 
+V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich sub-domény}, takže sa môže stať, že napríklad doména \code{google.com} sa v ňom bude vyskytovať viackrát v podobe 
+svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné). \cite{majestic-million-sub-domain-filtered}
+
+Na oficiálnom webe Majestic sú taktiež dostupné doplnkové služby, ktoré svojim užívateľom poskytujú naväzujúce užitočné informácie o týchto doménach. 
+Jednou z nich je napríklad možnosť bližšie porovnať až do 10 domén, kde vstupom sú ich mená a výstupom je prehľadná tabuľka (takzvaná Buzz Table) zobrazujúca ich zaradenie a iné detaily, medzi ktoré patrí aj počet domén
+referujúcich na tie vstupné a aj celkový počet ich externých backlinkov. \cite{majestic-million-homepage}
+Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný rebríček a spomenutý Buzz Table sú tie ostatné spoplatnené, kde najlacnejšia možnosť platobného plánu začína na USD 46.99 mesačne. \cite{majestic-million-pricing}
+
+
+\subsection{Možnosti konfigurácie generovania}
+
+\todo{json s konfiguráciou}
 
 \subsubsection{Zhrnutie}
 
 Moz is a search engine optimization service (SEO). They have a large data set of search related data. Using this, Moz makes available the top 500 sites for Free.
 DomCop
 
-\subsection{Možnosti konfigurácie generovania}
-
-\todo{json s konfiguráciou}
+Na základe predošlého textu v tejto kapitole skúsiť dorozprávať prípeh o výbere a využiteľnosťi rebríčka TRANCO
 
 
 \section{HTTP Archive}
