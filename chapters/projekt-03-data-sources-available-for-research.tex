@@ -1,16 +1,7 @@
 \chapter{Zdroje dát potrebných pre analýzu}
 \label{data-sources-available-for-research}
 
-Rozstrel - OK
-Domains  - OK
-Spec     - 
-GC       -
-BQ and SQL     -
-HAR Tables   -
-Costs        -
-Alternatives -
-Selenium     - 
-
+\todo{Review and insert figures where appropriate}
 
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
@@ -215,35 +206,112 @@ Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný r
 
 \section{HTTP Archive}
 
-Zdroje dát, ich umiestnenie, formát, veľkosť, pokrytie, vhodnosť.
+REMOVE 
+\cite{httparchive-homepage}
 \\
-Spôsoby ich získavania (možné a zvolené) sú popísané v kapitole \ref{possible-analysis-strategies} \textbf{???}
+USED
+\cite{httparchive-faq}
+\cite{httparchive-about}
 \\
-GCP intro. Iba čo to je, čo ponúka, na ktorú sekciu sa budeme zameriavať a používať
+USE
+\cite{httparchive-methodology}
+\cite{httparchive-harfile}
 \\
-Non-profit project - sponsors keep it alive
+Co to je
+\\
+HTTP Archive projekt sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. Je permanentným repozitárom informácií o webe a udržiava záznamy ako veľkosti
+stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi môžné vykonávať
+rôzne podrobné prieskumy a analýzy. \cite{httparchive-about} 
+\\
+Autori (Web Perf Group)
+Autormi HTTP Archive sú rôzni individuáli z komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010. \cite{httparchive-faq}
+Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly. \cite{httparchive-about} Záujemci ho môžu podporiť na stránkach Open Collective\footnote{\href{https://opencollective.com/httparchive}{https://opencollective.com/httparchive}}.
+Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok\footnote{\href{https://archive.org/}{https://archive.org/}}.
+\\
+Co robi (HAR DB, Priebezne reporty, almanac)
+\\
+Cieľom projektu je vytvoriť a udržovať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
+predpovedať potencionálne nové trendy blízkej budúcnosti. 
+Pre tento účel vyvinuli sadu nástrojov pre zbieranie spomínaných dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
+Naviac v rámci uskladnenia dát používajú službu \textbf{Google Cloud Platform (GCP)}, vďaka ktorej je možné dáta priamo na stránkach GCP prehliadať.
+Keďže sú tieto dáta v rámci GCP verejne prístupné ako databázové tabuľky, prostredie GCP \textbf{Big Query} zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
+a vykonávanie komplexných analýz nad dátami HTTP Archive.
 
-https://almanac.httparchive.org/en/2021/methodology
-Google Cloud Locations, USA
+\subsection{Web Crawling}
+
+Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú získané pravidelným spúšťaním procesu zvaného \textbf{Web Crawling}.
+Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu.\cite{httparchive-webcrawling}
+HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je pár HTTP \textbf{request} a HTTP \textbf{response}, ktorým naň web server zareaguje. 
+Z týchto dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania. \cite{httparchive-homepage}
+
+Výber vstupov do tohto procesu predstavuje nájsť vhodnú sadu záznamov URL na skúmanie. 
+HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v podkapitole \ref{tranco-source-rankings}.
+
+Získané URL adresy sú potom použité ako vstup do programu WebPageTest....
+
+
+Terminologia (Lens...)
+
 Desktop websites are run from within a desktop Chrome environment on a Linux VM. The network speed is equivalent to a cable connection.
-
 Mobile websites are run from within a mobile Chrome environment on an emulated Moto G4 device with a network speed equivalent to a 3G connection.
 
-Web Performance Working Group
 HAR files store session information in plain text file using the popular JSON format. The specifications for HAR file format were produced by the Web Performance Group of the World Web Consortium (W3C) but could not be published. However, it successfully defined an archival format for HTTP transactions.
 
 WebPageTest ??
-
-HTTPArchive Lens - "A lens focuses on a specific subset of websites. Through a lens, you'll see data about those particular websites only. For example, the WordPress lens focuses only on websites that are detected as being built with WordPress. We use \textbf{Wappalayzer} to detect over 1,000 web technologies and choose a few interesting ones to become lenses."
-
-https://docs.fileformat.com/web/har/
-
-\todo{Internet Archive 1996 ?}
-
 All pages are tested with an empty cache in a logged out state, which may not reflect how real users would access them.
 
+HTTPArchive Lens - "A lens focuses on a specific subset of websites. Through a lens, you'll see data about those particular websites only. For example, the WordPress lens focuses only on websites that are detected as being built with WordPress. We use \textbf{Wappalayzer} to detect over 1,000 web technologies and choose a few interesting ones to become lenses.
+
+
+\subsection{Google Cloud Platform}
+GC (Platforma, Moznosti, Platba, HAR Tables)
+
+-- BQ (Syntax, Priklad)
+
+Detekcia kompresie. Detekcia chýb...
+
+One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
+
+At the time of this writing, the free tier allows 10GB of storage and 1TB of data processing per month
+
+Google Cloud Locations, USA
+
+\textbf{Types of GCP BQ HTTP Archive tables}
+\\
+Some of the types of tables you'll find useful when getting started are described below. These table names all follow the format yyyy\textunderscore mm\textunderscore dd\textunderscore desktop and yyyy\textunderscore mm\textunderscore dd\textunderscore mobile.
+
+
+\subsection{HTTP Archive reporty}
+
+Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive projekt aj prehľady stavu webu formou interaktívnych grafov reprezentujúcich konkrétnu metriku v oblasti záujmu HTTP Archive.
+
+\subsubsection{Elementárne reporty metrík}
+Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobytoch, alebo, taktiež relevantý je aj report zobrazujúci dosiahnuteľnosť HTTP Archive --
+počet jedinečných URL analyzovaných týmto projektom.
+
+\todo{figure with description (total urls, description of graph, mention link to the sql)}
+
+\subsubsection{Web Almanac}
+Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
+Web Almanac spája elementárne dáta do hodnotných kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni.\cite{httparchive-methodology}
+Predošlý rok bol štvrtým v poradí, za ktorý bol report zhotovený, čo sa vyzobrazuje na inkrementálne navyšovanej relevantnosti metrík, ktoré zahŕňa. 
+Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu\footnote{\href{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}}, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
+
+\todo{TOOLS}
 Lighthouse is used to run audits against the page to analyze its quality in areas like accessibility and SEO. The Tools section below goes into each of these tools in more detail.
 
+Celý obsah reportu je dostupný na jeho samostatnej oficiálnej stránke\footnote{\href{https://almanac.httparchive.org/en/2022/table-of-contents}{https://almanac.httparchive.org/en/2022/table-of-contents}}. 
+Každý aspekt jeho prieskumu je zatriedený do svojej vlastnej kategórie, ktorá sa v rámci obsahu označuje ako samostatná kapitola.
+Čitatelia tu môžu nájsť napríklad kapitolu zameranú špecificky na JavaScript, použitie WebAssembly na webe, ale aj pre túto prácu relevantnejšie oblasti ako HTTP a bezpečnosť.
+
+Celkovo sa snahou viacej ako 100 kontribútorov podarilo takouto formou štruktúrovane zaznamenať stav webu textovo, ale aj pomocou detailných grafových vizualizácií.
+Autori sa snažia zvýšiť rozsah projektu a tým aj počet sledovaných relevantných oblastí tak, že každý rok povzbudzujú nových potencionálnych kontribútorov do pripojenia sa k ich iniciatíve\footnote{\href{https://almanac.httparchive.org/en/2022/methodology\#looking-ahead}{https://almanac.httparchive.org/en/2022/methodology\#looking-ahead}}. 
+
+Do budúcna má Web Almanac dobré rozhľady. V tohtoročnom reporte bude oproti tomu minuloročnému zahrnutých viac ako dvojnásobok vzoriek URL\footnote{\href{https://httparchive.org/reports/state-of-the-web\#numUrls}{https://httparchive.org/reports/state-of-the-web\#numUrls}}, ktoré HTTP Archive podrobí svojmu web crawlingu.
+V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne zdvojnásobí a tým pádom má potenciál byť presnejší a globálne reprezentatívnejší.
+
+
+\subsection{Old content}
 HTTP Archive je open source projekt, ktorého cieľom je získavať a skladovať dáta 
 týkajúce sa stavu webu, ktoré potom sprístupňujú verejnosti tak, aby ich mohla
 použiť na rôzne účely. V rámci získavania sa prehľadávajú milióny URLs (Uniform 
@@ -258,27 +326,16 @@ Proces získavania dát sa začína vždy prvý deň každého mesiaca tým, že
 každou URL. Takéto testy sú vykonávané v prostredí prehliadača Google Chrome.
 Vždy sa načíta práve jedna URL a zašle sa na ňu najprv prvá HTTP(S) požiadavka pre zbieranie obyčajné metriky, a potom znova za použitia čistého prehliadacieho profilu v nástroji \textbf{Lighthouse} pre hĺbkovejšiu analýzu spojenia (pre viac info o nástroji Lighthouse zatiaľ pozri sem - \todo{co s tymto zas}. Výsledkom takéhoto testovacieho spojenia sú dáta, ktoré sa ukladajú vo formáte \textbf{HAR} (Http ARchive formát). Tieto HAR súbory sú potom prevzaté iným nástrojom od HTTP Archive, spracované a jedlotlivé položky sa postupne naplnia do tabuliek v BigQuery \todo{odkaz na vysvetlivku}.
 
-Tento proces sa nazýva \textbf{Web Crawling}
-
-\subsection{Google Cloud Platform}
-
-One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
-
-KJerabek Repository
-
-At the time of this writing, the free tier allows 10GB of storage and 1TB of data processing per month
-
-\textbf{Types of GCP BQ HTTP Archive tables}
-\\
-Some of the types of tables you'll find useful when getting started are described below. These table names all follow the format yyyy\textunderscore mm\textunderscore dd\textunderscore desktop and yyyy\textunderscore mm\textunderscore dd\textunderscore mobile.
-
-Detekcia kompresie. Detekcia chýb...
 
 \section{Alternatívy k HTTP Archive}
 
-\section{Selenium}
-
+Crawler.ninja
 Našiel som napríklad \textbf{crawler.ninja} - web crawled data od 09.05.2021 do 1.10.2023 dostupné na stiahnutie (ale zdroj sú asi stále HTTP Archive dáta)
+
+Chat GPT found alternatives
+
+
+\section{Selenium}
 
 %\subsection{Nástroje pre automatickú analýzu stavu nasadenia NEL - teória (selenium, bs4, pandas...)}
 
