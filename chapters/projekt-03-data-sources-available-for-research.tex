@@ -11,32 +11,29 @@ a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kap
 \section{Potrebné dáta}
 
 To čo pre analýzu v tejto práci je potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
-čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých webových domén dostupných verejne na internete 
-a prípadne aj ich subdomén, ktoré možno skúmať (1). Takýto zoznam je potrebný práve preto aby sme jednak vedeli, ktoré domény
-je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať 
-relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. Práve touto spojitosťou sa postupne môžeme dostať napríklad 
-o prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
+čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete} a prípadne aj ich subdomén, ktoré možno skúmať \textbf{\textit{(1)}}. 
+Zoznam spĺňajúci takýto popis je potrebný práve preto aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
+Práve touto spojitosťou sa postupne môžeme dostať napríklad o prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
+Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej kapitole (\ref{tranco}), kde sú do detailu popísané aj ich dôležité vlastnosti.
 
-Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej podkapitole, kde sú rozvedené do detailu aj ich dôležité vlastnosti.
+Následne, v bode, keď už by bolo známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu. 
+Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTP(S)}, v ktorom majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL \textbf{\textit{(2)}}. Existuje celá sada metód, ako sa k tomuto prenosu dostať. 
+Z hľadiska prítomnosti, a teda aktuálneho stavu webových technológií je vhodné použiť napríklad techniku takzvanú \textbf{Web Crawling}, ktorá je v kapitole \ref{web-crawling} popísaná v kontexte s využiteľnými zdrojmi dát, ktoré ju používajú.
+Na účel Web Crawlingu je možné použiť už existujúce technológie ako \textbf{Selenium Web Driver}. 
+Selenium opisuje kapitola \ref{selenium}.
+No aby bol nadobudnutý celkový prehľad, je nevyhnutné nahliadnuť taktiež do histórie prevádzky webu. 
+V tomto bode je zasa nutné hľadať už spracované a uložené dáta získané či už Web Crawlingom, alebo inými spôsobmi. 
+Vyhovujúcim sprostredkovávateľom takýchto historických dát je napríklad \textbf{HTTP Archive}, ktorému sa práca venuje primárne (\ref{httparchive}).
+Ide o službu, ktorá zaznamenáva vývoj webu od roku 2010 a teda jej vhodnosť sa potvrdzuje tým, že samotná špecifikácia skúmanej technológie v tejto práci bola publikovaná až v roku 2018.
 
-Následne, keď už je známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho
-sieťového prenosu. Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol HTTP(S), v ktorom
-majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL (2). Existuje 
-celá sada metód, ako sa k tomuto prenosu dostať. Z hľadiska prítomnosti, a teda aktuálneho stavu na webe je možné použiť 
-takzvaný \textbf{Web Crawling}. \todo{web crawling basic info}. Na účel Web Crawlingu je možné použiť už existujúce technológie 
-ako napríklad \textbf{Selenium Web Driver}. V rámci toho je vhodné Selénium priblížiť viac a práve tomu sa venuje podkapitola \todo{ref}.
-No aby bol nadobudnutý celkový prehľad, užitočné je nahliadnuť taktiež do histórie prevádzky webu. V tomto bode je zasa nutné hľadať už
-spracované a uložené dáta získané či už Web Crawlingom, alebo inými spôsobmi. Vyhovujúcim sprostredkovávateľom takýchto historických dát
-je napríklad \textbf{HTTP Archive}, ktorému sa práca venuje primárne, Ide o službu, ktorá zaznamenáva vývoj webu od roku 2010 a teda
-jej vhodnosť sa potvrdzuje tým, že samotná špecifikácia skúmanej technológie v tejto práci bola publikovaná až v roku 2018.
-
-V oblasti zdrojov historických dát sa nachádzajú aj určité alternatívy, ktoré je možné využiť, no bude im tu venovaná iba okrajová
-pozornosť. Každá z nich ale za zmienku nepopierateľne stojí, a preto sú popísané v podkapitole \todo{ref}.
+V oblasti zdrojov historických dát sa nachádzajú aj určité alternatívy, ktoré je možné využiť komplementárne k spomenutému primárnemu zdroju.
+Im je tu venovaná iba okrajová pozornosť, no každá z nich ale za zmienku nepopierateľne stojí, a preto sú popísané v kapitole \ref{httparchive-alternatives}.
 
 
 \section{TRANCO}
+\label{tranco}
 
-Ako už bolo spomenuté (1), vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
+Ako už bolo spomenuté \textbf{\textit{(1)}}, vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
 mali by vystavovať verejnému internetu službu, ktorá je dosiahnuteľná, komunikuje protokolom HTTP, a ideálne je aj často navštevovaná,
 a tým pádom relevantná pre verejnosť. Najviac teda prichádza do úvahy zamerať sa na získanie zoznamu \textbf{web stránok}, zoradeného podľa
 ich popularity (návštevnosti), ktorý bude zároveň nadobúdať rozumnú veľkosť pre účely prieskumu. 
@@ -69,11 +66,11 @@ V jeho štandardnej forme, rebríček TRANCO sa generuje každý deň v dvoch ve
 \end{itemize}
 
 V tomto každodenne generovanom rebríčku sú prednastavené ako zdroje dát (použité existujúce rebríčky), tak aj dátumový rozsah, za ktorý sa zo zdrojových rebríčkov má čerpať.
-Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca podkapitola (\ref{tranco-source-rankings}). 
+Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca kapitola (\ref{tranco-source-rankings}). 
 Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-github}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
 
 V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných TRANCO kombinačných metód pre upravenie finálneho hodnotenia domén.
-Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, zvaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú skórom 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\).\cite{tranco}\cite{tranco-homepage}
+Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, zvaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú skórom 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco}\cite{tranco-homepage}.
 
 Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
 ktorou je možné jedinečne referencovať tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
@@ -141,7 +138,7 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
 
 Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva na vyťahovaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
 Zdrojom dát pre hodnotenie stránok TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôžne stratégie pre obstarávanie stránok a ich zoraďovanie 
-podľa hodnotenia navštevovanosti \cite{tranco-methodology}. V tejto podkapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
+podľa hodnotenia navštevovanosti \cite{tranco-methodology}. V tejto kapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
 a na základe ktorých je možné nový zoznam vygenerovať.
 
 \subsubsection{Alexa}
@@ -155,8 +152,7 @@ Rebríček Alexa sa v tomto skúmaní HTTP(S) prevádzky zaoberá doménami PLD 
 
 Počet užívateľov s nainštalovaným rozšírením bol však obmedzený 
 a to mohlo spôsovovať značné skreslenie celkových výsledkov kvôli malému zastúpeniu vzoriek prehliadania z celkovej sady -- všetkých používateľov internetu. 
-Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto užívateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco.
-
+Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto užívateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco}.
 Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article}\cite{tranco}
 \begin{itemize}
     \item Počet návštevníkov stránky za daný deň (viac návštev od jedného sa počíta ako jediná návšteva)
@@ -201,10 +197,20 @@ Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný r
 
 % \subsection{Zhrnutie}
 
-% Na základe predošlého textu v tejto kapitole skúsiť dorozprávať prípeh o výbere a využiteľnosťi rebríčka TRANCO
+
+\section{Web Crawling}
+\label{web-crawling}
+
+%\subsection{Nástroje pre automatickú analýzu stavu nasadenia NEL - teória (selenium, bs4, pandas...)}
+
+Selenium teória apod.
+
+\subsection{Selenium}
+\label{selenium}
 
 
 \section{HTTP Archive}
+\label{httparchive}
 
 REMOVE 
 \cite{httparchive-homepage}
@@ -237,17 +243,18 @@ Naviac v rámci uskladnenia dát používajú službu \textbf{Google Cloud Platf
 Keďže sú tieto dáta v rámci GCP verejne prístupné ako databázové tabuľky, prostredie GCP \textbf{Big Query} zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
 a vykonávanie komplexných analýz nad dátami HTTP Archive.
 
-\subsection{Web Crawling}
+\subsection{Proces získavania dát}
+
 
 Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú získané pravidelným spúšťaním procesu zvaného \textbf{Web Crawling}.
-Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu.\cite{httparchive-webcrawling}
+Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
 HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je pár HTTP \textbf{request} a HTTP \textbf{response}, ktorým naň web server zareaguje. 
 Z týchto dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania \cite{httparchive-homepage}.
 
 Výber vstupov do tohto procesu predstavuje nájsť vhodnú sadu záznamov URL na skúmanie. 
-HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v podkapitole \ref{tranco-source-rankings}.
+HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v kapitole \ref{tranco-source-rankings}.
 
-Získané URL adresy sú potom použité ako vstup do programu WebPageTest.... \todo{todo}
+Získané URL adresy sú potom použité ako vstup do programu WebPageTest.... \todo{continue here}
 
 
 Terminologia (Lens...)
@@ -293,7 +300,7 @@ počet jedinečných URL analyzovaných týmto projektom.
 
 \subsubsection{Web Almanac}
 Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
-Web Almanac spája elementárne dáta do hodnotných kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni.\cite{httparchive-methodology}
+Web Almanac spája elementárne dáta do hodnotných kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
 Predošlý rok bol štvrtým v poradí, za ktorý bol report zhotovený, čo sa vyzobrazuje na inkrementálne navyšovanej relevantnosti metrík, ktoré zahŕňa. 
 Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu\footnote{\href{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}}, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
 
@@ -311,56 +318,44 @@ Do budúcna má Web Almanac dobré rozhľady. V tohtoročnom reporte bude oproti
 V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne zdvojnásobí a tým pádom má potenciál byť presnejší a globálne reprezentatívnejší.
 
 
-\subsection{Old content}
-HTTP Archive je open source projekt, ktorého cieľom je získavať a skladovať dáta 
-týkajúce sa stavu webu, ktoré potom sprístupňujú verejnosti tak, aby ich mohla
-použiť na rôzne účely. V rámci získavania sa prehľadávajú milióny URLs (Uniform 
-Resource Locators) na ako počítačových zariadeniach, tak aj na mobiloch, kde v oboch prípadoch sa na tento účel používa webový prehliadač Google Chrome. 
-\todo{cite} Tieto URLs projekt HTTP Archive čerpá z 
-\textbf{Chrome User Experience Report}-u, čo je sada dát týkajúcich sa výkonnosti
-prehliadania?? od reálnych užívateľov pre najpopulárnejšie stránky na webe???
-\todo{cite}. Tieto dáta, ktoré sa do súčasnosti nahromadili sú vo svojej podstate popisom histórie a vývoja webu v čase od založenia HTTP Archive v roku 2010.
-
-Proces získavania dát sa začína vždy prvý deň každého mesiaca tým, že sa vezmú URLs uvedené vyššie a vložia sa ako vstup do inštancie nástroja 
-\textbf{Webpagetest}, ktorý je zodpovedný za samotné simulovanie komunikácie s 
-každou URL. Takéto testy sú vykonávané v prostredí prehliadača Google Chrome.
-Vždy sa načíta práve jedna URL a zašle sa na ňu najprv prvá HTTP(S) požiadavka pre zbieranie obyčajné metriky, a potom znova za použitia čistého prehliadacieho profilu v nástroji \textbf{Lighthouse} pre hĺbkovejšiu analýzu spojenia (pre viac info o nástroji Lighthouse zatiaľ pozri sem - \todo{co s tymto zas}. Výsledkom takéhoto testovacieho spojenia sú dáta, ktoré sa ukladajú vo formáte \textbf{HAR} (Http ARchive formát). Tieto HAR súbory sú potom prevzaté iným nástrojom od HTTP Archive, spracované a jedlotlivé položky sa postupne naplnia do tabuliek v BigQuery \todo{odkaz na vysvetlivku}.
-
-
 \section{Alternatívy k HTTP Archive}
+\label{httparchive-alternatives}
 
 Aj keď je HTTP Archive najvhodnejším zdrojom dát pre účely tejto práce, existujú aj iné, ktoré stoja za zmienku.
-Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre hocijaký typ analýzy, sú dostupné zdroje disponujúce špecifickými výhodami, ktoré
-zase umožňujú či už kontrolovať správnosť dát HTTP Archive, alebo naň naviazať.
+Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre hocijaký typ analýzy, no sú dostupné aj zdroje disponujúce špecifickými výhodami, ktoré
+zase umožňujú či už spätne kontrolovať správnosť dát HTTP Archive, alebo na ne naviazať.
 Z toho dôvodu sú niektoré alternatívy popísané v tejto kapitole.
 
 \subsection{crawler.ninja}
 
-Projekt \textbf{crawler.ninja}\footnote{\href{https://crawler.ninja/}{https://crawler.ninja/}} založený autorom Scottom Helme=om slúži ako podklad pre jeho periodický prieskum
-webu, v ktorom pozoruje stav bezpečnosti na internete. Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no na svojom blogu píše o spustení projektu crawler.ninja až v júli
-2018 \cite{crawler-ninja}. 
+Projekt \textbf{crawler.ninja}\footnote{\href{https://crawler.ninja/}{https://crawler.ninja/}} založený autorom Scottom Helme-om slúži ako podklad pre jeho prieskum
+webu, v ktorom pozoruje stav bezpečnosti na internete. 
+Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no o vytvorení projektu crawler.ninja na svojom blogu píše až v júli 2018 \cite{crawler-ninja}. 
 
-Samotný projekt slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré chce skúmať.
-Vstupom do tohto procesu, a teda zoznamom URL, je v prípade tohto projektu rebríček Alexa Top 1 milión populárnych stránok.
+Úmyslom autora pozorovať bezpečnosť vyúsťuje do jeho periodických reportov týkajúcich sa tejto tématiky. 
+Samotný projekt sa stará o zber dát pre zhotovenie týchto reportov.
+Aj keď zbieranie dát pretrváva do súčasnosti, posledný report od autora bol publikovaný dávnejšie --- 09.12.2021, od kedy zanechal svoju pravidelnosť (aspoň jeden report za rok).
 
-Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databáze Mysql, z ktorej je následne vytvorený takzvaný export dump.
-Export dump predstavuje súbor SQL príkazov, spustením ktorých môže hocikto replikovať pôvodnú databázu aj s obsahom jej tabuliek. Vytvoriť takýto súbor je funkciou zabudovanou priamo do Mysql.
-Na oficiálnej stránke crawler.ninja autor tieto súbory spätne zverejňuje pod licenciou \todo{licencia}, takže sú veškeré získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
+Ninja.crawler slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré autor plánuje skúmať.
+Ako vstup do tohto procesu, a teda zoznam použitých URL, sa používa rebríček populárnych stránok Alexa Top 1 milion.
 
-Okrem zberu dát ich Scott používa na už spomínaný prieskum o bezpečnosti na internete a na svojej stránke tiež zverejňuje odkazy na blog, kde uverejňuje výsledky priebežných zistení.
-Mimo dát sú od neho dostpné taktiež ...
+Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databázy MySQL, z ktorej je následne vytvorený takzvaný databázový export.
+Databázový export predstavuje súbor SQL príkazov, spustením ktorých môže hocikto replikovať pôvodnú databázu aj s obsahom jej tabuliek. 
+Možnosť vytvoriť takýto súbor poskytuje priamo MySQL databáza. 
+Jednou z možností ako ho vytvoriť je použitím pomocného programu na tvorbu databázových záloh --- \code{mysqldump} \cite{mysql-doc}.
+Toto je dôležité pre toho, kto chce výsledné dáta použiť. 
+Na oficiálnej stránke crawler.ninja autor tieto súbory periodicky (ale nie priebežne za každý deň) zverejňuje pod licenciou \textit{CC BY-SA 4.0}\footnote{\href{https://creativecommons.org/licenses/by-sa/4.0/}{https://creativecommons.org/licenses/by-sa/4.0/}}, takže sú veškeré získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
+Sú dostupné vo forme priamo stiahnuteľných archívov ZIP pomenovaných vždy podľa dátumu, za ktorý boli nazbierané.
+Ako je spomenuté vyššie, ten, kto chce dáta na svoje účely využiť si ich musí najskôr importovať do svojej databáze MySQL, kde s nimi môže začať pracovať.
+Docieliť toho je možné napríklad shell príkazom \code{\textbackslash source} v administrátorskej konzole MySQL \cite{mysql-doc}.
 
+Mimo uvedených dát v podobe databázových exportov sú od Scotta dostpné taktiež konkrétne, pre neho významné, postupne nazbierané metriky, ktoré v reportoch o svojich prieskumoch používa či už priamo, alebo v rôznych kombináciach pri tvorbe grafov. Taktiež sú zverejnené na jeho webe\footnote{\href{https://crawler.ninja/files/}{https://crawler.ninja/files/}}.
+
+\subsubsection{Výhody a nevýhody}
 
 \todo{napisanim tejto kapitoly zistim aj nejake nevyhody HTTP Archive - potom ich mozem pripisat do textu vyssie}
+\todo{Porovnať pravidelnosť dát z http archive, manuálne sťahovanie, kompletne zadarmo, interval dostupnosti dát - každým novým uploadom sa stráca najdávnejšia história}
 
-Crawler.ninja
-Našiel som napríklad \textbf{crawler.ninja} - web crawled data od 09.05.2021 do 1.10.2023 dostupné na stiahnutie (ale zdroj sú asi stále HTTP Archive dáta)
+\subsection{Čo ešte ?}
 
 Chat GPT found alternatives
-
-
-\section{Selenium}
-
-%\subsection{Nástroje pre automatickú analýzu stavu nasadenia NEL - teória (selenium, bs4, pandas...)}
-
-Selenium teória apod.
