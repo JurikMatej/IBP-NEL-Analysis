@@ -44,20 +44,20 @@ ich popularity (návštevnosti), ktorý bude zároveň nadobúdať rozumnú veľ
 Zaobstarávaniu zoznamov web stránok, ktoré majú spĺňať konkrétne predurčené kritéria sa venuje rad iných existujúcich prác/služieb 
 \cite{tranco}\cite{hacker-target-website-lists-overview}. Táto práca namiesto implementovania vlastného riešenia využíva jedno z nich -- TRANCO.
 
-TRANCO je rebríček webových stránok zoradených podľa hodnotenia ich populárnosti/navštevovanosti, ktorý je odolný proti externej manipulácií a vhodný na účely výskumu. \cite{tranco-homepage} 
+TRANCO je rebríček webových stránok zoradených podľa hodnotenia ich populárnosti/navštevovanosti, ktorý je odolný proti externej manipulácií a vhodný na účely výskumu \cite{tranco-homepage}. 
 Vznikol na základe častej potreby pre skúmanie práve takýchto stránok či už pre samotnú referenciu, alebo ako podklad pre ďalší prieskum.
 Obsahuje primárne Pay-Level Domény (PLD), čo sú domény, ktoré si môže priamo zakúpiť či už jednotlivec alebo organizácia. PLD sa skladajú zo subdomény verejného 
 suffixu\footnote{Verejný suffix (public suffix) je jedným z takých, pod ktorými je alebo historicky bolo možné registrovať doménové mená pre používateľov internetu. Ide napríklad o .com, .co.uk 
 alebo aj pvt.k12.ma.us. Viď oficiálnu stránku so zoznamov verejných suffixov -- \href{https://publicsuffix.org/}{https://publicsuffix.org/}} 
 alebo efektívnej Top-Level Domény (eTLD)\footnote{Efektívna top-level doména, pod ktorou môžu byť domény registrované jedinou organizáciu. eTLD je práve tá časť domény, ktorá naselduje za poslednoým 
 znakom \code{\textbf{.}} -- napríklad pre \code{crookedtimber.org} je eTLD \code{\textbf{org}}. Viď dokumentáciu pre bližšie info -- \href{https://developer.mozilla.org/en-US/docs/Glossary/eTLD}
-{https://developer.mozilla.org/en-US/docs/Glossary/eTLD}} -- napríklad \code{.com} ale aj \code{.co.uk}. \cite{tranco} Okrem PLD je možné vygenerovať rebríček aj so subdoménami (viď 
+{https://developer.mozilla.org/en-US/docs/Glossary/eTLD}} -- napríklad \code{.com} ale aj \code{.co.uk} \cite{tranco}. Okrem PLD je možné vygenerovať rebríček aj so subdoménami (viď 
 \ref{tranco-generation}).
 
 Príkladom využitia TRANCO môže byť analýza využitia konkrétnych webových technológií na týchto stránkach -- od použitej metódy komprimácie jej obsahu po samotné rámce, pomocou ktorých je 
 stránka vyvinutá. 
 TRANCO nie je prvým takýmto rebríčkom, ale je prvým, ktorý sa zaoberá nedostatkami jeho \textbf{predchodcov} a \textbf{spája stránky uvedené v nich} do \textbf{jednotného rebríčka}, 
-ktorý je stabilnejší, reprezentuje stránky v globálnej škále a dokonca do určitej miery odstraňuje stránky s potencionálne nebezpečným obsahom (napríklad phishing). \cite{tranco} 
+ktorý je stabilnejší, reprezentuje stránky v globálnej škále a dokonca do určitej miery odstraňuje stránky s potencionálne nebezpečným obsahom (napríklad phishing) \cite{tranco}. 
 
 \subsection{Generovanie}
 \label{tranco-generation}
@@ -78,7 +78,7 @@ Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonic
 Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
 ktorou je možné jedinečne referencovať tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
 
-Zároveň, okrem generovania nových TRANCO rebríčkov sú na oficiálnej stránke dostupné aj historicky vygenerované, spomenuté \textbf{štandardné}, teda bežné, každodenné rebríčky. \cite{tranco-homepage}
+Zároveň, okrem generovania nových TRANCO rebríčkov sú na oficiálnej stránke dostupné aj historicky vygenerované, spomenuté \textbf{štandardné}, teda bežné, každodenné rebríčky \cite{tranco-homepage}.
 
 \subsubsection{Možnosti konfigurácie}
 \label{tranco-config}
@@ -141,13 +141,13 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
 
 Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva na vyťahovaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
 Zdrojom dát pre hodnotenie stránok TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôžne stratégie pre obstarávanie stránok a ich zoraďovanie 
-podľa hodnotenia navštevovanosti. \cite{tranco-methodology} V tejto podkapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
+podľa hodnotenia navštevovanosti \cite{tranco-methodology}. V tejto podkapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
 a na základe ktorých je možné nový zoznam vygenerovať.
 
 \subsubsection{Alexa}
 
 Alexa, dcérska spoločnosť Amazon.com, publikovala na svojich stránkach od decembra 2008 až po začiatok augusta 2023 rebríček \textbf{Alexa top sites}, v ktorom zoraďovala 1 milión 
-najnavšetevovanejších webstránok. \cite{tranco-methodology}
+najnavšetevovanejších webstránok \cite{tranco-methodology}.
 Zdrojom dát pre jeho tvorbu bolo rozšírenie pre webové prehliadače, ktoré si užívatelia mohli stiahnuť a po jeho inštalácií na vybranom prehliadači začalo zbierať a odosielať
 dáta o prehliadaní internetu do Alexy. 
 Pre účely vytvorenia hodnotenia stránok sa teda využíva sieťová prevádzka priamo vedená cez protokol HTTP(S). 
@@ -155,7 +155,7 @@ Rebríček Alexa sa v tomto skúmaní HTTP(S) prevádzky zaoberá doménami PLD 
 
 Počet užívateľov s nainštalovaným rozšírením bol však obmedzený 
 a to mohlo spôsovovať značné skreslenie celkových výsledkov kvôli malému zastúpeniu vzoriek prehliadania z celkovej sady -- všetkých používateľov internetu. 
-Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto užívateľov sa pohyboval v ráde niekoľkých miliónov. \cite{tranco}
+Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto užívateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco.
 
 Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article}\cite{tranco}
 \begin{itemize}
@@ -163,7 +163,7 @@ Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-
     \item Spriemerovaný počet otvorení hocijakej podstránky (URL v rámci sledovanej domény)
 \end{itemize}
 
-Zo spomenutých metrík má vyššiu váhu pri rozhodovaní o popularite práve počet návštevníkov stránky za daný deň, čož môžeme podľa jej popisu nazvať aj počet unikátnych návštev za deň. \cite{tranco}
+Zo spomenutých metrík má vyššiu váhu pri rozhodovaní o popularite práve počet návštevníkov stránky za daný deň, čož môžeme podľa jej popisu nazvať aj počet unikátnych návštev za deň \cite{tranco}.
 Obe metriky sa pre špecifický deň následne spriemerovali so všetkými takto napočítanými hodnotami za posledné tri mesiace, aby zoznam nadobudol určitú mieru stability. 
 Tým pádom sú do úvahy pre každodenný zoznam vzané aj aktuálne trendy v prehliadaní. Vo výsledku sa tým predchádza nepresnému celkovému hodnoteniu popularity v prípadoch, 
 kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej stránky mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej stránky v zozname. 
@@ -173,23 +173,23 @@ Od vtedy, konkrétne 30.01.2018, bol zhotovovaný striktne iba za každý konkr�
 
 \subsubsection{Majestic Million}
 
-Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domien zoradených podľa množstva spätných odkazov na ne ukazujúcich. \cite{majestic-million-homepage}\cite{majestic-million-ranking}
-Ako individuálne technologické riešenie bolo uverejnené na webe Majestic 1.10.2012. \cite{majestic-million-publication}
+Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domien zoradených podľa množstva spätných odkazov na ne ukazujúcich \cite{majestic-million-homepage}\cite{majestic-million-ranking}.
+Ako individuálne technologické riešenie bolo uverejnené na webe Majestic 1.10.2012 \cite{majestic-million-publication}.
 V jednoduchosti to znamená, že čím viac priamych odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto zozname zaradená. 
 Majestic Million je vyvinutý spoločnosťou Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
 Majestic na dennej báze prehľadáva globálne zhruba 450 miliárd URL v rámci verejného internetu aby svoj zoznam zostavil. 
 Hodnotenie je založené na počte spätných odkazov smerujúcich na jednotlivé domény. Tieto spätné odkazy, iným názvom \textbf{backlinks}, sú vlastne podsiete triedy C (IPv4 /24), ktoré odkazujú
 na hodnotenú doménu minimálne jedenkrát.
-Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní. \cite{tranco-methodology}
-Okrem iného je tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti. \cite{majestic-million-homepage}
+Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní \cite{tranco-methodology}.
+Okrem iného je tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti \cite{majestic-million-homepage}.
 
 V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich sub-domény}, takže sa môže stať, že napríklad doména \code{google.com} sa v ňom bude vyskytovať viackrát v podobe 
-svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné). \cite{majestic-million-sub-domain-filtered}
+svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné) \cite{majestic-million-sub-domain-filtered}.
 
 Na oficiálnom webe Majestic sú taktiež dostupné doplnkové služby, ktoré svojim užívateľom poskytujú naväzujúce užitočné informácie o týchto doménach. 
 Jednou z nich je napríklad možnosť bližšie porovnať až do 10 domén, kde vstupom sú ich mená a výstupom je prehľadná tabuľka (takzvaná Buzz Table) zobrazujúca ich zaradenie a iné detaily, medzi ktoré patrí aj počet domén
-referujúcich na tie vstupné a aj celkový počet ich externých backlinkov. \cite{majestic-million-homepage}
-Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný rebríček a spomenutý Buzz Table sú tie ostatné spoplatnené, kde najlacnejšia možnosť platobného plánu začína na USD 46.99 mesačne. \cite{majestic-million-pricing}
+referujúcich na tie vstupné a aj celkový počet ich externých backlinkov \cite{majestic-million-homepage}.
+Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný rebríček a spomenutý Buzz Table sú tie ostatné spoplatnené, kde najlacnejšia možnosť platobného plánu začína na USD 46.99 mesačne \cite{majestic-million-pricing}.
 
 \subsubsection{Cisco Umbrella}
 
@@ -221,11 +221,11 @@ Co to je
 \\
 HTTP Archive projekt sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. Je permanentným repozitárom informácií o webe a udržiava záznamy ako veľkosti
 stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi môžné vykonávať
-rôzne podrobné prieskumy a analýzy. \cite{httparchive-about} 
+rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
 \\
 Autori (Web Perf Group)
-Autormi HTTP Archive sú rôzni individuáli z komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010. \cite{httparchive-faq}
-Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly. \cite{httparchive-about} Záujemci ho môžu podporiť na stránkach Open Collective\footnote{\href{https://opencollective.com/httparchive}{https://opencollective.com/httparchive}}.
+Autormi HTTP Archive sú rôzni individuáli z komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
+Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly \cite{httparchive-about}. Záujemci ho môžu podporiť na stránkach Open Collective\footnote{\href{https://opencollective.com/httparchive}{https://opencollective.com/httparchive}}.
 Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok\footnote{\href{https://archive.org/}{https://archive.org/}}.
 \\
 Co robi (HAR DB, Priebezne reporty, almanac)
@@ -242,7 +242,7 @@ a vykonávanie komplexných analýz nad dátami HTTP Archive.
 Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú získané pravidelným spúšťaním procesu zvaného \textbf{Web Crawling}.
 Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu.\cite{httparchive-webcrawling}
 HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je pár HTTP \textbf{request} a HTTP \textbf{response}, ktorým naň web server zareaguje. 
-Z týchto dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania. \cite{httparchive-homepage}
+Z týchto dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania \cite{httparchive-homepage}.
 
 Výber vstupov do tohto procesu predstavuje nájsť vhodnú sadu záznamov URL na skúmanie. 
 HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v podkapitole \ref{tranco-source-rankings}.
