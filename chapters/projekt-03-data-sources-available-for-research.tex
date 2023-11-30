@@ -329,6 +329,30 @@ Vždy sa načíta práve jedna URL a zašle sa na ňu najprv prvá HTTP(S) poži
 
 \section{Alternatívy k HTTP Archive}
 
+Aj keď je HTTP Archive najvhodnejším zdrojom dát pre účely tejto práce, existujú aj iné, ktoré stoja za zmienku.
+Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre hocijaký typ analýzy, sú dostupné zdroje disponujúce špecifickými výhodami, ktoré
+zase umožňujú či už kontrolovať správnosť dát HTTP Archive, alebo naň naviazať.
+Z toho dôvodu sú niektoré alternatívy popísané v tejto kapitole.
+
+\subsection{crawler.ninja}
+
+Projekt \textbf{crawler.ninja}\footnote{\href{https://crawler.ninja/}{https://crawler.ninja/}} založený autorom Scottom Helme=om slúži ako podklad pre jeho periodický prieskum
+webu, v ktorom pozoruje stav bezpečnosti na internete. Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no na svojom blogu píše o spustení projektu crawler.ninja až v júli
+2018 \cite{crawler-ninja}. 
+
+Samotný projekt slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré chce skúmať.
+Vstupom do tohto procesu, a teda zoznamom URL, je v prípade tohto projektu rebríček Alexa Top 1 milión populárnych stránok.
+
+Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databáze Mysql, z ktorej je následne vytvorený takzvaný export dump.
+Export dump predstavuje súbor SQL príkazov, spustením ktorých môže hocikto replikovať pôvodnú databázu aj s obsahom jej tabuliek. Vytvoriť takýto súbor je funkciou zabudovanou priamo do Mysql.
+Na oficiálnej stránke crawler.ninja autor tieto súbory spätne zverejňuje pod licenciou \todo{licencia}, takže sú veškeré získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
+
+Okrem zberu dát ich Scott používa na už spomínaný prieskum o bezpečnosti na internete a na svojej stránke tiež zverejňuje odkazy na blog, kde uverejňuje výsledky priebežných zistení.
+Mimo dát sú od neho dostpné taktiež ...
+
+
+\todo{napisanim tejto kapitoly zistim aj nejake nevyhody HTTP Archive - potom ich mozem pripisat do textu vyssie}
+
 Crawler.ninja
 Našiel som napríklad \textbf{crawler.ninja} - web crawled data od 09.05.2021 do 1.10.2023 dostupné na stiahnutie (ale zdroj sú asi stále HTTP Archive dáta)
 
