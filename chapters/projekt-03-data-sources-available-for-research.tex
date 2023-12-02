@@ -1,7 +1,7 @@
 \chapter{Zdroje dát potrebných pre analýzu}
 \label{data-sources-available-for-research}
 
-\todo{Review and insert figures where appropriate}
+% \todo{Review and insert figures where appropriate}
 
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
@@ -132,7 +132,6 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
 \end{enumerate}
 
 
-
 \subsection{Zdrojové rebríčky domén}
 \label{tranco-source-rankings}
 
@@ -212,30 +211,30 @@ Selenium teória apod.
 \section{HTTP Archive}
 \label{httparchive}
 
-REMOVE 
-\cite{httparchive-homepage}
-\\
-USED
-\cite{httparchive-faq}
-\cite{httparchive-about}
-\\
-USE
-\cite{httparchive-methodology}
-\cite{httparchive-harfile}
-\\
-Co to je
-\\
+% REMOVE 
+% \cite{httparchive-homepage}
+% \\
+% USED
+% \cite{httparchive-faq}
+% \cite{httparchive-about}
+% \\
+% USE
+% \cite{httparchive-methodology}
+% \cite{httparchive-harfile}
+% \\
+% Co to je
+% \\
 HTTP Archive projekt sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. Je permanentným repozitárom informácií o webe a udržiava záznamy ako veľkosti
 stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi môžné vykonávať
 rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
-\\
-Autori (Web Perf Group)
+% \\
+% Autori (Web Perf Group)
 Autormi HTTP Archive sú rôzni individuáli z komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
 Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly \cite{httparchive-about}. Záujemci ho môžu podporiť na stránkach Open Collective\footnote{\href{https://opencollective.com/httparchive}{https://opencollective.com/httparchive}}.
 Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok\footnote{\href{https://archive.org/}{https://archive.org/}}.
-\\
-Co robi (HAR DB, Priebezne reporty, almanac)
-\\
+% \\
+% Co robi (HAR DB, Priebezne reporty, almanac)
+% \\
 Cieľom projektu je vytvoriť a udržovať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
 Pre tento účel vyvinuli sadu nástrojov pre zbieranie spomínaných dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
@@ -245,47 +244,77 @@ a vykonávanie komplexných analýz nad dátami HTTP Archive.
 
 \subsection{Proces získavania dát}
 
-
 Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú získané pravidelným spúšťaním procesu zvaného \textbf{Web Crawling}.
 Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
-HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je pár HTTP \textbf{request} a HTTP \textbf{response}, ktorým naň web server zareaguje. 
+HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je žiadosť HTTP \textbf{request} a odpoveď HTTP \textbf{response}, ktorou web server zareaguje. 
 Z týchto dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania \cite{httparchive-homepage}.
 
 Výber vstupov do tohto procesu predstavuje nájsť vhodnú sadu záznamov URL na skúmanie. 
 HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v kapitole \ref{tranco-source-rankings}.
 
-Získané URL adresy sú potom použité ako vstup do programu WebPageTest.... \todo{continue here}
+\subsubsection{WebPageTest}
 
+Získané URL adresy sú teda použité ako vstup do programu \textbf{WebPageTest}. WebPageTest (ďalej už iba WPT) je softvér na testovanie výkonnosti webových stránok vyrobený spoločnosťou Google. Predstavuje komplexné riešenie schopné testovania a merania procesu načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
+Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\href{https://github.com/catchpoint/WebPageTest}{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod licenciou Open Source.
+Medzi konkrétne skúmané metriky patria napríklad: \cite{webpagetest}
+\todo{description from docs}
+\begin{itemize}
+    \item Time to First Byte (TTFB)
+    \item First Contentful Paint (FCP)
+    \item Largest Contentful Paint (LCP)
+    \item Cumulative Layout Shitf (CLS)
+\end{itemize}
 
-Terminologia (Lens...)
+% Vlastná inštancia v USA s vlastnými nastaveniami
+HTTP Archive na svoje účely používa vlastnú WPT inštanciu. 
+Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou a vo svojich behoch využíva užitočnú funcionalitu WPT --- vlastné (prispôsobené) metriky.
+Pridanie vlastných metrík do WPT predstavuje spúšťanie hocijakej funkcie spísanej v jazyku JavaScript na konci behu testovania stránky. 
+Využívaním tohto dokáže HTTP Archive zbierať všetky dodatočne chcené metriky zo svojich testovacích stránok \cite{webpagetest}.
 
-Desktop websites are run from within a desktop Chrome environment on a Linux VM. The network speed is equivalent to a cable connection.
-Mobile websites are run from within a mobile Chrome environment on an emulated Moto G4 device with a network speed equivalent to a 3G connection.
+% Výstupom jedného behu tohto programu sú ... 
+Po úspešnom pretestovaní celej vstupnej sady stránok príde na rad ukladanie získaných dát.
+Pre účely uskladňovania je využitý formát archívu HTTP --- HTTP Archive (\code{.har}).
+\\
+HAR file popis...
+\\
+Náväznosť na GCP
 
-HAR files store session information in plain text file using the popular JSON format. The specifications for HAR file format were produced by the Web Performance Group of the World Web Consortium (W3C) but could not be published. However, it successfully defined an archival format for HTTP transactions.
+% Terminologia (Lens...)
 
-WebPageTest ??
-All pages are tested with an empty cache in a logged out state, which may not reflect how real users would access them.
+% Desktop websites are run from within a desktop Chrome environment on a Linux VM. The network speed is equivalent to a cable connection.
+% Mobile websites are run from within a mobile Chrome environment on an emulated Moto G4 device with a network speed equivalent to a 3G connection.
 
-HTTPArchive Lens - "A lens focuses on a specific subset of websites. Through a lens, you'll see data about those particular websites only. For example, the WordPress lens focuses only on websites that are detected as being built with WordPress. We use \textbf{Wappalayzer} to detect over 1,000 web technologies and choose a few interesting ones to become lenses.
+% HAR files store session information in plain text file using the popular JSON format. The specifications for HAR file format were produced by the Web Performance Group of the World Web Consortium (W3C) but could not be published. However, it successfully defined an archival format for HTTP transactions.
+
+% WebPageTest ??
+% All pages are tested with an empty cache in a logged out state, which may not reflect how real users would access them.
+
+% HTTPArchive Lens - "A lens focuses on a specific subset of websites. Through a lens, you'll see data about those particular websites only. For example, the WordPress lens focuses only on websites that are detected as being built with WordPress. We use \textbf{Wappalayzer} to detect over 1,000 web technologies and choose a few interesting ones to become lenses.
 
 
 \subsection{Google Cloud Platform}
-GC (Platforma, Moznosti, Platba, HAR Tables)
+% GC (Platforma, Moznosti, Platba, HAR Tables)
 
--- BQ (Syntax, Priklad)
+% -- BQ (Syntax, Priklad)
 
-Detekcia kompresie. Detekcia chýb...
+% Detekcia kompresie. Detekcia chýb...
 
-One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
+% One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
 
-At the time of this writing, the free tier allows 10GB of storage and 1TB of data processing per month
+% At the time of this writing, the free tier allows 10GB of storage and 1TB of data processing per month
 
-Google Cloud Locations, USA
+% Google Cloud Locations, USA
 
+Description
+\\
 \textbf{Types of GCP BQ HTTP Archive tables}
 \\
-Some of the types of tables you'll find useful when getting started are described below. These table names all follow the format yyyy\textunderscore mm\textunderscore dd\textunderscore desktop and yyyy\textunderscore mm\textunderscore dd\textunderscore mobile.
+Big Query and query environment at GCP
+\\
+Query examples
+
+% \\
+% Some of the types of tables you'll find useful when getting started are described below. These table names all follow the format yyyy\textunderscore mm\textunderscore dd\textunderscore desktop and yyyy\textunderscore mm\textunderscore dd\textunderscore mobile.
 
 
 \subsection{HTTP Archive reporty}
@@ -303,10 +332,10 @@ Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stav
 Web Almanac spája elementárne dáta do hodnotných kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
 Predošlý rok bol štvrtým v poradí, za ktorý bol report zhotovený, čo sa vyzobrazuje na inkrementálne navyšovanej relevantnosti metrík, ktoré zahŕňa. 
 Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu\footnote{\href{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}}, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
-
-\todo{TOOLS}
+\\
+\todo{Mention tools used alongside WebPageTest}
 Lighthouse is used to run audits against the page to analyze its quality in areas like accessibility and SEO. The Tools section below goes into each of these tools in more detail.
-
+\\
 Celý obsah reportu je dostupný na jeho samostatnej oficiálnej stránke\footnote{\href{https://almanac.httparchive.org/en/2022/table-of-contents}{https://almanac.httparchive.org/en/2022/table-of-contents}}. 
 Každý aspekt jeho prieskumu je zatriedený do svojej vlastnej kategórie, ktorá sa v rámci obsahu označuje ako samostatná kapitola.
 Čitatelia tu môžu nájsť napríklad kapitolu zameranú špecificky na JavaScript, použitie WebAssembly na webe, ale aj pre túto prácu relevantnejšie oblasti ako HTTP a bezpečnosť.
