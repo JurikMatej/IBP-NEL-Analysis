@@ -3,6 +3,8 @@
 
 % \todo{Review and insert figures where appropriate}
 
+\todo{GCP a Tranco Source Rankings finish }
+
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
 odpovedajú na HTTP(S) požiadavky zaslané v reálnom čase. V tejto kapitole sú do detailu rozvedené dostupné zdroje dát 
@@ -11,15 +13,15 @@ a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kap
 \section{Potrebné dáta}
 
 To čo pre analýzu v tejto práci je potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
-čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete} a prípadne aj ich subdomén, ktoré možno skúmať \textbf{\textit{(1)}}. 
+čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete} a prípadne aj ich subdomén, ktoré možno skúmať. 
 Zoznam spĺňajúci takýto popis je potrebný práve preto aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
 Práve touto spojitosťou sa postupne môžeme dostať napríklad o prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
 Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej kapitole (\ref{tranco}), kde sú do detailu popísané aj ich dôležité vlastnosti.
 
 Následne, v bode, keď už by bolo známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu. 
-Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTP(S)}, v ktorom majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL \textbf{\textit{(2)}}. Existuje celá sada metód, ako sa k tomuto prenosu dostať. 
+Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTP(S)}, v ktorom majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL. Existuje celá sada metód, ako sa k tomuto prenosu dostať. 
 Z hľadiska prítomnosti, a teda aktuálneho stavu webových technológií je vhodné použiť napríklad techniku takzvanú \textbf{Web Crawling}, ktorá je v kapitole \ref{web-crawling} popísaná v kontexte s využiteľnými zdrojmi dát, ktoré ju používajú.
-Na účel Web Crawlingu je možné použiť už existujúce technológie ako \textbf{Selenium Web Driver}. 
+Na účel Web Crawlingu je možné použiť už existujúce technológie ako \textbf{Selenium}. 
 Selenium opisuje kapitola \ref{selenium}.
 No aby bol nadobudnutý celkový prehľad, je nevyhnutné nahliadnuť taktiež do histórie prevádzky webu. 
 V tomto bode je zasa nutné hľadať už spracované a uložené dáta získané či už Web Crawlingom, alebo inými spôsobmi. 
@@ -33,7 +35,7 @@ Im je tu venovaná iba okrajová pozornosť, no každá z nich ale za zmienku ne
 \section{TRANCO}
 \label{tranco}
 
-Ako už bolo spomenuté \textbf{\textit{(1)}}, vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
+Ako už bolo spomenuté, vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
 mali by vystavovať verejnému internetu službu, ktorá je dosiahnuteľná, komunikuje protokolom HTTP, a ideálne je aj často navštevovaná,
 a tým pádom relevantná pre verejnosť. Najviac teda prichádza do úvahy zamerať sa na získanie zoznamu \textbf{web stránok}, zoradeného podľa
 ich popularity (návštevnosti), ktorý bude zároveň nadobúdať rozumnú veľkosť pre účely prieskumu. 
@@ -188,53 +190,46 @@ Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný r
 
 \subsubsection{Cisco Umbrella}
 
+Veľa domien nedosiahnuteľných (Unreachable)
+\\
+DNS
+\\
+Subdomény
+
 \subsubsection{Quantcast}
+
+Deprecated
 
 \subsubsection{Chrome User Experience Report}
 
+Dôležité vysvetliť kvôli kontextu v HTTP Archive
+
 \subsubsection{Cloudflare Radar}
 
-% \subsection{Zhrnutie}
+Najnovší perspektívny prídavok
 
 
 \section{Web Crawling}
 \label{web-crawling}
 
-%\subsection{Nástroje pre automatickú analýzu stavu nasadenia NEL - teória (selenium, bs4, pandas...)}
-
-Selenium teória apod.
+\todo{Obyčajná teória a vhodnosť Selenia ako výberu technológie pre túto prácu}
 
 \subsection{Selenium}
 \label{selenium}
 
+\todo{Teória}
 
 \section{HTTP Archive}
 \label{httparchive}
 
-% REMOVE 
-% \cite{httparchive-homepage}
-% \\
-% USED
-% \cite{httparchive-faq}
-% \cite{httparchive-about}
-% \\
-% USE
-% \cite{httparchive-methodology}
-% \cite{httparchive-harfile}
-% \\
-% Co to je
-% \\
 HTTP Archive projekt sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. Je permanentným repozitárom informácií o webe a udržiava záznamy ako veľkosti
 stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi môžné vykonávať
 rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
-% \\
-% Autori (Web Perf Group)
+
 Autormi HTTP Archive sú rôzni individuáli z komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
 Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly \cite{httparchive-about}. Záujemci ho môžu podporiť na stránkach Open Collective\footnote{\href{https://opencollective.com/httparchive}{https://opencollective.com/httparchive}}.
 Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok\footnote{\href{https://archive.org/}{https://archive.org/}}.
-% \\
-% Co robi (HAR DB, Priebezne reporty, almanac)
-% \\
+
 Cieľom projektu je vytvoriť a udržovať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
 Pre tento účel vyvinuli sadu nástrojov pre zbieranie spomínaných dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
@@ -242,55 +237,46 @@ Naviac v rámci uskladnenia dát používajú službu \textbf{Google Cloud Platf
 Keďže sú tieto dáta v rámci GCP verejne prístupné ako databázové tabuľky, prostredie GCP \textbf{Big Query} zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
 a vykonávanie komplexných analýz nad dátami HTTP Archive.
 
+Vhodnosť projektu pre túto prácu je založená na tom, že ide o komuntitný projekt, ktorého výsledky sú verejne a zadarmo dostupné. Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj táto.
+
 \subsection{Proces získavania dát}
 
 Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú získané pravidelným spúšťaním procesu zvaného \textbf{Web Crawling}.
 Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
 HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je žiadosť HTTP \textbf{request} a odpoveď HTTP \textbf{response}, ktorou web server zareaguje. 
-Z týchto dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania \cite{httparchive-homepage}.
+Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z \textbf{desktop}, aj z \textbf{mobilného} prostredia.
+Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/API}{https://developer.mozilla.org/en-US/docs/Web/API}}) \cite{httparchive-homepage}.
 
 Výber vstupov do tohto procesu predstavuje nájsť vhodnú sadu záznamov URL na skúmanie. 
 HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v kapitole \ref{tranco-source-rankings}.
 
 \subsubsection{WebPageTest}
 
-Získané URL adresy sú teda použité ako vstup do programu \textbf{WebPageTest}. WebPageTest (ďalej už iba WPT) je softvér na testovanie výkonnosti webových stránok vyrobený spoločnosťou Google. Predstavuje komplexné riešenie schopné testovania a merania procesu načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
+Získané URL adresy sú teda použité ako vstup do programu WebPageTest. WebPageTest (ďalej označovaný už iba ako WPT) je softvér na testovanie výkonnosti webových stránok vyrobený spoločnosťou Google. Predstavuje komplexné riešenie schopné testovania a merania procesu načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
 Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\href{https://github.com/catchpoint/WebPageTest}{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod licenciou Open Source.
 Medzi konkrétne skúmané metriky patria napríklad: \cite{webpagetest}
-\todo{description from docs}
 \begin{itemize}
-    \item Time to First Byte (TTFB)
-    \item First Contentful Paint (FCP)
-    \item Largest Contentful Paint (LCP)
-    \item Cumulative Layout Shitf (CLS)
+    \item Time to First Byte (TTFB) --- čas do prvej časti odpovede od servera
+    \item First Contentful Paint (FCP) --- čas do začiatku načítavania obrázkov a grafiky
+    \item Largest Contentful Paint (LCP) --- čas do načítania najväčšej časti obsahu stránky 
+    \item Cumulative Layout Shitf (CLS) --- posun a zmena rozpoloženia obsahu stránky počas jej načítavania
 \end{itemize}
 
-% Vlastná inštancia v USA s vlastnými nastaveniami
 HTTP Archive na svoje účely používa vlastnú WPT inštanciu. 
-Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou a vo svojich behoch využíva užitočnú funcionalitu WPT --- vlastné (prispôsobené) metriky.
+Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou.
+Vo svojich behoch využíva užitočnú funcionalitu WPT --- vlastné (prispôsobené) metriky.
 Pridanie vlastných metrík do WPT predstavuje spúšťanie hocijakej funkcie spísanej v jazyku JavaScript na konci behu testovania stránky. 
-Využívaním tohto dokáže HTTP Archive zbierať všetky dodatočne chcené metriky zo svojich testovacích stránok \cite{webpagetest}.
+Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metriky zo svojich testovacích stránok \cite{webpagetest}.
+Je dôležité poznamenať, že stránky sú testované s čistou vyrovnávacou pamäťou cache. Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
+To môže spôsobovať odchyľku oproti reálnemu používaniu testovacích web stránok. Ďalšou limitáciou je fakt, že každá stránka je preskúmaná samostatne a neberie sa žiaden ohľad na jej podstránky.
+WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta za \todo{kedy ? - asi zistim pri GCP}. 
 
-% Výstupom jedného behu tohto programu sú ... 
 Po úspešnom pretestovaní celej vstupnej sady stránok príde na rad ukladanie získaných dát.
-Pre účely uskladňovania je využitý formát archívu HTTP --- HTTP Archive (\code{.har}).
-\\
-HAR file popis...
-\\
-Náväznosť na GCP
+Pre účely uskladňovania je využitý formát HTTP Archive súboru (prípona \code{.har}, ďalej označovaný už len ako HAR).
+Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované ako JSON - JavaScript Object Notation\footnote{\href{https://www.json.org/json-en.html}{https://www.json.org/json-en.html}}.
+Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}.
 
-% Terminologia (Lens...)
-
-% Desktop websites are run from within a desktop Chrome environment on a Linux VM. The network speed is equivalent to a cable connection.
-% Mobile websites are run from within a mobile Chrome environment on an emulated Moto G4 device with a network speed equivalent to a 3G connection.
-
-% HAR files store session information in plain text file using the popular JSON format. The specifications for HAR file format were produced by the Web Performance Group of the World Web Consortium (W3C) but could not be published. However, it successfully defined an archival format for HTTP transactions.
-
-% WebPageTest ??
-% All pages are tested with an empty cache in a logged out state, which may not reflect how real users would access them.
-
-% HTTPArchive Lens - "A lens focuses on a specific subset of websites. Through a lens, you'll see data about those particular websites only. For example, the WordPress lens focuses only on websites that are detected as being built with WordPress. We use \textbf{Wappalayzer} to detect over 1,000 web technologies and choose a few interesting ones to become lenses.
-
+Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na Google Cloud, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
 
 \subsection{Google Cloud Platform}
 % GC (Platforma, Moznosti, Platba, HAR Tables)
@@ -313,9 +299,12 @@ Big Query and query environment at GCP
 \\
 Query examples
 
+\begin{center}
+\noindent\includegraphics[width=3cm]{example-image}    
+\end{center}
+
 % \\
 % Some of the types of tables you'll find useful when getting started are described below. These table names all follow the format yyyy\textunderscore mm\textunderscore dd\textunderscore desktop and yyyy\textunderscore mm\textunderscore dd\textunderscore mobile.
-
 
 \subsection{HTTP Archive reporty}
 
@@ -325,17 +314,20 @@ Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive
 Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobytoch, alebo, taktiež relevantý je aj report zobrazujúci dosiahnuteľnosť HTTP Archive --
 počet jedinečných URL analyzovaných týmto projektom.
 
-\todo{figure with description (total urls, description of graph, mention link to the sql)}
+\begin{center}
+\noindent\includegraphics[width=3cm]{example-image}    
+\end{center}
+
+% \todo{figure with description (total urls, description of graph, mention link to the SQL)}
 
 \subsubsection{Web Almanac}
 Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
 Web Almanac spája elementárne dáta do hodnotných kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
 Predošlý rok bol štvrtým v poradí, za ktorý bol report zhotovený, čo sa vyzobrazuje na inkrementálne navyšovanej relevantnosti metrík, ktoré zahŕňa. 
 Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu\footnote{\href{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}{https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2022}}, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
-\\
-\todo{Mention tools used alongside WebPageTest}
-Lighthouse is used to run audits against the page to analyze its quality in areas like accessibility and SEO. The Tools section below goes into each of these tools in more detail.
-\\
+
+% WebPageTest, Lighthouse, Wappalyzer.... ?
+
 Celý obsah reportu je dostupný na jeho samostatnej oficiálnej stránke\footnote{\href{https://almanac.httparchive.org/en/2022/table-of-contents}{https://almanac.httparchive.org/en/2022/table-of-contents}}. 
 Každý aspekt jeho prieskumu je zatriedený do svojej vlastnej kategórie, ktorá sa v rámci obsahu označuje ako samostatná kapitola.
 Čitatelia tu môžu nájsť napríklad kapitolu zameranú špecificky na JavaScript, použitie WebAssembly na webe, ale aj pre túto prácu relevantnejšie oblasti ako HTTP a bezpečnosť.
