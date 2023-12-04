@@ -3,7 +3,7 @@
 
 % \todo{Review and insert figures where appropriate}
 
-\todo{GCP a Tranco Source Rankings finish }
+\todo{GCP a Tranco Source Rankings finish a crawler.ninja repaso}
 
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
@@ -276,28 +276,36 @@ Pre účely uskladňovania je využitý formát HTTP Archive súboru (prípona \
 Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované ako JSON - JavaScript Object Notation\footnote{\href{https://www.json.org/json-en.html}{https://www.json.org/json-en.html}}.
 Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}.
 
-Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na Google Cloud, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
+Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na Google Cloud Platform-e, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
 
 \subsection{Google Cloud Platform}
-% GC (Platforma, Moznosti, Platba, HAR Tables)
+Google Cloud Platform (GCP) je súčasťou balíčka služieb Google Cloud. 
+Výraz \textbf{cloud} sa používa pre množinu serverov používaných napríklad na výpočtové práce alebo skladovanie dát, ktoré sú prepojené cez internet.
+Tieto servery zostavujúce cloud infraštruktúru môžu poskytovať rôzne programové riešenia, ktoré sa v terminológii spojenej s cloud výpočtami nazývajú služby \cite{cloudflare-clouddefinition}.
 
-% -- BQ (Syntax, Priklad)
+Súčasťou infraštruktúry patriacej práve Google je už spomínaný GCP. Predstavuje výpočtové služby združené pod záštitu jednotnej platformy.
+Tieto služby sú rozdelené do kategórií ako výpočtová sila, ukladací priestor, sieťové riešenia, dátová analýza a strojové učenie \cite{gfg-gcp}.
+Časť záujmu tejto práce spadá práve do kategórie ukladacieho priestoru, kde sa radí služba \textbf{Big Query}.
 
-% Detekcia kompresie. Detekcia chýb...
-
-% One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
-
+\subsubsection{GCP Big Query}
 % At the time of this writing, the free tier allows 10GB of storage and 1TB of data processing per month
+% One of the great things about the BigQuery platform is how well it handles massive datasets and queries that can be incredibly computationally intensive
+% -- BQ (Syntax, Priklad)
+% Detekcia kompresie. Detekcia chýb...
+% Platba, HAR Tables
 
-% Google Cloud Locations, USA
+Big Query, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad strojového učenia.
+Big Query je samo o sebe riešenie populárne označované ako \textbf{platforma ako služba} (PaaS\footnote{\href{https://cloud.google.com/learn/what-is-paas}{https://cloud.google.com/learn/what-is-paas}}).
+Hlavnou výhodou pre užívateľov služby typu PaaS je, že sa nemusia nijako starať o správu infraštruktúry, pod čím sa vlastne myslí samotná platforma, kde je služba sprevádzkovaná.
+Tým pádom je možné toto skladisko dát veľmi rýchlo zakomponovať do užívateľovho vlastného projektu a vyhnúť sa akýmkoľvek údržbám v oblasti infraštruktúry skladovania dát \cite{google-bq}.
 
-Description
-\\
-\textbf{Types of GCP BQ HTTP Archive tables}
-\\
-Big Query and query environment at GCP
-\\
-Query examples
+Prispôsobené pre rýchlostú analýzu petabytov
+Štruktúra uskladnených dát (obr pre column based vs row based)
+Spomenutie možností pre skladovanie, analýzu apod.
+Existujúce dáta
+Big Query Studio
+HTTP Archive náväznosť
+Príklad
 
 \begin{center}
 \noindent\includegraphics[width=3cm]{example-image}    
