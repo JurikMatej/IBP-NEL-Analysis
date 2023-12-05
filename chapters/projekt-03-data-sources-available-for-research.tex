@@ -176,8 +176,8 @@ na hodnotenú doménu minimálne jedenkrát.
 Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní \cite{tranco-methodology}.
 Okrem iného je tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti \cite{majestic-million-homepage}.
 
-V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich sub-domény}, takže sa môže stať, že napríklad doména \code{google.com} sa v ňom bude vyskytovať viackrát v podobe 
-svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné) \cite{majestic-million-sub-domain-filtered}.
+V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich sub-domény}, takže sa môže stať, že napríklad doména \code{google.com} 
+sa v ňom bude vyskytovať viackrát v podobe svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné) \cite{majestic-million-sub-domain-filtered}.
 
 Na oficiálnom webe Majestic sú taktiež dostupné doplnkové služby, ktoré svojim užívateľom poskytujú naväzujúce užitočné informácie o týchto doménach. 
 Jednou z nich je napríklad možnosť bližšie porovnať až do 10 domén, kde vstupom sú ich mená a výstupom je prehľadná tabuľka (takzvaná Buzz Table) zobrazujúca ich zaradenie a iné detaily, medzi ktoré patrí aj počet domén
@@ -186,24 +186,39 @@ Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný r
 
 \subsubsection{Cisco Umbrella}
 
-Veľa domien nedosiahnuteľných (Unreachable)
-\\
-DNS
-\\
-Subdomény
+Rebríček Cisco Umbrella obsahuje zoradenie najviac navštevovaných stránok podľa rezolúcií požiadaviek s ich doménovým menom na DNS serveroch Cisco.
+Tieto DNS servery sú súčasťou globálnej siete Cisco Umbrella, kde sa cez deň nahromadí viac ako 100 miliárd požiadaviek na rezolúciu od 65 miliónov aktívnych užívateľov z viac ako 165 krajín.
+Narozdiel od rebríčka Alexa používa Cisco Ubrella namiesto HTTP požiadaviek jedinečné IP adresy klientov na identifikáciu návštev na kontrolované domény.
+Rebríček je generovaný každodenne a obsahuje 1 milión záznamov s top-level doménami (TLD), no naviac aj s ich subdoménami, ktoré Alexa nezahŕňa \cite{cisco-umbrella}.
+
+Je ale nutné poznamenať, že vzhľadom na to, že sa ako zdroj pravdy využívajú záznamy DNS, do finálneho rebríčka sa dostávajú aj nedosiahnuteľné domény.
+Medzi také patria domény, ktoré sú interné pre špecifickú organizáciu používajúcu službu Cisco Umbrella, a teda bežne neprístupné.
+Ďalej sa môžu na nižších miestach vyskytnúť neexistujúce domény, ktoré boli zaradené do rebríčka častým DNS vyhľadávaním s rovnakou preklepovou chybou v názve danej domény \cite{tranco-methodology}.
 
 \subsubsection{Quantcast}
 
-Deprecated
+Spoločnosť Quancast zverejňovala do 1. apríla 2020 zoznam najnavštevovanejších stránok v Spojených Štátoch Amerických (US). Jeho veľkosť sa denne menila, no bežne v ňom bývalo
+okolo 520,000 PLD domén a subdomén. Quantcast zaraďoval tieto domény do svojho rebríčka podľa počtu ľudí, ktorí ich navštívili vždy za predošlý mesiac.
+Navštevovanosť sa merala pomocou sledovacieho skriptu na samotných doménach alebo podľa dát poskytnutých od poskytovateľov internetu (ISP) \cite{tranco-methodology}.
+
+Limitácia tohto zoznamu spočíva okrem toho, že už je zastaraný a neaktualizovávaný aj v tom, že berie ohľad v drvivej väčšine prípadov výhradne na stránky v US.
+Jedinou výnimkou boli domény mimo US, ktoré využívali spomínaný sledovací skript. 
 
 \subsubsection{Chrome User Experience Report}
 
 Dôležité vysvetliť kvôli kontextu v HTTP Archive
+\todo{Je potrebné zvážiť čo napíšem sem a čo vysvetlím inde, pretože sa používa na viacerých miestach}
 
 \subsubsection{Cloudflare Radar}
 
-Najnovší perspektívny prídavok
+Po ohlásení ukončenia prevádzky zoznamu Alexa sa spoločnosť Cloudflare rozhodla poskytnúť vhodnú alternatívu.
+Od 26. septembra 2022 zverejňujú rebríček Radar o rozsahu milióna záznamov PLD domén, ktorý je aktualizovaný na týždennej báze \cite{tranco-methodology}.
 
+Dáta o návštevnosti domén sú získavané zo sieťovej premávky na Cloudflare \code{1.1.1.1} DNS rezolveri. 
+Umiestnenie domény sú vypočítané na základen metriky popularity, ktorá predstavuje relatívne zastúpenie užívateľov, ktorí navštívili doménu za určitú dobu. 
+Táto metrika sa vypočítava použitím modelu strojového učenia na agregované dáta zo spomínaného rezolvera \cite{cloudflare-radar}. 
+
+\todo{buckets}
 
 \section{Web Crawling}
 \label{web-crawling}
@@ -465,4 +480,4 @@ Mimo uvedených dát v podobe databázových exportov sú od Scotta dostpné tak
 
 % \subsection{Čo ešte ?}
 
-Chat GPT found alternatives
+% Chat GPT found alternatives
