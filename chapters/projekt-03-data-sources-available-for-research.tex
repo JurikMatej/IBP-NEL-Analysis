@@ -2,16 +2,15 @@
 \label{data-sources-available-for-research}
 
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
-Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité služby dostupné na internete
-odpovedajú na HTTP(S) požiadavky zaslané v reálnom čase. V tejto kapitole sú do detailu rozvedené dostupné zdroje dát 
+Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité webové služby aktuálne dostupné na internete
+odpovedajú na HTTP(S) požiadavky. V tejto kapitole sú do detailu rozvedené dostupné zdroje dát 
 a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kapitole \ref{analysis-and-its-results}.
 
 \section{Potrebné dáta}
 
-To čo pre analýzu v tejto práci je potrebné zaobstarať sú hlavne konkrétne zdroje dát, z ktorých možno čerpať. Čo sa týka priamo toho,
-čo by mali obsahovať, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete} a prípadne aj ich subdomén, ktoré možno skúmať. 
-Zoznam spĺňajúci takýto popis je potrebný práve preto aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
-Práve touto spojitosťou sa postupne môžeme dostať napríklad o prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
+To čo je potrebné zaobstarať pre analýzu v tejto práci sú záznamy konkrétnych služieb, z ktorých možno čerpať aktuálny alebo historický stav. Čo sa týka štruktúry, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete} a prípadne aj ich subdomén, ktoré možno skúmať. 
+Zoznam spĺňajúci takýto popis je potrebné zaobstarať práve preto, aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
+Práve touto spojitosťou sa postupne môžeme dostať napríklad k prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
 Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej kapitole (\ref{tranco}), kde sú do detailu popísané aj ich dôležité vlastnosti.
 
 Následne, v bode, keď už by bolo známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu. 
@@ -34,13 +33,13 @@ Im je tu venovaná iba okrajová pozornosť, no každá z nich ale za zmienku ne
 Ako už bolo spomenuté, vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
 mali by vystavovať verejnému internetu službu, ktorá je dosiahnuteľná, komunikuje protokolom HTTP, a ideálne je aj často navštevovaná,
 a tým pádom relevantná pre verejnosť. Najviac teda prichádza do úvahy zamerať sa na získanie zoznamu \textbf{web stránok}, zoradeného podľa
-ich popularity (návštevnosti), ktorý bude zároveň nadobúdať rozumnú veľkosť pre účely prieskumu. 
+ich popularity (navštevovanosti), ktorý bude zároveň nadobúdať rozumnú veľkosť pre účely prieskumu. 
 
 Zaobstarávaniu zoznamov web stránok, ktoré majú spĺňať konkrétne predurčené kritéria sa venuje rad iných existujúcich prác/služieb 
 \cite{tranco}\cite{hacker-target-website-lists-overview}. Táto práca namiesto implementovania vlastného riešenia využíva jedno z nich -- TRANCO.
 
 TRANCO je rebríček webových stránok zoradených podľa hodnotenia ich populárnosti/navštevovanosti, ktorý je odolný proti externej manipulácií a vhodný na účely výskumu \cite{tranco-homepage}. 
-Vznikol na základe častej potreby pre skúmanie práve takýchto stránok či už pre samotnú referenciu, alebo ako podklad pre ďalší prieskum.
+Vznikol na základe častej potreby pre skúmanie práve takýchto stránok či už pre jednoduchú referenciu, alebo ako podklad pre ďalší prieskum.
 Obsahuje primárne Pay-Level Domény (PLD), čo sú domény, ktoré si môže priamo zakúpiť či už jednotlivec alebo organizácia. PLD sa skladajú zo subdomény verejného 
 suffixu\footnote{Verejný suffix (public suffix) je jedným z takých, pod ktorými je alebo historicky bolo možné registrovať doménové mená pre používateľov internetu. Ide napríklad o .com, .co.uk 
 alebo aj pvt.k12.ma.us. Viď oficiálnu stránku so zoznamov verejných suffixov -- \href{https://publicsuffix.org/}{https://publicsuffix.org/}} 
@@ -49,7 +48,7 @@ znakom \code{\textbf{.}} -- napríklad pre \code{crookedtimber.org} je eTLD \cod
 {https://developer.mozilla.org/en-US/docs/Glossary/eTLD}} -- napríklad \code{.com} ale aj \code{.co.uk} \cite{tranco}. Okrem PLD je možné vygenerovať rebríček aj so subdoménami (viď 
 \ref{tranco-generation}).
 
-Príkladom využitia TRANCO môže byť analýza využitia konkrétnych webových technológií na týchto stránkach -- od použitej metódy komprimácie jej obsahu po samotné rámce, pomocou ktorých je 
+Príkladom využitia TRANCO môže byť analýza využitia konkrétnych webových technológií na týchto stránkach -- od použitej metódy komprimácie jej obsahu po rámce, pomocou ktorých bola 
 stránka vyvinutá. 
 TRANCO nie je prvým takýmto rebríčkom, ale je prvým, ktorý sa zaoberá nedostatkami jeho \textbf{predchodcov} a \textbf{spája stránky uvedené v nich} do \textbf{jednotného rebríčka}, 
 ktorý je stabilnejší, reprezentuje stránky v globálnej škále a dokonca do určitej miery odstraňuje stránky s potencionálne nebezpečným obsahom (napríklad phishing) \cite{tranco}. 
@@ -67,7 +66,7 @@ V tomto každodenne generovanom rebríčku sú prednastavené ako zdroje dát (p
 Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca kapitola (\ref{tranco-source-rankings}). 
 Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-github}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
 
-V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných TRANCO kombinačných metód pre upravenie finálneho hodnotenia domén.
+V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných kombinačných metód pre upravenie finálneho hodnotenia domén.
 Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, zvaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú skórom 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco}\cite{tranco-homepage}.
 
 Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
@@ -89,13 +88,13 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
     
     \item Počet dní, za ktoré zbierať vstupné rebríčky
     \begin{enumerate}
-        \item od špecifikovaného počiatočného dátumu
-        \item od špecifikovaného koncového dátumu
+        \item N dní od špecifikovaného počiatočného dátumu
+        \item N dní od špecifikovaného koncového dátumu
     \end{enumerate}
 
     \item Kombinačná metóda hodnotenia domén:
     \begin{enumerate}
-        \item Aritmetická progresia -- \textbf{Borda count}\footnote{\href{https://courses.lumenlearning.com/waymakermath4libarts/chapter/borda-count}{https://courses.lumenlearning.com/waymakermath4libarts/chapter/borda-count (Borda count)}}
+        \item Aritmetická progresia -- \textbf{Borda count} (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1)
         \item Harmonická progresia -- \textbf{Dowdall rule} (štandardne zvolená)
     \end{enumerate}
 
@@ -107,7 +106,7 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
         \begin{enumerate}
             \item nachádza sa v zoznamoch aspoň počas N dní
             \item nachádza sa aspoň v N zoznamoch
-            \item nenachádza sa v zozname potencionálne nebezpečných domén\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com (Google Safe Browsing)}}
+            \item nenachádza sa v zozname potencionálne nebezpečných domén, ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}
         \end{enumerate}
 
         \item Podľa domény samotnej
@@ -116,16 +115,16 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
             \item pracovať s doménami podľa ich efektívnej Top Level Domény (eTLD):
             
             Užívateľ má možnosť definovať zoznam čiarkou oddelených eTLD, ktoré môžu byť buď ako jediné zahrnuté vo
-            výsledku, alebo je ešte možnosť všetky definované odfiltrovať z výsledku preč
+            výsledku, alebo naopak odfiltrované z výsledka preč
             
             \item pracovať iba s jednou doménou (najpopulárnejšou) pre každú nájdenú organizáciu (napríklad \code{google.com})
-            \item pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname subdomén definovaným užívateľom 
+            \item pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname definovaného užívateľom 
         \end{enumerate}
 
         \item Podľa možností špecifických pre zoznam Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Užívateľ pri voľbe tohto filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
     \end{itemize}
 
-    \item Ohraničenie výsledkov vo finálnom rebríčku (štandardne milión)
+    \item Ohraničenie počtu výsledkov vo finálnom rebríčku (štandardne milión)
     
 \end{enumerate}
 
@@ -133,14 +132,14 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
 \subsection{Zdrojové rebríčky domén}
 \label{tranco-source-rankings}
 
-Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva na vyťahovaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
+Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva vo vyťahovaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
 Zdrojom dát pre hodnotenie stránok TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôžne stratégie pre obstarávanie stránok a ich zoraďovanie 
 podľa hodnotenia navštevovanosti \cite{tranco-methodology}. V tejto kapitole sú popísané zainteresované zoznamy, z ktorých možno dáta kombinovať 
 a na základe ktorých je možné nový zoznam vygenerovať.
 
 \subsubsection{Alexa}
 
-Alexa, dcérska spoločnosť Amazon.com, publikovala na svojich stránkach od decembra 2008 až po začiatok augusta 2023 rebríček \textbf{Alexa top sites}, v ktorom zoraďovala 1 milión 
+Alexa, dcérska spoločnosť Amazon.com, publikovala na svojich stránkach od decembra 2008 až po začiatok augusta 2023 rebríček \textbf{Alexa Top Sites}, v ktorom zoraďovala 1 milión 
 najnavšetevovanejších webstránok \cite{tranco-methodology}.
 Zdrojom dát pre jeho tvorbu bolo rozšírenie pre webové prehliadače, ktoré si užívatelia mohli stiahnuť a po jeho inštalácií na vybranom prehliadači začalo zbierať a odosielať
 dáta o prehliadaní internetu do Alexy. 
@@ -160,21 +159,23 @@ Zo spomenutých metrík má vyššiu váhu pri rozhodovaní o popularite práve 
 Obe metriky sa pre špecifický deň následne spriemerovali so všetkými takto napočítanými hodnotami za posledné tri mesiace, aby zoznam nadobudol určitú mieru stability. 
 Tým pádom sú do úvahy pre každodenný zoznam vzané aj aktuálne trendy v prehliadaní. Vo výsledku sa tým predchádza nepresnému celkovému hodnoteniu popularity v prípadoch, 
 kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej stránky mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej stránky v zozname. 
-Koncom roka 2016 bol na nejakú dobu odstavený z prevádzky pre verejnosť na hlavných stránkach Alexy a znova bol sprístupnený pod záštitou Amazon Web Services ako platená služba \textbf{Alexa Top Sites}. 
+
+Koncom roka 2016 bol tento bezplatne poskytovaný rebríček na nejakú dobu odstavený z prevádzky pre verejnosť na hlavných stránkach Alexy a znova bol sprístupnený pod záštitou Amazon Web Services ako platená služba \textbf{Alexa Top Sites}. 
 Neskôr, začiatkom roka 2018 sa zhoršila jeho celková stabilita z toho dôvodu, že jeho algoritmus vyhodnocovania zaradenia stránok prestal brať ohľad na priemerovanie dát za predošlé mesiace.
-Od vtedy, konkrétne 30.01.2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 01.08.2023, čo z nej teraz robí \textbf{zastaraný zoznam} \cite{tranco-methodology}.
+Od vtedy, konkrétne od 30.01.2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 01.08.2023, čo z nej teraz robí \textbf{zastaraný zoznam} \cite{tranco-methodology}.
 
 \subsubsection{Majestic Million}
 
 Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domien zoradených podľa množstva spätných odkazov na ne ukazujúcich \cite{majestic-million-homepage}\cite{majestic-million-ranking}.
-Ako individuálne technologické riešenie bolo uverejnené na webe Majestic 1.10.2012 \cite{majestic-million-publication}.
 V jednoduchosti to znamená, že čím viac priamych odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto zozname zaradená. 
-Majestic Million je vyvinutý spoločnosťou Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
+Ako individuálne technologické riešenie bol Majestic Million uverejnený na webových stránkach autora 1.10.2012 \cite{majestic-million-publication}.
+Autorom je spoločnosť Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
+
 Majestic na dennej báze prehľadáva globálne zhruba 450 miliárd URL v rámci verejného internetu aby svoj zoznam zostavil. 
 Hodnotenie je založené na počte spätných odkazov smerujúcich na jednotlivé domény. Tieto spätné odkazy, iným názvom \textbf{backlinks}, sú vlastne podsiete triedy C (IPv4 /24), ktoré odkazujú
 na hodnotenú doménu minimálne jedenkrát.
 Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní \cite{tranco-methodology}.
-Okrem iného je tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti \cite{majestic-million-homepage}.
+Tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti \cite{majestic-million-homepage}.
 
 V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich sub-domény}, takže sa môže stať, že napríklad doména \code{google.com} 
 sa v ňom bude vyskytovať viackrát v podobe svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné) \cite{majestic-million-sub-domain-filtered}.
@@ -182,7 +183,9 @@ sa v ňom bude vyskytovať viackrát v podobe svojich sub-domén (\code{play.goo
 Na oficiálnom webe Majestic sú taktiež dostupné doplnkové služby, ktoré svojim užívateľom poskytujú naväzujúce užitočné informácie o týchto doménach. 
 Jednou z nich je napríklad možnosť bližšie porovnať až do 10 domén, kde vstupom sú ich mená a výstupom je prehľadná tabuľka (takzvaná Buzz Table) zobrazujúca ich zaradenie a iné detaily, medzi ktoré patrí aj počet domén
 referujúcich na tie vstupné a aj celkový počet ich externých backlinkov \cite{majestic-million-homepage}.
-Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný rebríček a spomenutý Buzz Table sú tie ostatné spoplatnené, kde najlacnejšia možnosť platobného plánu začína na USD 46.99 mesačne \cite{majestic-million-pricing}.
+Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný rebríček a spomenutý Buzz Table sú tie ostatné spoplatnené, kde najlacnejšia možnosť platobného plánu začína na \$46.99 mesačne \cite{majestic-million-pricing}.
+
+\pagebreak
 
 \subsubsection{Cisco Umbrella}
 
@@ -191,15 +194,15 @@ Tieto DNS servery sú súčasťou globálnej siete Cisco Umbrella, kde sa cez de
 Narozdiel od rebríčka Alexa používa Cisco Ubrella namiesto HTTP požiadaviek jedinečné IP adresy klientov na identifikáciu návštev na kontrolované domény.
 Rebríček je generovaný každodenne a obsahuje 1 milión záznamov s top-level doménami (TLD), no naviac aj s ich subdoménami, ktoré Alexa nezahŕňa \cite{cisco-umbrella}.
 
-Je ale nutné poznamenať, že vzhľadom na to, že sa ako zdroj pravdy využívajú záznamy DNS, do finálneho rebríčka sa dostávajú aj nedosiahnuteľné domény.
-Medzi také patria domény, ktoré sú interné pre špecifickú organizáciu používajúcu službu Cisco Umbrella, a teda bežne neprístupné.
-Ďalej sa môžu na nižších miestach vyskytnúť neexistujúce domény, ktoré boli zaradené do rebríčka častým DNS vyhľadávaním s rovnakou preklepovou chybou v názve danej domény \cite{tranco-methodology}.
+Je ale nutné poznamenať, že vzhľadom na to, že sa ako zdroj využívajú záznamy DNS, do finálneho rebríčka sa dostávajú aj nedosiahnuteľné domény.
+Medzi také patria domény, ktoré sú interné pre špecifickú organizáciu používajúcu službu Cisco Umbrella, a teda sú neprístupné pre bežného návštevníka.
+Ďalej sa môžu na nižších miestach vyskytnúť neexistujúce domény, ktoré boli zaradené do rebríčka len vďaka častým DNS vyhľadávaním s preklepovou chybou v názve danej domény (napríklad \code{google.comm}) \cite{tranco-methodology}.
 
 \subsubsection{Quantcast}
 
 Spoločnosť Quancast zverejňovala do 1. apríla 2020 zoznam najnavštevovanejších stránok v Spojených Štátoch Amerických (US). Jeho veľkosť sa denne menila, no bežne v ňom bývalo
 okolo 520,000 PLD domén a subdomén. Quantcast zaraďoval tieto domény do svojho rebríčka podľa počtu ľudí, ktorí ich navštívili vždy za predošlý mesiac.
-Navštevovanosť sa merala pomocou sledovacieho skriptu na samotných doménach alebo podľa dát poskytnutých od poskytovateľov internetu (ISP) \cite{tranco-methodology}.
+Navštevovanosť sa merala pomocou sledovacieho skriptu umiestneného na samotných doménach alebo podľa dát získaných od poskytovateľov internetu (ISP) \cite{tranco-methodology}.
 
 Limitácia tohto zoznamu spočíva okrem toho, že už je zastaraný a neaktualizovávaný aj v tom, že berie ohľad v drvivej väčšine prípadov výhradne na stránky v US.
 Jedinou výnimkou boli domény mimo US, ktoré využívali spomínaný sledovací skript. 
@@ -207,18 +210,26 @@ Jedinou výnimkou boli domény mimo US, ktoré využívali spomínaný sledovac�
 \subsubsection{Chrome User Experience Report}
 
 Dôležité vysvetliť kvôli kontextu v HTTP Archive
-\todo{Je potrebné zvážiť čo napíšem sem a čo vysvetlím inde, pretože sa používa na viacerých miestach}
+\todo{Je potrebné zvážiť čo napíšem sem a čo vysvetlím inde, pretože sa používa na viacerých miestach --- ZATIAĽ SOM NESTIHOL}
 
 \subsubsection{Cloudflare Radar}
 
-Po ohlásení ukončenia prevádzky zoznamu Alexa sa spoločnosť Cloudflare rozhodla poskytnúť vhodnú alternatívu.
-Od 26. septembra 2022 zverejňujú rebríček Radar o rozsahu milióna záznamov PLD domén, ktorý je aktualizovaný na týždennej báze \cite{tranco-methodology}.
+Po ohlásení ukončenia podpory pre zoznam Alexa sa spoločnosť Cloudflare rozhodla poskytnúť vhodnú alternatívu.
+Od 26. septembra 2022 zverejňujú rebríček Radar obsahujúci domény PLD, ktorý je aktualizovaný podľa dvojej veľkosti na dennej alebo týždennej báze \cite{tranco-methodology}.
 
-Dáta o návštevnosti domén sú získavané zo sieťovej premávky na Cloudflare \code{1.1.1.1} DNS rezolveri. 
-Umiestnenie domény sú vypočítané na základen metriky popularity, ktorá predstavuje relatívne zastúpenie užívateľov, ktorí navštívili doménu za určitú dobu. 
-Táto metrika sa vypočítava použitím modelu strojového učenia na agregované dáta zo spomínaného rezolvera \cite{cloudflare-radar}. 
+Dáta o návštevnosti domén sú získavané zo sieťovej premávky na Cloudflare \code{1.1.1.1} DNS resolveri.
+Resolver 1.1.1.1 je verejný Cloudflare DNS resolver, ktorý sprostredkuje rýchly a súkromný spôsob prehliadania internetu.
+To podkladajú fakty, že je považovaný za najrýchlejší resolver a zároveň, že inzerentom nepredáva dáta o svojich užívateľoch.
 
-\todo{buckets}
+Umiestnenia domén v rebríčku sú vypočítané na základe metriky popularity, ktorá predstavuje podľa popisu od Cloudflare "\textit{odhadovanú relatívnu veľkosť populácie užívateľov, ktorí navštívili doménu za určitú dobu}". 
+Táto metrika sa vypočítava použitím modelu strojového učenia na agregované dáta zo spomínaného resolvera. 
+
+\pagebreak
+
+Špecifikom tohto rebríčka je rozdelenie výsledných domén do takzvaných \textbf{buckets} (bucket, anglicky vedro) o postupne zvyšujúcich sa veľkostiach.
+Veľkosť prvého, jediného bucketu, ktorý je aktualizovaný každý deň je 100 domén. Tieto domény sú medzi sebou vzájomne zoradené.
+Nasledujúce buckets majú jednotlivé veľkosti 200, 500, 1,000, 2,000, 5,000, 10,000, 20,000, 50,000, 100,000, 200,000, 500,000 a 1,000,000 domén.
+Tieto podstatne obsažnejšie zoznamy už nie sú zoradené vzájomne medzi sebou, ale každý bucket predstavuje relatívne porovnateľnú vzdialenosť začlenenej domény od tej najpopulárnejšej \cite{cloudflare-radar}.
 
 \section{Web Crawling}
 \label{web-crawling}
@@ -228,7 +239,7 @@ Táto metrika sa vypočítava použitím modelu strojového učenia na agregovan
 \subsection{Selenium}
 \label{selenium}
 
-\todo{Describe useful and necessary parts of selenium}
+\todo{Describe necessary and useful parts of selenium}
 
 \section{HTTP Archive}
 \label{httparchive}
@@ -238,17 +249,19 @@ stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkr�
 rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
 
 Autormi HTTP Archive sú rôzni individuáli z komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
-Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly \cite{httparchive-about}.
-Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok.
+Momentálne sa na jeho údržbe po stránke vývoja podieľa švorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly.
+Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok \cite{httparchive-about}.
 
-Cieľom projektu je vytvoriť a udržovať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
+Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
 Pre tento účel vyvinuli sadu nástrojov pre zbieranie spomínaných dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
-Naviac v rámci uskladnenia dát používajú službu \textbf{Google Cloud Platform (GCP)}, vďaka ktorej je možné dáta priamo na stránkach GCP prehliadať.
-Keďže sú tieto dáta v rámci GCP verejne prístupné ako databázové tabuľky, prostredie GCP \textbf{Big Query} zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
-a vykonávanie komplexných analýz nad dátami HTTP Archive.
+Naviac v rámci uskladnenia dát používajú službu \textbf{Google Cloud Platform (GCP)}.
+Tieto dáta sú v rámci GCP verejne prístupné ako databázové tabuľky v prostredí GCP zvanom \textbf{BigQuery}, čo zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
+a vykonávanie komplexných analýz nad dátami HTTP Archive \cite{httparchive-faq}. 
 
-Vhodnosť projektu pre túto prácu je založená na tom, že ide o komuntitný projekt, ktorého výsledky sú verejne a zadarmo dostupné. Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj táto.
+Vhodnosť projektu pre túto prácu je založená na tom, že ide o komuntitný projekt, ktorého výsledky sú verejne a zadarmo dostupné. Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP(S) komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj táto.
+
+\pagebreak
 
 \subsection{Získavanie dát}
 \label{fetching-data}
@@ -259,13 +272,13 @@ HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačn�
 Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z \textbf{desktop}, aj z \textbf{mobilného} prostredia.
 Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/API}{https://developer.mozilla.org/en-US/docs/Web/API}}) \cite{httparchive-homepage}.
 
-Výber vstupov do tohto procesu predstavuje nájsť vhodnú sadu záznamov URL na skúmanie. 
+Výber vstupov do tohto procesu predstavuje hľadanie vhodnej sady záznamov URL na skúmanie. 
 HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v kapitole \ref{tranco-source-rankings}.
 
 \subsubsection{WebPageTest}
 
 Získané URL adresy sú teda použité ako vstup do programu WebPageTest. WebPageTest (ďalej označovaný už iba ako WPT) je softvér na testovanie výkonnosti webových stránok vyrobený spoločnosťou Google. Predstavuje komplexné riešenie schopné testovania a merania procesu načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
-Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\href{https://github.com/catchpoint/WebPageTest}{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod licenciou Open Source.
+Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\href{https://github.com/catchpoint/WebPageTest}{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod open source licenciou.
 Medzi konkrétne skúmané metriky patria napríklad: \cite{webpagetest}
 \begin{itemize}
     \item Time to First Byte (TTFB) --- čas do prvej časti odpovede od servera
@@ -279,16 +292,17 @@ Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou.
 Vo svojich behoch využíva užitočnú funcionalitu WPT --- vlastné (prispôsobené) metriky.
 Pridanie vlastných metrík do WPT predstavuje spúšťanie hocijakej funkcie spísanej v jazyku JavaScript na konci behu testovania stránky. 
 Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metriky zo svojich testovacích stránok \cite{webpagetest}.
+
 Je dôležité poznamenať, že stránky sú testované s čistou vyrovnávacou pamäťou cache. Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
 To môže spôsobovať odchyľku oproti reálnemu používaniu testovacích web stránok. Ďalšou limitáciou je fakt, že každá stránka je preskúmaná samostatne a neberie sa žiaden ohľad na jej podstránky.
-WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta za \todo{kedy ? - asi zistim pri GCP}. 
+WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta užitočné za posledný mesiac, kde môže ale nastať duplicita dát v prípade, že predošlý beh WPT trval výrazne dlho.
 
 Po úspešnom pretestovaní celej vstupnej sady stránok príde na rad ukladanie získaných dát.
 Pre účely uskladňovania je využitý formát HTTP Archive súboru (prípona \code{.har}, ďalej označovaný už len ako HAR).
 Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované ako JSON - JavaScript Object Notation.
 Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}.
 
-Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na Google Cloud Platform-e, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
+Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na GCP, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
 
 \subsection{Skladovanie a práca s dátami}
 Google Cloud Platform (GCP) je súčasťou balíčka služieb Google Cloud. 
@@ -297,19 +311,18 @@ Tieto servery zostavujúce cloud infraštruktúru môžu poskytovať rôzne prog
 
 Súčasťou infraštruktúry patriacej práve Google je už spomínaný GCP. Predstavuje výpočtové služby združené pod záštitu jednotnej platformy.
 Tieto služby sú rozdelené do kategórií ako výpočtová sila, ukladací priestor, sieťové riešenia, dátová analýza a strojové učenie \cite{gfg-gcp}.
-Časť záujmu tejto práce spadá práve do kategórie ukladacieho priestoru, kam sa radí služba \textbf{Big Query}.
+Časť záujmu tejto práce spadá práve do kategórie ukladacieho priestoru, kam sa radí služba \textbf{BigQuery}.
 
-\subsubsection{GCP Big Query}
+\subsubsection{GCP BigQuery}
 
-Big Query, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad strojového učenia.
-Big Query je samo o sebe riešenie populárne označované ako \textbf{platforma poskytovaná ako služba} (PaaS).
-Hlavnou výhodou pre užívateľov služby typu PaaS je, že sa nemusia nijako starať o správu infraštruktúry, pod čím sa vlastne myslí samotná platforma, kde je služba sprevádzkovaná.
-O správu potrebnej infraštruktúry (servery, sieťové prvky, bezpečnosť) sa stará samotný GCP, teda poskytovateľ tejto služby.
+BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia.
+BigQuery je samo o sebe riešenie populárne označované ako \textbf{platforma poskytovaná ako služba} (PaaS).
+Hlavnou výhodou pre užívateľov služby typu PaaS je, že sa nemusia nijako starať o správu infraštruktúry, pod čím sa vlastne myslí daná platforma, kde je služba sprevádzkovaná.
+O správu potrebnej infraštruktúry (servery, sieťové prvky, bezpečnosť) sa stará GCP, teda poskytovateľ tejto služby.
 Tým pádom je možné BigQuery ako skladisko dát veľmi rýchlo zakomponovať do akéhokoľvek vlastného projektu \cite{google-bq}.
-Dáta sú organizované v skupinách klasických databázových tabuliek nazývaných \textbf{dataset}.
 
 Dôležitou vlastnosťou Big Query je prispôsobenosť na vysokorýchlostné výpočty nad obrovským množstvom dát.
-Distribúcia výpočtov umožňuje docieliť vykonať analýzu nad dátami o veľkosti v terabytoch za sekundy (TB/s) a petabytoch za minúty (PB/s).
+Distribúcia výpočtov umožňuje docieliť vykonávanie analýzy nad dátami o veľkosti v terabytoch za sekundy (TB/s) a petabytoch za minúty (PB/s).
 K tomu napomáha špeciálna vnútorná reprezentácia uložených tabuliek. 
 Bežný spôsob ukladania dát do tabuliek v databáze je takzvaný riadkovo orientovaný.
 Orientovanie na riadky znamená, že sa záznamy v tabuľke ukladajú priamo vedľa seba na disk databázy.
@@ -322,7 +335,7 @@ Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predsta
 \todo{Figure taken from the BQ docs - row-based DBs}
 
 Riešenie, ktorým BigQuery tento problém adresuje je použitie orientácie na jednotlivé stĺpce. 
-Ukladaním dát v stĺpcovom formáte, a teda ukladaním každého stĺpca separátne umožňuje prehľadávať dataset bez viazania sa na všetky ostatné stĺpce
+Ukladaním dát v stĺpcovom formáte, a teda ukladaním každého stĺpca separátne umožňuje prehľadávať dataset bez viazania sa na všetky ostatné stĺpce.
 Tým sa efektívne znižuje množstvo dát, ktoré sa prehľadávajú naraz.
 Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom uložených záznamov \cite{google-bq}.
 
@@ -331,9 +344,10 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 \end{center}
 \todo{Figure taken from the BQ docs - column-based DBs with an exaple case study in the description}
 
-Na GCP je dostupné množstvo datasetov na prehľadávanie.
+Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných \textbf{dataset}.
+Na GCP je dostupné množstvo datasetov pre prehľadávanie.
 Je nutné si najprv založiť \textbf{Google Cloud projekt} na oficálnej stránke, ktorý slúži ako menný priestor pre zdroje, ktoré užívateľ do neho pridáva a používa.
-K dátam je možné pristupovať priamo prostredníctvom troch rozhraní: \cite{google-cloud} 
+K dátam je možné priamo pristupovať prostredníctvom troch rozhraní: \cite{google-cloud} 
 \begin{enumerate}
     \item Google Cloud Console
 
@@ -348,27 +362,29 @@ K dátam je možné pristupovať priamo prostredníctvom troch rozhraní: \cite{
     \item BigQuery klientske knižnice
 
     Vďaka klientským knižniciam implementujúcim komunikačné rozhranie s BigQuery je taktiež dostupná možnosť programovo manipulovať a prehliadať zdroje priradené k užívateľskému projektu.
-    Táto možnosť je vhodná pre predom definované, opakované úlohy, ktoré či už požadujú zdroje na vstupe, alebo ich nahrávajú, prípadne upravujú podľa potreby.
+    Táto možnosť je vhodná pre predom definované, opakované úlohy, ktoré či už požadujú zdroje na vstupe, alebo ich počas svojho behu nahrávajú, prípadne upravujú podľa potreby.
 \end{enumerate}
 
 Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL (Structured Query Language).
 Ide o zaužívaný štruktúrovaný jazyk pre správu dát uložených v databáze.
 V prostredí BigQuery sa používa dialekt pre SQL zvaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}} \cite{google-bq}.
 
+\pagebreak
+
 Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do Google Cloud-u.
-Sú v Google Cloud Console dostupné ako zdroj, ktorý si môže prihlásený užívateľ pridať do svojho projektu.
+Sú v Google Cloud Console dostupné ako \textbf{zdroj} (anglicky resource), ktorý si môže prihlásený užívateľ pridať do svojho projektu.
 Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu (vhodné použiť dostupný návod\footnote{\href{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\textunderscore bigquery.md}}) sa sprístupnia pre používanie nasledovné datasety: \cite{httparchive-repo}
 
 \begin{itemize}
     \item \code{summary\_pages}:
 
-    Obsahuje detaily o jednotlivých web stránkach ako časy načítania, počet žiadostí o jej zdroje, typy zdrojov a ich veľkosti.
+    Obsahuje detaily o jednotlivých web stránkach ako časy ich načítania, počet žiadostí o jej zdroje, typy zdrojov a ich veľkosti.
     Taktiež sú tu informácie týkajúce sa presmerovaní, vzniknutých chýb, použitých služieb ako CDN\footnote{\href{https://www.cloudflare.com/learning/cdn/what-is-a-cdn/}{https://www.cloudflare.com/learning/cdn/what-is-a-cdn/}} a iné.
     
     \item \code{summary\_requests}:
 
     Nachádzajú sa tu dáta o konkrétnych objektoch načítaných ako už spomínané zdroje pre web stránky v datasete \code{summary\_pages}.
-    V dátach je možné prehľadávať ako boli zdroje načítané priamo v hlavičkách HTTP odpovede, v ktorej prišli zo serveru poskytujúceho konkrétnu stránku.
+    V dátach je možné prehľadávať ako boli zdroje načítané priamo v hlavičkách HTTP odpovede, v ktorej prišli zo serveru poskytujúceho danú stránku.
     
     \item \code{pages}:
 
@@ -381,7 +397,7 @@ Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu (v
     \item \code{response\_bodies}:
 
     Extrahované HAR súbory obsahujúce celé telo HTTP odpovede z každej URL prehľadávaných web stránok.
-    Toto sú veľmi veľké tabuľky, ktoré môžu dosahovať veľkost v ráde terabytov (TB).
+    Ide o veľmi veľké tabuľky, ktoré môžu dosahovať veľkost v jednotkách terabytov (TB).
 \end{itemize}
 
 BigQuery zdroj \code{httparchive} sprístupňuje aj niekoľko ďalších datasetov, no práve tie spomenuté vyššie tvoria sadu dôležitých, ktorými sa táto práca zaoberá. 
@@ -395,6 +411,8 @@ Príkladom názvu tabuľky teda môže byť '\code{2023\_01\_15\_mobile}' alebo 
 \end{center}
 \todo{Figure of the BigQuery Studio - web interface showing that exact table i just mentioned open in it}
 
+\pagebreak
+
 Za použitia GoogleSQL je možné datasety kombinovať a vytvárať komplexné sady dát pre ďalšiu analýzu.
 
 \begin{center}
@@ -403,10 +421,10 @@ Za použitia GoogleSQL je možné datasety kombinovať a vytvárať komplexné s
 \todo{Figure of the BigQuery Studio - An interesting query with specific description}
 
 Čo sa platieb týka, GCP BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
-Bezplatný plán zahŕňa 1TB procesnej kapacity dát a 10GB úložný priestor pre vlastné dáta s obnovou každým mesiacom.
+\textbf{Bezplatný plán} zahŕňa 1TB procesnej kapacity dát a 10GB úložného priestoru pre vlastné dáta, pričom dochádza každý mesiac k obnove týchto bezplatných zdrojov.
 Po prečerpaní kapacity uvedenej v tomto pláne je nutné akékoľvek ďalšie operácie doplatiť.
-Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapacít je rozsiahly, no pre prípady použitia tejto práce je relevantný takzvaný On-demand plán.
-On-demand, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
+Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapacít je rozsiahly, no pre prípady použitia tejto práce je relevantný platobný plán zvaný On-demand.
+\textbf{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
 Cena za 1TB kapacity je \$6.25, pričom stále platí, že prvý terabyte je každý mesiac zadarmo \cite{google-bq-pricing}.
 
 \subsection{Pravidelné správy o stave webu}
@@ -416,10 +434,12 @@ Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive
 \subsubsection{Elementárne reporty metrík}
 Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobytoch, alebo, taktiež relevantý je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom.
 
-\todo{figure with description (total urls, description of graph, mention link to the SQL)}
+\todo{figure with description (total urls, description of graph, mention link to the SQL, THESE REPORTS PROVIDE A WAY TO MEASURE THE HTTP ARCHIVE PROJECT'S USEFULNESS AND REACH, THE ANALYSIS OF NEL HEADERS WOULD BE A GREAT ADDITION)}
 \begin{center}
 \noindent\includegraphics[width=3cm]{example-image}    
 \end{center}
+
+\pagebreak
 
 \subsubsection{Web Almanac}
 Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
@@ -439,34 +459,37 @@ Autori sa snažia zvýšiť rozsah projektu a tým aj počet sledovaných releva
 Do budúcna má Web Almanac dobré rozhľady. V tohtoročnom reporte bude oproti tomu minuloročnému zahrnutých viac ako dvojnásobok vzoriek URL, ktoré HTTP Archive podrobí svojmu web crawlingu.
 V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne zdvojnásobí a tým pádom má potenciál byť presnejší a globálne reprezentatívnejší.
 
+Využitie práve tohto reportu by bolo ideálnym spôsobom, ako \textbf{dostať NEL technológiu a jej využitie do verejného povedomia}.
 
 \section{Alternatívy}
 \label{httparchive-alternatives}
 
 Aj keď je HTTP Archive najvhodnejším zdrojom dát pre účely tejto práce, existujú aj iné, ktoré stoja za zmienku.
 Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre hocijaký typ analýzy, no sú dostupné aj zdroje disponujúce špecifickými výhodami, ktoré
-zase umožňujú či už spätne kontrolovať správnosť dát HTTP Archive, alebo na ne naviazať.
+zase umožňujú či už spätne kontrolovať správnosť dát HTTP Archive, alebo na ne nadviazať.
 Z toho dôvodu sú niektoré alternatívy popísané v tejto kapitole.
 
 \subsection{crawler.ninja}
 
-Projekt \textbf{crawler.ninja} založený autorom Scottom Helme-om slúži ako podklad pre jeho prieskum
+Projekt \textbf{crawler.ninja} založený autorom Scottom Helme slúži ako podklad pre jeho prieskum
 webu, v ktorom pozoruje stav bezpečnosti na internete. 
 Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no o vytvorení projektu crawler.ninja na svojom blogu píše až v júli 2018 \cite{crawler-ninja}. 
+
+% \pagebreak
 
 Úmyslom autora pozorovať bezpečnosť vyúsťuje do jeho periodických reportov týkajúcich sa tejto tématiky. 
 Samotný projekt sa stará o zber dát pre zhotovenie týchto reportov.
 Aj keď zbieranie dát pretrváva do súčasnosti, posledný report od autora bol publikovaný dávnejšie --- 09.12.2021, od kedy zanechal svoju pravidelnosť (aspoň jeden report za rok).
 
-Ninja.crawler slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré autor plánuje skúmať.
+Crawler.ninja slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré autor plánuje skúmať.
 Ako vstup do tohto procesu, a teda zoznam použitých URL, sa používa rebríček populárnych stránok Alexa Top 1 milion.
 
 Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databázy MySQL, z ktorej je následne vytvorený takzvaný databázový export.
-Databázový export predstavuje súbor SQL príkazov, spustením ktorých môže hocikto replikovať pôvodnú databázu aj s obsahom jej tabuliek. 
+Databázový export predstavuje súbor SQL príkazov, spustením ktorých môže ktokoľvek replikovať pôvodnú databázu aj s obsahom jej tabuliek. 
 Možnosť vytvoriť takýto súbor poskytuje priamo MySQL databáza. 
 Jednou z možností ako ho vytvoriť je použitím pomocného programu na tvorbu databázových záloh --- \code{mysqldump} \cite{mysql-doc}.
 Toto je dôležité pre toho, kto chce výsledné dáta použiť. 
-Na oficiálnej stránke crawler.ninja autor tieto súbory periodicky (ale nie priebežne za každý deň) zverejňuje pod licenciou \textit{CC BY-SA 4.0}, takže sú veškeré získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
+Na oficiálnej stránke crawler.ninja autor tieto súbory periodicky (ale nie priebežne za každý deň) zverejňuje pod licenciou \textit{CC BY-SA 4.0}, takže sú všetky získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
 Sú dostupné vo forme priamo stiahnuteľných archívov ZIP pomenovaných vždy podľa dátumu, za ktorý boli nazbierané.
 Ako je spomenuté vyššie, ten, kto chce dáta na svoje účely využiť si ich musí najskôr importovať do svojej databáze MySQL, kde s nimi môže začať pracovať.
 Docieliť toho je možné napríklad shell príkazom \code{\textbackslash source} v administrátorskej konzole MySQL \cite{mysql-doc}.
@@ -475,9 +498,11 @@ Mimo uvedených dát v podobe databázových exportov sú od Scotta dostpné tak
 
 \subsubsection{Výhody a nevýhody}
 
-\todo{napisanim tejto kapitoly zistim aj nejake nevyhody HTTP Archive - potom ich mozem pripisat do textu vyssie}
-\todo{Porovnať pravidelnosť dát z http archive, manuálne sťahovanie, kompletne zadarmo, interval dostupnosti dát - každým novým uploadom sa stráca najdávnejšia história}
+Na rozdiel od HTTP Archive je crawler.ninja web crawl spúšťaný každý deň a nie len 
+na začiatku mesiaca. To znamená, že dáta v tomto prípade nadobúdajú vyššiu granularitu. Crawler.ninja taktiež všetky svoje zdroje ponúka bezplatne.
+Avšak, problém tu pôsobí skutončosť, že dáta nie sú zverejňované v reálnom čase, ale manuálne autorom po nejakej dobe od ich získania. Tomu nasvedčuje priamo oficiálna stránka projektu, kde sa často nezobrazujú stiahnuteľné archívy s dátami až po aktuálny dátum.
+Ešte väčší potenciálny zádrhel predstavuje skutočnosť, že sa archívy príliš staré vymazávajú, a teda sú dostupné dáta iba do nedávnej minulosti.
+Obdobie dostupnosti dát, predstavujúce rozdiel dátumov najaktuálnejšieho dostupného archívu a najstaršieho archívu, je v čase písania tejto práce presne 1 rok, 10 mesiacov a 23 dní \cite{crawler-ninja}.
 
-% \subsection{Čo ešte ?}
 
-% Chat GPT found alternatives
+\subsection{Ešte som niečo našiel ale nestihol pripísať :)}
