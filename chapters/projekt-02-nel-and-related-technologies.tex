@@ -1,22 +1,81 @@
 ;\chapter{Network Error Logging a relevantné technológie}
 \label{nel-and-related-technologies}
 
-README:
+TODO:
+\begin{enumerate}
+    \item Spísať štruktúru
+    \item Prezrieť starý obsah pre inšpiráciu
+    \item Prezrieť opravu po Petrovi a po vedúcom pre uľahčenie písania
+    \item Postupne spísať po Report API
+    \item Naštudovať podklady k Report API LEPŠIE, aby som presne vedel čo chcem spomenúť
+\end{enumerate}
+
+
+....
+
+
+\section{DNS a zahrnutá Terminológia}
 \begin{itemize}
-    \item Túto sekciu som zatiaľ spísal ako test --- toto nie je reálny stav kapitoly \ref{nel-and-related-technologies}, ale iba placeholder
-    \item Kapitola 2 bude zhruba obsahovať
-    \begin{enumerate}
-        \item Úvod do HTTP
-        \item Úvod do Web Reliability a monitorovania chýb
-        \item Špecifikáciu NEL
-        \item Špecifikáciu Report API (čo najviac skrátene)
-    \end{enumerate}
-    \item Doposiaľ jediná, relatívne schopne napísaná kapitola vhodná na REVIEW je kapitola \ref{data-sources-available-for-research}
+    \item Doména
+    \item Sub-doména
+    \item Pay-level doména (vymazať odvšadiaľ a nepoužívať)
+    \item Public Suffix
+    \item eTLD a ich zoznam
+    \item URLs
+    https://url.spec.whatwg.org/
 \end{itemize}
-\todo{Sekcie môžu byť zatiaľ nekoherentné a bude nutné ich prekontrolovať a napraviť}
-\\
-Web reliability
-\\
+
+\section{Protokol HTTP}
+\begin{itemize}
+    \item Úvod 
+    Klient Server komunikácia
+    \item HTTP spec
+    Network Partition Key, Request, Response, Status, Endpoint...
+    \\
+    Specs - https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
+    \item Fetch spec
+    \item Media Type
+    JSON spec = https://www.rfc-editor.org/rfc/rfc7159
+    \item Obsah
+    HTML - https://dom.spec.whatwg.org/, https://html.spec.whatwg.org/multipage/ 
+    \\
+    JS - https://tc39.es/ecma262/multipage/
+    \item Security
+    https://www.w3.org/TR/secure-contexts/
+\end{itemize}
+
+\section{Zlyhania v komunikácií Klient-Server}
+\begin{itemize}
+    \item General intro and info
+    \item DNS
+    \item Transport
+    \item Application
+    \item Special
+    \item Web Reliability
+    \item Existujúce riešenia
+\end{itemize}
+
+\section{Report API}
+\begin{itemize}
+    \item Všeobecná náväznosť na zlyhania komunikácie
+    \item Cieľ
+    \item Ako funguje
+    \item Konfigurácia
+    \item Príklady
+    \item Možnosti reálneho využitia (konkrétna náväznosť na NEL)
+\end{itemize}
+
+\section{Network Error Logging}
+\begin{itemize}
+    \item Cieľ
+    \item Ako zapadá do a ako využíva predošle spomenuté koncepty
+    \item Ako funguje
+    \item Konfigurácia
+    \item Príklady
+\end{itemize}
+
+
+\section{OLD CONTENT}
 V tejto kapitole popisujem problematiku, v ktorej sa táto práca venuje. Jedná sa tu o možné nástrahy pri komunikácií typu klient-server,
 ktoré môžu nastať a spôsobiť probmlémy ako napríklad nedosiahnuteľnosť servera, s ktorým klient komunikáciu pôvodne nadviazal.
 O takýchto a podobných problémoch sa server ziaľ nemá ako dozvedieť, a preto vzniká potreba nájsť nejaký spôsob ako takéto problémy pri ich
