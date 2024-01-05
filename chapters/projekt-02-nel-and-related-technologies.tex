@@ -1,165 +1,199 @@
 ;\chapter{Network Error Logging a relevantné technológie}
 \label{nel-and-related-technologies}
 
-TODO:
+% TODO:
+% \begin{enumerate}
+%     \item Prezriet GFG ohladom internetu
+%     \item Zavolať s Petrom ohľadom predstavy, ako chcem napísať úvod o "Internete"
+%     \item Postupne spísať po Report API
+%     \item Naštudovať podklady k Report API LEPŠIE, aby som presne vedel čo chcem spomenúť
+%     \item Revisit kapitoly 3
+%     \item Spisat 4
+%     \item Review a uhladit si pohlad na vec, aby som spravil navrh
+%     \item Spisat draft navrhu
+%     \item Dotiahnut data
+%     \item Upravit navrh
+% \end{enumerate}
+
+
+% ....Uvod do kapitoly 1....
+
+% POZNAMKY:
+
+% the global system of interconnected computer networks
+% Internet, a system architecture that has revolutionized mass communication, mass media, 
+% and commerce by allowing various computer networks around the world to interconnect. Sometimes referred to as a “network of networks,”
+
+% the world wide web is an information retrieval service of the web. It provides users with a huge array of documents that are connected to each other 
+% by means of hypertext or hypermedia links. Here, hyperlinks are known as electronic connections that link the related data so that users can easily access 
+% the related information hypertext allows the user to pick a word or phrase from text, and using this keyword or word or phrase can access 
+% other documents that contain additional information related to that word or keyword or phrase. World wide web is a project which is created by Timothy Berner’s 
+% Lee in 1989, for researchers to work together effectively at CERN. It is an organization, named World Wide Web Consortium (W3C), 
+% which was developed for further development in the web.
+
+
+% %##########################################################
+
+% Príbeh kapitoly 2.:
+
+% \# Prostredie
+% Web (WWW)                           OK
+% Web klient        
+% Web server                          OK
+
+% \# Identifikácia Komunikanta
+% Doména
+%     Sub-Doména
+%     TLD
+%     eTLD
+%     Verejný Suffix
+% IP Adresa
+% DNS
+%     DNS Server
+%     Rezolúcia
+% URL                                 OK
+%     https://url.spec.whatwg.org/
+
+
+% \# Komunikácia
+% HTTP, HTTPS
+% User Agnet
+% Hlavičky
+% Request
+% Response
+
+% \# Existujúce komunikačné riešenia
+% Webová služba ???
+% Webová stránka
+%     Webová podstránka
+%     Priamy Odkaz                    OK
+%     Spätný Odkaz ???
+%     Resource - zdroje stránky
+% Dosiahnuteľnosť Web Serveru
+
+% \# Sprostredkovanie komunikácie
+% Prehliadač
+%     JavaScript
+%     Web API
+
+% \# Meraná veličina v analýze
+% Stav Webu
+%     SEO
+
+% \# Toto asi netreba
+% Bezpečnosť na WEBe
+%     Google Safe Browsing ???
+
+% \# Aký problém vzniká
+% Zlyhanie komunikácie
+%     Bežné, detekovateľné (HTTP 400, 500)
+%     Nedetekovateľné (Elaborate pls)
+
+% \# Riešenie číslo 1. Nedostatočné
+% Reporting API
+%     Riešenie pre čo 
+%     Ako
+%     Nedostatky
+
+% \# Riešenie na mieru - Subjekt analýzy    
+% NEL
+
+
+% %##########################################################
+
+
+% Ešte raz, ale iba koncepty bez nutnej postupnosti v texte: 
+% www ako sluzba
+%     Domeny
+%         Typy Domen
+%         Kde su spisane
+%         DNS
+%         URL
+    
+% HTTP
+%     Klient Server
+%     Request
+%     Response
+%     Headers
+%     Content
+%         HTML
+%         HyperLink / HyperText
+%         Web Resource
+%         MediaType
+%     Browser
+%         JS
+    
+% Problemy v Komunikacii so serverom
+%     ?
+%     Report Api
+%         Popis
+%         Nedostatky
+
+% Network Error Logging
+%     Popis
+
+
+Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo web prostredí, 
+kde má svoju rolu v monitorovaní špecifických problémov komunikácie zariadení pripojených do webu.
+Pre plné pochopenie čím je technológia NEL v tejto kapitole vysvetľujem najprv 
+spomínané prostredie, v ktorom figuruje. 
+V prvom rade sa teda zameriavam na terminológiu, ktorá sa v nadchádzajúcich častiach tejto práce fekventovane používa. 
+
+Následne sa dostanem k definícii problémov, ktoré bežne vznikajú pri komunikácií
+zariadení na webe.
+Pri nich spomeniem, aké riešenia predchádzali technológiu NEL a kde zlyhávali.
+
+Samotný popis pre NEL nasleduje za úvodom do jeho závislosti, \textbf{Reporting API}, bez ktorej samostatne nemôže fungovať.
+
+\section{Webové prostredie}
+
+V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, ktorá tvorí takzvanú sieť sietí, existuje systém World Wide Web (ďalej už iba web).
+Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server}. 
+Vyhľadávanie a získavanie spomínaných dokumentov, a teda obsahu dostupného na web serveri, funguje na základe ich vzájomného prepojenia takzvanými hyperlinkami.
+Termín \textbf{hyperlink} v tomto kontexte prestavuje také spojenie medzi 
+dokumentami, ktoré umožňuje získať z webu práve dokument referencovaný daným hyperlinkom.
+Tieto referencie na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
+
+\pagebreak
+
+\subsection{Navigácia na webe}
+
+Vďaka hodnotám URL je teda možné navigovať obsah na web serveroch.
+Typická hodnota URL sa skladá z:
 \begin{enumerate}
-    \item Prezriet GFG ohladom internetu
-    \item Zavolať s Petrom ohľadom predstavy, ako chcem napísať úvod o "Internete"
-    \item Postupne spísať po Report API
-    \item Naštudovať podklady k Report API LEPŠIE, aby som presne vedel čo chcem spomenúť
-    \item Revisit kapitoly 3
-    \item Spisat 4
-    \item Review a uhladit si pohlad na vec, aby som spravil navrh
-    \item Spisat draft navrhu
-    \item Dotiahnut data
-    \item Upravit navrh
+    \item protokolu používaného na sieťovú komunikáciu medzi servermi,
+    \item domény
+    \item a cesty k dokumentu.
 \end{enumerate}
 
+\begin{figure}[htb]
+\begin{center}
+ \includegraphics[scale=0.6]{obrazky-figures/the-anatomy-of-a-url.png}\label{fig:figure1}
+ \caption{Základná štruktúra hodnoty URL. Hodnoty bývajú rôzne a skladajú sa taktiež z niekoľkých ďalších častí, avšak nie je potrebné ich pre účely tejto práce hlbšie rozoberať}
+ \label{img:urlstructure}
+\end{center}
+\end{figure}
 
-....Uvod do kapitoly 1....
+\subsubsection{Protokol HTTP(S)}
+% KLIENT SERVER
+% Network Partition Key ??
+% Request, Response, Status, Endpoint...
+% https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
+% Security - HTTPS, https://www.w3.org/TR/secure-contexts/
 
-POZNAMKY:
+\subsubsection{Domény}
+% DOMENY
+% DNS ?
 
-the global system of interconnected computer networks
-Internet, a system architecture that has revolutionized mass communication, mass media, 
-and commerce by allowing various computer networks around the world to interconnect. Sometimes referred to as a “network of networks,”
+\subsubsection{Hľadaný dokument a jeho obsah}
+% Web Stranka
+% HTML - https://dom.spec.whatwg.org/, https://html.spec.whatwg.org/multipage/
+% Media Type
+% JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
-the world wide web is an information retrieval service of the web. It provides users with a huge array of documents that are connected to each other 
-by means of hypertext or hypermedia links. Here, hyperlinks are known as electronic connections that link the related data so that users can easily access 
-the related information hypertext allows the user to pick a word or phrase from text, and using this keyword or word or phrase can access 
-other documents that contain additional information related to that word or keyword or phrase. World wide web is a project which is created by Timothy Berner’s 
-Lee in 1989, for researchers to work together effectively at CERN. It is an organization, named World Wide Web Consortium (W3C), 
-which was developed for further development in the web.
+\subsubsection{Webový prehliadač}
+% JS - https://tc39.es/ecma262/multipage/
 
-
-%##########################################################
-
-Príbeh kapitoly 2.:
-
-\# Prostredie
-Web (WWW)
-Web klient
-Web server
-
-\# Identifikácia Komunikanta
-Doména
-    Sub-Doména
-TLD
-eTLD
-Verejný Suffix
-IP Adresa
-DNS
-    DNS Server
-    Rezolúcia
-URL
-
-\# Komunikácia
-HTTP, HTTPS
-Hlavičky
-Request
-Response
-
-\# Existujúce komunikačné riešenia
-Webová služba ???
-Webová stránka
-    Webová podstránka
-    Priamy Odkaz
-    Spätný Odkaz ???
-    Resource - zdroje stránky
-Dosiahnuteľnosť Web Serveru
-
-\# Sprostredkovanie komunikácie
-Prehliadač
-    JavaScript
-    Web API
-
-\# Meraná veličina v analýze
-Stav Webu
-    SEO
-
-\# Toto asi netreba
-Bezpečnosť na WEBe
-    Google Safe Browsing ???
-
-\# Aký problém vzniká
-Zlyhanie komunikácie
-    Bežné, detekovateľné (HTTP 400, 500)
-    Nedetekovateľné (Elaborate pls)
-
-\# Riešenie číslo 1. Nedostatočné
-Reporting API
-    Riešenie pre čo 
-    Ako
-    Nedostatky
-
-\# Riešenie na mieru - Subjekt analýzy    
-NEL
-
-
-%##########################################################
-
-
-Ešte raz, ale iba koncepty bez nutnej postupnosti v texte: 
-www ako sluzba
-    Domeny
-        Typy Domen
-        Kde su spisane
-        DNS
-        URL
-    
-HTTP
-    Klient Server
-    Request
-    Response
-    Headers
-    Content
-        HTML
-        HyperLink / HyperText
-        Web Resource
-        MediaType
-    Browser
-        JS
-    
-Problemy v Komunikacii so serverom
-    ?
-    Report Api
-        Popis
-        Nedostatky
-
-Network Error Logging
-    Popis
-    
-
-
-\section{DNS a zahrnutá Terminológia}
-\begin{itemize}
-    \item Doména
-    \item Sub-doména
-    \item Pay-level doména (vymazať odvšadiaľ a nepoužívať)
-    \item Public Suffix
-    \item eTLD a ich zoznam
-    \item URLs
-    https://url.spec.whatwg.org/
-\end{itemize}
-
-\section{Protokol HTTP}
-\begin{itemize}
-    \item Úvod 
-    Klient Server komunikácia
-    \item HTTP spec
-    Network Partition Key, Request, Response, Status, Endpoint...
-    \\
-    Specs - https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
-    \item Fetch spec
-    \item Media Type
-    JSON spec = https://www.rfc-editor.org/rfc/rfc7159
-    \item Obsah
-    HTML - https://dom.spec.whatwg.org/, https://html.spec.whatwg.org/multipage/ 
-    \\
-    JS - https://tc39.es/ecma262/multipage/
-    \item Security
-    https://www.w3.org/TR/secure-contexts/
-\end{itemize}
 
 \section{Zlyhania v komunikácií Klient-Server}
 \begin{itemize}
@@ -190,6 +224,7 @@ Network Error Logging
     \item Konfigurácia
     \item Príklady
 \end{itemize}
+
 
 
 \section{OLD CONTENT}
