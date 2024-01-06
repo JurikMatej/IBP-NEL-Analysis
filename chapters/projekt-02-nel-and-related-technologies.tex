@@ -150,48 +150,132 @@ Samotný popis pre NEL nasleduje za úvodom do jeho závislosti, \textbf{Reporti
 V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, ktorá tvorí takzvanú sieť sietí, existuje systém World Wide Web (ďalej už iba web).
 Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server}. 
 Vyhľadávanie a získavanie spomínaných dokumentov, a teda obsahu dostupného na web serveri, funguje na základe ich vzájomného prepojenia takzvanými hyperlinkami.
-Termín \textbf{hyperlink} v tomto kontexte prestavuje také spojenie medzi 
-dokumentami, ktoré umožňuje získať z webu práve dokument referencovaný daným hyperlinkom.
-Tieto referencie na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
+Termín \textbf{hyperlink} v tomto kontexte prestavuje taký odkaz na dokument, ktorý umožňuje tento dokument identifikovať, lokalizovať a získať z webu. 
+Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo forme či už textu (\textbf{hypertext}) alebo rôznych iných typov médií (\textbf{hypermédiá}), ako napríklad obrázky, videá alebo reklamy. 
+
+
+\begin{figure}[htb]
+\begin{center}
+ \includegraphics[scale=0.49]{obrazky-figures/fetching_a_page.png}
+ \caption{\centering Vizualizácia webového prostredia. Za využitia infraštruktúry internetu prepája pomocou hyperlinkov dokumenty, ktoré možno na webe prehliadať.}
+ \label{img:fetching-a-page}
+\end{center}
+\end{figure}
+
+\todo{cite the images}
 
 \pagebreak
 
 \subsection{Navigácia na webe}
 
-Vďaka hodnotám URL je teda možné navigovať obsah na web serveroch.
-Typická hodnota URL sa skladá z:
+Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
+Vďaka hodnotám URL je možné odkazovať sa na obsah webu, prepájať rôzne dokumenty medzi sebou, a tým pádom web navigovať.
+Typická hodnota URL sa skladá zo:
 \begin{enumerate}
-    \item protokolu používaného na sieťovú komunikáciu medzi servermi,
+    \item schémy - označenie protokolu používaného na sieťovú komunikáciu medzi servermi,
     \item domény
-    \item a cesty k dokumentu.
+    \item a cesty k uloženému dokumentu.
 \end{enumerate}
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.6]{obrazky-figures/the-anatomy-of-a-url.png}\label{fig:figure1}
- \caption{Základná štruktúra hodnoty URL. Hodnoty bývajú rôzne a skladajú sa taktiež z niekoľkých ďalších častí, avšak nie je potrebné ich pre účely tejto práce hlbšie rozoberať}
+ \caption{\centering Základná štruktúra hodnoty URL. Hodnoty bývajú rôzne a skladajú sa taktiež z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
  \label{img:urlstructure}
 \end{center}
 \end{figure}
 
-\subsubsection{Protokol HTTP(S)}
-% KLIENT SERVER
+\pagebreak
+
+Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
+Protokol (1.) definuje možinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
+serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL --- doménou (2.). 
+Cestu k uloženému dokumentu (3.) web server interpretuje podľa jeho konfigurácie ako navigačné inštrukcie 
+v rámci jeho vlastného, alebo vzdialeného úložiska jemu sprístupneného. 
+Podľa týchto inštrukcií vyberie server vyžiadaný dokument a zašle ho naspäť spomínanému návštevníkovi webu.
+V ďalších kapitolách do tohto procesu nahliadam hlbšie.
+
+
+\subsection{Protokol HTTP(S)}
+Definíciou, v oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami. % \ref{}
+Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS, % \ref{}
+venujem sa v tejto sekcií výhradne protokolom HTTP a jeho zabezpečenej, uvedenej verzii --- HTTPS. 
+
+% \ref{https://www.rfc-editor.org/rfc/rfc9110.html}
+HTTP, celým názvom HyperText Transfer Protokol, je bezstavový aplikačný protokol pre distribuované hypertextové informačné systémy. 
+Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (daľej v terminológií špecifikácie HTTP už iba ako \textbf{zdroj}).
+Toto rozhranie definuje dva typy zasielateľných správ --- \textbf{žiadosť} a \textbf{odpoveď}. Žiadosť predtavuje doslova žiadosť o zdroj. Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho navrátenie. 
+
+Protokol funguje na základe klient-server komunikácie, kde klient a server sú názvy rolí, ktoré môžu prepojené zariadenia zaujať v rámci komunikácie pomocou HTTP:
+\begin{itemize}
+    \item \textbf{Klient} zakladá spojenie so serverom za účelom zasielania jednej alebo viacerých \mbox{žiadostí}. 
+    
+    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} (skrátene UA --- agent používateľa). Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. Webovým prehliadačom sa viac venuje kapitola REF. % \ref{}
+    
+    \item \textbf{Server} prijíma spojenia aby obslúžil žiadosti tým, že na ne zasiela prislúchajúce odpovede.
+
+    Pre program implementujúci rozhranie takéhoto servera sa používa označenie \textbf{Origin Server} (server pôvodu zdroja, ďalej ako \textbf{origin}).
+    
+\end{itemize}
+
+\begin{figure}[htb]
+\begin{center}
+    \includegraphics[scale=0.6]{obrazky-figures/http-client-server.png}
+    \caption{\centering Vizualizácia konceptu komunikácie pomocou protokolu HTTP. Klient zasiela požiadavku na server a server mu naspäť posiela odpoveď.}
+    \label{fig:http-client-server}
+\end{center}
+\end{figure}
+
+Správy HTTP protokolu sú štruktúrované bloky textu. 
+ABNF...
+Správa nadväzujúca HTTP spojenie --- žiadosť, má nasledovný obsah:
+\begin{enumerate}
+    \item metódu
+    \item cestu k požadovanému dokumentu
+    \item verziu protokolu HTTP použitého na nadviazanie komunikácie
+    \item \textbf{HTTP hlavičky}
+    \item prípadný obsah žiadosti
+\end{enumerate}
+
+
+\begin{figure}[htb]
+\begin{center}
+    \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
+    \caption{\centering Vizualizácia konceptu komunikácie pomocou protokolu HTTP. Klient zasiela požiadavku na server a server mu naspäť posiela odpoveď.}
+    \label{fig:http-request}
+\end{center}
+\end{figure}
+
+% \# Komunikácia
+% Hlavičky
+% Pod-zdroje
+% Status
+
+% Endpoint...
+% HTTPS
+
+% \# Existujúce komunikačné riešenia
+% Webová stránka
+%     Webová podstránka
+%     Priamy Odkaz                    OK
+%     Spätný Odkaz ???
+% Dosiahnuteľnosť Web Serveru
+
 % Network Partition Key ??
-% Request, Response, Status, Endpoint...
 % https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
 % Security - HTTPS, https://www.w3.org/TR/secure-contexts/
 
-\subsubsection{Domény}
+\subsection{Domény}
 % DOMENY
 % DNS ?
 
-\subsubsection{Hľadaný dokument a jeho obsah}
+\subsection{Hľadaný dokument a jeho obsah}
 % Web Stranka
 % HTML - https://dom.spec.whatwg.org/, https://html.spec.whatwg.org/multipage/
 % Media Type
 % JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
-\subsubsection{Webový prehliadač}
+\subsection{Webový prehliadač}
 % JS - https://tc39.es/ecma262/multipage/
 
 
