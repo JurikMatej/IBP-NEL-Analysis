@@ -63,8 +63,7 @@
 % Response                            OK
 
 % \# Existujúce komunikačné riešenia
-% Webová stránka                      
-%     Webová podstránka               
+% Webová stránka                      OK
 %     Priamy Odkaz                    OK
 %     Spätný Odkaz ???
 
@@ -76,10 +75,6 @@
 % \# Meraná veličina v analýze
 % Stav Webu
 %     SEO
-
-% \# Toto asi netreba
-% Bezpečnosť na WEBe
-%     Google Safe Browsing ???
 
 % \# Aký problém vzniká
 % Zlyhanie komunikácie
@@ -131,6 +126,8 @@
 %     Popis
 
 
+\todo{rewrite after this whole chapter is done}
+
 Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo web prostredí, 
 kde má svoju rolu v monitorovaní špecifických problémov komunikácie zariadení pripojených do webu.
 Pre plné pochopenie čím je technológia NEL v tejto kapitole vysvetľujem najprv 
@@ -142,6 +139,7 @@ zariadení na webe.
 Pri nich spomeniem, aké riešenia predchádzali technológiu NEL a kde zlyhávali.
 
 Samotný popis pre NEL nasleduje za úvodom do jeho závislosti, \textbf{Reporting API}, bez ktorej samostatne nemôže fungovať.
+
 
 \section{Webové prostredie}
 
@@ -196,8 +194,18 @@ V ďalších kapitolách do tohto procesu nahliadam hlbšie.
 
 \subsection{Domény}
 \label{domeny}
-% DOMENY
-% DNS ?
+
+Pod pojmom doména 
+
+% Doména
+%     Sub-Doména
+%     TLD
+%     eTLD
+%     Verejný Suffix
+% IP Adresa
+% DNS
+%     DNS Server
+%     Rezolúcia
 
 \subsection{Protokol HTTP}
 \todo{prepisat za pouzitia terminologie domen}
@@ -287,7 +295,7 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
-    \caption{\centering Príklad HTTP odpovede. Jednotlivé časti odpovede sú na obrázku označené číslami. Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). Často býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.}
+    \caption{\centering Príklad HTTP odpovede. Jednotlivé časti odpovede sú na obrázku označené číslami. Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.}
     \label{fig:http-response}
 \end{center}
 \end{figure}
@@ -336,11 +344,11 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
     Medzi najbežnejšie statusové správy podľa statusových kódov patria:
 
     \begin{itemize}
-        \item \code{100 - CONTINUE}: Server pokračuje v spracovávaní žiadosti,
-        \item \code{200 - OK}: Žiadosť úspešne spracovaná,
-        \item \code{301 - MOVED PERMANENTLY}: Zdroju bola priradená iná URL,
-        \item \code{404 - NOT FOUND}: Zdroj sa nenašiel,
-        \item \code{500 - INTERNAL SERVER ERROR}: Server pri obsluhe žiadosti zlyhal.
+        \item \code{100} -- \code{CONTINUE}: Server pokračuje v spracovávaní žiadosti,
+        \item \code{200} -- \code{OK}: Žiadosť úspešne spracovaná,
+        \item \code{301} -- \code{MOVED PERMANENTLY}: Zdroju bola priradená iná URL,
+        \item \code{404} -- \code{NOT FOUND}: Zdroj sa nenašiel,
+        \item \code{500} -- \code{INTERNAL SERVER ERROR}: Server pri obsluhe žiadosti zlyhal.
     \end{itemize}
 
     \item Sekcia s hlavičkami
@@ -349,11 +357,11 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 
         \begin{itemize}
             \item \code{Date}: dátum a čas odoslania odpovede
-            \item \code{Server}: názov a info o web serveri, ktorý odpoveď zaslal
-            \item \code{Content-Length}: dľžka odpovede v bajtoch
-            \item \code{Content-Type}: typ odpovede (hodnota je jedným z takzvaných MIME typov popísaných v kapitole \ref{obsah-hladanych-dokumentov})
-            % MIME Type
-            % JSON spec = https://www.rfc-editor.org/rfc/rfc7159
+            \item \code{Server}: software nainštalovaný na web serveri (origin server), ktorý odpoveď zaslal
+            \item \code{Content-Length}: dľžka obsahu odpovede v bajtoch
+            \item \code{Content-Type}: typ média prenášaného v obsahu odpovedi
+
+            Hodnota typu média musí byť jedným s registrovaných názvov typov v zozname \textit{Multipurpose Internet Mail Extensions} (MIME). Príkladmi MIME typov pre prenášaný obsah sú hodnoty \code{text/plain} pre obyčaný text, \code{text/html} pre HTML alebo \code{image/png} pre obrázky.
         \end{itemize}
 
     \item Obsah odpovede
@@ -451,6 +459,11 @@ Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe ---
 
 \todo{co ide sem ?}
 % JS - https://tc39.es/ecma262/multipage/
+% JSON spec = https://www.rfc-editor.org/rfc/rfc7159
+
+% Prehliadač
+%     JavaScript
+%     Web API
 
 \section{Zlyhania v komunikácií na webe}
 % Dosiahnuteľnosť Web Serveru
