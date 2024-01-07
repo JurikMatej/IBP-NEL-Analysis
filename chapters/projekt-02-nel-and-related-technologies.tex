@@ -38,7 +38,7 @@
 
 % \# Prostredie
 % Web (WWW)                           OK
-% Web klient        
+% Web klient                          OK
 % Web server                          OK
 
 % \# Identifikácia Komunikanta
@@ -56,20 +56,17 @@
 
 
 % \# Komunikácia
-% HTTP, HTTPS
-% User Agnet
-% Hlavičky
-% Request
-% Response
+% HTTP, HTTPS                         OK
+% User Agnet                          OK
+% Hlavičky                            OK
+% Request                             OK
+% Response                            OK
 
 % \# Existujúce komunikačné riešenia
-% Webová služba ???
-% Webová stránka
-%     Webová podstránka
+% Webová stránka                      
+%     Webová podstránka               
 %     Priamy Odkaz                    OK
 %     Spätný Odkaz ???
-%     Resource - zdroje stránky
-% Dosiahnuteľnosť Web Serveru
 
 % \# Sprostredkovanie komunikácie
 % Prehliadač
@@ -86,6 +83,7 @@
 
 % \# Aký problém vzniká
 % Zlyhanie komunikácie
+%     Dosiahnuteľnosť Web Serveru
 %     Bežné, detekovateľné (HTTP 400, 500)
 %     Nedetekovateľné (Elaborate pls)
 
@@ -294,7 +292,7 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \end{center}
 \end{figure}
 
-HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
+\noindent HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
 
 \begin{enumerate}
     \item Verzia protokolu HTTP použitého na odsoslanie odpovede
@@ -354,6 +352,8 @@ HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
             \item \code{Server}: názov a info o web serveri, ktorý odpoveď zaslal
             \item \code{Content-Length}: dľžka odpovede v bajtoch
             \item \code{Content-Type}: typ odpovede (hodnota je jedným z takzvaných MIME typov popísaných v kapitole \ref{obsah-hladanych-dokumentov})
+            % MIME Type
+            % JSON spec = https://www.rfc-editor.org/rfc/rfc7159
         \end{itemize}
 
     \item Obsah odpovede
@@ -364,35 +364,92 @@ HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
 
 \subsubsection{HTTPS}
 
-% \# Komunikácia
-% Status
+Dáta spomínané v sekciách o žiadosti a odpovedi sa prenášajú v HTTP komunikácií ako obyčajný text. 
+Tým pádom v prípade odpočúvania a potencionálneho pokusu o ovplyvnenie tejto komunikácie má tretia strana (útočník) prístup k všetkým prenášaným dátam. 
+To znamená, že útočník následne môže dáta z komunikácie čítať, pozmeniť alebo pridať svôj vlastný obsah. 
+Je teda nutné ochrániť komunikáciu klienta so serverom pred pred nežiadúcimi zásahmi z tretej strany.
 
-% Endpoint...
-% HTTPS
+Z toho dôvodu bol vyvinutý protokol HTTPS - Secure (bezpečný) HTTP.
+HTTPS je zabezpečená verzia protokolu HTTP, ktorá šifruje všetky prenášané dáta medzi klientom a serverom.
+V kontextoch senzitívnych operácií vykonávaných na webe, ako napríklad prenos súkromných dokumentov, poskytuje HTTPS bezpečný spôsob vymienňania dát so serverom.
 
+O samotné šifrovanie v rámci prenosu HTTPS sa stará protokol TLS -- Transport Layer Security (bezpečnosť prepravnej verstvy).
+TLS je rovnako ako HTTP protokol pre komunikáciu klienta so serverom a jeho použitím pri komunikácií HTTP sa spojenie medzi zariadeniami zabezpečuje proti odpočúvaniu, manipulácií a falšovania správ. 
 
-
-
-% Network Partition Key ??
 % https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
-% Security - HTTPS, https://www.w3.org/TR/secure-contexts/
-
 
 \subsection{Obsah hľadaných dokumentov}
 \label{obsah-hladanych-dokumentov}
-% Web Stranka
-% HTML - https://dom.spec.whatwg.org/, https://html.spec.whatwg.org/multipage/
-% Media Type
-% JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
-% \# Existujúce komunikačné riešenia
-% Webová stránka
-%     Webová podstránka
-%     Priamy Odkaz                    OK
-%     Spätný Odkaz ???
+Webové dokumenty, alebo iným použitý pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP (viď obrázok \ref{img:fetching-a-page}).
+Tieto dokumenty sú buď získané samostatne ako jednotlivé súbory (textový súbor, obrázok, archív \code{.zip}), alebo ako zoskupená množina viacerých súborov v podobe webovej stránky.
+
+\textbf{Webová stránka} (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext alebo hypermédiá štruktúrované vo formáte \textbf{HTML}.
+HTML je formát webového dokumentu skladajúceho sa z počiatočnej definície typu dokumentu a stromovej štruktúry takzvaných elementov, kde prvým je element \code{<html>}. 
+Jednotlivé elementy sa do HTML súboru vpisujú pomocou značiek, pričom, okrem jednotlivých výnimiek, 
+každý element musí mať otvárciu (\code{<elementXY>}) a zatváraciu značku (\code{</elementXY>}).
+Vnútorne sa HTML delí na dve hlavné sekcie --- \textbf{hlavičku} pre metadáta dokumentu a \textbf{telo} pre jeho vnútorné rozpoloženie a obsah.
+Elementy môžu mať k sebe priradené položky uchovávajúce ich doplnkové detaily nazývané atribúty. 
+Napríklad element používaný pre vytvorenie hyperlinku s názvom \code{\textbf{<a>}} (anglicky skratka pre \textit{anchor}) 
+môže mať priradený atribút s názvom \code{\textbf{href}} obsahujúci URL odkazovaného dokumentu.
+
+\begin{center}
+\centering
+\begin{lstlisting}[caption={\centering Základná štruktúra HTML dokumentu. HTML obsahuje počiatočnú definíciu typu dokumentu (\code{<!DOCTYPE html>}), hlavičku, telo, hyperlink a popisné komentáre.},
+label=listing:html-struktura, 
+language=HTML, 
+frame=tb,
+xleftmargin=.05\textwidth, 
+xrightmargin=.05\textwidth]
+    <!DOCTYPE html>
+    <!-- %*Toto je komentár, ktorý sa na stránke klientovi nezobrazí*) -->
+    <html lang="sk">       
+        <!-- %*HTML hlavička*) -->
+        <head>
+         <title>%*Príklad HTML dokumentu*)</title>
+        </head>
+        <!-- %*HTML telo*) -->
+        <body>
+         <!-- %*Ukážka vytvorenia hyperlinku: element <a> a jeho atribút href*) -->
+         <a href="https://google.com">%*Hypertext odkazujúci na stránku google*)</a>
+        </body>
+    </html>
+\end{lstlisting}
+\end{center}
+
+Vo výpise \ref{listing:html-struktura} súbor HTML tvorí štruktúru iba pre odkaz na vzdialenú webstránku.
+Pridať rôzne, už spomínané hypermédiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriam elementov. 
+Sú nimi: 
+\begin{enumerate}
+    \item Elementy \code{<link>} patriace do hlavičky HTML.
+
+    Tieto elementy odkazujú na vzdialené metadáta pre samotnú webstránku.
+    Typ metadát udáva atribút s názvom \code{rel}, ktorý môže nadobúdať napríklad hodnotu 
+    \code{'author'} alebo \code{'help'} pre vytvorenie odkazu na autora stránky, alebo dokumentu poskytujúcemu 
+    pomocný manuál pre obsah stránky.
+    
+    \item Elementy obsahujúce atribút \code{src} patriace do tela HTML.
+
+    Akýkoľvek element z tejto kategórie môže odkazovať na podporovaný typ hypermédia, 
+    ktorý udáva názov takéhoto elementu.
+    Pre spomínané typy hypermédií ide o elementy: 
+    \begin{itemize}
+        \item \code{<img>} -- obrázky,
+        \item \code{<audio>} -- audiosúbory,
+        \item \code{<video>} -- videá,
+        \item \code{<iframe>} -- HTML dokumenty, ktoré možno vnoriť do ich referujúcej webstránky.
+    \end{itemize}
+    
+\end{enumerate}
+
+Každé samostatné hypermédium, ktoré tieto elementy označujú je potrebné získať ako zdroj ďalšou HTTP žiadosťou spolu so samotnou stránkou, ktorá na toto hypermédium odkazuje.
 
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
+
+Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}.
+
+\todo{co ide sem ?}
 % JS - https://tc39.es/ecma262/multipage/
 
 \section{Zlyhania v komunikácií na webe}
@@ -418,6 +475,8 @@ HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
 \end{itemize}
 
 \section{Network Error Logging}
+% Security - https://www.w3.org/TR/secure-contexts/
+
 \begin{itemize}
     \item Cieľ
     \item Ako zapadá do a ako využíva predošle spomenuté koncepty

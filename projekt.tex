@@ -51,7 +51,32 @@
 % zde můžeme vložit vlastní balíčky / you can place own packages here
 
 % \usepackage{minted}
-\usepackage{listings}
+% \usepackage{listings}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listingsutf8}
+
+\protected\def\dg{\ensuremath{^\circ}}
+\DeclareUnicodeCharacter{05A8}{\dg}
+
+\lstset{
+  inputencoding=utf8,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  numbersep=9pt,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b,
+  escapeinside={\%*}{*)},
+  literate={ö}{{\"o}}1 {ä}{{\"a}}1 {ü}{{\"u}}1 {°}{\dg}1
+}
+
+
 
 % Pro seznam zkratek lze využít balíček Glossaries - nutno odkomentovat i níže a při kompilaci z konzoly i v Makefile (plnou verzi pro Perl, nebo lite)
 % The Glossaries package can be used for the list of abbreviations - it is necessary to uncomment also below. When compiling from the console also in the Makefile (full version for Perl or lite)
