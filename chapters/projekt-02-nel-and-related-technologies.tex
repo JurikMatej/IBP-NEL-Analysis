@@ -196,8 +196,14 @@ v rámci jeho vlastného, alebo vzdialeného úložiska jemu sprístupneného.
 Podľa týchto inštrukcií vyberie server vyžiadaný dokument a zašle ho naspäť spomínanému návštevníkovi webu.
 V ďalších kapitolách do tohto procesu nahliadam hlbšie.
 
+\subsection{Domény}
+\label{domeny}
+% DOMENY
+% DNS ?
 
-\subsection{Protokol HTTP(S)}
+\subsection{Protokol HTTP}
+\todo{prepisat za pouzitia terminologie domen}
+\\
 Definíciou, v oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami. % \ref{}
 Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS, % \ref{}
 venujem sa v tejto sekcií výhradne protokolom HTTP a jeho zabezpečenej, uvedenej verzii --- HTTPS. 
@@ -229,6 +235,14 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
 
 \subsubsection{HTTP žiadosť}
 
+\begin{figure}[htb]
+\begin{center}
+    \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
+    \caption{\centering Príklad HTTP žiadosti. Jednotlivé časti požiadavky sú na obrázku označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia s HTTP hlavičkami (4.).}
+    \label{fig:http-request}
+\end{center}
+\end{figure}
+
 Správy HTTP protokolu sú štruktúrované bloky textu.
 Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \begin{enumerate}
@@ -258,7 +272,7 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
     Pre názvy hlavičiek existuje register \textit{Hypertext Transfer Protocol (HTTP) Field Name Registry},
     v ktorom sa uvádzajú oficiálne hlavičky použiteľné pri komunikácií HTTP. 
 
-    Príkladom potrebnej informácie pre HTTP žiadosť je hlavička \code{Host}, ktorej hodnota musí reprezentovať doménu cieľového web servera. \todo{nevedia co je domena}  
+    Príkladom potrebnej informácie pre HTTP žiadosť je hlavička \code{Host}, ktorej hodnota musí reprezentovať doménu cieľového web servera. 
     
     \item Prípadný obsah žiadosti
 
@@ -266,31 +280,89 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
     Obsah sa pridáva pod sekciu HTTP hlavičiek, od ktorej sa oddeľuje práznym riadkom (znakmi \code{\textbackslash r\textbackslash n}).
 
     \item Zakončenie správy --- dva prázdne riadky (znaky \code{\textbackslash r\textbackslash n\textbackslash r\textbackslash n})
-    
+
 \end{enumerate}
 
 
-\begin{figure}[htb]
-\begin{center}
-    \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
-    \caption{\centering Štruktúra HTTP žiadosti. Jednotlivé časti požiadavky sú na obrázku označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)} --- v tomto prípade relatívna cesta, ktorú môže web server interpretovať podľa svojej konfigurácie. Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia s HTTP hlavičkami (4.).}
-    \label{fig:http-request}
-\end{center}
-\end{figure}
-
 \subsubsection{HTTP odpoveď}
-
-asdjfkagfjkasdgfgjksaf
 
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
-    \caption{\centering Štruktúra HTTP odpovede.}
+    \caption{\centering Príklad HTTP odpovede. Jednotlivé časti odpovede sú na obrázku označené číslami. Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). Často býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.}
     \label{fig:http-response}
 \end{center}
 \end{figure}
 
+HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
 
+\begin{enumerate}
+    \item Verzia protokolu HTTP použitého na odsoslanie odpovede
+
+    \item Statusový kód reprezentujúci výsledok vykonanej operácie vyvolanej HTTP žiadosťou
+
+    Takýto kód v je v odpovedi reprezentovaný ako trojciferné celé číslo, ktoré môže popisovať jeden
+    zo stavov rozdelených do piatich kategórií podľa ich významu. 
+    Kategórie významov sú určené prvou číslicou čísla statusového kódu, ktoré môže nadobúdať hodnoty od 1 po 5:
+
+    \begin{enumerate}
+        \item 1xx (info)
+        
+        Status tohto typu s hodnotami od 100 do 199 indikuje predbežné odpovede určené pre komunikáciu stavu pripojenia (v komunikácií HTTP) alebo stavu priebehu spracovania prislúchajúcej žiadosti.
+        Odpovede so statusom 1xx sa zasielajú predtým ako sa dokončí operácia vyžiadaná žiadosťou a zašle sa pre ňu finálna odpoveď.
+        
+        \item 2xx (úspech)
+        
+        Statusy 2xx s hodnotami od 200 do 299 oznamujú klientovi, že jeho žiadosť bola úspešne prijatá, spracovaná a akceptovaná. 
+        
+        \item 3xx (presmerovanie)
+        
+        Status 3xx indikuje, že pre dokončenie obsluhy žiadosti klienta musí klient vykonať ďalšiu alebo inú akciu.
+        V odpovedi obsahujúcej presmerovanie sa teda nachádza nový zdroj, ktorý by mal klient vyžiadať, aby mohla byť dokončená obsluha jeho pôvodnej žiadosti. 
+        Statusy tejto kategórie môžu nadobúdať hodnoty od 300 do 399.
+        
+        \item 4xx (chyba klienta)
+
+        Status chyby klienta s hodnotami od 400 do 499 oznamuje klientovi, že sa vyskytol problém s jeho žiadosťou.
+        Server teda zasiela klientovi odpoveď, v ktorej vysvetľuje chybu v jeho žiadosti.
+        
+        \item 5xx (chyba servera): The server failed to fulfill an apparently valid request
+
+        Hodnoty 500 až 599 označujú problémy, ktoré vznikli na strane servera jeho vlastným zapríčinením, alebo zapríčinením jeho závislostí (databáza, sieťové operácie a podobne).
+        Server, ktorý odošle odpoveď so statusom z tejto kategórie oznamuje klientovi, že jeho žiadosť nemôže byť obslúžená, pretože pri obsluhe server zlyhal.
+    \end{enumerate}
+
+    \item Správa prislúchajúca k statusovému kódu
+
+    Ku každému statusovému kódu prislúcha nejaká popisná správa sformovaná ako obyčajný reťazec zakončený ASCII znakom pre nový riadok. Správy sú šdandardizované ako frázy spísané v anglickom jazyku.
+    Medzi najbežnejšie statusové správy podľa statusových kódov patria:
+
+    \begin{itemize}
+        \item \code{100 - CONTINUE}: Server pokračuje v spracovávaní žiadosti,
+        \item \code{200 - OK}: Žiadosť úspešne spracovaná,
+        \item \code{301 - MOVED PERMANENTLY}: Zdroju bola priradená iná URL,
+        \item \code{404 - NOT FOUND}: Zdroj sa nenašiel,
+        \item \code{500 - INTERNAL SERVER ERROR}: Server pri obsluhe žiadosti zlyhal.
+    \end{itemize}
+
+    \item Sekcia s hlavičkami
+
+    Táto sekcia je štruktúrovaná rovnako ako v HTTP žiadosti. V prípade odpovede sem však naviac pribúdajú ďalšie hlavičky, ktoré by odpoveď mala zahŕňať: 
+
+        \begin{itemize}
+            \item \code{Date}: dátum a čas odoslania odpovede
+            \item \code{Server}: názov a info o web serveri, ktorý odpoveď zaslal
+            \item \code{Content-Length}: dľžka odpovede v bajtoch
+            \item \code{Content-Type}: typ odpovede (hodnota je jedným z takzvaných MIME typov popísaných v kapitole \ref{obsah-hladanych-dokumentov})
+        \end{itemize}
+
+    \item Obsah odpovede
+
+    Pre umiestnenie obsahu v odpovedi platí to isté ako pre obsah umiestnený v žiadosti.
+\end{enumerate}
+
+
+\subsubsection{HTTPS}
 
 % \# Komunikácia
 % Status
@@ -305,12 +377,9 @@ asdjfkagfjkasdgfgjksaf
 % https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
 % Security - HTTPS, https://www.w3.org/TR/secure-contexts/
 
-\subsection{Domény}
-\label{domeny}
-% DOMENY
-% DNS ?
 
-\subsection{Hľadaný dokument a jeho obsah}
+\subsection{Obsah hľadaných dokumentov}
+\label{obsah-hladanych-dokumentov}
 % Web Stranka
 % HTML - https://dom.spec.whatwg.org/, https://html.spec.whatwg.org/multipage/
 % Media Type
@@ -326,8 +395,7 @@ asdjfkagfjkasdgfgjksaf
 \label{webovy-prehliadac}
 % JS - https://tc39.es/ecma262/multipage/
 
-
-\section{Zlyhania v komunikácií Klient-Server}
+\section{Zlyhania v komunikácií na webe}
 % Dosiahnuteľnosť Web Serveru
 \begin{itemize}
     \item General intro and info
