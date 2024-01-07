@@ -1360,8 +1360,8 @@ Management}{\@fit@EN}%
 % Příkazy pro TODO (3 alternativy - lze zvolit preferovanou)
 % commands for TODO (3 alternatives - preferred one can be selected)
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{[[#1]]}}}
-%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny, disable]{todonotes}
-%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+% \usepackage[colorinlistoftodos,prependcaption,textsize=tiny, disable]{todonotes}
+% \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
 \newcommand{\phony}[1]{\textcolor{gray}{#1}}
 \newcommand{\blind}[1]{\textcolor{gray}{\Blindtext[#1]}}

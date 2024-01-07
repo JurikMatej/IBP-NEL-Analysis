@@ -156,7 +156,7 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 
 \begin{figure}[htb]
 \begin{center}
- \includegraphics[scale=0.49]{obrazky-figures/fetching_a_page.png}
+ \includegraphics[scale=0.55]{obrazky-figures/fetching_a_page.png}
  \caption{\centering Vizualizácia webového prostredia. Za využitia infraštruktúry internetu prepája pomocou hyperlinkov dokumenty, ktoré možno na webe prehliadať.}
  \label{img:fetching-a-page}
 \end{center}
@@ -167,20 +167,21 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 \pagebreak
 
 \subsection{Navigácia na webe}
+\label{navigacia-na-webe}
 
 Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
 Vďaka hodnotám URL je možné odkazovať sa na obsah webu, prepájať rôzne dokumenty medzi sebou, a tým pádom web navigovať.
 Typická hodnota URL sa skladá zo:
 \begin{enumerate}
-    \item schémy - označenie protokolu používaného na sieťovú komunikáciu medzi servermi,
-    \item domény
+    \item schémy - označenie \textbf{protokolu} používaného na sieťovú komunikáciu medzi servermi,
+    \item adresy web servera, teda jeho domény (domény sú popísané v kapitole \ref{domeny})
     \item a cesty k uloženému dokumentu.
 \end{enumerate}
 
 \begin{figure}[htb]
 \begin{center}
- \includegraphics[scale=0.6]{obrazky-figures/the-anatomy-of-a-url.png}\label{fig:figure1}
- \caption{\centering Základná štruktúra hodnoty URL. Hodnoty bývajú rôzne a skladajú sa taktiež z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
+ \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}\label{fig:figure1}
+ \caption{\centering Základná štruktúra hodnoty URL. Prvá časť (1.) označuje komunikačný protokol, druhá (2.) doménu web servera a tretia (3.) cestu k dokumentu. Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
  \label{img:urlstructure}
 \end{center}
 \end{figure}
@@ -210,7 +211,7 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
 \begin{itemize}
     \item \textbf{Klient} zakladá spojenie so serverom za účelom zasielania jednej alebo viacerých \mbox{žiadostí}. 
     
-    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} (skrátene UA --- agent používateľa). Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. Webovým prehliadačom sa viac venuje kapitola REF. % \ref{}
+    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} (skrátene UA, slovensky -- agent používateľa). Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. Webovým prehliadačom sa viac venuje kapitola \ref{webovy-prehliadac}.
     
     \item \textbf{Server} prijíma spojenia aby obslúžil žiadosti tým, že na ne zasiela prislúchajúce odpovede.
 
@@ -226,46 +227,86 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
 \end{center}
 \end{figure}
 
-Správy HTTP protokolu sú štruktúrované bloky textu. 
-ABNF...
-Správa nadväzujúca HTTP spojenie --- žiadosť, má nasledovný obsah:
+\subsubsection{HTTP žiadosť}
+
+Správy HTTP protokolu sú štruktúrované bloky textu.
+Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \begin{enumerate}
-    \item metódu
-    \item cestu k požadovanému dokumentu
-    \item verziu protokolu HTTP použitého na nadviazanie komunikácie
-    \item \textbf{HTTP hlavičky}
-    \item prípadný obsah žiadosti
+    \item Metóda žiadosti
+
+    Metóda žiadosti indikuje operáciu, ktorú klient chce aplikovať na žiadaný zdroj.
+    Podľa metódy server zistí, aký výsledok úspešne aplikovanej operácie očakáva klient v odpovedi.
+
+    Dôležité metódy sú najmä:
+    \begin{itemize}
+        \item GET --- klient žiada zdroj v jeho aktuálnom stave. 
+        \item POST --- klient chce vykonať špecifický proces s obsahom, ktorý pridá k žiadosti. 
+        Bežne sa jedná napríklad o nahranie nového zdroju z klienta na server.
+    \end{itemize}
+    
+    \item Cesta k požadovanému zdroju
+
+    Jedná sa tu o cestu spomínanú v kapitole \ref{navigacia-na-webe}, bod 3. v popise príkladnej URL (viď obrázok \ref{img:urlstructure}).
+    Cesta môže byť symbolická, teda určená pre interpretáciu samotným serverom (podľa jeho konfigurácie) ako napríklad \code{/glossaries}, alebo priamo označujúca konkrétny zdroj, napríklad \code{/glossaries.txt}.  
+ 
+    \item Verzia protokolu HTTP použitého na nadviazanie a priebeh komunikácie
+    
+    \item Sekcia polí s ďalšími informáciami a nastaveniami komunikácie --- \textbf{HTTP Headers}
+    
+    Táto hovorovo nazývaná sekcia \textbf{hlavičiek} obsahuje páry názvov polí a ich priradených hodnôt. 
+    Hlavičky slúžia ako definície možností a iných potrebných informácií pri komunikácií medzi zariadeniami.
+    Pre názvy hlavičiek existuje register \textit{Hypertext Transfer Protocol (HTTP) Field Name Registry},
+    v ktorom sa uvádzajú oficiálne hlavičky použiteľné pri komunikácií HTTP. 
+
+    Príkladom potrebnej informácie pre HTTP žiadosť je hlavička \code{Host}, ktorej hodnota musí reprezentovať doménu cieľového web servera. \todo{nevedia co je domena}  
+    
+    \item Prípadný obsah žiadosti
+
+    Napríklad obsah pridaný k žiadosti s metódou POST. 
+    Obsah sa pridáva pod sekciu HTTP hlavičiek, od ktorej sa oddeľuje práznym riadkom (znakmi \code{\textbackslash r\textbackslash n}).
+
+    \item Zakončenie správy --- dva prázdne riadky (znaky \code{\textbackslash r\textbackslash n\textbackslash r\textbackslash n})
+    
 \end{enumerate}
 
 
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
-    \caption{\centering Vizualizácia konceptu komunikácie pomocou protokolu HTTP. Klient zasiela požiadavku na server a server mu naspäť posiela odpoveď.}
+    \caption{\centering Štruktúra HTTP žiadosti. Jednotlivé časti požiadavky sú na obrázku označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)} --- v tomto prípade relatívna cesta, ktorú môže web server interpretovať podľa svojej konfigurácie. Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia s HTTP hlavičkami (4.).}
     \label{fig:http-request}
 \end{center}
 \end{figure}
 
+\subsubsection{HTTP odpoveď}
+
+asdjfkagfjkasdgfgjksaf
+
+\begin{figure}[htb]
+\begin{center}
+    \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
+    \caption{\centering Štruktúra HTTP odpovede.}
+    \label{fig:http-response}
+\end{center}
+\end{figure}
+
+
+
 % \# Komunikácia
-% Hlavičky
-% Pod-zdroje
 % Status
 
 % Endpoint...
 % HTTPS
 
-% \# Existujúce komunikačné riešenia
-% Webová stránka
-%     Webová podstránka
-%     Priamy Odkaz                    OK
-%     Spätný Odkaz ???
-% Dosiahnuteľnosť Web Serveru
+
+
 
 % Network Partition Key ??
 % https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
 % Security - HTTPS, https://www.w3.org/TR/secure-contexts/
 
 \subsection{Domény}
+\label{domeny}
 % DOMENY
 % DNS ?
 
@@ -275,11 +316,19 @@ Správa nadväzujúca HTTP spojenie --- žiadosť, má nasledovný obsah:
 % Media Type
 % JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
+% \# Existujúce komunikačné riešenia
+% Webová stránka
+%     Webová podstránka
+%     Priamy Odkaz                    OK
+%     Spätný Odkaz ???
+
 \subsection{Webový prehliadač}
+\label{webovy-prehliadac}
 % JS - https://tc39.es/ecma262/multipage/
 
 
 \section{Zlyhania v komunikácií Klient-Server}
+% Dosiahnuteľnosť Web Serveru
 \begin{itemize}
     \item General intro and info
     \item DNS
