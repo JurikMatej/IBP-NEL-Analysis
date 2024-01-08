@@ -470,7 +470,8 @@ Každé samostatné hypermédium, ktoré tieto elementy označujú je potrebné 
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
 
-Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}. Tým, že je prehliadač implementáciou HTTP klienta (viď kapitolu \ref{protokol-http}), dokáže zasielať žiadosti a spracovávať odpovede HTTP.
+Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}. 
+Tým, že je prehliadač implementáciou HTTP klienta (viď kapitolu \ref{protokol-http}), dokáže zasielať žiadosti a spracovávať odpovede HTTP.
 Je to teda program, ktorý využíva koncepty vysvetlené vyššie a je schopný prehľadávať web.
 
 Používateľ s nainštalovaným prehliadačom má možnosť vyhľadávať zdroje či už podľa 
@@ -484,13 +485,60 @@ Prehliadač takéto zdroje získava pomocou odkazov, ktoré sú definované v hl
 Rovnako ako pre proces zobrazovania HTML má prehliadač zabudované algoritmy aj pre prácu so zdrojmi tohto typu.
 
 V tejto práci je dôležité popísať konkrétne zdroje pridávajúce programovateľnú funkcionalitu.
-Sú nimi zdroje obsahujúce spúšťateľné skripty napísané v jazyku \textbf{JavaScript}.
+Sú nimi zdroje obsahujúce prehliadačom spúšťateľné skripty napísané v programovacom jazyku \textbf{JavaScript}.
 
 \subsubsection{JavaScript}
-% JS - https://tc39.es/ecma262/multipage/
-% Web API
-% JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
+Jazyk JavaScript multiplatformový programovací jazyk, ktorého využitím je v oblasti webu práve robiť webstránky interaktívnymi. 
+Jedným z jeho využití je manipulácia so stromovou štruktúrou obsahu HTML dokumentu (viď kapitolu \ref{obsah-hladanych-dokumentov}).
+Funkcionalita zabezpečujúca podporu pre takúto manipuláciu s obsahom webstránok a ďalšie podobné funkcionality sú v jazyku JavaScript dostupné ako \textbf{Web API}.
+
+API\footnote{API -- Application Programming Interface (programové rozhranie aplikácie)} predstavuje predprogramovaný balík kódu, ktorý uľahčuje jeho používateľom, teda programátorom, prácu v oblasti zamerania funkcionality daného balíka.
+Ďalej, skutočnosť, že ide o webové API znamená, že je možné taký balík využiť prostredníctvom JavaScriptu spojeného s webstránkou.
+Existuje množstvo webových API, z ktorých niektoré sú poskytované priamo prehliadačom používateľa webu, iné zasa tvorcami tretej strany (Third-party API).
+
+% https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction
+
+\subsubsection{JavaScript Object Notation}
+
+V spojení s jazykom JavaScript existuje jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation.
+Štruktúra formátu JSON je jednoduchá a je založená na niektorých dátových typoch jazyku JavaScript.
+Dokáže reprezentovať nasledovné dátové typy:
+\begin{enumerate}
+    \item primitívne: reťazce, čísla, pravdivostné hodnoty (boolean) a absenciu hodnoty (null)
+    \item štruktúrované: polia (array) a objekty
+
+    Pole je usporiadaná sekvencia 0 a viac hodnôt. 
+    \\
+    Objekt je neusporiadaná kolekcia 0 a viac párov kľúč--hodnota, kde kľúč je reťazec
+    a hodnota môže byť akýkoľvek primitívny alebo štruktúrovaný dátový typ.
+    
+\end{enumerate}
+
+JSON má využitie napríklad ako formát dát pri komunikácií typu HTTP na webe.
+\mbox{V správach}, ktoré obsahujú zdroj typu JSON musí byť nastavená HTTP hlavička s názvom \code{Content-Type} na hodnotu typu MIME \code{application/json}.
+
+\begin{center}
+\centering
+\begin{lstlisting}[caption={\centering Príklad dokumentu JSON.},
+label=listing:priklad-dokumentu-json, 
+language=json, 
+frame=tb,
+xleftmargin=.15\textwidth, 
+xrightmargin=.15\textwidth]
+    {       
+        "student": {
+            "login": "xjurik12",
+            "kredity": 162,
+            "predmety": ["ITT", "IBP"],
+            "vyborny_priemer": false
+            "diplom": null
+        }
+    }
+\end{lstlisting}
+\end{center}
+
+% JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
 \section{Zlyhania v komunikácií na webe}
 % Dosiahnuteľnosť Web Serveru
