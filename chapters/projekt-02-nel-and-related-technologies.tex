@@ -3,20 +3,10 @@
 
 % TODO:
 % \begin{enumerate}
-%     \item Prezriet GFG ohladom internetu
 %     \item Zavolať s Petrom ohľadom predstavy, ako chcem napísať úvod o "Internete"
-%     \item Postupne spísať po Report API
 %     \item Naštudovať podklady k Report API LEPŠIE, aby som presne vedel čo chcem spomenúť
-%     \item Revisit kapitoly 3
-%     \item Spisat 4
-%     \item Review a uhladit si pohlad na vec, aby som spravil navrh
-%     \item Spisat draft navrhu
-%     \item Dotiahnut data
-%     \item Upravit navrh
 % \end{enumerate}
 
-
-% ....Uvod do kapitoly 1....
 
 % POZNAMKY:
 
@@ -37,43 +27,18 @@
 % Príbeh kapitoly 2.:
 
 % \# Prostredie
-% Web (WWW)                           OK
-% Web klient                          OK
-% Web server                          OK
-
 % \# Identifikácia Komunikanta
-% Doména                              OK
-%     Sub-Doména
-%     TLD
-%     eTLD
-%     Verejný Suffix
-% IP Adresa                           OK
-% DNS
-%     DNS Server
-%     Rezolúcia
-% URL                                 OK
-%     https://url.spec.whatwg.org/
-
-
 % \# Komunikácia
-% HTTP, HTTPS                         OK
-% User Agnet                          OK
-% Hlavičky                            OK
-% Request                             OK
-% Response                            OK
+% \# Obsah komunikácie
 
-% \# Existujúce komunikačné riešenia
-% Webová stránka                      OK
-%     Priamy Odkaz                    OK
-%     Spätný Odkaz ???
-
-% \# Sprostredkovanie komunikácie
-% Prehliadač
+% \# Zobrazovanie a práca s obsahom
+% Prehliadač                          OK
 %     JavaScript
 %     Web API
 
 % \# Meraná veličina v analýze
 % Stav Webu
+%     Web Performance
 %     SEO
 
 % \# Aký problém vzniká
@@ -90,41 +55,6 @@
 
 % \# Riešenie na mieru - Subjekt analýzy    
 % NEL
-
-
-% %##########################################################
-
-
-% Ešte raz, ale iba koncepty bez nutnej postupnosti v texte: 
-% www ako sluzba
-%     Domeny
-%         Typy Domen
-%         Kde su spisane
-%         DNS
-%         URL
-    
-% HTTP
-%     Klient Server
-%     Request
-%     Response
-%     Headers
-%     Content
-%         HTML
-%         HyperLink / HyperText
-%         Web Resource
-%         MediaType
-%     Browser
-%         JS
-    
-% Problemy v Komunikacii so serverom
-%     ?
-%     Report Api
-%         Popis
-%         Nedostatky
-
-% Network Error Logging
-%     Popis
-
 
 \todo{rewrite after this whole chapter is done}
 
@@ -169,15 +99,17 @@ Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná U
 Vďaka hodnotám URL je možné odkazovať sa na obsah webu, prepájať rôzne dokumenty medzi sebou, a tým pádom web navigovať.
 Typická hodnota URL sa skladá zo:
 \begin{enumerate}
-    \item schémy - označenie \textbf{protokolu} používaného na sieťovú komunikáciu medzi servermi,
     \item adresy web servera, teda jeho domény (domény sú popísané v kapitole \ref{domeny})
+    
+    \item schémy - označenie \textbf{protokolu} používaného na sieťovú komunikáciu medzi servermi,
+    
     \item a cesty k uloženému dokumentu.
 \end{enumerate}
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}
- \caption{\centering Základná štruktúra hodnoty URL. Prvá časť (1.) označuje komunikačný protokol, druhá (2.) doménu web servera a tretia (3.) cestu k dokumentu. Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
+ \caption{\centering Základná štruktúra hodnoty URL. Prvá časť (1.) označuje doménu web servera, druhá (2.) komunikačný protokol a tretia (3.) cestu k dokumentu. Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
  \label{img:urlstructure}
 \end{center}
 \end{figure}
@@ -185,12 +117,12 @@ Typická hodnota URL sa skladá zo:
 \pagebreak
 
 Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
-Protokol (1.) definuje možinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
-serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL --- doménou (2.). 
+Protokol (2.) definuje možinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
+serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL --- doménou (1.). 
 Cestu k uloženému dokumentu (3.) web server interpretuje podľa jeho konfigurácie ako navigačné inštrukcie 
 v rámci jeho vlastného, alebo vzdialeného úložiska jemu sprístupneného. 
 Podľa týchto inštrukcií vyberie server vyžiadaný dokument a zašle ho naspäť spomínanému návštevníkovi webu.
-V ďalších kapitolách do tohto procesu nahliadam hlbšie.
+V ďalších kapitolách tento proces postupne opisujem detailnejšie.
 
 \subsection{Domény}
 \label{domeny}
@@ -198,24 +130,42 @@ V ďalších kapitolách do tohto procesu nahliadam hlbšie.
 Pre adresovanie počítačových zariadení na internete sa používa adresa \textbf{IP}.
 Takáto adresa môže mať dve podoby:
 \begin{enumerate}
-    \item IPv4 --- \code{192.0.2.172}
-    \item IPv6 --- \code{2001:db8:8b73:0000:0000:8a2e:0370:1337}
+    \item IPv4, napríklad \code{192.0.2.172},
+    \item IPv6, napríklad \code{2001:db8:8b73:0000:0000:8a2e:0370:1337}.
 \end{enumerate}
 
-Pomocou takýchto adries taktiež funguje navigácia na internete, čo presnejším pojmom predstavuje smerovanie správ v komunikácií medzi počítačmi.
+Pomocou takýchto adries taktiež funguje navigácia na internete, označovaná pojmom smerovanie správ v komunikácií medzi počítačmi.
 Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, že \textbf{smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries}.
 
 Vo webovom prostredí však prenášané dokumenty môžu byť uložené na nespočetne veľkom počte počítačových zariadení.
 Jednou nepriaznivou skutočnosťou je, že IP adresa web serveru poskytujúceho nejaký dokument sa môže časom meniť.
 Ďalej, pre návštevníkov webu je nepraktické pamätať si zložité IP adresy pre dokumenty, ktoré chcú vyhľadať.
 
-Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré v systéme nazvanom \textbf{DNS}, ktorý ich spravuje, predstavujú jednoduchú textovú adresu priradenú k danej IP adrese.
-Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých IP adries používať doménové mená priradené k cieľovým IP adresám.  
+Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré predstavujú mená priradené adresám IP v systéme nazvanom Domain Name System (\textbf{DNS}, systém doménových mien), ktorý ich spravuje.
+Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých cieľových IP adries používať doménové mená k nim priradené.  
 
-\subsubsection{DNS}
-% DNS
-%     DNS Server
-%     Rezolúcia
+\subsubsection{Systém doménových mien}
+
+DNS je distribuovaný systém doménových mien prislúchajúcich k IP adresám počítačových zariadení na internete.
+Na skladovanie a spravovanie týchto mapovaní používa DNS špecifické databáze pre svoj systém. 
+Jeho primárnou službou je vyhľadávanie IP adries podľa spomínaných doménových mien.
+Táto služba sa nazýva \textbf{DNS rezolúcia} (anglicizmus, pojem sa do slovenčiny doslovne neprekladá). 
+O vykonávanie rezolúcií sa stará program nazvaný \textbf{DNS rezolver} (rovnako, anglicizmus).
+Proces pridania IP adresy do systému DNS \mbox{s jej} novým doménovým menom sa nazýva \textbf{registrácia}.
+Registrácia môže byž vykonaná:
+\begin{itemize}
+    \item buď \textbf{registrantom} -- majiteľom zariadenia s IP adresou,
+
+    Registrant vytvára žiadosť o registráciu doménového mena (napríklad na stránkach registrara).
+
+    \item alebo \textbf{registrarom}.
+
+    Registrar je správca a poskytovateľ služieb DNS v jemu pridelenej zóne tohto systému. % ?
+    Pri registráciach TLD je bežne vykonávateľom samotej registrácie registrar. % ?
+\end{itemize}
+
+% rfc8499 pages 2,15,
+% https://developer.mozilla.org/en-US/docs/Glossary/DNS
 
 \subsubsection{Štruktúra doménového mena}
 
@@ -263,17 +213,12 @@ S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné ro
     \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD.
 \end{itemize}
 
-
 % https://www.michalspacek.com/origin-site-etld-etld-plus-one-public-suffix-psl-what-are-they
 
-% Doména
-%     Sub-Doména
-%     TLD
-%     eTLD
-%     Verejný Suffix
-
+Na záver chcem ako poznámku uviezť, že sa môže pre označenie domény eTLD vyskytovať aj výraz rovnakého významu -- Pay Level Domain (PLD, preložiteľné so zachovaním významu ako doména zakúpiteľného levelu).
 
 \subsection{Protokol HTTP}
+\label{protokol-http}
 \todo{prepisat za pouzitia terminologie domen}
 \\
 Definíciou, v oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami. % \ref{}
@@ -304,6 +249,8 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
     \label{fig:http-client-server}
 \end{center}
 \end{figure}
+
+\pagebreak
 
 \subsubsection{HTTP žiadosť}
 
@@ -417,6 +364,8 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
         \item \code{500} -- \code{INTERNAL SERVER ERROR}: Server pri obsluhe žiadosti zlyhal.
     \end{itemize}
 
+    \pagebreak
+
     \item Sekcia s hlavičkami
 
     Táto sekcia je štruktúrovaná rovnako ako v HTTP žiadosti. V prípade odpovede sem však naviac pribúdajú ďalšie hlavičky, ktoré by odpoveď mala zahŕňať: 
@@ -521,15 +470,27 @@ Každé samostatné hypermédium, ktoré tieto elementy označujú je potrebné 
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
 
-Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}.
+Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}. Tým, že je prehliadač implementáciou HTTP klienta (viď kapitolu \ref{protokol-http}), dokáže zasielať žiadosti a spracovávať odpovede HTTP.
+Je to teda program, ktorý využíva koncepty vysvetlené vyššie a je schopný prehľadávať web.
 
-\todo{co ide sem ?}
+Používateľ s nainštalovaným prehliadačom má možnosť vyhľadávať zdroje či už podľa 
+kľúčových slov, ktoré obsahujú, alebo podľa špecifických URL na ne odkazujúcich.
+Prehliadač získané zdroje buď ukladá na úložisku zariadenia (jednoduché zdroje ako archív \code{.zip}), alebo, v prípade, že ide o zdroj reprezentujúci webstránku, ju po získaní zobrazuje.  
+
+Webstránky sú v prehliadači vybudované a zobrazené podľa ich obsahu HTML (viď kapitolu \ref{obsah-hladanych-dokumentov}).
+Na uskutočnenie tohto procesu vybudovania a zobrazenia webstránky používa prehliadač svoje zabudované algoritmy.
+Moderné webstránky okrem samotného zdroja HTML obsahujú aj prídavné závislé zdroje, ktoré môžu priamo danej webstránke upraviť vzhľad alebo pridať programovateľnú funkcionalitu.
+Prehliadač takéto zdroje získava pomocou odkazov, ktoré sú definované v hlavičke alebo tele dokumentu HTML prislúchajúceho danej webstránke.
+Rovnako ako pre proces zobrazovania HTML má prehliadač zabudované algoritmy aj pre prácu so zdrojmi tohto typu.
+
+V tejto práci je dôležité popísať konkrétne zdroje pridávajúce programovateľnú funkcionalitu.
+Sú nimi zdroje obsahujúce spúšťateľné skripty napísané v jazyku \textbf{JavaScript}.
+
+\subsubsection{JavaScript}
 % JS - https://tc39.es/ecma262/multipage/
+% Web API
 % JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
-% Prehliadač
-%     JavaScript
-%     Web API
 
 \section{Zlyhania v komunikácií na webe}
 % Dosiahnuteľnosť Web Serveru
