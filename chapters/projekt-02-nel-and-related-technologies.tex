@@ -42,12 +42,12 @@
 % Web server                          OK
 
 % \# Identifikácia Komunikanta
-% Doména
+% Doména                              OK
 %     Sub-Doména
 %     TLD
 %     eTLD
 %     Verejný Suffix
-% IP Adresa
+% IP Adresa                           OK
 % DNS
 %     DNS Server
 %     Rezolúcia
@@ -195,17 +195,35 @@ V ďalších kapitolách do tohto procesu nahliadam hlbšie.
 \subsection{Domény}
 \label{domeny}
 
-Pod pojmom doména 
+Pre adresovanie počítačových zariadení na internete sa používa adresa \textbf{IP}.
+Takáto adresa môže mať dve podoby:
+\begin{enumerate}
+    \item IPv4 --- \code{192.0.2.172}
+    \item IPv6 --- \code{2001:db8:8b73:0000:0000:8a2e:0370:1337}
+\end{enumerate}
 
+Pomocou takýchto adries taktiež funguje navigácia na internete, čo presnejším pojmom predstavuje smerovanie správ v komunikácií medzi počítačmi.
+Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, že \textbf{smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries}.
+
+Vo webovom prostredí však prenášané dokumenty môžu byť uložené na nespočetne veľkom počte počítačových zariadení.
+Jednou nepriaznivou skutočnosťou je, že IP adresa web serveru poskytujúceho nejaký dokument sa môže časom meniť.
+Ďalej, pre návštevníkov webu je nepraktické pamätať si zložité IP adresy pre dokumenty, ktoré chcú vyhľadať.
+
+Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré v systéme nazvanom \textbf{DNS}, ktorý ich spravuje, predstavujú jednoduchú textovú adresu priradenú k danej IP adrese.
+Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých IP adries používať doménové mená priradené k cieľovým IP adresám.  
+
+\subsubsection{DNS}
+% DNS
+%     DNS Server
+%     Rezolúcia
+
+\subsubsection{Typy domén}
 % Doména
 %     Sub-Doména
 %     TLD
 %     eTLD
 %     Verejný Suffix
-% IP Adresa
-% DNS
-%     DNS Server
-%     Rezolúcia
+
 
 \subsection{Protokol HTTP}
 \todo{prepisat za pouzitia terminologie domen}
