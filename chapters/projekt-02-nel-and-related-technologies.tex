@@ -176,7 +176,7 @@ Typická hodnota URL sa skladá zo:
 
 \begin{figure}[htb]
 \begin{center}
- \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}\label{fig:figure1}
+ \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}
  \caption{\centering Základná štruktúra hodnoty URL. Prvá časť (1.) označuje komunikačný protokol, druhá (2.) doménu web servera a tretia (3.) cestu k dokumentu. Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
  \label{img:urlstructure}
 \end{center}
@@ -217,7 +217,55 @@ Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých IP
 %     DNS Server
 %     Rezolúcia
 
-\subsubsection{Typy domén}
+\subsubsection{Štruktúra doménového mena}
+
+Ako bolo zmienené, doménové meno je textová hodnota reprezentujúca adresu webového serveru.
+Doménové meno sa rozdeľuje na viaceré úrovne nazývané levely. 
+Jednotlivé levely sú v ňom oddelené znakmi bodky. 
+Level najviac vpravo v doménovom mene sa nazýva \mbox{\textbf{TLD} -- Top Level Doména}. 
+Ďalší level smerom doľava (predposledná hodnota) spolu s TLD tvorí \mbox{\textbf{SLD} -- Secondary Level Domain}.
+Posledný level spolu s SLD a TLD vytvára SD -- \textbf{subdoménu}.
+
+V doménovom mene \code{example.domain.com} platí rozdelenie nasledovne: 
+\begin{itemize}
+    \item \code{\underline{example}.domain.com} predstavuje celé meno subdomény,
+    \item \code{\underline{domain}.com} predstavuje celé meno SLD,
+    \item \code{\underline{.com}} predstavuje TLD.
+\end{itemize}
+
+Každá časť oddelená bodkou má v rámci celkového doménového mena svoj vlastný názov a logický význam.
+Kompozícia doménového mena však v určitých prípadoch nemusí byť jednotlivými bodkami rozdelená na vyššie popísané levely. 
+Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-structure}}, \mbox{ktorý} berie v úvahu doménové meno skladajúce sa až z piatich bodkou oddelených častí.
+
+\begin{figure}[htb]
+\begin{center}
+ \includegraphics[scale=0.45]{obrazky-figures/domain_name_structure.png}
+ \caption{\centering Príklad domény s nezvyčajnou štruktúrou. Postupným skladaním hodnôt oddelených bodkou začínajúc \mbox{z pravej} strany vznikajú logické časti mena domény. V tomto prípade ide o výnimku, pri ktorej neplatí, že čiastkové hodnoty oddelené bodkou predstavujú jej jednotlivé levely \mbox{(viď definíciu termínu \textbf{Verejný Suffix} nižšie).}}
+ \label{fig:domain-name-structure}
+\end{center}
+\end{figure}
+
+
+\subsubsection{Verejný Suffix a eTLD}
+
+Doménové meno popisované obrázkom \ref{fig:domain-name-structure} --- \code{foo.bar.s3.amazonaws.com} --- sa ako každé iné doménové meno skladá z TLD, SLD a subdomény. 
+Platia tu však niektoré ďalšie dôležité pravidlá pri ich identifikovaní.
+
+Existuje zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných suffixov, skratka \textbf{PSL}), v ktorom sa nachádzajú koncovky doménových mien, pod ktorými je možné registrovať domény a subdomény pre web servery.
+Tieto koncovky uvedené v PSL sa nazývajú efektívne Top Level Domény (\textbf{eTLD}).
+Hodnoty eTLD zahŕňajú vyššie spomínané TLD ako ich podslednú bodkou oddelenú hodnotu.
+Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
+
+S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné rozdeliť doménové meno z obrázka \ref{fig:domain-name-structure} na jeho levely nasledovne: 
+\begin{itemize}
+    \item \code{\underline{foo}.bar.s3.amazonaws.com} predstavuje celé meno subdomény,
+    \item \code{\underline{bar}.s3.amazonaws.com} predstavuje celé meno SLD -- registrovanú doménu,
+    \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD.
+\end{itemize}
+
+
+% https://www.michalspacek.com/origin-site-etld-etld-plus-one-public-suffix-psl-what-are-they
+
 % Doména
 %     Sub-Doména
 %     TLD
