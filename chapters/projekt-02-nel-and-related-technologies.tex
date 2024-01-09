@@ -574,27 +574,66 @@ ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykona
 \end{enumerate}
 
 Každý z vyššie uvedených krokov môže skončiť s nejakou chybou, teda neúspešne, čo by spôsobilo celkové zlyhanie procesu získania cieľového zdroja.
-Na základe týchto troch potrebných krokov pre úspešné získanie zdroja ďalej popisujem rôzne zlyhania v troch samotatných kategóriach:
+Na základe týchto troch potrebných krokov pre úspešné získanie zdroja možno rozdeliť zlyhania do troch kategórií:
 \begin{enumerate}
     \item zlyhania komunikácie s DNS,
+
+    Tieto zlyhania môžu zahŕňať nedostupnosť DNS servera, chybové odpovede bez nájdenej 
+    IP adresy web servera so zdrojom alebo iné neočakávané zlyhania ako napríklad náhle prerušenie spojenia s DNS serverom.
+    
     \item zlyhania nadviazania spojenia TCP/IP,
+
+    Spojenie s webovým serverom, na ktorom je zdroj uložený, môže zlyhať pri:
+    \begin{itemize}
+        \item zakladaní spojenia,
+        
+        Adresa IP servera je neplatná, server je nedostupný alebo spojenie neprijal
+        
+        \item náhlom ukončení spojenia,
+
+        Server môže spojenie uzavrieť, resetovať, alebo skrátka prerušiť.  
+
+        \item alebo pri zakladaní bezpečného spojenia (HTTPS),
+
+        Komunikácia pomocou zabezpečeného protokolu HTTPS, ako už bolo spomínané, využíva na zabezpečenie základnej verzie HTTP protokol nazvaný TLS.
+        V jednoduchosti, TLS spojenie sa vytvorí, iba ak sú pre také spojenie splnené požiadavky na ako webového klienta, tak aj webový server. 
+        Zlyhania zakladania TLS spojenia môžu nastať pri rôznych prípadoch nesplnenia týchto požiadavok. 
+        Pre referenciu sú takéto prípady vymenované v kapitole o NEL, 
+        N-KAPITOLY% \ref{nel} 
+        , pod sekciou s preddefinovanými zlyhaniami pre monitorovanie NEL.
+        
+    \end{itemize}
+    
     \item a zlyhania prenosu HTTP.
+
+    Za zlyhanie sa v rámci prenosu HTTP považuje:
+    \begin{itemize}
+        \item zlyhanie samotného protokolu,
+
+        Napríklad môže programovo zlyhať softvér pre HTTP origin server (chyba v implementácií origin servera).
+        HTTP odpoveď môže byť nesprávne skonštruovaná, napríklad, keď obsahuje konfliktné hodnoty hlavičiek a obsahu (hodnota hlavičky \code{Content-Length} nesedí so skutočnou dĺžkou obsahu).  
+        Ešte však dochádza aj k situáciam, pri ktorých sa vytvorí takzvaný \textit{redirect loop}, čo predstavuje slučku presmerovaní HTTP klienta. Takáto slučka spôsobuje, že klient neustále zasiela tú istú sekvenciu žiadostí, no nikdy sa nedopracuje k cieľovému zdroju.
+        
+        \item ale aj úspešná HTTP odpoveď so statusom z kategórie 4xx, alebo 5xx.
+
+        Odpovede so statusom 5xx reprezentujú zlyhanie na strane origin servera, ktorý nebol schopný poskytnúť vyžiadaný zdroj.
+        Naopak, odpovede so statusom 4xx sú chybami na strane klienta. 
+        Avšak, aj tieto chyby sú z hľadiska monitorovania vzácne, pretože nadmerne časté opakovanie takejto chyby môže pomôcť odhaliť nesprávne zadefinované (alebo jednoducho zastarané a neudržované -- status 404) hyperlinky na webstránke správcu, ktorý ju monitoruje. 
+    \end{itemize}
+    
 \end{enumerate}
 
-\subsection{Zlyhania komunikácie s DNS}
+\section{Network Error Logging}
+% Security - https://www.w3.org/TR/secure-contexts/
+% Dosiahnuteľnosť Web Serveru
+% Web Reliability
+% Možnosť definovať custom error typy
 
-\subsection{Zlyhania nadviazania spojenia TCP/IP}
+% Mail od Polcaka - Nieco naviac o NEL
+% Consider - https://w3c.github.io/reporting/network-reporting
 
-\subsection{Zlyhania prenosu HTTP}
+\subsection{Závislosť na Reporting API}
 
-
-
-\subsection{Nástroje pre monitorovanie zlyhaní}
-
-
-
-
-\section{Report API}
 \begin{itemize}
     \item Všeobecná náväznosť na zlyhania komunikácie
     \item Cieľ
@@ -604,15 +643,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja ďa
     \item Možnosti reálneho využitia (konkrétna náväznosť na NEL)
 \end{itemize}
 
-\section{Network Error Logging}
-% Security - https://www.w3.org/TR/secure-contexts/
-% Dosiahnuteľnosť Web Serveru
-% Web Reliability
-
-
-% Mail od Polcaka - Nieco naviac o NEL
-% Consider - https://w3c.github.io/reporting/network-reporting
-
+\subsection{Špecifikácia}
 
 \begin{itemize}
     \item Cieľ
