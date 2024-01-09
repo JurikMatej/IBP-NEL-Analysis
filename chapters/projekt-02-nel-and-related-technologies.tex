@@ -26,52 +26,43 @@
 
 % Príbeh kapitoly 2.:
 
-% \# Prostredie
-% \# Identifikácia Komunikanta
-% \# Komunikácia
-% \# Obsah komunikácie
-
-% \# Zobrazovanie a práca s obsahom
-% Prehliadač                          OK
-%     JavaScript
-%     Web API
-
-% \# Meraná veličina v analýze
-% Stav Webu
-%     Web Performance
-%     SEO
+% \# Prostredie                                 OK
+% \# Identifikácia Komunikanta                  OK
+% \# Komunikácia                                OK
+% \# Obsah komunikácie                          OK
+% \# Zobrazovanie a práca s obsahom             OK
 
 % \# Aký problém vzniká
 % Zlyhanie komunikácie
-%     Dosiahnuteľnosť Web Serveru
-%     Bežné, detekovateľné (HTTP 400, 500)
-%     Nedetekovateľné (Elaborate pls)
+%     Dosiahnuteľnosť Web Serveru               
+%     Bežné, detekovateľné (HTTP 400, 500)      
+%     Nedetekovateľné (Elaborate pls)           
 
-% \# Riešenie číslo 1. Nedostatočné
-% Reporting API
-%     Riešenie pre čo 
-%     Ako
-%     Nedostatky
+% \# Reporting API
+% Reporting API                                 
+%     Riešenie pre čo                           
+%     Ako                                       
+%     Nedostatky                                
 
-% \# Riešenie na mieru - Subjekt analýzy    
-% NEL
+% \# Subjekt analýzy    
+% Network Error Logging                         
+%     Stav Webu ???                             
+%     Web Performance                           
+%     SEO                                       
 
 \todo{rewrite after this whole chapter is done}
 
-Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo web prostredí, 
-kde má svoju rolu v monitorovaní špecifických problémov komunikácie zariadení pripojených do webu.
-Pre plné pochopenie čím je technológia NEL v tejto kapitole vysvetľujem najprv 
+Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo webovom prostredí, 
+kde má svoju rolu v monitorovaní špecifických problémov komunikácie počítačových zariadení využívajúcich služby webu.
+Pre dostatočné pochopenie, čím je technológia NEL, v tejto kapitole vysvetľujem najprv 
 spomínané prostredie, v ktorom figuruje. 
-V prvom rade sa teda zameriavam na terminológiu, ktorá sa v nadchádzajúcich častiach tejto práce fekventovane používa. 
-
-Následne sa dostanem k definícii problémov, ktoré bežne vznikajú pri komunikácií
-zariadení na webe.
-Pri nich spomeniem, aké riešenia predchádzali technológiu NEL a kde zlyhávali.
-
-Samotný popis pre NEL nasleduje za úvodom do jeho závislosti, \textbf{Reporting API}, bez ktorej samostatne nemôže fungovať.
+Následne popíšem čo predstavujú pojmy monitorovanie a zlyhanie komunikácie na webe, kde zároveň popíšem body, v ktorých môžu rôzne zlyhania nastať. 
+V prvom rade sa pri popise problematiky zameriavam na terminológiu, ktorá sa v nadchádzajúcich častiach tejto práce fekventovane používa. 
+Samotný popis pre NEL nasleduje za úvodom do techológie, ktorá NEL spojazdňuje ako jeho závislosť, \textbf{Reporting API}, bez ktorej samostatne nemôže fungovať. % refs ?
 
 
 \section{Webové prostredie}
+\label{webove-prostredie}
 
 V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, ktorá tvorí takzvanú sieť sietí, existuje systém World Wide Web (ďalej už iba web).
 Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server}. 
@@ -92,12 +83,12 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 
 \pagebreak
 
-\subsection{Navigácia na webe}
+\subsection{Štruktúra hyperlinku}
 \label{navigacia-na-webe}
 
 Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
-Vďaka hodnotám URL je možné odkazovať sa na obsah webu, prepájať rôzne dokumenty medzi sebou, a tým pádom web navigovať.
-Typická hodnota URL sa skladá zo:
+Vďaka hyperlinkom obsahujúcim hodnoty URL je možné odkazovať sa na vzdialený obsah webu, prepájať rôzne dokumenty medzi sebou, a tým web navigovať.
+Typická hodnota URL sa skladá z:
 \begin{enumerate}
     \item adresy web servera, teda jeho domény (domény sú popísané v kapitole \ref{domeny})
     
@@ -134,6 +125,7 @@ Takáto adresa môže mať dve podoby:
     \item IPv6, napríklad \code{2001:db8:8b73:0000:0000:8a2e:0370:1337}.
 \end{enumerate}
 
+\todo{TCP/IP pouziva IP adresy a stara sa o session}
 Pomocou takýchto adries taktiež funguje navigácia na internete, označovaná pojmom smerovanie správ v komunikácií medzi počítačmi.
 Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, že \textbf{smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries}.
 
@@ -470,6 +462,10 @@ Každé samostatné hypermédium, ktoré tieto elementy označujú je potrebné 
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
 
+\todo{search engine}
+% https://developer.mozilla.org/en-US/docs/Glossary/Search_engine
+% http://infolab.stanford.edu/%7Ebackrub/google.html
+
 Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}. 
 Tým, že je prehliadač implementáciou HTTP klienta (viď kapitolu \ref{protokol-http}), dokáže zasielať žiadosti a spracovávať odpovede HTTP.
 Je to teda program, ktorý využíva koncepty vysvetlené vyššie a je schopný prehľadávať web.
@@ -501,7 +497,7 @@ Existuje množstvo webových API, z ktorých niektoré sú poskytované priamo p
 
 \subsubsection{JavaScript Object Notation}
 
-V spojení s jazykom JavaScript existuje jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation.
+V spojení s konceptami jazyka JavaScript vznikol jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation.
 Štruktúra formátu JSON je jednoduchá a je založená na niektorých dátových typoch jazyku JavaScript.
 Dokáže reprezentovať nasledovné dátové typy:
 \begin{enumerate}
@@ -520,7 +516,7 @@ JSON má využitie napríklad ako formát dát pri komunikácií typu HTTP na we
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad dokumentu JSON.},
+\begin{lstlisting}[caption={\centering Príklad dokumentu JSON. Položka \code{"student"} predstavuje JSON kľúč, ktorého hodnotou je štruktúrovaný dátový typ objekt. Názornú ukážku dátového typu pole predstavuje hodnota priradená kľúču \code{"predmety"}.},
 label=listing:priklad-dokumentu-json, 
 language=json, 
 frame=tb,
@@ -540,17 +536,63 @@ xrightmargin=.15\textwidth]
 
 % JSON spec = https://www.rfc-editor.org/rfc/rfc7159
 
-\section{Zlyhania v komunikácií na webe}
-% Dosiahnuteľnosť Web Serveru
-\begin{itemize}
-    \item General intro and info
-    \item DNS
-    \item Transport
-    \item Application
-    \item Special
-    \item Web Reliability
-    \item Existujúce riešenia
-\end{itemize}
+\section{Monitorovanie zlyhaní webstránok}
+
+Cieľom tejto práce je analyzovať technológiu spojenú s monitorovaním zlyhaní v komunikácií 
+na webe --- Network Error Logging (NEL).
+Technológie, na ktorých sa NEL zakladá alebo ich používa, boli vysvetlené v predošlej kapitole \ref{webove-prostredie}.
+Ďalej už popisujem termíny spojené priamo s NEL.
+
+\subsection{Monitorovanie}
+
+Pojem monitorovanie webstránok je na verejne dostupných zdrojoch definovaný ako proces testovania a kontrolovania či používateľ webu, konkrétne danej webstránky, môže s ňou pracovať tak, ako to očakáva jej poskytovateľ. 
+
+Keďže sa venujem monitorovaniu v kontexte s technológiou NEL, webstránku možno zameniť za akýkoľvek zdroj uložený na webe.
+Poskytovateľ, teda správca webového serveru, kde sa zdroj nachádza, používa monitorovanie pre získanie informácií ohľadom jeho dostupnosti alebo zlyhaniach pri jeho získavaní.
+Tento proces býva automatizovaný tak, že monitorovací nástroj zaznamenáva žiadosti o získanie zdroja a na zistené zlyhania upozorňuje jej poskytovateľa.  
+Vďaka aplikovanému monitorovaniu teda správca web serveru nadobúda prehľad o stave dostupnosti ním spravovaných zdrojov.
+
+% Toto nie je to prave orechove :(
+% https://en.wikipedia.org/wiki/Website_monitoring
+
+\pagebreak
+
+\subsection{Body zlyhania}
+
+Proces prehliadania webu môžme definovať ako získavanie vzdialených zdrojov, ako napríklad webstránok, použitím webového prehliadača.
+Za predpokladu, že používateľ má dostupnú adresu URL pre zdroj (viď kapitolu \ref{navigacia-na-webe}), 
+ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykonanie:
+
+\begin{enumerate}
+    \item prehliadač získa adresu IP pre doménu web serveru z danej URL v systéme DNS,
+    
+    \item prehliadač vytvorí so zariadením adresovaným získanou IP adresou spojenie protokolom TCP 
+    (pojmy DNS a TCP/IP z kapitoly \ref{domeny}),
+    
+    \item prehliadač použije spojenie TCP s web serverom na zasielanie HTTP žiadostí 
+    (popísaných v kapitole \ref{protokol-http}) s cieľom získať zdroj uvedený v danej URL.
+\end{enumerate}
+
+Každý z vyššie uvedených krokov môže skončiť s nejakou chybou, teda neúspešne, čo by spôsobilo celkové zlyhanie procesu získania cieľového zdroja.
+Na základe týchto troch potrebných krokov pre úspešné získanie zdroja ďalej popisujem rôzne zlyhania v troch samotatných kategóriach:
+\begin{enumerate}
+    \item zlyhania komunikácie s DNS,
+    \item zlyhania nadviazania spojenia TCP/IP,
+    \item a zlyhania prenosu HTTP.
+\end{enumerate}
+
+\subsection{Zlyhania komunikácie s DNS}
+
+\subsection{Zlyhania nadviazania spojenia TCP/IP}
+
+\subsection{Zlyhania prenosu HTTP}
+
+
+
+\subsection{Nástroje pre monitorovanie zlyhaní}
+
+
+
 
 \section{Report API}
 \begin{itemize}
@@ -564,6 +606,13 @@ xrightmargin=.15\textwidth]
 
 \section{Network Error Logging}
 % Security - https://www.w3.org/TR/secure-contexts/
+% Dosiahnuteľnosť Web Serveru
+% Web Reliability
+
+
+% Mail od Polcaka - Nieco naviac o NEL
+% Consider - https://w3c.github.io/reporting/network-reporting
+
 
 \begin{itemize}
     \item Cieľ
