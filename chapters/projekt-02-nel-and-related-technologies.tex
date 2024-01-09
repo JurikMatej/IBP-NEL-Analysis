@@ -484,6 +484,7 @@ V tejto práci je dôležité popísať konkrétne zdroje pridávajúce programo
 Sú nimi zdroje obsahujúce prehliadačom spúšťateľné skripty napísané v programovacom jazyku \textbf{JavaScript}.
 
 \subsubsection{JavaScript}
+\label{javascript}
 
 Jazyk JavaScript multiplatformový programovací jazyk, ktorého využitím je v oblasti webu práve robiť webstránky interaktívnymi. 
 Jedným z jeho využití je manipulácia so stromovou štruktúrou obsahu HTML dokumentu (viď kapitolu \ref{obsah-hladanych-dokumentov}).
@@ -496,6 +497,7 @@ Existuje množstvo webových API, z ktorých niektoré sú poskytované priamo p
 % https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction
 
 \subsubsection{JavaScript Object Notation}
+\label{json}
 
 V spojení s konceptami jazyka JavaScript vznikol jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation.
 Štruktúra formátu JSON je jednoduchá a je založená na niektorých dátových typoch jazyku JavaScript.
@@ -544,6 +546,7 @@ Technológie, na ktorých sa NEL zakladá alebo ich používa, boli vysvetlené 
 Ďalej už popisujem termíny spojené priamo s NEL.
 
 \subsection{Monitorovanie}
+\label{monitorovanie}
 
 Pojem monitorovanie webstránok je na verejne dostupných zdrojoch definovaný ako proces testovania a kontrolovania či používateľ webu, konkrétne danej webstránky, môže s ňou pracovať tak, ako to očakáva jej poskytovateľ. 
 
@@ -624,6 +627,183 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 \end{enumerate}
 
 \section{Network Error Logging}
+\label{network-error-logging}
+
+Podľa definície monitorovania z kapitoly \ref{monitorovanie}, NEL slúži ako mechanizmus
+zabezpečujúci monitorovanie zlyhaní žiadostí pre zdroje uložené na web serveri, ktorý NEL používa.
+Predtým však, ako sa dostanem k popisu NEL, jeho možnostiam a konfigurácii, musím popísať konkrétnu Web API, Reporting API, na ktorej je z hľadiska svojej funkcionality závislý.
+
+\subsection{Závislosť na Reporting API}
+\label{reporting-api}
+
+Reporting API je jedným z balíkov označovaných názvom Web API (viď kapitolu \ref{javascript}).
+Serverom, ktoré Reporting API používajú, poskytuje možnosť definovať pravidlá pre 
+tvorbu a zasielanie takzvaných hlásení na pravidlami definované web servery.
+Hlásenia sa týkajú špecifických záležitostí prehliadača klienta, ktorý žiada zdroje z web serveru používajúceho Reporting API.
+Medzi takéto špefifické funkcie patrí práve NEL, ale napríklad aj detegovanie výskytov zlyhaní alebo používania zastaraných API na klientskom prehliadači.
+
+Aby bolo možné tento balík uplatniť, musí ho podporovať webový prehliadač (konkrétne User Agent) používateľa, ktorý zasiela žiadosti o získanie zdrojov zo servera využívajúceho Reporting API.
+
+\subsubsection{Verzia používaná technológiou NEL}
+
+V tomto bode je dôležité povedať, že aj keď je najnovšou verziou tejto API verzia popisovaná špecifikáciou zverejnenou 10. novembra 2023, v tejto kapitole nepopisujem práve túto.
+Dôvodom je, že technológia NEL je stále v procese vývoja a jej momentálna verzia je implementovaná tak, aby fungovala so staršou verziou Reporting API.
+Konkrétne, NEL je kompatibilný s verziou popisovanou v špecifikácií zverejnenej 
+25. septembra 2018, taktiež označovanou ako verzia \textbf{v0}.
+Ďalej teda opisujem výhradne Reporting API verzie v0.
+
+\subsubsection{Definícia pravidiel}
+
+Vyššie spomínané pravidlá môže definovať server, ktorý chce využívať tento API balík. 
+Definícia pravidiel funguje prostredníctvom zaslania HTTP hlavičky \code{Report-To} v HTTP odpovedi pre vybraný zdroj.
+Obsahom hlavičky \code{Report-To} musí byť textová hodnota vo formáte JSON (viď kapitolu \ref{json}), pričom jej štruktáru tvorí striktne pole (array) objektov.
+
+Špecifickým rozdielom od klasického JSON formátu však je, že sa táto hodnota do hlavičky
+zapisuje bez zátvoriek, ktoré bežne tvoria JSON pole (znaky '\code{[}' a '\code{]}').
+S touto odchýlkou od bežného JSON formátu môže User Agent pracovať vďaka tomu, že pre takto špecifický formát existuje samostatný typ MIME s názvom \code{application/reports+json}. 
+
+\pagebreak
+
+Každý objekt v poli hodnôt hlavičky \code{Report-To} predstavuje pravidlo Reporting API.
+Pravidlá sa musia ukladať v pamäti User Agenta, ktorému je odpoveď s pravidlami zaslaná.
+Hodnota každého pravidla obsahuje nasledovné polia: 
+
+\begin{enumerate}
+
+    \item \code{group}
+
+    Pole obsahujúce textový názov skupiny web serverov prislúchajúcich k danému pravidlu.
+    
+    Ak pravidlo neobsahuje toto pole, názov jeho skupiny web serverov bude \code{"default"}.
+    
+    \item \code{endpoints}
+
+    Povinné pole \code{endpoints} musí definovať zoznam web serverov, ktoré patria do skupiny \code{group} (alebo skupiny \code{"default"}).
+    Hodnota tohto poľa musí byť pole (array) JSON objektov s nasledovným obsahom:
+    \begin{enumerate}
+        \item \code{url} -- URL adresa konkrétneho web servera (povinná hodnota)
+        \item \code{priority} -- Číslo definujúce prioritu servera v rámci skupiny \code{group}
+
+        Priorita servera predstavuje jeho prednosť pred ostatnými v procese výberu servera, ktorému bude odoslané vygenerované hlásenie.
+        
+        \item \code{weight} -- Číslo určujúce prioritu serverov s rovnakou prioritou
+
+        Tu priorita zase predstavuje prednosť servera pred ostatnými pri nerozhodnosti v prípade, že majú viaceré servery priradené rovnakú hodnotu \code{priority.}
+    \end{enumerate}
+    
+    \item \code{max\_age}
+
+    Ďalšie povinné pole definujúce životnosť daného pravidla. Jeho hodnotou musí byť nezáporné číslo reprezentujúce sekundy.
+
+    Špeciálnym prípadom hodnoty tohto poľa je číslo \code{0}. 
+    V prípade, že server pre pravidlo prislúchajpce konkrétnej skupine \code{group} vyplní \code{max\_age} hodnotou \code{0}, pravidlo stráca platnosť a musí byť vymazané.
+    
+    \item \code{include\_subdomains}
+
+    Toto pole obsahuje pravdivostnú hodnotu \code{true} alebo \code{false}, podľa ktorej určuje či sa toto pravidlo platiace pre jeho skupinu \code{group} vzťahuje, a teda má používať, aj pre subdomény web servera, ktorý pravidlo zaslal.
+
+    Ak nie je pole uvedené, pravidlo pre skupinu \code{group} sa nebude vzťahovať aj na subdomény.
+    
+\end{enumerate}
+
+\begin{center}
+\centering
+\begin{lstlisting}[caption={\centering Príklad obsahu hlavičky \code{Report-To}. Pravidlo tu definuje skupinu s názvom \code{reporting-skupina}, ku ktorej prislúchajú dva web servery, kam môžu byť hlásenia zasielané s rozdielnou prioritou. Doba platnosti pravidla je 2 592 000 sekúnd, teda 30 dní.},
+label=listing:priklad-report-to, 
+language=json, 
+frame=tb,
+xleftmargin=.04\textwidth, 
+xrightmargin=.04\textwidth]
+    Report-To: {
+        "group": "reporting-skupina",
+        "endpoints": [
+            {"url": "https://example.com/reporting1", "priority": 1},
+            {"url": "https://example.com/reporting2", "priority": 2}
+        ],
+        "max_age": 2592000
+    }
+\end{lstlisting}
+\end{center}
+
+
+\subsubsection{Tvorba hlásení}
+
+Počas doby platnosti aspoň jedného pravidla Reporting API existujúceho v pamäti 
+User Agenta sa na ňom tvoria už spomínané hlásenia.
+Hlásenie je správa týkajúca sa jednej z hlásiteľných udalostí, ktoré môžu nastať v prostredí prehliadača implementujúceho daný User Agent.
+Medzi tieto hlásiteľné udalosti patrí: 
+\begin{itemize}
+    \item Prehliadač použije Web API, ktorá bola označená ako zastaraná
+    \item User Agent sa rozhodol nezaslať ďalšiu žiadosť na Origin Server z bezpečnostných dôvodov.
+    \item Prehliadač zlyhal a bol terminovaný
+    \item Došlo k zlyhaniu týkajúceho sa \textbf{oblasti monitorovania NEL}
+\end{itemize}
+
+\subsubsection{Zasielanie hlásení}
+
+Nahromadené hlásenia sa periodicky odosielajú na web server cieľovej skupiny \code{group} pravidla vybraný podľa jeho priority.
+Špecifikácia verzie \code{v0} Reporting API nedefinuje túto periódu odosielania sama, ale prenecháva túto zodpovednosť na prehliadače, ktoré sa rozhodnú API podporovať.
+
+Ďalej, skupín \code{group} je práve toľko, koľko existuje uložených pravidiel s definovaným menom s zarátaním prípadnej skupiny \code{"default"}.
+Výber cieľovej skupiny spočíva v ďalšom nastavení súvisiacim s Reporting API --- priradenie typu hlásenia k skupine.
+Pre rôzne typy hlásení sa toto nastavenie zavádza inak.
+V prípade hlásenia zlyhania v oblasti monitorovania NEL sa skupina \code{group} vyberá v samotnom nastavení pre NEL, ktoré priamo spolupracuje s pravidlami Reporting API.
+Tento proces je popísaný v špecifikácií NEL, a to kapitole \ref{network-error-logging-spec}.
+
+Hlásenia sú nahromadené a čakajú na odoslanie.
+Každé z nich sa odošle vo formáte JSON na vybraný prioritný web server v nasledujúcej štruktúre:
+\begin{itemize}
+    \item \code{type} -- typ hlásenia
+
+    Hodnoty môžu byť napríklad \code{crash} alebo \code{nel}.
+    
+    \item \code{age} -- vek hlásenia
+
+    Vek hlásenia je čas v milisekundách, ktorý uplynul od jeho vytvorenia webovým prehliadačom.
+    Podla implementacie podpory pre Reporting API môže webový prehliadač nechať nahromadiť viaceré hlásenia a zasielať ich oneskorene.
+    
+    \item \code{url} -- hodnota URL adresujúcej zdroj pre ktorý sa hlásenie vygenerovalo.
+
+    Pripomínam, že hlásenia sa generujú pre akýkoľvek zdroj získaný z domény web servera, 
+    ktorý definuje v jeho odpovedi pravidlá pre Reporting API.
+    
+    \item \code{user\_agent} -- názov a info o User Agentovi používateľovho webového prehliadača
+    
+    \item \code{body} -- telo hlásenia
+
+    Telo hlásenia je vyplnené pre každý typ hlásenia inak. 
+    V kapitole \ref{network-error-logging-spec}, kde sa priamo popisuje NEL je príklad hlásenia typu NEL na \todo{obrázku}.
+    Najjednoduchší typ hlásenia je z pohľadu obsahu tohto poľa hlásenie o zlyhaní webového prehliadača.
+    Taký typ hlásenia vyzobrazuje obrázok \ref{listing:priklad-generated-report}.
+\end{itemize}
+
+
+\begin{center}
+\centering
+\begin{lstlisting}[caption={\centering Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača. Hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu Out Of Memory (nedostatok pamäte).},
+label=listing:priklad-generated-report, 
+language=json, 
+frame=tb,
+xleftmargin=.085\textwidth, 
+xrightmargin=.085\textwidth]
+{
+  "type": "crash",
+  "age": 42,
+  "url": "https://example.com/",
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
+  "body": {
+    "crashId": "30437694edfeae5b",
+    "reason": "oom"
+  }
+}
+\end{lstlisting}
+\end{center}
+
+% Asi si tu zamienam pojmy prehliadac a user agent
+
+\subsection{Špecifikácia NEL}
+\label{network-error-logging-spec}
+
 % Security - https://www.w3.org/TR/secure-contexts/
 % Dosiahnuteľnosť Web Serveru
 % Web Reliability
@@ -632,136 +812,117 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 % Mail od Polcaka - Nieco naviac o NEL
 % Consider - https://w3c.github.io/reporting/network-reporting
 
-\subsection{Závislosť na Reporting API}
-
-\begin{itemize}
-    \item Všeobecná náväznosť na zlyhania komunikácie
-    \item Cieľ
-    \item Ako funguje
-    \item Konfigurácia
-    \item Príklady
-    \item Možnosti reálneho využitia (konkrétna náväznosť na NEL)
-\end{itemize}
-
-\subsection{Špecifikácia}
-
 \begin{itemize}
     \item Cieľ
     \item Ako zapadá do a ako využíva predošle spomenuté koncepty
     \item Ako funguje
     \item Konfigurácia
     \item Príklady
+    \item NEL-Client-side-Measurements... článok, skecie 2, 3
 \end{itemize}
 
 
 
-\section{OLD CONTENT}
-V tejto kapitole popisujem problematiku, v ktorej sa táto práca venuje. Jedná sa tu o možné nástrahy pri komunikácií typu klient-server,
-ktoré môžu nastať a spôsobiť probmlémy ako napríklad nedosiahnuteľnosť servera, s ktorým klient komunikáciu pôvodne nadviazal.
-O takýchto a podobných problémoch sa server ziaľ nemá ako dozvedieť, a preto vzniká potreba nájsť nejaký spôsob ako takéto problémy pri ich
-vzniku identifikovať a nahlásiť formou štruktúrovanej správy vývojárom zodpovedným za prevádzku daného servera. V prípade, že 
-na problém takto poukázané, v nasledujúcich krokoch je možné postaviť sa k nemu s vhodnými protiopatreniami a úspešne ho odstrániť, a teda 
-tak zároveň aj znovuspojazdniť predtým nefunkčnú komunkikáciu s klientami, u ktorých sa tento problém prejavoval.
-\\
-V tejto kapitole začnem s úvodom do širšieh spektra zavedenej problematiky, kde spomeniem technológie s podobným účelom 
-ako Network Error Logging (ďalej označovaný iba ako NEL), aké nedostatky aktuálneho stavu problematiky riešia, no hlavne, aké majú nedostatky. 
-Tým sa prepracujem k podstate a motivácií k nasadeniu samotného NEL-u a ďalších technológií priamo súvisiacich s ním. 
-Jedná sa tu čisto o teoretický základ nutný pre pochopenie nasledujúcich sekcií tejto práce. 
-Aktuálny stav využívania technológií spomínaných nižšie bude uvedený a detailne rozpísaný v kapitole \ref{related-work}.
+% \section{OLD CONTENT}
+% V tejto kapitole popisujem problematiku, v ktorej sa táto práca venuje. Jedná sa tu o možné nástrahy pri komunikácií typu klient-server,
+% ktoré môžu nastať a spôsobiť probmlémy ako napríklad nedosiahnuteľnosť servera, s ktorým klient komunikáciu pôvodne nadviazal.
+% O takýchto a podobných problémoch sa server ziaľ nemá ako dozvedieť, a preto vzniká potreba nájsť nejaký spôsob ako takéto problémy pri ich
+% vzniku identifikovať a nahlásiť formou štruktúrovanej správy vývojárom zodpovedným za prevádzku daného servera. V prípade, že 
+% na problém takto poukázané, v nasledujúcich krokoch je možné postaviť sa k nemu s vhodnými protiopatreniami a úspešne ho odstrániť, a teda 
+% tak zároveň aj znovuspojazdniť predtým nefunkčnú komunkikáciu s klientami, u ktorých sa tento problém prejavoval.
+% \\
+% V tejto kapitole začnem s úvodom do širšieh spektra zavedenej problematiky, kde spomeniem technológie s podobným účelom 
+% ako Network Error Logging (ďalej označovaný iba ako NEL), aké nedostatky aktuálneho stavu problematiky riešia, no hlavne, aké majú nedostatky. 
+% Tým sa prepracujem k podstate a motivácií k nasadeniu samotného NEL-u a ďalších technológií priamo súvisiacich s ním. 
+% Jedná sa tu čisto o teoretický základ nutný pre pochopenie nasledujúcich sekcií tejto práce. 
+% Aktuálny stav využívania technológií spomínaných nižšie bude uvedený a detailne rozpísaný v kapitole \ref{related-work}.
 
-\section{Všeobecná problematika zlyhaní v komunikáciach typu klient-server}
+% \section{Všeobecná problematika zlyhaní v komunikáciach typu klient-server}
 
-Aké problémy môžu nastať
-\\
-Ako sa to prejavuje
-\\
-Dôkaz, že server takéto problémy nedokáže detekovať
+% Aké problémy môžu nastať
+% \\
+% Ako sa to prejavuje
+% \\
+% Dôkaz, že server takéto problémy nedokáže detekovať
 
-\section{Monitoriovanie spoľahlivosti webových služieb}
+% \section{Monitoriovanie spoľahlivosti webových služieb}
 
-Sekcia bude vyplývať z článku priloženého k odporučenej literatúre zadania tejto BP \cite{nel-client-side-measurement-e2e-reliability}
-\\
-Existujúce populárne spôsoby riešenia uvedených problémov - napr: DVP, JavaScript...
-\\
-Aké problémy tieto riešenia stále nepokrývajú - napr. JavaScript sa vôbec nemusí spustiť (klient ho neobdrží od servera).
-\\
-Motivácia používania NEL - aké aktuálne riešenia ponúka pre možné chyby a perspektíva do budúcnosti.
+% Sekcia bude vyplývať z článku priloženého k odporučenej literatúre zadania tejto BP \cite{nel-client-side-measurement-e2e-reliability}
+% \\
+% Existujúce populárne spôsoby riešenia uvedených problémov - napr: DVP, JavaScript...
+% \\
+% Aké problémy tieto riešenia stále nepokrývajú - napr. JavaScript sa vôbec nemusí spustiť (klient ho neobdrží od servera).
+% \\
+% Motivácia používania NEL - aké aktuálne riešenia ponúka pre možné chyby a perspektíva do budúcnosti.
 
-\todo{Table 1: Properties satisfied by different approaches for detecting service reachability problems at scale.}
+% \todo{Table 1: Properties satisfied by different approaches for detecting service reachability problems at scale.}
 
-Odkaz na Table 1 - Jednou z motivácií pre vývoj štandardu NEL bolo, že ako jediný by bol schopný presne vyčísliť koľko klientov je
-v danom čase (aktuálne) afektovaných výpadkom v komunikácií. Práve táto schopnosť ručí za pridanú hodnotu korektného určenia závažnosti,
-tým pádom aj priority konkrétneho zlyhania. Správci serveru, ktorý interne používa NEL, majú dostatočný prehľad o stave siete a na základe 
-toho môžu rozhodovať o tom, kam zamerajú svoje úsilie o riešenie závad.    
+% Odkaz na Table 1 - Jednou z motivácií pre vývoj štandardu NEL bolo, že ako jediný by bol schopný presne vyčísliť koľko klientov je
+% v danom čase (aktuálne) afektovaných výpadkom v komunikácií. Práve táto schopnosť ručí za pridanú hodnotu korektného určenia závažnosti,
+% tým pádom aj priority konkrétneho zlyhania. Správci serveru, ktorý interne používa NEL, majú dostatočný prehľad o stave siete a na základe 
+% toho môžu rozhodovať o tom, kam zamerajú svoje úsilie o riešenie závad.    
 
-\section{Network Error Logging}
+% \section{Network Error Logging}
 
-\todo{Náhľad na NEL z hladiska jeho špecifikácie}
+% \todo{Náhľad na NEL z hladiska jeho špecifikácie}
 
-NEL je štandard pre zachytávanie a získavanie chýb a zlyhaní na úrovni webového prehliadača navrhnutý organizáciou World Wide Web 
-Consortium (ďalej v skratke iba W3C). Tento štandard bol prvýkrát popísaný v článku publikovanom 11/02/2014 a je dodnes aktualizovávaný
-s tým, že posledná verzia jeho špecifikácie bola vydaná práve v dobe vzniku tejto bakalárskej práce, a to presne 5/10/2023. 
+% NEL je štandard pre zachytávanie a získavanie chýb a zlyhaní na úrovni webového prehliadača navrhnutý organizáciou World Wide Web 
+% Consortium (ďalej v skratke iba W3C). Tento štandard bol prvýkrát popísaný v článku publikovanom 11/02/2014 a je dodnes aktualizovávaný
+% s tým, že posledná verzia jeho špecifikácie bola vydaná práve v dobe vzniku tejto bakalárskej práce, a to presne 5/10/2023. 
 
-Hlavným cieľom NEL je poskytovať prevádzkovateľom webových serverov priamy pohľad na chybové stavy, ktoré môžu vzniknúť pri snahe 
-klientských aplikácií komunikovať s nimi. Pri takejto klient-server komunikácií môže nastať hneď niekoľko kategórií problémov, 
-kde v každej z nich si zaslúžia jednotlivé chyby svoje vysvetlenie. Dôležité je, že server v obyčajnom scenári takejto komunikácie 
-nemá žiadnu možnosť dostať sa k informácií o tom, že sa niečo pokazilo, ani čo konkrétne bol samotný problém. Práve toto je cieľom 
-napraviť pre tento štandard a tým pádom sa tvorcom tejto technológie jedná o postupné zvýšenie dostupnosti služieb poskytovaných 
-na internete sprevádzkovaním NEL na svojich webových serveroch.
+% Hlavným cieľom NEL je poskytovať prevádzkovateľom webových serverov priamy pohľad na chybové stavy, ktoré môžu vzniknúť pri snahe 
+% klientských aplikácií komunikovať s nimi. Pri takejto klient-server komunikácií môže nastať hneď niekoľko kategórií problémov, 
+% kde v každej z nich si zaslúžia jednotlivé chyby svoje vysvetlenie. Dôležité je, že server v obyčajnom scenári takejto komunikácie 
+% nemá žiadnu možnosť dostať sa k informácií o tom, že sa niečo pokazilo, ani čo konkrétne bol samotný problém. Práve toto je cieľom 
+% napraviť pre tento štandard a tým pádom sa tvorcom tejto technológie jedná o postupné zvýšenie dostupnosti služieb poskytovaných 
+% na internete sprevádzkovaním NEL na svojich webových serveroch.
 
-V nasledujúcich sekciách chcem vysvetliť jednotlivé detaily týkajúce sa tejto technológie, ktoré sú naprosto potrebné k porozumeniu 
-implementačnej časti tejto práce - kapitole č.\ref{analysis-and-its-results}. Pokiaľ nebude uvedené inak, v tejto kapitole čerpám hlavne 
-z poslednej dostupnej verzie dokumentu špecifikácie NEL\cite{W3C-NEL}.
+% V nasledujúcich sekciách chcem vysvetliť jednotlivé detaily týkajúce sa tejto technológie, ktoré sú naprosto potrebné k porozumeniu 
+% implementačnej časti tejto práce - kapitole č.\ref{analysis-and-its-results}. Pokiaľ nebude uvedené inak, v tejto kapitole čerpám hlavne 
+% z poslednej dostupnej verzie dokumentu špecifikácie NEL\cite{W3C-NEL}.
 
-\subsection{Základný model NEL}
-\todo{Špecifikácia NEL, ktorá je jednoznačne potrebná pre účel pochopenia implementačnej časti (analýzy)} 
+% \subsection{Základný model NEL}
+% \todo{Špecifikácia NEL, ktorá je jednoznačne potrebná pre účel pochopenia implementačnej časti (analýzy)} 
 
-NEL je možné využiť pri komunikácií klienta so serverom pomocou protokolu HTTP. Jeho funkcionalita je zapracovaná do užívateľských 
-prehliadačov založených na open-source?? distribúcií projektu \textbf{Chromium}, a to menovite napríklad: Google Chrome, Opera alebo 
-Microsoft Edge. \todo{CITE}
+% NEL je možné využiť pri komunikácií klienta so serverom pomocou protokolu HTTP. Jeho funkcionalita je zapracovaná do užívateľských 
+% prehliadačov založených na open-source?? distribúcií projektu \textbf{Chromium}, a to menovite napríklad: Google Chrome, Opera alebo 
+% Microsoft Edge. \todo{CITE}
 
-Jeho vnútorné mechanizmy sú spustené práve vtedy, keď server pri vyhotovovaní novej požiadavky zašle v svojej odpovedi spolu s ostatnými 
-aj hlavičku \code{NEL}. Tento proces sa nazýva \textbf{Policy delivery} a sprostredkuje dohodu o zbieraní, udržiavaní a nahlasovaní chýb 
-vzniknutých pri komunikácií. Samotné politiky sú popísané vo väčšom detaile v sekcií \ref{nel-policies}.
-\\
-\\
-Hlavička \code{NEL} vo svojej najjednoduchšej podobe musí obsahovať nasledovné položky: 
+% Jeho vnútorné mechanizmy sú spustené práve vtedy, keď server pri vyhotovovaní novej požiadavky zašle v svojej odpovedi spolu s ostatnými 
+% aj hlavičku \code{NEL}. Tento proces sa nazýva \textbf{Policy delivery} a sprostredkuje dohodu o zbieraní, udržiavaní a nahlasovaní chýb 
+% vzniknutých pri komunikácií. Samotné politiky sú popísané vo väčšom detaile v sekcií \ref{nel-policies}.
+% \\
+% \\
+% Hlavička \code{NEL} vo svojej najjednoduchšej podobe musí obsahovať nasledovné položky: 
 
-\begin{itemize}
-    \item \code{report\textunderscore to} - menom označená skupina zberačov reportov (collerctors, viď \ref{reporting-api}) 
-    \item \code{max\textunderscore age} - doba platnosti zaslanej politiky NEL
-\end{itemize}
+% \begin{itemize}
+%     \item \code{report\textunderscore to} - menom označená skupina zberačov reportov (collerctors, viď \ref{reporting-api}) 
+%     \item \code{max\textunderscore age} - doba platnosti zaslanej politiky NEL
+% \end{itemize}
 
-Tieto hlavičky musia byť zadané vo formáte \code{application\textbackslash json}, takže ukážkový obsah HTTP hlavičky NEL môže vyzerať 
-napríklad takto:
+% Tieto hlavičky musia byť zadané vo formáte \code{application\textbackslash json}, takže ukážkový obsah HTTP hlavičky NEL môže vyzerať 
+% napríklad takto:
 
-\begin{lstlisting}[caption={Ukážka obsahu najjednoduchšej/minimálnej HTTP hlavičky NEL. Akékoľvek chyby budú hlásené do skupiny 
-    \code{network-errors} po dobu platnosti tejto politiky, ktorá bola nastavená na 7 dní (604 800 / 60s / 60min / 24h)}]
+% \begin{lstlisting}[caption={Ukážka obsahu najjednoduchšej/minimálnej HTTP hlavičky NEL. Akékoľvek chyby budú hlásené do skupiny 
+%     \code{network-errors} po dobu platnosti tejto politiky, ktorá bola nastavená na 7 dní (604 800 / 60s / 60min / 24h)}]
 
-{"report_to": "network-errors", "max_age": 604800}
+% {"report_to": "network-errors", "max_age": 604800}
 
-\end{lstlisting}
-% \label{nel-simple-example}
-%\todo{center only the lstlisting without the caption}
-%\\
-\todo{V návrhu NEL je v detaile opísané, ako požiadavky na bezpečnosť ovplyvnili jeho návrh a funkcionalitu. Toto je nutné spomenúť, no myslím,
-že sa v tejto práci tomu nie je potreba venovať}
+% \end{lstlisting}
+% % \label{nel-simple-example}
+% %\todo{center only the lstlisting without the caption}
+% %\\
+% \todo{V návrhu NEL je v detaile opísané, ako požiadavky na bezpečnosť ovplyvnili jeho návrh a funkcionalitu. Toto je nutné spomenúť, no myslím,
+% že sa v tejto práci tomu nie je potreba venovať}
 
-\subsection{Konfigurácia}
+% \subsection{Konfigurácia}
 
-Všetky položky, ktoré je možné v NEL hlavičke uviezť.
+% Všetky položky, ktoré je možné v NEL hlavičke uviezť.
 
-\subsection{Politiky a ich uskladňovanie na strane klienta}
-\label{nel-policies}
-
-
-\subsection{Rozšírenia plánované v budúcnosti}
-
-Nová verzia NEL, ktorá bude schopná spolupracovať s Reporting API v1 (momentálne funguje iba s v0)
+% \subsection{Politiky a ich uskladňovanie na strane klienta}
+% \label{nel-policies}
 
 
+% \subsection{Rozšírenia plánované v budúcnosti}
 
-\section{Reporting API}
-\label{reporting-api}
-
-Doplnkové info, ktoré je skrátka nutné spomenúť \cite{W3C-reporting-api}
+% Nová verzia NEL, ktorá bude schopná spolupracovať s Reporting API v1 (momentálne funguje iba s v0)
