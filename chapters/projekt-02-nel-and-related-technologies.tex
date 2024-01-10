@@ -631,7 +631,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 
 Podľa definície monitorovania z kapitoly \ref{monitorovanie}, NEL slúži ako mechanizmus
 zabezpečujúci monitorovanie zlyhaní žiadostí pre zdroje uložené na web serveri, ktorý NEL používa.
-Predtým však, ako sa dostanem k popisu NEL, jeho možnostiam a konfigurácii, musím popísať konkrétnu Web API, Reporting API, na ktorej je z hľadiska svojej funkcionality závislý.
+Predtým však, ako sa dostanem k popisu NEL, jeho možnostiam a konfigurácii, musím popísať konkrétnu Web API -- Reporting API, na ktorej je z hľadiska svojej funkcionality závislý.
 
 \subsection{Závislosť na Reporting API}
 \label{reporting-api}
@@ -649,8 +649,8 @@ Aby bolo možné tento balík uplatniť, musí ho podporovať webový prehliada�
 V tomto bode je dôležité povedať, že aj keď je najnovšou verziou tejto API verzia popisovaná špecifikáciou zverejnenou 10. novembra 2023, v tejto kapitole nepopisujem práve túto.
 Dôvodom je, že technológia NEL je stále v procese vývoja a jej momentálna verzia je implementovaná tak, aby fungovala so staršou verziou Reporting API.
 Konkrétne, NEL je kompatibilný s verziou popisovanou v špecifikácií zverejnenej 
-25. septembra 2018, taktiež označovanou ako verzia \textbf{v0}.
-Ďalej teda opisujem výhradne Reporting API verzie v0.
+25. septembra 2018, taktiež označovanou ako verzia \textbf{\code{v0}}.
+Ďalej teda opisujem výhradne Reporting API verzie \code{v0}.
 
 \subsubsection{Definícia pravidiel}
 
@@ -734,7 +734,7 @@ Hlásenie je správa týkajúca sa jednej z hlásiteľných udalostí, ktoré m�
 Medzi tieto hlásiteľné udalosti patrí: 
 \begin{itemize}
     \item Prehliadač použije Web API, ktorá bola označená ako zastaraná
-    \item User Agent sa rozhodol nezaslať ďalšiu žiadosť na Origin Server z bezpečnostných dôvodov.
+    \item User Agent sa rozhodol nezaslať ďalšiu žiadosť na Origin Server z bezpečnostných dôvodov
     \item Prehliadač zlyhal a bol terminovaný
     \item Došlo k zlyhaniu týkajúceho sa \textbf{oblasti monitorovania NEL}
 \end{itemize}
@@ -780,7 +780,7 @@ Každé z nich sa odošle vo formáte JSON na vybraný prioritný web server v n
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača. Hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu Out Of Memory (nedostatok pamäte).},
+\begin{lstlisting}[caption={\centering Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača. Hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu \textit{Out Of Memory} (nedostatok pamäte).},
 label=listing:priklad-generated-report, 
 language=json, 
 frame=tb,
@@ -799,7 +799,8 @@ xrightmargin=.085\textwidth]
 \end{lstlisting}
 \end{center}
 
-% Asi si tu zamienam pojmy prehliadac a user agent
+% TODO Asi si tu zamienam pojmy prehliadac a user agent
+% TODO compatibility table
 
 \subsection{Špecifikácia NEL}
 \label{network-error-logging-spec}
@@ -812,15 +813,27 @@ xrightmargin=.085\textwidth]
 % Mail od Polcaka - Nieco naviac o NEL
 % Consider - https://w3c.github.io/reporting/network-reporting
 
-\begin{itemize}
-    \item Cieľ
-    \item Ako zapadá do a ako využíva predošle spomenuté koncepty
-    \item Ako funguje
-    \item Konfigurácia
-    \item Príklady
-    \item NEL-Client-side-Measurements... článok, skecie 2, 3
-\end{itemize}
+NEL, podobne ako Reporting API, je mechanizmus spúšťaný tým, že je User Agentovi pri žiadosti o cieľový zdroj v HTTP odpovedi zaslaná hlavičku \code{NEL}.
+Hlavička \code{NEL} môže obsahovať jedno a viac pravidiel určených pre User Agenta, ktorý ak NEL podporuje, vyberie prvé správne sformované pravidlo v poradí a uloží si ho ako konfiguráciu NEL.
+Ostatné pravidlá má User Agent podľa špecifikácie ignorovať.
 
+Spolu s uvedenou hlavičkou s obsahom predstavujúcim konfiguráciu tejto technológie web server musí taktiež posielať klientovi hlavičku \code{Report-To}. 
+Použitím NEL a Reporting API v tandeme zabezpečuje jednak nastavenie samotného monitorovania NEL, ale aj jeho závislosti -- tvorby a zasielania NEL hlásení.
+User Agent, ktorý získal obe hlavičky začne generovať hlásenia o zlyhaniach týkajúcich sa prenášaných zdrojov medzi klientom a web serverom, z ktorej \code{NEL} hlavička bola odoslaná. 
+
+Definovaných pravidiel môže byť viac ako jedno. 
+Každé pravidlo však prislúcha jednej doméne priradenej web serveru a prípadne aj jeho subdoménam.
+
+% Jako posiela reporte
+% Jako vybera pravidlo
+% Ako proces konci
+
+% Zaslana hlavicka NEL
+% Telo vygenerovaneho reportu (odkaz na Reporting API)
+% Priklad
+% Typy reportov
+% Dodatocne vyhlasenia
+% HOTOVINKO
 
 
 % \section{OLD CONTENT}
