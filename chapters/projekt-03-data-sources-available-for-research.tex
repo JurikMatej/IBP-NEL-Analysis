@@ -4,27 +4,27 @@
 Pre účely analýzy využívania technológie NEL je nutné nejakým spôsobom získať pohľad do diania vo verejnom internete.
 Cieľom je pozerať sa na reálne komunikácie, ktoré buď už prebehli, alebo skúmať ako určité webové služby aktuálne dostupné na internete
 odpovedajú na HTTP(S) požiadavky. V tejto kapitole sú do detailu rozvedené dostupné zdroje dát 
-a ktoré z nich sú reálne aj použité v praktickej časti tejto práce -- kapitole \ref{analysis-and-its-results}.
+a ktoré z nich sú reálne aj použité v praktickej časti tejto práce. % TODO -- kapitole \ref{analysis-and-its-results}.
 
 \section{Potrebné dáta}
 
 To čo je potrebné zaobstarať pre analýzu v tejto práci sú záznamy konkrétnych služieb, z ktorých možno čerpať aktuálny alebo historický stav. Čo sa týka štruktúry, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete} a prípadne aj ich subdomén, ktoré možno skúmať. 
 Zoznam spĺňajúci takýto popis je potrebné zaobstarať práve preto, aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy ako napríklad medzi jednotlivou doménou a jej vlastníkom. 
 Práve touto spojitosťou sa postupne môžeme dostať napríklad k prehľade o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
-Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej kapitole (\ref{tranco}), kde sú do detailu popísané aj ich dôležité vlastnosti.
+Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej sekcií, sekcií číslo \ref{tranco}, kde sú do detailu popísané aj ich dôležité vlastnosti.
 
 Následne, v bode, keď už by bolo známe, ktoré domény je možné podrobiť analýze, je nutné k nim nejako prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu. 
-Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTP(S)}, v ktorom majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL. Existuje celá sada metód, ako sa k tomuto prenosu dostať. 
-Z hľadiska prítomnosti, a teda aktuálneho stavu webových technológií je vhodné použiť napríklad techniku takzvanú \textbf{Web Crawling}, ktorá je v kapitole \ref{web-crawling} popísaná v kontexte s využiteľnými zdrojmi dát, ktoré ju používajú.
+Keďže je tu zameraním technológia NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTPS}, v ktorom majú byť preverené prítomnosti hlavičiek spojazdňujúcich NEL. Existuje celá sada metód, ako sa k tomuto prenosu dostať. 
+Z hľadiska prítomnosti, a teda aktuálneho stavu webových technológií je vhodné použiť napríklad techniku takzvanú \textbf{Web Crawling}.
 Na účel Web Crawlingu je možné použiť už existujúce technológie ako \textbf{Selenium}. 
-Selenium opisuje kapitola \ref{selenium}.
+Selenium opisuje sekcia \ref{selenium}.
 No aby bol nadobudnutý celkový prehľad, je nevyhnutné nahliadnuť taktiež do histórie prevádzky webu. 
 V tomto bode je zasa nutné hľadať už spracované a uložené dáta získané či už Web Crawlingom, alebo inými spôsobmi. 
-Vyhovujúcim sprostredkovávateľom takýchto historických dát je napríklad \textbf{HTTP Archive}, ktorému sa práca venuje primárne (\ref{httparchive}).
+Vyhovujúcim sprostredkovávateľom takýchto historických dát je napríklad \textbf{HTTP Archive}, ktorému sa práca venuje primárne, a to v sekcií \ref{httparchive}.
 Ide o službu, ktorá zaznamenáva vývoj webu od roku 2010 a teda jej vhodnosť sa potvrdzuje tým, že samotná špecifikácia skúmanej technológie v tejto práci bola publikovaná až v roku 2018.
 
-V oblasti zdrojov historických dát sa nachádzajú aj určité alternatívy, ktoré je možné využiť komplementárne k spomenutému primárnemu zdroju.
-Im je tu venovaná iba okrajová pozornosť, no každá z nich ale za zmienku nepopierateľne stojí, a preto sú popísané v kapitole \ref{httparchive-alternatives}.
+% V oblasti zdrojov historických dát sa nachádzajú aj určité alternatívy, ktoré je možné využiť komplementárne k spomenutému primárnemu zdroju.
+% Im je tu venovaná iba okrajová pozornosť, no každá z nich ale za zmienku nepopierateľne stojí, a preto sú popísané v kapitole \ref{httparchive-alternatives}.
 
 
 \section{TRANCO}
@@ -36,16 +36,13 @@ a tým pádom relevantná pre verejnosť. Najviac teda prichádza do úvahy zame
 ich popularity (navštevovanosti), ktorý bude zároveň nadobúdať rozumnú veľkosť pre účely prieskumu. 
 
 Zaobstarávaniu zoznamov web stránok, ktoré majú spĺňať konkrétne predurčené kritéria sa venuje rad iných existujúcich prác/služieb 
-\cite{tranco}\cite{hacker-target-website-lists-overview}. Táto práca namiesto implementovania vlastného riešenia využíva jedno z nich -- TRANCO.
+\cite{hacker-target-website-lists-overview, tranco}. Táto práca namiesto implementovania vlastného riešenia využíva jedno z nich -- TRANCO.
 
 TRANCO je rebríček webových stránok zoradených podľa hodnotenia ich populárnosti/navštevovanosti, ktorý je odolný proti externej manipulácií a vhodný na účely výskumu \cite{tranco-homepage}. 
 Vznikol na základe častej potreby pre skúmanie práve takýchto stránok či už pre jednoduchú referenciu, alebo ako podklad pre ďalší prieskum.
 Obsahuje primárne Pay-Level Domény (PLD), čo sú domény, ktoré si môže priamo zakúpiť či už jednotlivec alebo organizácia. PLD sa skladajú zo subdomény verejného 
-suffixu\footnote{Verejný suffix (public suffix) je jedným z takých, pod ktorými je alebo historicky bolo možné registrovať doménové mená pre používateľov internetu. Ide napríklad o .com, .co.uk 
-alebo aj pvt.k12.ma.us. Viď oficiálnu stránku so zoznamov verejných suffixov -- \href{https://publicsuffix.org/}{https://publicsuffix.org/}} 
-alebo efektívnej Top-Level Domény (eTLD)\footnote{Efektívna top-level doména, pod ktorou môžu byť domény registrované jedinou organizáciu. eTLD je práve tá časť domény, ktorá naselduje za poslednoým 
-znakom \code{\textbf{.}} -- napríklad pre \code{crookedtimber.org} je eTLD \code{\textbf{org}}. Viď dokumentáciu pre bližšie info -- \href{https://developer.mozilla.org/en-US/docs/Glossary/eTLD}
-{https://developer.mozilla.org/en-US/docs/Glossary/eTLD}} -- napríklad \code{.com} ale aj \code{.co.uk} \cite{tranco}. Okrem PLD je možné vygenerovať rebríček aj so subdoménami (viď 
+suffixu
+alebo efektívnej Top-Level Domény (eTLD) -- napríklad \code{.com} ale aj \code{.co.uk} \cite{tranco}. Okrem PLD je možné vygenerovať rebríček aj so subdoménami (viď sekciu
 \ref{tranco-generation}).
 
 Príkladom využitia TRANCO môže byť analýza využitia konkrétnych webových technológií na týchto stránkach -- od použitej metódy komprimácie jej obsahu po rámce, pomocou ktorých bola 
@@ -63,11 +60,13 @@ V jeho štandardnej forme, rebríček TRANCO sa generuje každý deň v dvoch ve
 \end{itemize}
 
 V tomto každodenne generovanom rebríčku sú prednastavené ako zdroje dát (použité existujúce rebríčky), tak aj dátumový rozsah, za ktorý sa zo zdrojových rebríčkov má čerpať.
-Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca kapitola (\ref{tranco-source-rankings}). 
+Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca sekcia \ref{tranco-source-rankings}. 
 Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-github}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
 
+\pagebreak
+
 V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných kombinačných metód pre upravenie finálneho hodnotenia domén.
-Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, zvaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú skórom 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco}\cite{tranco-homepage}.
+Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, zvaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú skórom 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco, tranco-homepage}.
 
 Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
 ktorou je možné jedinečne referencovať tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
@@ -84,7 +83,7 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
 \begin{enumerate}
     \item Zdrojové rebríčky domén
     
-    Celkový výber možných vstupných rebríčkov je nasledovný -- Chrome User Experience Report, \textbf{Majestic}, Radar, Cisco Umbrella, \textbf{Alexa}, Quantcast, Farsight
+    Celkový výber možných vstupných rebríčkov je nasledovný -- Chrome User Experience Report, Majestic, Radar, Cisco Umbrella, Alexa, Quantcast, Farsight
     
     \item Počet dní, za ktoré zbierať vstupné rebríčky
     \begin{enumerate}
@@ -94,8 +93,8 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
 
     \item Kombinačná metóda hodnotenia domén:
     \begin{enumerate}
-        \item Aritmetická progresia -- \textbf{Borda count} (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1)
-        \item Harmonická progresia -- \textbf{Dowdall rule} (štandardne zvolená)
+        \item Aritmetická progresia -- Borda count (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1)
+        \item Harmonická progresia -- Dowdall rule (štandardne zvolená)
     \end{enumerate}
 
     \item Počet prvých N domén, ktoré vziať ako vstup z každého rebríčka (štandardne milión)
@@ -106,7 +105,7 @@ Konfigurovateľnosť nového zoznamu pozostáva z nasledujúcich možností: \ci
         \begin{enumerate}
             \item nachádza sa v zoznamoch aspoň počas N dní
             \item nachádza sa aspoň v N zoznamoch
-            \item nenachádza sa v zozname potencionálne nebezpečných domén, ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}
+            \item nenachádza sa v zozname potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}
         \end{enumerate}
 
         \item Podľa domény samotnej
@@ -149,7 +148,7 @@ Rebríček Alexa sa v tomto skúmaní HTTP(S) prevádzky zaoberá doménami PLD 
 Počet užívateľov s nainštalovaným rozšírením bol však obmedzený 
 a to mohlo spôsovovať značné skreslenie celkových výsledkov kvôli malému zastúpeniu vzoriek prehliadania z celkovej sady -- všetkých používateľov internetu. 
 Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto užívateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco}.
-Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article}\cite{tranco}
+Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article, tranco}
 \begin{itemize}
     \item Počet návštevníkov stránky za daný deň (viac návštev od jedného sa počíta ako jediná návšteva)
     \item Spriemerovaný počet otvorení hocijakej podstránky (URL v rámci sledovanej domény)
@@ -166,7 +165,7 @@ Od vtedy, konkrétne od 30.01.2018, bol zhotovovaný striktne iba za každý kon
 
 \subsubsection{Majestic Million}
 
-Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domien zoradených podľa množstva spätných odkazov na ne ukazujúcich \cite{majestic-million-homepage}\cite{majestic-million-ranking}.
+Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domien zoradených podľa množstva spätných odkazov na ne ukazujúcich \cite{majestic-million-homepage, majestic-million-ranking}.
 V jednoduchosti to znamená, že čím viac priamych odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto zozname zaradená. 
 Ako individuálne technologické riešenie bol Majestic Million uverejnený na webových stránkach autora 1.10.2012 \cite{majestic-million-publication}.
 Autorom je spoločnosť Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
@@ -177,7 +176,7 @@ na hodnotenú doménu minimálne jedenkrát.
 Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní \cite{tranco-methodology}.
 Tiež vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti \cite{majestic-million-homepage}.
 
-V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich sub-domény}, takže sa môže stať, že napríklad doména \code{google.com} 
+V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich subdomény}, takže sa môže stať, že napríklad doména \code{google.com} 
 sa v ňom bude vyskytovať viackrát v podobe svojich sub-domén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné) \cite{majestic-million-sub-domain-filtered}.
 
 Na oficiálnom webe Majestic sú taktiež dostupné doplnkové služby, ktoré svojim užívateľom poskytujú naväzujúce užitočné informácie o týchto doménach. 
@@ -209,16 +208,16 @@ Jedinou výnimkou boli domény mimo US, ktoré využívali spomínaný sledovac�
 
 \subsubsection{Chrome User Experience Report}
 
-Dôležité vysvetliť kvôli kontextu v HTTP Archive
-\todo{Je potrebné zvážiť čo napíšem sem a čo vysvetlím inde, pretože sa používa na viacerých miestach --- ZATIAĽ SOM NESTIHOL}
+% \todo{}
+Táto sekcia ešte nie je napísaná.
 
 \subsubsection{Cloudflare Radar}
 
 Po ohlásení ukončenia podpory pre zoznam Alexa sa spoločnosť Cloudflare rozhodla poskytnúť vhodnú alternatívu.
 Od 26. septembra 2022 zverejňujú rebríček Radar obsahujúci domény PLD, ktorý je aktualizovaný podľa dvojej veľkosti na dennej alebo týždennej báze \cite{tranco-methodology}.
 
-Dáta o návštevnosti domén sú získavané zo sieťovej premávky na Cloudflare \code{1.1.1.1} DNS resolveri.
-Resolver 1.1.1.1 je verejný Cloudflare DNS resolver, ktorý sprostredkuje rýchly a súkromný spôsob prehliadania internetu.
+Dáta o návštevnosti domén sú získavané zo sieťovej premávky na Cloudflare DNS resolveri s IP adresou \code{1.1.1.1}.
+Resolver \code{1.1.1.1} je verejný Cloudflare DNS resolver, ktorý sprostredkuje rýchly a súkromný spôsob prehliadania internetu.
 To podkladajú fakty, že je považovaný za najrýchlejší resolver a zároveň, že inzerentom nepredáva dáta o svojich užívateľoch.
 
 Umiestnenia domén v rebríčku sú vypočítané na základe metriky popularity, ktorá predstavuje podľa popisu od Cloudflare "\textit{odhadovanú relatívnu veľkosť populácie užívateľov, ktorí navštívili doménu za určitú dobu}". 
@@ -231,15 +230,11 @@ Veľkosť prvého, jediného bucketu, ktorý je aktualizovaný každý deň je 1
 Nasledujúce buckets majú jednotlivé veľkosti 200, 500, 1,000, 2,000, 5,000, 10,000, 20,000, 50,000, 100,000, 200,000, 500,000 a 1,000,000 domén.
 Tieto podstatne obsažnejšie zoznamy už nie sú zoradené vzájomne medzi sebou, ale každý bucket predstavuje relatívne porovnateľnú vzdialenosť začlenenej domény od tej najpopulárnejšej \cite{cloudflare-radar}.
 
-\section{Web Crawling}
-\label{web-crawling}
 
-\todo{Obyčajná teória a vhodnosť Selenia ako výberu technológie pre túto prácu}
-
-\subsection{Selenium}
+\section{Selenium}
 \label{selenium}
 
-\todo{Describe necessary and useful parts of selenium}
+Táto sekcia ešte nie je napísaná.
 
 \section{HTTP Archive}
 \label{httparchive}
@@ -270,10 +265,10 @@ Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú zí
 Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
 HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je žiadosť HTTP \textbf{request} a odpoveď HTTP \textbf{response}, ktorou web server zareaguje. 
 Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z \textbf{desktop}, aj z \textbf{mobilného} prostredia.
-Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API\footnote{\href{https://developer.mozilla.org/en-US/docs/Web/API}{https://developer.mozilla.org/en-US/docs/Web/API}}) \cite{httparchive-homepage}.
+Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API) \cite{httparchive-homepage}.
 
 Výber vstupov do tohto procesu predstavuje hľadanie vhodnej sady záznamov URL na skúmanie. 
-HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v kapitole \ref{tranco-source-rankings}.
+HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v sekcii \ref{tranco-source-rankings}.
 
 \subsubsection{WebPageTest}
 
@@ -403,7 +398,7 @@ Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu (v
 BigQuery zdroj \code{httparchive} sprístupňuje aj niekoľko ďalších datasetov, no práve tie spomenuté vyššie tvoria sadu dôležitých, ktorými sa táto práca zaoberá. 
 
 Každý z týchto datasetov obsahuje tabuľky nazvané podľa rovnakej konvencie --- dátum vykonaného zberu dát a prostredie, v akom prebiehal.
-Dátum je vo formáte YYYY\_MM\_DD, kde YYYY predstavuje rok, MM mesiac a DD deň. Prostredie môže byť buď počítačové alebo mobilné, ako sa spomína už v kapitole \ref{fetching-data}.
+Dátum je definovaný formátom YYYY\_MM\_DD, kde YYYY predstavuje rok, MM mesiac a DD deň. Prostredie môže byť buď počítačové alebo mobilné, ako sa spomína už v sekcii \ref{fetching-data}.
 Príkladom názvu tabuľky teda môže byť '\code{2023\_01\_15\_mobile}' alebo '\code{2023\_01\_15\_desktop}'.
 
 \begin{center}
@@ -461,48 +456,48 @@ V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne z
 
 Využitie práve tohto reportu by bolo ideálnym spôsobom, ako \textbf{dostať NEL technológiu a jej využitie do verejného povedomia}.
 
-\section{Alternatívy}
-\label{httparchive-alternatives}
+% \section{Alternatívy}
+% \label{httparchive-alternatives}
 
-Aj keď je HTTP Archive najvhodnejším zdrojom dát pre účely tejto práce, existujú aj iné, ktoré stoja za zmienku.
-Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre hocijaký typ analýzy, no sú dostupné aj zdroje disponujúce špecifickými výhodami, ktoré
-zase umožňujú či už spätne kontrolovať správnosť dát HTTP Archive, alebo na ne nadviazať.
-Z toho dôvodu sú niektoré alternatívy popísané v tejto kapitole.
+% Aj keď je HTTP Archive najvhodnejším zdrojom dát pre účely tejto práce, existujú aj iné, ktoré stoja za zmienku.
+% Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre hocijaký typ analýzy, no sú dostupné aj zdroje disponujúce špecifickými výhodami, ktoré
+% zase umožňujú či už spätne kontrolovať správnosť dát HTTP Archive, alebo na ne nadviazať.
+% Z toho dôvodu sú niektoré alternatívy popísané v tejto kapitole.
 
-\subsection{crawler.ninja}
+% \subsection{crawler.ninja}
 
-Projekt \textbf{crawler.ninja} založený autorom Scottom Helme slúži ako podklad pre jeho prieskum
-webu, v ktorom pozoruje stav bezpečnosti na internete. 
-Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no o vytvorení projektu crawler.ninja na svojom blogu píše až v júli 2018 \cite{crawler-ninja}. 
+% Projekt \textbf{crawler.ninja} založený autorom Scottom Helme slúži ako podklad pre jeho prieskum
+% webu, v ktorom pozoruje stav bezpečnosti na internete. 
+% Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no o vytvorení projektu crawler.ninja na svojom blogu píše až v júli 2018 \cite{crawler-ninja}. 
 
-% \pagebreak
+% % \pagebreak
 
-Úmyslom autora pozorovať bezpečnosť vyúsťuje do jeho periodických reportov týkajúcich sa tejto tématiky. 
-Samotný projekt sa stará o zber dát pre zhotovenie týchto reportov.
-Aj keď zbieranie dát pretrváva do súčasnosti, posledný report od autora bol publikovaný dávnejšie --- 09.12.2021, od kedy zanechal svoju pravidelnosť (aspoň jeden report za rok).
+% Úmyslom autora pozorovať bezpečnosť vyúsťuje do jeho periodických reportov týkajúcich sa tejto tématiky. 
+% Samotný projekt sa stará o zber dát pre zhotovenie týchto reportov.
+% Aj keď zbieranie dát pretrváva do súčasnosti, posledný report od autora bol publikovaný dávnejšie --- 09.12.2021, od kedy zanechal svoju pravidelnosť (aspoň jeden report za rok).
 
-Crawler.ninja slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré autor plánuje skúmať.
-Ako vstup do tohto procesu, a teda zoznam použitých URL, sa používa rebríček populárnych stránok Alexa Top 1 milion.
+% Crawler.ninja slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré autor plánuje skúmať.
+% Ako vstup do tohto procesu, a teda zoznam použitých URL, sa používa rebríček populárnych stránok Alexa Top 1 milion.
 
-Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databázy MySQL, z ktorej je následne vytvorený takzvaný databázový export.
-Databázový export predstavuje súbor SQL príkazov, spustením ktorých môže ktokoľvek replikovať pôvodnú databázu aj s obsahom jej tabuliek. 
-Možnosť vytvoriť takýto súbor poskytuje priamo MySQL databáza. 
-Jednou z možností ako ho vytvoriť je použitím pomocného programu na tvorbu databázových záloh --- \code{mysqldump} \cite{mysql-doc}.
-Toto je dôležité pre toho, kto chce výsledné dáta použiť. 
-Na oficiálnej stránke crawler.ninja autor tieto súbory periodicky (ale nie priebežne za každý deň) zverejňuje pod licenciou \textit{CC BY-SA 4.0}, takže sú všetky získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
-Sú dostupné vo forme priamo stiahnuteľných archívov ZIP pomenovaných vždy podľa dátumu, za ktorý boli nazbierané.
-Ako je spomenuté vyššie, ten, kto chce dáta na svoje účely využiť si ich musí najskôr importovať do svojej databáze MySQL, kde s nimi môže začať pracovať.
-Docieliť toho je možné napríklad shell príkazom \code{\textbackslash source} v administrátorskej konzole MySQL \cite{mysql-doc}.
+% Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databázy MySQL, z ktorej je následne vytvorený takzvaný databázový export.
+% Databázový export predstavuje súbor SQL príkazov, spustením ktorých môže ktokoľvek replikovať pôvodnú databázu aj s obsahom jej tabuliek. 
+% Možnosť vytvoriť takýto súbor poskytuje priamo MySQL databáza. 
+% Jednou z možností ako ho vytvoriť je použitím pomocného programu na tvorbu databázových záloh --- \code{mysqldump} \cite{mysql-doc}.
+% Toto je dôležité pre toho, kto chce výsledné dáta použiť. 
+% Na oficiálnej stránke crawler.ninja autor tieto súbory periodicky (ale nie priebežne za každý deň) zverejňuje pod licenciou \textit{CC BY-SA 4.0}, takže sú všetky získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
+% Sú dostupné vo forme priamo stiahnuteľných archívov ZIP pomenovaných vždy podľa dátumu, za ktorý boli nazbierané.
+% Ako je spomenuté vyššie, ten, kto chce dáta na svoje účely využiť si ich musí najskôr importovať do svojej databáze MySQL, kde s nimi môže začať pracovať.
+% Docieliť toho je možné napríklad shell príkazom \code{\textbackslash source} v administrátorskej konzole MySQL \cite{mysql-doc}.
 
-Mimo uvedených dát v podobe databázových exportov sú od Scotta dostpné taktiež konkrétne, pre neho významné, postupne nazbierané metriky, ktoré v reportoch o svojich prieskumoch používa či už priamo, alebo v rôznych kombináciach pri tvorbe grafov. Taktiež sú zverejnené na jeho webe\footnote{\href{https://crawler.ninja/files/}{https://crawler.ninja/files/}}.
+% Mimo uvedených dát v podobe databázových exportov sú od Scotta dostpné taktiež konkrétne, pre neho významné, postupne nazbierané metriky, ktoré v reportoch o svojich prieskumoch používa či už priamo, alebo v rôznych kombináciach pri tvorbe grafov. Taktiež sú zverejnené na jeho webe\footnote{\href{https://crawler.ninja/files/}{https://crawler.ninja/files/}}.
 
-\subsubsection{Výhody a nevýhody}
+% \subsubsection{Výhody a nevýhody}
 
-Na rozdiel od HTTP Archive je crawler.ninja web crawl spúšťaný každý deň a nie len 
-na začiatku mesiaca. To znamená, že dáta v tomto prípade nadobúdajú vyššiu granularitu. Crawler.ninja taktiež všetky svoje zdroje ponúka bezplatne.
-Avšak, problém tu pôsobí skutončosť, že dáta nie sú zverejňované v reálnom čase, ale manuálne autorom po nejakej dobe od ich získania. Tomu nasvedčuje priamo oficiálna stránka projektu, kde sa často nezobrazujú stiahnuteľné archívy s dátami až po aktuálny dátum.
-Ešte väčší potenciálny zádrhel predstavuje skutočnosť, že sa archívy príliš staré vymazávajú, a teda sú dostupné dáta iba do nedávnej minulosti.
-Obdobie dostupnosti dát, predstavujúce rozdiel dátumov najaktuálnejšieho dostupného archívu a najstaršieho archívu, je v čase písania tejto práce presne 1 rok, 10 mesiacov a 23 dní \cite{crawler-ninja}.
+% Na rozdiel od HTTP Archive je crawler.ninja web crawl spúšťaný každý deň a nie len 
+% na začiatku mesiaca. To znamená, že dáta v tomto prípade nadobúdajú vyššiu granularitu. Crawler.ninja taktiež všetky svoje zdroje ponúka bezplatne.
+% Avšak, problém tu pôsobí skutončosť, že dáta nie sú zverejňované v reálnom čase, ale manuálne autorom po nejakej dobe od ich získania. Tomu nasvedčuje priamo oficiálna stránka projektu, kde sa často nezobrazujú stiahnuteľné archívy s dátami až po aktuálny dátum.
+% Ešte väčší potenciálny zádrhel predstavuje skutočnosť, že sa archívy príliš staré vymazávajú, a teda sú dostupné dáta iba do nedávnej minulosti.
+% Obdobie dostupnosti dát, predstavujúce rozdiel dátumov najaktuálnejšieho dostupného archívu a najstaršieho archívu, je v čase písania tejto práce presne 1 rok, 10 mesiacov a 23 dní \cite{crawler-ninja}.
 
 
-\subsection{Ešte som niečo našiel ale nestihol pripísať :)}
+% \subsection{Ešte som niečo našiel ale nestihol pripísať :)}
