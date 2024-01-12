@@ -11,7 +11,8 @@ a ktoré z nich sú reálne aj použité v praktickej časti tejto práce. % TOD
 To čo je potrebné zaobstarať pre analýzu v tejto práci sú záznamy konkrétnych služieb, z ktorých možno čerpať aktuálny alebo historický stav. Čo sa týka štruktúry, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete}, ktoré možno skúmať. 
 Zoznam spĺňajúci takýto popis je potrebné zaobstarať práve preto, aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy. Napríklad medzi doménou a jej vlastníkom. 
 Práve touto spojitosťou sa môžeme dostať napríklad k prehľadu o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
-Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej sekcií, sekcií číslo \ref{tranco}, kde sú do detailu popísané aj ich dôležité vlastnosti. Taktiež v nej popisujem ten najvhodnejší z uvedených zoznamov.
+Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej sekcií, sekcií číslo \ref{tranco}, kde sú do detailu popísané aj ich dôležité vlastnosti. 
+Taktiež v nej popisujem ten najvhodnejší z uvedených zoznamov.
 
 Následne, keď by už je známe, ktoré domény je možné podrobiť analýze, je ďalej nutné k nim prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu.
 Keďže sa v práci zameriavam na technológiu NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTPS}, v ktorom majú byť preverené prítomnosti hlavičiek NEL. 
@@ -72,10 +73,10 @@ Je teda vhodné použiť toto riešenie použiť pre vytvorenie vlastnej kombin�
 \label{tranco-source-rankings}
 
 Ako už bolo zmienené vyššie, stratégia získavania domén, ktoré následne TRANCO podrobí hodnoteniu spočíva vo vyberaní týchto domén z už existujúcich rebríčkov s hotovým hodnotením. 
-Zdrojom dát pre hodnotenie domén TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôzne stratégie pre obstarávanie domén a ich zoraďovanie 
+Zdrojom dát pre hodnotenie domén TRANCO je teda množina niekoľkých podobných rebríčkov, ktoré sami na ich úrovni používajú rôzne stratégie pre obstarávanie domén a ich zoraďovanie 
 podľa hodnotenia návštevnosti \cite{tranco-methodology}. 
-V tejto kapitole sú popísané zoznamy, z ktorých možno dáta kombinovať 
-a na základe ktorých je možné nový alebo vlastný zoznam vygenerovať.
+V tejto kapitole sú popísané rebríčky, z ktorých možno dáta kombinovať 
+a na základe ktorých je možné nový alebo vlastný rebríček vygenerovať.
 
 \subsubsection{Alexa}
 
@@ -88,7 +89,7 @@ Rebríček Alexa sa v tomto skúmaní HTTP(S) prevádzky zaoberá registrovateľ
 
 Počet používateľov s nainštalovaným rozšírením bol však obmedzený 
 a to mohlo spôsovovať značné skreslenie celkových výsledkov kvôli malému zastúpeniu vzoriek prehliadania z celkovej sady -- všetkých používateľov internetu. 
-Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto používateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco}.
+Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto rebríčka, kde autori tvrdili, že počet týchto používateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco}.
 Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article, tranco}
 \begin{itemize}
     \item Počet návštevníkov stránky (na web serveri s danou doménou) za daný deň, pričom viac návštev od jedného používateľa sa počíta ako jediná návšteva
@@ -96,28 +97,28 @@ Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-
 \end{itemize}
 
 Zo spomenutých metrík má vyššiu váhu pri rozhodovaní o popularite práve počet návštevníkov stránky za daný deň, čo môžeme podľa jej popisu nazvať aj počet unikátnych návštev za deň \cite{tranco}.
-Obe metriky sa pre špecifický deň následne spriemerovali so všetkými hodnotami za posledné tri mesiace, aby zoznam nadobudol určitú mieru stability. 
-Tým pádom každodenný zoznam nepripúšťa do úvahy trendy v prehliadaní, ktoré po vzniknutí hneď aj zanikajú (krátkodobé extrémy). 
+Obe metriky sa pre špecifický deň následne spriemerovali so všetkými hodnotami za posledné tri mesiace, aby rebríček nadobudol určitú mieru stability. 
+Tým pádom každodenný rebríček nepripúšťa do úvahy trendy v prehliadaní, ktoré po vzniknutí hneď aj zanikajú (krátkodobé extrémy). 
 Vo výsledku sa tým predchádza nepresnému celkovému hodnoteniu popularity v prípadoch, 
-kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej domény mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej domény v zozname. 
+kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej domény mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej domény v rebríčku. 
 
 Koncom roka 2016 bol tento bezplatne poskytovaný rebríček na nejakú dobu odstavený z prevádzky pre verejnosť na hlavných stránkach Alexy a znova bol sprístupnený pod záštitou Amazon Web Services ako platená služba \textbf{Alexa Top Sites}. 
 Neskôr, začiatkom roka 2018 sa zhoršila jeho celková stabilita z toho dôvodu, že jeho algoritmus vyhodnocovania zaradenia domén prestal brať ohľad na priemerovanie dát za predošlé mesiace.
-Od vtedy, konkrétne od 30. januára 2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 1. augusta 2023, čo z nej teraz robí \mbox{\textbf{zastaraný zoznam} \cite{tranco-methodology}}.
+Od vtedy, konkrétne od 30. januára 2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 1. augusta 2023, čo z nej teraz robí \mbox{\textbf{zastaraný rebríček} \cite{tranco-methodology}}.
 
 \subsubsection{Majestic Million}
 
-Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domén zoradených podľa množstva odkazov na ne ukazujúcich \cite{majestic-million-homepage, majestic-million-ranking}.
-V jednoduchosti to znamená, že čím viac odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto zozname zaradená. 
+Majestic Million je služba, ktorá rovnako ako Alexa poskytuje rebríček webových domén zoradených podľa množstva odkazov na ne ukazujúcich \cite{majestic-million-homepage, majestic-million-ranking}.
+V jednoduchosti to znamená, že čím viac odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto rebríčku zaradená. 
 Ako individuálne technologické riešenie bol Majestic Million uverejnený na webových stránkach autora 1. októbra 2012 \cite{majestic-million-publication}.
 Autorom je spoločnosť Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
 
-Majestic na dennej báze prehľadáva globálne zhruba 450 miliárd URL v rámci verejného internetu aby svoj zoznam zostavil. 
+Majestic na dennej báze prehľadáva globálne zhruba 450 miliárd URL v rámci verejného internetu aby svoj rebríček zostavil. 
 Hodnotenie je založené na počte hyperlinkových odkazov smerujúcich na jednotlivé hodnotené domény minimálne jedenkrát.
 Okrem každodenného vyhodnocovania aktuálneho zaradenia domén sa taktiež berie ohľad aj na priemer ich hodnotenia za posledných 120 dní \cite{tranco-methodology}.
-Tiež je vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto zozname za znak dôveryhodnosti \cite{majestic-million-homepage}.
+Tiež je vhodné spomenúť, že autori na svojom webe označujú vysoké zaradenie domény v tomto rebríčku za znak dôveryhodnosti \cite{majestic-million-homepage}.
 
-V rámci celkového výstupného zoznamu Majestic Million sa berú do úvahy domény, \textbf{ale aj ich subdomény}, takže sa môže stať, že napríklad doména \code{google.com} 
+V rámci celkového výstupného rebríčka Majestic Million sa berú do úvahy domény, \textbf{ale aj ich subdomény}, takže sa môže stať, že napríklad doména \code{google.com} 
 sa v ňom bude vyskytovať viackrát v podobe svojich subdomén (\code{play.google.com}, \code{maps.google.com}, \code{mail.google.com} a iné) \cite{majestic-million-sub-domain-filtered}.
 
 Na oficiálnom webe Majestic sú taktiež dostupné doplnkové služby, ktoré svojim používateľom poskytujú naväzujúce užitočné informácie o týchto doménach. 
@@ -141,11 +142,11 @@ Medzi také patria domény, ktoré sú interné pre špecifickú organizáciu po
 
 \subsubsection{Quantcast}
 
-Spoločnosť Quancast zverejňovala do 1. apríla 2020 zoznam najnavštevovanejších stránok v Spojených Štátoch Amerických (US). Jeho veľkosť sa denne menila, no bežne v ňom bývalo
+Spoločnosť Quancast zverejňovala do 1. apríla 2020 rebríček najnavštevovanejších stránok v Spojených Štátoch Amerických (US). Jeho veľkosť sa denne menila, no bežne v ňom bývalo
 okolo 520,000 registrovateľných domén a subdomén. Quantcast zaraďoval tieto domény do svojho rebríčka podľa počtu ľudí, ktorí ich navštívili vždy za predošlý mesiac.
 Návštevnosť sa merala pomocou sledovacieho skriptu umiestneného na samotných doménach alebo podľa dát získaných od poskytovateľov internetu (ISP) \cite{tranco-methodology}.
 
-Limitácia tohto zoznamu spočíva okrem toho, že už je zastaraný a neautualizovaný, a taktiež v tom, že berie ohľad v drvivej väčšine prípadov na stránky v US.
+Limitácia tohto rebríčka spočíva okrem toho, že už je zastaraný a neautualizovaný, a taktiež v tom, že berie ohľad v drvivej väčšine prípadov na stránky v US.
 Jedinou výnimkou boli domény mimo US, ktoré využívali spomínaný sledovací skript. 
 
 \subsubsection{Chrome User Experience Report}
@@ -155,7 +156,7 @@ Táto sekcia ešte nie je napísaná.
 
 \subsubsection{Cloudflare Radar}
 
-Po ohlásení ukončenia podpory pre zoznam Alexa sa spoločnosť Cloudflare rozhodla poskytnúť vhodnú alternatívu.
+Po ohlásení ukončenia podpory pre rebríček Alexa sa spoločnosť Cloudflare rozhodla poskytnúť vhodnú alternatívu.
 Od 26. septembra 2022 zverejňujú rebríček Radar obsahujúci registrovateľné domény, ktorý je aktualizovaný podľa svojej veľkosti na dennej alebo týždennej báze \cite{tranco-methodology}.
 
 Dáta o návštevnosti domén sú získavané zo sieťovej premávky na Cloudflare DNS serveri s IP adresou \code{1.1.1.1}.
@@ -241,9 +242,9 @@ xrightmargin=.3875\textwidth]
 \subsubsection{Možnosti konfigurácie vlastného rebríčka TRANCO}
 \label{tranco-config}
 
-Na oficiálnej stránke TRANCO je taktiež možné vytvoriť žiadosť o vygenerovanie zoznamu s vlastnou konfiguráciou.
-Užívateľ môže vyskladať žiadanú konfiguráciu a priložiť ju k žiadosti, aby vygeneroval podľa nej vlastný zoznam.
-Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{tranco-config}
+Na oficiálnej stránke TRANCO je taktiež možné vytvoriť žiadosť o vygenerovanie rebríčka s vlastnou konfiguráciou.
+Užívateľ môže vyskladať žiadanú konfiguráciu a priložiť ju k žiadosti, aby vygeneroval podľa nej vlastný rebríček.
+Konfigurácia vlastného rebríčka pozostáva z nasledujúcich možností: \cite{tranco-config}
 \begin{enumerate}
     \item Zdrojové rebríčky domén:
     
@@ -267,9 +268,9 @@ Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{t
     \begin{itemize}
         \item Podľa zaradenia domény v rámci zdrojových rebríčkov:
         \begin{enumerate}
-            \item nachádza sa v zoznamoch aspoň počas N dní,
-            \item nachádza sa aspoň v N zoznamoch,
-            \item nenachádza sa v zozname potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
+            \item nachádza sa v rebríčku aspoň počas N dní,
+            \item nachádza sa aspoň v N rebríčkoch,
+            \item nenachádza sa v rebríčku potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
         \end{enumerate}
 
         \pagebreak
@@ -286,7 +287,7 @@ Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{t
             \item Pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname definovaného používateľom
         \end{enumerate}
 
-        \item Podľa možností špecifických pre zoznam Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Používateľ pri voľbe filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
+        \item Podľa možností špecifických pre Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Používateľ pri voľbe filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
     \end{itemize}
 
     \item Ohraničenie počtu výsledkov vo finálnom rebríčku (štandardne milión)
@@ -432,7 +433,7 @@ Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predsta
 \begin{center}
  \includegraphics[scale=0.7]{obrazky-figures/row-oriented-store.png}
  \caption{\centering Príklad uskladnenia dát v riadkovo orientovanej databáze. Prechádzať dáta po riadkoch predstavuje musieť prehľadať všetky jeho stĺpce.}
- \label{img:dowdall-rule}
+ \label{img:row-oriented-store}
 \end{center}
 \end{figure}
 
@@ -446,7 +447,7 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 \begin{center}
  \includegraphics[scale=0.7]{obrazky-figures/column-oriented-store.png}
  \caption{\centering Príklad uskladnenia dát s využitím orientácie na jednotlivé stĺpce. Dáta je takto možné prehľadávať rýchlejšie a efektívnejšie, pričom sa spracuje menší objem dát. To vyhovuje používateľom BigQuery, ktorí sú obmedzení dostupným objemom dát \mbox{(viď platobné plány BigQuery na konci tejto sekcie).}}
- \label{img:dowdall-rule}
+ \label{img:column-oriented-store}
 \end{center}
 \end{figure}
 
