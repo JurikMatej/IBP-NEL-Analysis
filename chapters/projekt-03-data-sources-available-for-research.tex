@@ -189,17 +189,53 @@ V tomto každodenne generovanom rebríčku sú prednastavené ako zdroje dát (p
 Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-github}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
 
 V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných kombinačných metód pre upravenie finálneho hodnotenia domén.
-Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, nazývaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú hodnotou 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco, tranco-homepage}.
+Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, nazývaná \textbf{Dowdall rule}. 
+Dowdall rule hodnotí v zozname obsahujúcom N domén prvú hodnotou 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco, tranco-homepage}.
+Názorná ukážku aplikovania Dowdall rule na rebríčky ukazuje obrázok \ref{img:dowdall-rule}.
 
-% TODO vysvetliť obrázkom
+\begin{figure}[htb]
+\begin{center}
+ \includegraphics[scale=0.375]{obrazky-figures/dowdall_rule.png}
+ \caption{\centering Príklad uplatnenia Dowdall rule na spriemerovanie štyroch vstupných rebríčkov do výsledného rebríčka TRANCO. Generujem nový rebríček o veľkosti štyroch domén, takže beriem do úvahy prvé štyri domény z každého vstupného rebríčka. Skóre sa vypočíta podľa umiestnenia a podľa celkového počtu domén radených v danom zdrojovom rebríčku. Rebríček 4 (úplne napravo) s najvyšším počtom hodnotených domén výsledok ovplyvnil najviac.}
+ \label{img:dowdall-rule}
+\end{center}
+\end{figure}
+
+
 
 Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
 ktorou je možné jedinečne odkazovať na tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
 
 Zároveň, okrem generovania nových TRANCO rebríčkov sú na oficiálnej stránke dostupné aj historicky vygenerované, spomenuté \textbf{štandardné}, teda bežné, každodenné rebríčky \cite{tranco-homepage}.
+Príklad obsahu vygenerovaného rebríčka znázorňuje výpis \ref{listing:tranco-obsah}.
 
 
-% TODO obrazok alebo vypis vygenerovaneho rebricka
+
+\pagebreak
+
+\begin{center}
+\centering
+\begin{lstlisting}[caption={\centering Ukážka vygenerovaného denného rebríčku z 12. januára 2024, orezaného na prvých 10 domén. Rebríček je možné stiahnuť vo formáte \code{zip} archívu, ktorý obsahuje práve jeden súbor nazvaný \textbf{top-1m.csv}. Obsahom je na každom riadku pozícia domény a jej čiarkou oddelené meno.},
+label=listing:tranco-obsah, 
+language=json, 
+frame=lb,
+xleftmargin=.3875\textwidth, 
+xrightmargin=.3875\textwidth]
+1,google.com
+2,amazonaws.com
+3,facebook.com
+4,microsoft.com
+5,a-msedge.net
+6,googleapis.com
+7,apple.com
+8,youtube.com
+9,akamaiedge.net
+10,akamai.net
+
+\end{lstlisting}
+\end{center}
+
+
 
 
 \subsubsection{Možnosti konfigurácie vlastného rebríčka TRANCO}
@@ -227,8 +263,6 @@ Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{t
 
     \item Počet prvých N domén, ktoré vziať ako vstup z každého rebríčka (štandardne milión).
 
-    \pagebreak
-
     \item Možnosti filtrovania:
     \begin{itemize}
         \item Podľa zaradenia domény v rámci zdrojových rebríčkov:
@@ -237,6 +271,8 @@ Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{t
             \item nachádza sa aspoň v N zoznamoch,
             \item nenachádza sa v zozname potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
         \end{enumerate}
+
+        \pagebreak
 
         \item Podľa domény samotnej:
         \begin{enumerate}
@@ -274,14 +310,14 @@ Autormi HTTP Archive sú členovia komunity zvanej Web Performance Group. Pôvod
 Momentálne sa na jeho údržbe po stránke vývoja podieľa štvorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly.
 Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok \cite{httparchive-about}.
 
-\pagebreak
-
 Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
 Pre tento účel vyvinuli sadu nástrojov pre zbieranie uvedených dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
 Naviac sa na uskladnenie dát používa služba \textbf{Google Cloud Platform (GCP)}.
 Tieto dáta sú v rámci GCP verejne prístupné ako databázové tabuľky v prostredí GCP zvanom \textbf{BigQuery}, čo zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
 a vykonávanie komplexných analýz nad dátami HTTP Archive \cite{httparchive-faq}. 
+
+\pagebreak
 
 Vhodnosť projektu pre túto prácu je založená na tom, že ide o komunitný projekt, ktorého výsledky sú verejne a zadarmo dostupné. Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP(S) komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj analýza v rámci tejto práce.
 
@@ -317,6 +353,8 @@ Vo svojich behoch využíva užitočnú funcionalitu WPT --- vlastné (prispôso
 Pridanie vlastných metrík do WPT predstavuje spúšťanie hocijakej funkcie spísanej v jazyku JavaScript na konci behu testovania stránky. 
 Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metriky zo svojich testovacích stránok \cite{webpagetest}.
 
+\pagebreak
+
 Je dôležité poznamenať, že stránky sú testované s čistou vyrovnávacou pamäťou cache. 
 Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
 To môže spôsobovať odchýľku oproti reálnemu používaniu testovacích web stránok. 
@@ -325,9 +363,42 @@ WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta užitočné
 
 Pre účely uskladňovania získaných dát je využitý formát HTTP Archive súboru (prípona \code{.har}, ďalej označovaný už len ako HAR).
 Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované ako JSON - JavaScript Object Notation.
-Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}.
+Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}. 
+Orientačný príklad obsahu takéhoto súboru je ukazuje výpis \ref{listing:harfile}.
 
-% TODO HARfile contents with description
+\begin{center}
+\centering
+\begin{lstlisting}[caption={\centering Orientačná ukážka obsahu súboru HAR. Všetky detaily o získaní zdroja z web servera je zaznamenaný v položke \code{"log"}. Hlavná štruktúra tejto položky je zložená z párov kľúč--hodnota, kde \code{"version"} definuje verziu súboru HAR , \code{pages} obsahuje napríklad URL získaného zdroja a \code{entries} obsahuje HTTP žiadosť \mbox{a odpoveď pre daný zdroj.}},
+label=listing:harfile, 
+language=json, 
+frame=tb,
+xleftmargin=.09\textwidth, 
+xrightmargin=.09\textwidth]
+{
+  "log": {
+    "version": "1.2",
+    ...
+    "pages": [
+      {
+        "startedDateTime": "2024-01-12T15:25:01.278Z",
+        "id": "page_1",
+        "title": "https://tranco-list.eu/list/KJ49W/1000000",
+        "pageTimings": {...}
+      }
+    ],
+    "entries": [
+      {
+        ...
+        "request": {...},
+        "response": {...},
+        ...
+      },
+      ...
+    ]
+  }
+}
+\end{lstlisting}
+\end{center}
 
 
 Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na GCP, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
@@ -357,20 +428,27 @@ Orientovanie na riadky znamená, že sa záznamy v tabuľke ukladajú priamo ved
 To je vhodné pre prípady, keď majú byť na úložisku záznamy hľadané individuálne.
 Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predstavuje problém vo výkonnosti, pretože sa musia potupne pre každý záznam tabuľky prehľadať všetky jeho polia \mbox{(stĺpce) \cite{google-bq}}.
 
+\begin{figure}[htb]
 \begin{center}
-\noindent\includegraphics[width=3cm]{example-image}    
+ \includegraphics[scale=0.7]{obrazky-figures/row-oriented-store.png}
+ \caption{\centering Príklad uskladnenia dát v riadkovo orientovanej databáze. Prechádzať dáta po riadkoch predstavuje musieť prehľadať všetky jeho stĺpce.}
+ \label{img:dowdall-rule}
 \end{center}
-\todo{Figure taken from the BQ docs - row-based DBs}
+\end{figure}
+
 
 Riešenie, ktorým BigQuery tento problém adresuje je použitie orientácie na jednotlivé stĺpce. 
 Ukladaním dát v stĺpcovom formáte, a teda ukladaním každého stĺpca separátne umožňuje prehľadávať dataset bez viazania sa na všetky ostatné stĺpce.
 Tým sa efektívne znižuje množstvo dát, ktoré sa prehľadávajú naraz.
 Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom uložených záznamov \cite{google-bq}.
 
+\begin{figure}[htb]
 \begin{center}
-\noindent\includegraphics[width=3cm]{example-image}    
+ \includegraphics[scale=0.7]{obrazky-figures/column-oriented-store.png}
+ \caption{\centering Príklad uskladnenia dát s využitím orientácie na jednotlivé stĺpce. Dáta je takto možné prehľadávať rýchlejšie a efektívnejšie, pričom sa spracuje menší objem dát. To vyhovuje používateľom BigQuery, ktorí sú obmedzení dostupným objemom dát \mbox{(viď platobné plány BigQuery na konci tejto sekcie).}}
+ \label{img:dowdall-rule}
 \end{center}
-\todo{Figure taken from the BQ docs - column-based DBs with an exaple case study in the description}
+\end{figure}
 
 Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných \textbf{dataset}.
 Na GCP je dostupné množstvo datasetov pre prehľadávanie.
@@ -392,6 +470,8 @@ K dátam je možné priamo pristupovať prostredníctvom troch rozhraní: \cite{
     Vďaka klientským knižniciam implementujúcim komunikačné rozhranie s BigQuery je taktiež dostupná možnosť programovo manipulovať a prehliadať zdroje priradené k užívateľskému projektu.
     Táto možnosť je vhodná pre predom definované, opakované úlohy, ktoré či už požadujú zdroje na vstupe, alebo ich počas svojho behu nahrávajú, prípadne upravujú podľa potreby.
 \end{enumerate}
+
+\pagebreak
 
 Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL (Structured Query Language).
 Ide o zaužívaný štruktúrovaný jazyk pre správu dát uložených v databáze.
@@ -430,24 +510,34 @@ BigQuery zdroj \code{httparchive} sprístupňuje aj niekoľko ďalších dataset
 
 Každý z týchto datasetov obsahuje tabuľky nazvané podľa rovnakej konvencie --- dátum vykonaného zberu dát a prostredie, v akom prebiehal.
 Dátum je definovaný formátom YYYY\_MM\_DD, kde YYYY predstavuje rok, MM mesiac a DD deň. Prostredie môže byť buď počítačové alebo mobilné, ako sa spomína už v sekcii \ref{fetching-data}.
-Príkladom názvu tabuľky teda môže byť '\code{2023\_01\_15\_mobile}' alebo '\code{2023\_01\_15\_desktop}'.
+Príkladom názvu tabuľky teda môže byť '\code{2023\_01\_01\_mobile}' alebo '\code{2023\_01\_01\_desktop}'.
 
 \pagebreak
 
+\begin{figure}[htb]
 \begin{center}
-\noindent\includegraphics[width=3cm]{example-image}    
+ \includegraphics[scale=0.53]{obrazky-figures/bigquery_response_bodies.png}    
+ \caption{\centering Otvorené okno v GCP BigQuery pri pohľade na otvorený prehľad datasetu '\code{2023\_01\_01\_mobile}'. 
+ Jednotlivé uložené položky sú: \code{page}, \code{url}, \code{body} a \code{truncated}.}
+ \label{img:bigquery-example-table}
 \end{center}
-\todo{Figure of the BigQuery Studio - web interface showing that exact table i just mentioned open in it}
+\end{figure}
 
 
-Za použitia GoogleSQL je možné datasety kombinovať a vytvárať komplexné sady dát pre ďalšiu analýzu.
+Za použitia GoogleSQL je možné datasety kombinovať a vytvárať komplexné sady dát (ako na obrázku \ref{img:bigquery-example-query}) pre ďalšiu analýzu.
 Prehľadávaním týchto dát a sledovaním HTTP hlavičiek je možné dopracovať sa k HTTP odpovediam, ktoré obsahujú hlavičky (pravidlá) technológie NEL.
 Každú doménu, ktorá vo svojich odpovediach zaslala hlavičku NEL, môžem skúmať ako doménu s nasadeným monitorovaním NEL.
 
+\begin{figure}[!htb]
 \begin{center}
-\noindent\includegraphics[width=3cm]{example-image}    
+% height=8.401cm
+ \includegraphics[width=11cm, height=10.0125cm]{obrazky-figures/mimeType_summary_example_query.jpg}    
+ \caption{\centering Ukážka vytvorenia vlasnej sady dát v prostredí GCP BigQuery. Za použitia príkazov GoogleSQL sú dáta transformované na zoznam typov MIME podľa ich využitia na stránkach uvedených v dátach.}
+ \label{img:bigquery-example-query}
 \end{center}
-\todo{Figure of the BigQuery Studio - An interesting query with specific description}
+\end{figure}
+
+\pagebreak
 
 Čo sa platieb týka, GCP BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
 \textbf{Bezplatný plán} zahŕňa 1TB procesnej kapacity dát a 10GB úložného priestoru pre vlastné dáta, pričom dochádza každý mesiac \mbox{k obnove týchto bezplatných zdrojov}.
@@ -456,19 +546,22 @@ Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapac�
 \textbf{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
 Cena za 1TB kapacity je v čase písania práce \$6.25, pričom stále platí, že prvý terabajt je každý mesiac zadarmo \cite{google-bq-pricing}.
 
-\pagebreak
-
 \subsection{Pravidelné správy o stave webu}
 
 Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive projekt aj prehľady stavu webu formou interaktívnych grafov reprezentujúcich konkrétnu metriku v oblasti záujmu HTTP Archive.
 
 \subsubsection{Elementárne reporty metrík}
-Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantý je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom.
+Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantý je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom (viď obrázok \ref{img:total-urls-report}).
 
-\todo{figure with description (total urls, description of graph, mention link to the SQL, THESE REPORTS PROVIDE A WAY TO MEASURE THE HTTP ARCHIVE PROJECT'S USEFULNESS AND REACH, THE ANALYSIS OF NEL HEADERS WOULD BE A GREAT ADDITION)}
+\begin{figure}[!htb]
 \begin{center}
-\noindent\includegraphics[width=3cm]{example-image}    
+ \includegraphics[scale=0.51815]{obrazky-figures/total_urls_report.png}    
+ \caption{\centering Report zobrazujúci počet URL adries analyzovaných v rámci projektu HTTP Archive. Graf reportu znázorňuje dáta od dátumu prvého web crawlingu vykonaného v rámci projektu. Momentálny počet URL adries zakomponovaných do datasetov v BigQuery je 12 224 848 pre testy vykonávané na počítači a 16 277 111 pre testy vykonávané zo simulovaného mobilného prostredia.}
+ \label{img:total-urls-report}
 \end{center}
+\end{figure}
+
+\pagebreak
 
 \subsubsection{Web Almanac}
 Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
