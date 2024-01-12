@@ -3,34 +3,34 @@
 \vspace{1cm}
 
 V modernom svete webových technológií existuje veľký počet možností na tvorbu webových služieb. Čoraz viac narastá počet možností predstavujúcich systémy a rámce poskytujúce spôsob tvorby nového produktu v prostredí webu.
-Tieto webové technológie sa od svojho vzniku prirodzene vyvinuli naozaj badateľne. 
-Od jednoduchých stránok, za ktorými stál iba značkovací kód 
-HTML sme sa postupne prepracovali cez kaskádové štýly CSS a vdýchnutie života prostredníctvom skriptovacieho jazyku 
-JavaSript až k najnovším rámcovým technológiam súčasnosti. 
+Tieto webové technológie sa od svojho vzniku, prirodzene, vyvinuli naozaj badateľne. 
+Od jednoduchých stránok, za ktorými stál iba značkovací jazyk 
+HTML sme sa postupne prepracovali cez kaskádové štýly skriptovací jazyk 
+JavaSript až k súčasným technológiam ako React.js. 
 Po ceste sa k tomuto technologickému jadru pridali aj rôzne 
-nové nápady týkajúce sa architektúry celkovej aplikácie, ktorú má vzniknúť. 
+nové nápady týkajúce sa architektúry celkovej webovej služby. 
 Využíva sa napríklad takzvaná trojvrstvová architektúra (3-Tier Architecture) alebo mikroslužby (Microservices). 
 No aj s takýmto pokrokom vpred na strane vývoja webu sa stále stretávame s celkom bežnými problémami, ktoré môžu vzniknúť, aj 
 keď použijeme tú najvhodnejšiu sadu technológií, ktorá je momentálne dostupná.
 
-Jedná sa o problémy dostupnosti zdrojov, ktoré chceme uverejniť na webe. 
+Jedná sa napríklad o problémy dostupnosti zdrojov, ktoré chceme uverejniť na webe. 
 Je totiž možné, že potencionálny záujemca o zdroj narazí na problém ešte predtým ako nadviaže spojenie s web serverom, na ktorom je zdroj uložený.
-Medzi prekážky, na ktoré môžeme naraziť patrí napríklad už zlyhanie DNS servera pri vyhľadaní IP adresy cieľovej destinácie. Alebo sa môže stať, že sa návštevník 
-stretne so zlyhaním, ktoré spôsobí neplatný certifikát identity nášho web serveru a jednoducho sa ďalej v takom prípade 
-nedostane. 
-Medzi podobné nedostatky patrí aj zaujímavý prípad, kedy je zdroj dostupný a web server zabezpečený v poriadku, no jednoducho trvá príliš dlho, dokedy sa domovská stránka načíta. Niekedy sa práve preto návštevník rozhodne odísť.
+Medzi prekážky, na ktoré môžeme naraziť patrí napríklad už zlyhanie DNS servera pri preklade doménového mena na IP adresu cieľovej destinácie. 
+Alebo sa môže stať, že sa návštevník stretne so zlyhaním, ktoré spôsobí neplatný certifikát identity nášho web serveru a spojenie s ním sa nevytvorí. 
+Medzi podobné nedostatky patrí aj zaujímavý prípad, kedy je zdroj dostupný a web server zabezpečený v poriadku, no jednoducho trvá príliš dlho, kým sa domovská stránka načíta. Niekedy sa práve preto návštevník rozhodne odísť.
 
-Riešenie takýchto a mnoho ďalších zlyhaní je tématikou diskuzie o spoľahlivosti jednotlivých web serverov. V posledných rokoch sa takáto problematika dostáva do popredia a navrhujú sa rôzne 
+Riešenie takýchto a mnoho ďalších zlyhaní je témou na diskusiu o spoľahlivosti jednotlivých web serverov. 
+V posledných rokoch sa takáto problematika dostáva do popredia a navrhujú sa rôzne 
 spôsoby, akými sa možno vyvarovať spomínaným nástrahám. Jedným z takých spôsobov je nasadenie relatívne novej 
 technológie Network Error Logging (NEL).
 
 \pagebreak
 
-V tejto práci sa venujem špecificky technológií NEL a zameriavam sa na analýzu jej sprevádzkovania na širokom spektre web serverov. 
+V tejto práci sa venujem špecificky technológií NEL a zameriavam sa na analýzu jej nasadenia na širokom spektre web serverov. 
 V nasledujúcich troch kapitolách detailne popisujem:
 \begin{itemize}
     \item čo je to NEL a ako funguje (v kapitole \ref{nel-and-related-technologies}),
-    \item kde a ako je možné dostať sa k dátam, ktoré svedčia o jeho nasadení a 
+    \item kde a ako je možné dostať sa k dátam, ktoré obsahujú informácie o jeho nasadení a 
 konfigurácií (v kapitole \ref{data-sources-available-for-research}),
     \item a aké analytické práce už boli na túto a podobné témy
 týkajúce sa NEL zhotovené a zverejnené (v kapitole \ref{related-work}).
@@ -39,9 +39,9 @@ týkajúce sa NEL zhotovené a zverejnené (v kapitole \ref{related-work}).
 Na koniec uvádzam v kapitole 
 \ref{possible-analysis-strategies} svoj vlastný návrh pre vyhodnotenie využívania tejto technológie, a ako sa moja práca od predošlých odlišuje. 
 
-% Zavŕšim zdokumentovaním procesu analýzy a jej konkrétnymi výsledkami a 
+% Analýzu zhodnotím a spolu s jej konkrétnymi výsledkami a 
 % implikáciami, ktoré z nej vyplývajú (\ref{analysis-and-its-results}). 
 % Skripty a akékoľvek iné nástroje, ktoré boli pre zhotovenie tejto práce navrhnuté a 
 % implementované budú popísané v kapitole \ref{tests-for-analysis-tools-created}, kde zhrniem ich použitie a podložím 
-% ich správnosť príkladnými testami, ktorým boli podrobené. Práca zakončí zhrnutím nadobudnutých poznatkov v závere, ich 
+% ich správnosť príkladnými testami, ktorým boli podrobené. Prácu zakončím zhrnutím nadobudnutých poznatkov v závere, ich 
 % hodnotením a návrhmi na jej možné rozšírenia. 
