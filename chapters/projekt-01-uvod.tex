@@ -2,39 +2,43 @@
 \label{uvod}
 \vspace{1cm}
 
-V modernom svete webových technológií čoraz viac narastá počet možností predstavujúcich systémy a rámce, ktoré 
-poskytujú ich užívateľovi, alebo vývojárovi spôsob tvorby nového produktu -- svojho webu. Tieto webové technológie sa 
-od svojho vzniku prirodzene vyvinuli naozaj badateľne. Od jednoduchých stránok, za ktorými stál iba značkovací kód 
+V modernom svete webových technológií existuje veľký počet možností na tvorbu webových služieb. Čoraz viac narastá počet možností predstavujúcich systémy a rámce poskytujúce spôsob tvorby nového produktu v prostredí webu.
+Tieto webové technológie sa od svojho vzniku prirodzene vyvinuli naozaj badateľne. 
+Od jednoduchých stránok, za ktorými stál iba značkovací kód 
 HTML sme sa postupne prepracovali cez kaskádové štýly CSS a vdýchnutie života prostredníctvom skriptovacieho jazyku 
-JavaSript až k najnovším rámcovým technológiam súčasnosti. Po ceste sa k tomuto technologickému jadru pridali aj rôzne 
-nové nápady týkajúce sa samotnej architektúry celkovej aplikácie, ktorá má vzniknúť. Práve teraz sú populárne 
-napríklad takzvaná trojvrstvová architektúra (3-Tier Architecture) alebo mikroslužby (Microservices). No žiaľ aj s 
-takýmto pokrokom vpred na strane vývoja webu sa stále stretávame s celkom bežnými problémami, ktoré môžu vzniknúť, aj 
+JavaSript až k najnovším rámcovým technológiam súčasnosti. 
+Po ceste sa k tomuto technologickému jadru pridali aj rôzne 
+nové nápady týkajúce sa architektúry celkovej aplikácie, ktorú má vzniknúť. 
+Využíva sa napríklad takzvaná trojvrstvová architektúra (3-Tier Architecture) alebo mikroslužby (Microservices). 
+No aj s takýmto pokrokom vpred na strane vývoja webu sa stále stretávame s celkom bežnými problémami, ktoré môžu vzniknúť, aj 
 keď použijeme tú najvhodnejšiu sadu technológií, ktorá je momentálne dostupná.
 
-Jedná sa o problémy dostupnosti webovej stránky, ktorú chceme uverejniť na internete. Je totiž možné, že
-potencionálny návštevník hocijakého webu narazí na problém ešte predtým ako na daný web vlastne reálne zavíta tým, že 
-mu bude v prehliadači navrátená odpoveď s obsahom domovskej stránky. Medzi prekážky, na ktoré môžeme naraziť patrí 
-napríklad už zlyhanie DNS servera pri rezolúcií IP adresy cieľovej destinácie. Alebo sa môže stať, že sa návštevník 
-stretne so zádrhlom, ktorý spôsobí neplatný certifikát identity na našej stránke a jednoducho sa ďalej v takom prípade 
-nedostane. Medzi podobné nedostatky patrí aj zaujímavý prípad, kedy je všetko týkajúce sa spoľahlivosti webstránky po 
-technickej stránke v poriadku, no jednoducho trvá príliš dlho, dokedy sa domovská stránka načíta, a preto sa 
-návštevník rozhodne odísť.
+Jedná sa o problémy dostupnosti zdrojov, ktoré chceme uverejniť na webe. 
+Je totiž možné, že potencionálny záujemca o zdroj narazí na problém ešte predtým ako nadviaže spojenie s web serverom, na ktorom je zdroj uložený.
+Medzi prekážky, na ktoré môžeme naraziť patrí napríklad už zlyhanie DNS servera pri vyhľadaní IP adresy cieľovej destinácie. Alebo sa môže stať, že sa návštevník 
+stretne so zlyhaním, ktoré spôsobí neplatný certifikát identity nášho web serveru a jednoducho sa ďalej v takom prípade 
+nedostane. 
+Medzi podobné nedostatky patrí aj zaujímavý prípad, kedy je zdroj dostupný a web server zabezpečený v poriadku, no jednoducho trvá príliš dlho, dokedy sa domovská stránka načíta. Niekedy sa práve preto návštevník rozhodne odísť.
 
-Riešenie takýchto a mnoho ďalších zádrhlov je tématikou diskuzie o spoľahlivosti jednotlivých webstránok (používa sa 
-termín Website Reliability). V posledných rokoch sa takáto problematika dostáva do popredia a navrhujú sa rôzne 
+Riešenie takýchto a mnoho ďalších zlyhaní je tématikou diskuzie o spoľahlivosti jednotlivých web serverov. V posledných rokoch sa takáto problematika dostáva do popredia a navrhujú sa rôzne 
 spôsoby, akými sa možno vyvarovať spomínaným nástrahám. Jedným z takých spôsobov je nasadenie relatívne novej 
 technológie Network Error Logging (NEL).
 
-% \pagebreak
+\pagebreak
 
-V tejto práci sa venujem špecificky technológií NEL a zameriavam sa na jej sprevádzkovanie na verejných stránkach 
-internetu. V nasledujúcich troch kapitolách rozoberám do detailu, čo NEL predstavuje a ako funguje 
-(kapitola \ref{nel-and-related-technologies}), kde a ako je možné dostať sa k dátam, ktoré svedčia o jeho nasadení a 
-konfigurácií (kapitola \ref{data-sources-available-for-research}) a aké analytické práce už boli na túto a podobné témy
-týkajúce sa NEL zhotovené a zverejnené (kapitola \ref{related-work}). Následne uvediem v kapitole 
-\ref{possible-analysis-strategies} ako sa moja práca od predošlých odlišuje, ako je možné na ne nadviazať a čo všetko
-v tejto mojej analýze sledujem a vyhodnocujem. 
+V tejto práci sa venujem špecificky technológií NEL a zameriavam sa na analýzu jej sprevádzkovania na širokom spektre web serverov. 
+V nasledujúcich troch kapitolách detailne popisujem:
+\begin{itemize}
+    \item čo je to NEL a ako funguje (v kapitole \ref{nel-and-related-technologies}),
+    \item kde a ako je možné dostať sa k dátam, ktoré svedčia o jeho nasadení a 
+konfigurácií (v kapitole \ref{data-sources-available-for-research}),
+    \item a aké analytické práce už boli na túto a podobné témy
+týkajúce sa NEL zhotovené a zverejnené (v kapitole \ref{related-work}).
+\end{itemize}
+
+Na koniec uvádzam v kapitole 
+\ref{possible-analysis-strategies} svoj vlastný návrh pre vyhodnotenie využívania tejto technológie, a ako sa moja práca od predošlých odlišuje. 
+
 % Zavŕšim zdokumentovaním procesu analýzy a jej konkrétnymi výsledkami a 
 % implikáciami, ktoré z nej vyplývajú (\ref{analysis-and-its-results}). 
 % Skripty a akékoľvek iné nástroje, ktoré boli pre zhotovenie tejto práce navrhnuté a 
