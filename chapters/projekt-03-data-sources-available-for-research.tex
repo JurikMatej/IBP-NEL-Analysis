@@ -11,7 +11,7 @@ a ktoré z nich sú reálne aj použité v praktickej časti tejto práce. % TOD
 To čo je potrebné zaobstarať pre analýzu v tejto práci sú záznamy konkrétnych služieb, z ktorých možno čerpať aktuálny alebo historický stav. Čo sa týka štruktúry, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete}, ktoré možno skúmať. 
 Zoznam spĺňajúci takýto popis je potrebné zaobstarať práve preto, aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy. Napríklad medzi doménou a jej vlastníkom. 
 Práve touto spojitosťou sa môžeme dostať napríklad k prehľadu o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
-Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej sekcií, sekcií číslo \ref{tranco}, kde sú do detailu popísané aj ich dôležité vlastnosti.
+Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej sekcií, sekcií číslo \ref{tranco}, kde sú do detailu popísané aj ich dôležité vlastnosti. Taktiež v nej popisujem ten najvhodnejší z uvedených zoznamov.
 
 Následne, keď by už je známe, ktoré domény je možné podrobiť analýze, je ďalej nutné k nim prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu.
 Keďže sa v práci zameriavam na technológiu NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTPS}, v ktorom majú byť preverené prítomnosti hlavičiek NEL. 
@@ -37,119 +37,42 @@ Existujú dva pohľady na tento prenos:
 % Im je tu venovaná iba okrajová pozornosť, no každá z nich ale za zmienku nepopierateľne stojí, a preto sú popísané v kapitole \ref{httparchive-alternatives}.
 
 
-\section{TRANCO}
+\section{Zoznamy populárnych domén}
 \label{tranco}
 
 Ako už bolo spomenuté, vzniká potreba zaobstarania si zoznamu domén, s ktorými možno pracovať. Čo sa vlastností takýchto domén týka,
 musia vystavovať verejnému internetu službu, ktorá je dosiahnuteľná, komunikuje protokolom HTTPS, a ideálne je aj často navštevovaná,
 a tým pádom relevantná pre túto prácu. 
 Najviac prichádza do úvahy zamerať sa na získanie zoznamu \textbf{webových domén}, zoradeného podľa
-ich návštevnosti, ktorý bude zároveň nadobúdať vhdodný rozsah pre účely prieskumu. 
+ich návštevnosti, ktorý bude zároveň nadobúdať dostatočne veľký rozsah pre účely prieskumu. 
 
-Zaobstarávaniu zoznamov web stránok, ktoré majú spĺňať konkrétne predurčené kritéria sa venuje rad iných existujúcich služieb 
+Zaobstarávaniu zoznamov domén, ktoré majú spĺňať konkrétne predurčené kritéria sa venuje rad iných existujúcich služieb 
 \cite{hacker-target-website-lists-overview, tranco}. Táto práca namiesto implementovania vlastného riešenia využíva jedno z nich -- TRANCO.
 
-TRANCO je rebríček webových stránok zoradených podľa hodnotenia ich návštevnosti, ktorý je odolný proti externej manipulácií a vhodný na účely výskumu \cite{tranco-homepage}. 
-Vznikol na základe častej potreby pre skúmanie práve takýchto stránok či už pre jednoduchú referenciu, alebo ako podklad pre ďalší prieskum.
+TRANCO je rebríček webových domén zoradených podľa hodnotenia ich návštevnosti, ktorý je odolný proti externej manipulácií a vhodný na účely výskumu \cite{tranco-homepage}. 
+Vznikol na základe častej potreby pre skúmanie práve takýchto domén či už pre jednoduchú referenciu, alebo ako podklad pre ďalší prieskum.
+TRANCO nie je prvým takýmto rebríčkom, ale je prvým, ktorý sa zaoberá nedostatkami iných existujúcich rebríčkov.
+Tieto ostatné rebríčky využíva ako zdroje dát pre tvorbu svojho rebríčka (viď sekciu \ref{tranco-source-rankings}).
+Nový rebríček TRANCO tvorí \textbf{spájaním ostatných zdrojových rebríčkov} do nového, 
+ktorý je stabilnejší, reprezentuje domény v globálnej škále a dokonca do určitej miery odstraňuje domény, na ktorých je môže byť zverejnený nežiadúci (nebezpečný) obsah\cite{tranco}. 
+
 Obsahuje primárne registrovateľné domény, čo sú domény, ktoré si môže priamo zakúpiť či už jednotlivec alebo organizácia. 
-Príkladom môže byť \code{*.com} ale aj \code{*.co.uk} \cite{tranco}. 
+Príkladom môžu byť domény registrované pod TLD \code{.com}, ale aj domény registrované pod eTLD zo zoznamu verejných suffixov ako \mbox{\code{*.co.uk} \cite{tranco}}. 
 Okrem registrovateľných domén je možné vygenerovať rebríček aj s ich subdoménami (viď sekciu \ref{tranco-generation}).
+Vygenerované rebríčky možno použiť napríklad na analyzovanie využitia konkrétnych webových technológií na týchto doménach -- od použitej metódy komprimácie jej obsahu po rámce, pomocou ktorých bola webová služba na nich vyvinutá.
 
-Rebríček TRANCO možno použiť napríklad na analýzovanie využitia konkrétnych webových technológií na týchto stránkach -- od použitej metódy komprimácie jej obsahu po rámce, pomocou ktorých bola 
-stránka vyvinutá. 
-TRANCO nie je prvým takýmto rebríčkom, ale je prvým, ktorý sa zaoberá nedostatkami jeho \textbf{predchodcov} a \textbf{spája stránky uvedené v nich} do \textbf{jednotného rebríčka}, 
-ktorý je stabilnejší, reprezentuje stránky v globálnej škále a dokonca do určitej miery odstraňuje stránky s potencionálne nežiadúcim (nebezpečným) obsahom\cite{tranco}. 
-
-\subsection{Generovanie}
-\label{tranco-generation}
-
-V jeho štandardnej forme, rebríček TRANCO sa generuje každý deň v dvoch verziách:
-\begin{itemize}
-    \item TRANCO rebríček domén
-    \item TRANCO rebríček domén a subdomén
-\end{itemize}
-
-V tomto každodenne generovanom rebríčku sú prednastavené ako zdroje dát (použité existujúce rebríčky), tak aj dátumový rozsah, za ktorý sa zo zdrojových rebríčkov má čerpať.
-Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca sekcia \ref{tranco-source-rankings}. 
-Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-github}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
+TRANCO som si pre svoju prácu vybral hlavne preto, že sprístupňuje dáta jednotlivých rebríčkov, ktoré vnútorne používa. 
+Niektoré z tých rebríčkov už nie sú dostupné samostatne, a preto je nutné použiť TRANCO, ktorý obsahuje aj historické dáta z nich. 
+Je teda vhodné použiť toto riešenie použiť pre vytvorenie vlastnej kombinácie zdrojových rebríčkov vhodnej pre špecifickú analýzu domén výsledného rebríčka TRANCO (viď možnosti konfigurovania v sekcii \ref{tranco-config}), alebo pre či už replikovanie a overenie predošlých prác, ktoré používali zastarané rebríčky (viď kapitolu \ref{related-work}).
 
 \pagebreak
-
-V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných kombinačných metód pre upravenie finálneho hodnotenia domén.
-Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, nazývaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú hodnotou 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco, tranco-homepage}.
-
-% TODO vysvetliť obrázkom
-
-Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
-ktorou je možné jedinečne odkazovať na tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
-
-Zároveň, okrem generovania nových TRANCO rebríčkov sú na oficiálnej stránke dostupné aj historicky vygenerované, spomenuté \textbf{štandardné}, teda bežné, každodenné rebríčky \cite{tranco-homepage}.
-
-
-% TODO obrazok alebo vypis vygenerovaneho rebricka
-
-
-\subsubsection{Možnosti konfigurácie}
-\label{tranco-config}
-
-Na oficiálnej stránke TRANCO je taktiež možné vytvoriť žiadosť o vygenerovanie zoznamu s vlastnou konfiguráciou.
-Užívateľ môže vyskladať žiadanú konfiguráciu a priložiť ju k žiadosti, aby vygeneroval podľa nej vlastný zoznam.
-Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{tranco-config}
-\begin{enumerate}
-    \item Zdrojové rebríčky domén:
-    
-    Celkový výber možných vstupných rebríčkov je nasledovný -- Chrome User Experience Report, Majestic, Radar, Cisco Umbrella, Alexa, Quantcast, Farsight.
-    
-    \item Počet dní, za ktoré zbierať vstupné rebríčky:
-    \begin{enumerate}
-        \item N dní dopredu od špecifikovaného počiatočného dátumu,
-        \item N dní dozadu od špecifikovaného koncového dátumu dozadu.
-    \end{enumerate}
-
-    \item Kombinačná metóda hodnotenia domén:
-    \begin{enumerate}
-        \item Aritmetická progresia -- Borda count (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1),
-        \item Harmonická progresia -- Dowdall rule (štandardne zvolená).
-    \end{enumerate}
-
-    \item Počet prvých N domén, ktoré vziať ako vstup z každého rebríčka (štandardne milión).
-
-    \item Možnosti filtrovania:
-    \begin{itemize}
-        \item Podľa zaradenia domény v rámci zdrojových rebríčkov:
-        \begin{enumerate}
-            \item nachádza sa v zoznamoch aspoň počas N dní,
-            \item nachádza sa aspoň v N zoznamoch,
-            \item nenachádza sa v zozname potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
-        \end{enumerate}
-
-        \pagebreak
-
-        \item Podľa domény samotnej:
-        \begin{enumerate}
-            \item Pracovať iba s registrovateľnými doménami
-            \item Pracovať s doménami podľa ich eTLD:
-            
-            Užívateľ má možnosť definovať zoznam čiarkou oddelených eTLD, ktoré môžu byť buď ako jediné zahrnuté vo
-            výsledku, alebo naopak z neho odfiltrované.
-            
-            \item Pracovať iba s jednou doménou (najpopulárnejšou) pre každú nájdenú organizáciu (napríklad \code{google.com})
-            \item Pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname definovaného používateľom
-        \end{enumerate}
-
-        \item Podľa možností špecifických pre zoznam Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Používateľ pri voľbe filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
-    \end{itemize}
-
-    \item Ohraničenie počtu výsledkov vo finálnom rebríčku (štandardne milión)
-    
-\end{enumerate}
 
 
 \subsection{Zdrojové rebríčky domén}
 \label{tranco-source-rankings}
 
-Ako už bolo zmienené vyššie, stratégia získavania stránok, ktoré následne TRANCO podrobí hodnoteniu spočíva vo vyberaní stránok z už existujúcich zoznamov s hotovým hodnotením. 
-Zdrojom dát pre hodnotenie stránok TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôzne stratégie pre obstarávanie domén a ich zoraďovanie 
+Ako už bolo zmienené vyššie, stratégia získavania domén, ktoré následne TRANCO podrobí hodnoteniu spočíva vo vyberaní týchto domén z už existujúcich rebríčkov s hotovým hodnotením. 
+Zdrojom dát pre hodnotenie domén TRANCO je teda množina niekoľkých podobných zoznamov, ktoré sami na ich úrovni používajú rôzne stratégie pre obstarávanie domén a ich zoraďovanie 
 podľa hodnotenia návštevnosti \cite{tranco-methodology}. 
 V tejto kapitole sú popísané zoznamy, z ktorých možno dáta kombinovať 
 a na základe ktorých je možné nový alebo vlastný zoznam vygenerovať.
@@ -157,10 +80,10 @@ a na základe ktorých je možné nový alebo vlastný zoznam vygenerovať.
 \subsubsection{Alexa}
 
 Alexa, dcérska spoločnosť Amazon.com, publikovala na svojich stránkach od decembra 2008 až po začiatok augusta 2023 rebríček \textbf{Alexa Top Sites}, v ktorom zoraďovala 1 milión 
-najnavštevovanejších webstránok \cite{tranco-methodology}.
+najnavštevovanejších domén web serverov \cite{tranco-methodology}.
 Zdrojom dát pre jeho tvorbu bolo rozšírenie pre webové prehliadače, ktoré si používatelia mohli stiahnuť a po jeho inštalácií na vybranom prehliadači začalo zbierať a odosielať
 dáta o prehliadaní internetu do Alexy. 
-Pre účely vytvorenia hodnotenia stránok sa teda využíva sieťová prevádzka priamo vedená cez protokol HTTP(S). 
+Pre účely vytvorenia hodnotenia domén sa teda využíva sieťová prevádzka priamo vedená cez protokol HTTP(S). 
 Rebríček Alexa sa v tomto skúmaní HTTP(S) prevádzky zaoberá registrovateľnými doménami. 
 
 Počet používateľov s nainštalovaným rozšírením bol však obmedzený 
@@ -168,7 +91,7 @@ a to mohlo spôsovovať značné skreslenie celkových výsledkov kvôli malému
 Avšak, existujú zmienky, kde sa cituje pôvodná oficiálna stránka tohto zoznamu, kde autori tvrdili, že počet týchto používateľov sa pohyboval v ráde niekoľkých miliónov \cite{tranco}.
 Svoje hodnotenie Alexa zakladala na dvoch základných metrikách: \cite{kinsta-alexa-rank-article, tranco}
 \begin{itemize}
-    \item Počet návštevníkov stránky za daný deň (viac návštev od jedného sa počíta ako jediná návšteva)
+    \item Počet návštevníkov stránky (na web serveri s danou doménou) za daný deň, pričom viac návštev od jedného používateľa sa počíta ako jediná návšteva
     \item Spriemerovaný počet otvorení hocijakej podstránky (URL v rámci sledovanej domény)
 \end{itemize}
 
@@ -176,17 +99,17 @@ Zo spomenutých metrík má vyššiu váhu pri rozhodovaní o popularite práve 
 Obe metriky sa pre špecifický deň následne spriemerovali so všetkými hodnotami za posledné tri mesiace, aby zoznam nadobudol určitú mieru stability. 
 Tým pádom každodenný zoznam nepripúšťa do úvahy trendy v prehliadaní, ktoré po vzniknutí hneď aj zanikajú (krátkodobé extrémy). 
 Vo výsledku sa tým predchádza nepresnému celkovému hodnoteniu popularity v prípadoch, 
-kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej stránky mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej stránky v zozname. 
+kedy by neobvyklý jednorazový nárast v popularite doposiaľ neznámej domény mal predbehnúť zaradenie inej, dlhodobo populárnej a vysoko zaradenej domény v zozname. 
 
 Koncom roka 2016 bol tento bezplatne poskytovaný rebríček na nejakú dobu odstavený z prevádzky pre verejnosť na hlavných stránkach Alexy a znova bol sprístupnený pod záštitou Amazon Web Services ako platená služba \textbf{Alexa Top Sites}. 
-Neskôr, začiatkom roka 2018 sa zhoršila jeho celková stabilita z toho dôvodu, že jeho algoritmus vyhodnocovania zaradenia stránok prestal brať ohľad na priemerovanie dát za predošlé mesiace.
-Od vtedy, konkrétne od 30. januára 2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 1. augusta 2023, čo z nej teraz robí \textbf{zastaraný zoznam} \cite{tranco-methodology}.
+Neskôr, začiatkom roka 2018 sa zhoršila jeho celková stabilita z toho dôvodu, že jeho algoritmus vyhodnocovania zaradenia domén prestal brať ohľad na priemerovanie dát za predošlé mesiace.
+Od vtedy, konkrétne od 30. januára 2018, bol zhotovovaný striktne iba za každý konkrétny deň \cite{tranco} až dokým táto služba nebola nadobro prerušená 1. augusta 2023, čo z nej teraz robí \mbox{\textbf{zastaraný zoznam} \cite{tranco-methodology}}.
 
 \subsubsection{Majestic Million}
 
 Majestic Million je služba, ktorá rovnako ako Alexa poskytuje zoznam webových domén zoradených podľa množstva odkazov na ne ukazujúcich \cite{majestic-million-homepage, majestic-million-ranking}.
 V jednoduchosti to znamená, že čím viac odkazov na danú doménu sa na webe nájde, tým vyššie bude v tomto zozname zaradená. 
-Ako individuálne technologické riešenie bol Majestic Million uverejnený na webových stránkach autora 1.10.2012 \cite{majestic-million-publication}.
+Ako individuálne technologické riešenie bol Majestic Million uverejnený na webových stránkach autora 1. októbra 2012 \cite{majestic-million-publication}.
 Autorom je spoločnosť Majestic, ktorá sa zaoberá SEO (Search Engine Optimization) a skúmaním práve takýchto prepojení medzi doménami.
 
 Majestic na dennej báze prehľadáva globálne zhruba 450 miliárd URL v rámci verejného internetu aby svoj zoznam zostavil. 
@@ -202,8 +125,6 @@ Jednou z nich je napríklad možnosť bližšie porovnať až do 10 domén, kde 
 referujúcich na tie vstupné a aj celkový počet ich externých odkazov \cite{majestic-million-homepage}.
 Existujú rôzne ďalšie služby, ktoré Majestic ponúka, no až na samotný rebríček a spomenutý Buzz Table sú tie ostatné spoplatnené, kde najlacnejšia možnosť platobného plánu v čase písania práce začína na \$46.99 mesačne \cite{majestic-million-pricing}.
 
-\pagebreak
-
 \subsubsection{Cisco Umbrella}
 % TODO nemusi byt https obsah
 
@@ -215,6 +136,8 @@ Rebríček je generovaný každodenne a obsahuje 1 milión záznamov s top-level
 Je ale nutné poznamenať, že vzhľadom na to, že sa ako zdroj využívajú záznamy DNS, do finálneho rebríčka sa dostávajú aj nedosiahnuteľné domény.
 Medzi také patria domény, ktoré sú interné pre špecifickú organizáciu používajúcu službu Cisco Umbrella, a teda sú neprístupné pre bežného návštevníka.
 Ďalej sa môžu na nižších miestach vyskytnúť neexistujúce domény, ktoré boli zaradené do rebríčka len vďaka častým DNS vyhľadávaním s chybou v názve danej domény (napríklad \code{google.comm}) \cite{tranco-methodology}.
+
+\pagebreak
 
 \subsubsection{Quantcast}
 
@@ -242,13 +165,97 @@ Je považovaný za najrýchlejší DNS server a zároveň nepredáva dáta o svo
 Umiestnenia domén v rebríčku sú vypočítané na základe metriky popularity, ktorá predstavuje podľa popisu od Cloudflare "\textit{odhadovanú relatívnu veľkosť populácie užívateľov, ktorí navštívili doménu za určitú dobu}".
 Táto metrika sa vypočítava použitím modelu strojového učenia na agregované dáta zo spomínaného DNS servera. 
 
-\pagebreak
-
 Špecifikom tohto rebríčka je rozdelenie výsledných domén do takzvaných \textbf{buckets} (bucket, anglicky vedro) o postupne zvyšujúcich sa veľkostiach.
 Veľkosť prvého, jediného bucketu, ktorý je aktualizovaný každý deň je 100 domén. Tieto domény sú medzi sebou vzájomne zoradené.
 Nasledujúce buckets majú jednotlivé veľkosti 200, 500, 1,000, 2,000, 5,000, 10,000, 20,000, 50,000, 100,000, 200,000, 500,000 a 1,000,000 domén.
 Domény v týchto početnejších zoznamoch už nie sú zoradené vzájomne medzi sebou.
 Ich význam spočíva v tom, že každý bucket predstavuje relatívnu vzdialenosť začlenených domén od tej najpopulárnejšej \cite{cloudflare-radar}.
+
+
+
+\subsection{Generovanie rebríčka TRANCO}
+\label{tranco-generation}
+
+V jeho štandardnej forme, rebríček TRANCO sa generuje každý deň v dvoch verziách:
+\begin{itemize}
+    \item TRANCO rebríček domén
+    \item TRANCO rebríček domén a subdomén
+\end{itemize}
+
+\pagebreak
+
+V tomto každodenne generovanom rebríčku sú prednastavené ako zdroje dát (použité existujúce rebríčky), tak aj dátumový rozsah, za ktorý sa zo zdrojových rebríčkov má čerpať.
+Štandardne sa teda vytvára výsledok z rebríčkov Alexa, Umbrella, Majestic a Quantcast, ktoré bližšie predstavuje nasledujúca časť tejto sekcie. 
+Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-github}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
+
+V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných kombinačných metód pre upravenie finálneho hodnotenia domén.
+Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, nazývaná \textbf{Dowdall rule}. Dowdall rule hodnotí v zozname obsahujúcom N domén prvú hodnotou 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco, tranco-homepage}.
+
+% TODO vysvetliť obrázkom
+
+Po dokončení priemerovania a zaraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
+ktorou je možné jedinečne odkazovať na tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
+
+Zároveň, okrem generovania nových TRANCO rebríčkov sú na oficiálnej stránke dostupné aj historicky vygenerované, spomenuté \textbf{štandardné}, teda bežné, každodenné rebríčky \cite{tranco-homepage}.
+
+
+% TODO obrazok alebo vypis vygenerovaneho rebricka
+
+
+\subsubsection{Možnosti konfigurácie vlastného rebríčka TRANCO}
+\label{tranco-config}
+
+Na oficiálnej stránke TRANCO je taktiež možné vytvoriť žiadosť o vygenerovanie zoznamu s vlastnou konfiguráciou.
+Užívateľ môže vyskladať žiadanú konfiguráciu a priložiť ju k žiadosti, aby vygeneroval podľa nej vlastný zoznam.
+Konfigurácia vlastného zoznamu pozostáva z nasledujúcich možností: \cite{tranco-config}
+\begin{enumerate}
+    \item Zdrojové rebríčky domén:
+    
+    Celkový výber možných vstupných rebríčkov je nasledovný -- Chrome User Experience Report, Majestic, Radar, Cisco Umbrella, Alexa, Quantcast, Farsight.
+    
+    \item Počet dní, za ktoré zbierať vstupné rebríčky:
+    \begin{enumerate}
+        \item N dní dopredu od špecifikovaného počiatočného dátumu,
+        \item N dní dozadu od špecifikovaného koncového dátumu.
+    \end{enumerate}
+
+    \item Kombinačná metóda hodnotenia domén:
+    \begin{enumerate}
+        \item Aritmetická progresia -- Borda count (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1),
+        \item Harmonická progresia -- Dowdall rule (štandardne zvolená).
+    \end{enumerate}
+
+    \item Počet prvých N domén, ktoré vziať ako vstup z každého rebríčka (štandardne milión).
+
+    \pagebreak
+
+    \item Možnosti filtrovania:
+    \begin{itemize}
+        \item Podľa zaradenia domény v rámci zdrojových rebríčkov:
+        \begin{enumerate}
+            \item nachádza sa v zoznamoch aspoň počas N dní,
+            \item nachádza sa aspoň v N zoznamoch,
+            \item nenachádza sa v zozname potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
+        \end{enumerate}
+
+        \item Podľa domény samotnej:
+        \begin{enumerate}
+            \item Pracovať iba s registrovateľnými doménami
+            \item Pracovať s doménami podľa ich eTLD:
+            
+            Užívateľ má možnosť definovať zoznam čiarkou oddelených eTLD, ktoré môžu byť buď ako jediné zahrnuté vo
+            výsledku, alebo naopak z neho odfiltrované.
+            
+            \item Pracovať iba s jednou doménou (najpopulárnejšou) pre každú nájdenú organizáciu (napríklad \code{google.com})
+            \item Pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname definovaného používateľom
+        \end{enumerate}
+
+        \item Podľa možností špecifických pre zoznam Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Používateľ pri voľbe filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
+    \end{itemize}
+
+    \item Ohraničenie počtu výsledkov vo finálnom rebríčku (štandardne milión)
+    
+\end{enumerate}
 
 
 \section{Selenium}
@@ -267,6 +274,8 @@ Autormi HTTP Archive sú členovia komunity zvanej Web Performance Group. Pôvod
 Momentálne sa na jeho údržbe po stránke vývoja podieľa štvorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly.
 Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok \cite{httparchive-about}.
 
+\pagebreak
+
 Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
 Pre tento účel vyvinuli sadu nástrojov pre zbieranie uvedených dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
@@ -276,7 +285,6 @@ a vykonávanie komplexných analýz nad dátami HTTP Archive \cite{httparchive-f
 
 Vhodnosť projektu pre túto prácu je založená na tom, že ide o komunitný projekt, ktorého výsledky sú verejne a zadarmo dostupné. Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP(S) komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj analýza v rámci tejto práce.
 
-\pagebreak
 
 \subsection{Získavanie dát}
 \label{fetching-data}
@@ -311,7 +319,8 @@ Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metri
 
 Je dôležité poznamenať, že stránky sú testované s čistou vyrovnávacou pamäťou cache. 
 Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
-To môže spôsobovať odchýľku oproti reálnemu používaniu testovacích web stránok. Ďalšou limitáciou je fakt, že každá stránka je preskúmaná samostatne a neberie sa žiaden ohľad na jej podstránky.
+To môže spôsobovať odchýľku oproti reálnemu používaniu testovacích web stránok. 
+Ďalšou limitáciou je fakt, že každá stránka je preskúmaná samostatne a neberie sa žiaden ohľad na jej podstránky.
 WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta užitočné za posledný mesiac, kde môže ale nastať duplicita dát v prípade, že predošlý beh WPT trval výrazne dlho.
 
 Pre účely uskladňovania získaných dát je využitý formát HTTP Archive súboru (prípona \code{.har}, ďalej označovaný už len ako HAR).
@@ -346,7 +355,7 @@ K tomu napomáha špeciálna vnútorná reprezentácia uložených tabuliek.
 Bežný spôsob ukladania dát do tabuliek v databáze je takzvaný riadkovo orientovaný.
 Orientovanie na riadky znamená, že sa záznamy v tabuľke ukladajú priamo vedľa seba na disk databázy.
 To je vhodné pre prípady, keď majú byť na úložisku záznamy hľadané individuálne.
-Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predstavuje problém vo výkonnosti, pretože sa musia potupne pre každý záznam tabuľky prehľadať všetky jeho polia (stĺpce) \cite{google-bq}.
+Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predstavuje problém vo výkonnosti, pretože sa musia potupne pre každý záznam tabuľky prehľadať všetky jeho polia \mbox{(stĺpce) \cite{google-bq}}.
 
 \begin{center}
 \noindent\includegraphics[width=3cm]{example-image}    
@@ -387,8 +396,6 @@ K dátam je možné priamo pristupovať prostredníctvom troch rozhraní: \cite{
 Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL (Structured Query Language).
 Ide o zaužívaný štruktúrovaný jazyk pre správu dát uložených v databáze.
 V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}} \cite{google-bq}.
-
-\pagebreak
 
 Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do Google Cloud.
 Tieto dáta sa nachádzajú práve v Google Cloud Console dostupné ako \textbf{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
