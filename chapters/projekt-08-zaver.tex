@@ -1,4 +1,16 @@
 \chapter{Záver}
 \label{zaver}
 
-Sample Záver
+Cieľom tejto práce bolo navrhnúť spôsob analýzy využitia technológie zvanej Network Error Logging (NEL), pričom bolo nutné zohľadniť podobné existujúce práce aby táto analýza prinášala nové poznatky.
+Pri vytváraní návrhu som sa zoznámil so samotnou skúmanou technológiou, ale aj s nástrojmi, ktoré je možné využiť na jej skúmanie.
+Menovite som sa zameral na projekt HTTP Archive, ktorý uverejňuje na platforme Google Cloud dáta použiteľné na získanie informácií o využití NEL na webe.
+Keďže som zistil, že je však tento projekt nedostatočným podkladom pre analýzu skúmanej technológie, zameral som sa na Selenium.
+S využítím Selenium je možné prehľadávať web v reálnom čase a popri tom ukladať informácie naznačujúce využitie NEL na jednotlivých prehľadávaných webstránkach.
+
+Taktiež som zistil, že predtým ako môžem analýzu zhotoviť, budem potrebovať získať rozsiahly zoznam domén, ktoré analýzou prevediem. 
+S ohľadom na túto skutočnosť som preskúmal dostupné možnosti zaobstarávania si zoznamov domén, pri čom som našiel projekt TRANCO.
+
+Na základe získaných vedomostí som vymyslel návrh pre vykonanie vlastnej analýzy.
+Jej výsledkom bude popis dôležitých metrík týkajúcich sa využitia NEL, ako napríklad percentuálny pomer domén, na ktorých sa NEL úspešne detegoval, k doménam, na ktorých sa nenachádzal.
+Ďalej uvádzam, že ako dodatočnú súčasť práce je vhodné vytvoriť balík vizualizačných funkcií pre tvorbu grafickej reprezentácie získaných metrík.
+Taká výstupná forma mojej analýzy má totiž potenciál stať sa súčasťou každoročného hlásenia o stave webu zvanom Web Almanac. 
