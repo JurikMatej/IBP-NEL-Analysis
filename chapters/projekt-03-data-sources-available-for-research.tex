@@ -304,7 +304,7 @@ Táto sekcia ešte nie je napísaná.
 \label{httparchive}
 
 Projekt HTTP Archive sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. Je permanentným repozitárom informácií o webe a udržiava záznamy ako veľkosti
-stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi môžné vykonávať
+stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi možné vykonávať
 rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
 
 Autormi HTTP Archive sú členovia komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
@@ -350,7 +350,7 @@ Medzi konkrétne skúmané metriky patria napríklad: \cite{webpagetest}
 
 HTTP Archive na svoje účely používa vlastnú WPT inštanciu. 
 Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou.
-Vo svojich behoch využíva užitočnú funcionalitu WPT --- vlastné (prispôsobené) metriky.
+Vo svojich behoch využíva užitočnú funkcionalitu WPT --- vlastné (prispôsobené) metriky.
 Pridanie vlastných metrík do WPT predstavuje spúšťanie hocijakej funkcie spísanej v jazyku JavaScript na konci behu testovania stránky. 
 Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metriky zo svojich testovacích stránok \cite{webpagetest}.
 
@@ -358,7 +358,7 @@ Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metri
 
 Je dôležité poznamenať, že stránky sú testované s čistou vyrovnávacou pamäťou cache. 
 Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
-To môže spôsobovať odchýľku oproti reálnemu používaniu testovacích web stránok. 
+To môže spôsobovať odchýlku oproti reálnemu používaniu testovacích web stránok. 
 Ďalšou limitáciou je fakt, že každá stránka je preskúmaná samostatne a neberie sa žiaden ohľad na jej podstránky.
 WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta užitočné za posledný mesiac, kde môže ale nastať duplicita dát v prípade, že predošlý beh WPT trval výrazne dlho.
 
@@ -453,7 +453,7 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 
 Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných \textbf{dataset}.
 Na GCP je dostupné množstvo datasetov pre prehľadávanie.
-Je nutné si najprv založiť \textbf{Google Cloud projekt} na oficálnej stránke, ktorý slúži ako menný priestor pre zdroje, ktoré užívateľ do neho pridáva a používa.
+Je nutné si najprv založiť \textbf{Google Cloud projekt} na oficiálnej stránke, ktorý slúži ako menný priestor pre zdroje, ktoré užívateľ do neho pridáva a používa.
 K dátam je možné priamo pristupovať prostredníctvom troch rozhraní: \cite{google-cloud} 
 \begin{enumerate}
     \item Google Cloud Console
@@ -504,7 +504,7 @@ Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\fo
     \item \code{response\_bodies}:
 
     Extrahované HAR súbory obsahujúce celé telo HTTP odpovede z každej URL prehľadávaných web stránok.
-    Ide o veľmi veľké tabuľky, ktoré môžu dosahovať veľkost \mbox{v jednotkách terabajtov (TB)}.
+    Ide o veľmi veľké tabuľky, ktoré môžu dosahovať veľkosť \mbox{v jednotkách terabajtov (TB)}.
 \end{itemize}
 
 BigQuery zdroj \code{httparchive} sprístupňuje aj niekoľko ďalších datasetov, no práve tie spomenuté vyššie tvoria sadu dôležitých, ktorými sa táto práca zaoberá. 
@@ -533,7 +533,7 @@ Každú doménu, ktorá vo svojich odpovediach zaslala hlavičku NEL, môžem sk
 \begin{center}
 % height=8.401cm
  \includegraphics[width=11cm, height=10.0125cm]{obrazky-figures/mimeType_summary_example_query.jpg}    
- \caption{\centering Ukážka vytvorenia vlasnej sady dát v prostredí GCP BigQuery. Za použitia príkazov GoogleSQL sú dáta transformované na zoznam typov MIME podľa ich využitia na stránkach uvedených v dátach.}
+ \caption{\centering Ukážka vytvorenia vlastnej sady dát v prostredí GCP BigQuery. Za použitia príkazov GoogleSQL sú dáta transformované na zoznam typov MIME podľa ich využitia na stránkach uvedených v dátach.}
  \label{img:bigquery-example-query}
 \end{center}
 \end{figure}
@@ -552,7 +552,7 @@ Cena za 1TB kapacity je v čase písania práce \$6.25, pričom stále platí, �
 Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive projekt aj prehľady stavu webu formou interaktívnych grafov reprezentujúcich konkrétnu metriku v oblasti záujmu HTTP Archive.
 
 \subsubsection{Elementárne reporty metrík}
-Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantý je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom (viď obrázok \ref{img:total-urls-report}).
+Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantný je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom (viď obrázok \ref{img:total-urls-report}).
 
 \begin{figure}[!htb]
 \begin{center}
@@ -565,6 +565,7 @@ Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej ve�
 \pagebreak
 
 \subsubsection{Web Almanac}
+\label{web-almanac}
 Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
 Web Almanac spája elementárne dáta do kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
 Posledný report bol už štvrtým vydaním v poradí.
