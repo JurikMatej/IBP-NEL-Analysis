@@ -4,12 +4,17 @@
 % \todo{rewrite after this whole chapter is done}
 % \todo{Chromium based browsers ONLY support NEL}
 % TODO use more from NEL-Client-side-Measurement-of-E2E-WS-Reliability
+% TODO discover what terms i did NOT name
+% TODO mark text that requires citations
+% TODO cite everything 
+% \todo{cite the images} - learn how to cite the images
 
+% TODO cite
 Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo webovom prostredí, 
 kde má svoju rolu v monitorovaní špecifických problémov komunikácie počítačových zariadení využívajúcich služby webu \cite{W3C-NEL}.
 Pre dostatočné pochopenie, čím je technológia NEL, v tejto kapitole vysvetľujem najprv 
 spomínané prostredie, v ktorom figuruje. 
-Následne popíšem čo predstavujú pojmy monitorovanie a zlyhanie komunikácie na webe, kde zároveň popíšem body, v ktorých môžu rôzne zlyhania nastať. 
+Následne popíšem, čo predstavujú pojmy monitorovanie a zlyhanie komunikácie na webe, kde zároveň popíšem body, v ktorých môžu rôzne zlyhania nastať. 
 V prvom rade sa pri popise problematiky zameriavam na terminológiu, ktorá sa v nadchádzajúcich častiach tejto práce frekventovane používa. 
 Samotný popis pre NEL nasleduje za úvodom do technológie, ktorá NEL spojazdňuje ako jeho závislosť, \textbf{Reporting API}, bez ktorej samostatne nemôže fungovať. % refs ?
 
@@ -17,6 +22,7 @@ Samotný popis pre NEL nasleduje za úvodom do technológie, ktorá NEL spojazd�
 \section{Webové prostredie}
 \label{webove-prostredie}
 
+% TODO cite
 V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, ktorá tvorí takzvanú sieť sietí, existuje systém World Wide Web (ďalej už iba web).
 Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server}. 
 Vyhľadávanie a získavanie spomínaných dokumentov, a teda obsahu dostupného na web serveri, funguje na základe ich vzájomného prepojenia takzvanými hyperlinkami.
@@ -24,6 +30,7 @@ Termín \textbf{hyperlink} v tomto kontexte prestavuje taký odkaz na dokument, 
 Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo forme či už textu (\textbf{hypertext}) alebo rôznych iných typov médií (\textbf{hypermédiá}), ako napríklad obrázky, videá alebo reklamy. 
 
 
+% TODO cite
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.55]{obrazky-figures/fetching_a_page.png}
@@ -32,13 +39,13 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 \end{center}
 \end{figure}
 
-% \todo{cite the images}
 
 \pagebreak
 
 \subsection{Štruktúra hyperlinku}
 \label{navigacia-na-webe}
 
+% TODO cite
 Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
 Vďaka hyperlinkom obsahujúcim hodnoty URL je možné odkazovať sa na vzdialený obsah webu, prepájať rôzne dokumenty medzi sebou, a tým web navigovať.
 Typická hodnota URL sa skladá z:
@@ -50,6 +57,7 @@ Typická hodnota URL sa skladá z:
     \item a cesty k uloženému dokumentu.
 \end{enumerate}
 
+% TODO cite
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}
@@ -60,6 +68,7 @@ Typická hodnota URL sa skladá z:
 
 \pagebreak
 
+% TODO cite
 Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
 Protokol (2.) definuje množinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
 serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL --- doménou (1.). 
@@ -71,6 +80,7 @@ V ďalších sekciách tento proces postupne opisujem detailnejšie.
 \subsection{Domény}
 \label{domeny}
 
+% TODO cite
 Pre adresovanie počítačových zariadení na internete sa používa adresa \textbf{IP}.
 Takáto adresa môže mať dve podoby:
 \begin{enumerate}
@@ -78,16 +88,20 @@ Takáto adresa môže mať dve podoby:
     \item IPv6, napríklad \code{2001:db8:8b73:0000:0000:8a2e:0370:1337}.
 \end{enumerate}
 
-% \todo{TCP/IP pouziva IP adresy a stara sa o session}
+
 Pomocou takýchto adries taktiež funguje navigácia na internete, označovaná pojmom smerovanie správ v komunikácií medzi počítačmi.
-Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, že \textbf{smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries}.
+Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, 
+že smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries. % TODO cite
+Ďalej sa využíva protokol TCP, ktorého úlohou je nadviazať spojenie s počítačom označeným adresou IP.
+Využitie týchto dvoch protokolov v spojení sa označuje za TCP/IP sieťovú komunikáciu. % TODO cite
 
 Vo webovom prostredí však prenášané dokumenty môžu byť uložené na nespočetne veľkom počte počítačových zariadení.
-Jednou nepriaznivou skutočnosťou je, že IP adresa web serveru poskytujúceho nejaký dokument sa môže časom meniť.
+Dôležitou skutočnosťou je, že IP adresa web serveru poskytujúceho nejaký dokument sa môže časom meniť.
 Ďalej, pre návštevníkov webu je nepraktické pamätať si zložité IP adresy pre dokumenty, ktoré chcú vyhľadať.
-
-Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré predstavujú mená priradené adresám IP v systéme nazvanom Domain Name System (\textbf{DNS}, systém doménových mien), ktorý ich spravuje.
-Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých cieľových IP adries používať doménové mená k nim priradené.  
+Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré predstavujú mená priradené adresám IP v systéme nazvanom 
+Domain Name System (\textbf{DNS}, systém doménových mien), ktorý ich spravuje. 
+Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých cieľových IP adries používať doménové mená k nim priradené. 
+% TODO cite
 
 \subsubsection{Systém doménových mien}
 
@@ -95,7 +109,7 @@ DNS je distribuovaný systém doménových mien prislúchajúcich k IP adresám 
 Na skladovanie a spravovanie týchto mapovaní používa DNS špecifické databáze pre svoj systém. 
 Jeho primárnou službou je vyhľadávanie IP adries podľa spomínaných doménových mien.
 Táto služba sa nazýva \textbf{DNS rezolúcia} (anglicizmus, pojem sa do slovenčiny doslovne neprekladá). 
-O vykonávanie rezolúcií sa stará program nazvaný \textbf{DNS rezolver} (rovnako, anglicizmus).
+O vykonávanie rezolúcií sa stará program nazvaný \textbf{DNS rezolver} (tiež anglicizmus použitý pre zachovanie terminológie z čerpaných zdrojov).
 Proces pridania IP adresy do systému DNS \mbox{s jej} novým doménovým menom sa nazýva \textbf{registrácia}.
 Registrácia môže byť vykonaná:
 \begin{itemize}
@@ -106,14 +120,15 @@ Registrácia môže byť vykonaná:
     \item alebo \textbf{registrarom}.
 
     Registrar je správca a poskytovateľ služieb DNS v jemu pridelenej zóne tohto systému. % ?
-    Pri registráciach TLD je bežne vykonávateľom samotnej registrácie registrar. % ?
+    Pri registráciach TLD je bežne vykonávateľom samotnej registrácie registrar. % ? (ale asi celkovo vymazat.. netreba mi to tu)
 \end{itemize}
-
+% TODO cite
 % rfc8499 pages 2,15,
 % https://developer.mozilla.org/en-US/docs/Glossary/DNS
 
 \subsubsection{Štruktúra doménového mena}
 
+% TODO cite
 Ako bolo zmienené, doménové meno je textová hodnota reprezentujúca adresu webového serveru.
 Doménové meno sa rozdeľuje na viaceré úrovne nazývané levely. 
 Jednotlivé levely sú v ňom oddelené znakmi bodky. 
@@ -128,6 +143,7 @@ V doménovom mene \code{example.domain.com} platí rozdelenie nasledovne:
     \item \code{\underline{.com}} predstavuje TLD.
 \end{itemize}
 
+% TODO fact check + weird wording check
 Každá časť oddelená bodkou má v rámci celkového doménového mena svoj vlastný názov a logický význam.
 Kompozícia doménového mena však v určitých prípadoch nemusí byť jednotlivými bodkami rozdelená na vyššie popísané levely. 
 Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-structure}}, \mbox{ktorý} berie v úvahu doménové meno skladajúce sa až z piatich bodkou oddelených častí.
@@ -135,7 +151,10 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.45]{obrazky-figures/domain_name_structure.png}
- \caption{\centering Príklad domény s nezvyčajnou štruktúrou. Postupným skladaním hodnôt oddelených bodkou začínajúc \mbox{z pravej} strany vznikajú logické časti mena domény. V tomto prípade ide o výnimku, pri ktorej neplatí, že čiastkové hodnoty oddelené bodkou predstavujú jej jednotlivé levely \mbox{(viď definíciu termínu \textbf{Verejný Suffix} nižšie).}}
+ \caption{\centering Príklad domény s štruktúrou, ktorá nevyhovuje štandardnému predpisu vyššie. 
+ Postupným skladaním hodnôt oddelených bodkou začínajúc \mbox{z pravej} strany vznikajú logické časti mena domény. 
+ V tomto prípade ide o výnimku, pri ktorej neplatí, že čiastkové hodnoty oddelené bodkou predstavujú jej jednotlivé levely 
+ \mbox{(viď definíciu termínu \textbf{Verejný Suffix} nižšie).}}
  \label{fig:domain-name-structure}
 \end{center}
 \end{figure}
@@ -147,7 +166,8 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 Doménové meno popisované obrázkom \ref{fig:domain-name-structure} --- \code{foo.bar.s3.amazonaws.com} --- sa ako každé iné doménové meno skladá z TLD, SLD a subdomény. 
 Platia tu však niektoré ďalšie dôležité pravidlá pri ich identifikovaní.
 
-Existuje zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných suffixov, skratka \textbf{PSL}), v ktorom sa nachádzajú koncovky doménových mien, pod ktorými je možné registrovať domény a subdomény pre web servery.
+Existuje zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných suffixov, skratka \textbf{PSL}), 
+v ktorom sa nachádzajú koncovky doménových mien, pod ktorými je možné registrovať domény a subdomény pre web servery.
 Tieto koncovky uvedené v PSL sa nazývajú efektívne Top Level Domény (\textbf{eTLD}).
 Hodnoty eTLD zahŕňajú vyššie spomínané TLD ako ich poslednú, bodkou oddelenú hodnotu.
 Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
@@ -161,7 +181,8 @@ S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné ro
 
 % https://www.michalspacek.com/origin-site-etld-etld-plus-one-public-suffix-psl-what-are-they
 
-Na záver chcem ako poznámku uviesť, že sa môže pre označenie domény registrovateľnej pod eTLD vyskytovať aj výraz rovnakého významu -- \textit{Pay Level Domain} (PLD, preložiteľné so zachovaním významu ako doména zakúpiteľného levelu).
+Na záver chcem ako poznámku uviesť, že sa môže pre označenie domény registrovateľnej pod eTLD vyskytovať aj výraz rovnakého významu 
+-- \textit{Pay Level Domain} (PLD, preložiteľné so zachovaním významu ako doména zakúpiteľného levelu).
 Keďže pojem registrovateľná doména a skratka PLD sú zameniteľné, no PLD sa zväčša v literatúre nepoužíva, 
 ďalej v práci domény tohto typu označujem pomocou pojmu \textbf{registrovateľná doména}.
 
@@ -169,26 +190,32 @@ Keďže pojem registrovateľná doména a skratka PLD sú zameniteľné, no PLD 
 \label{protokol-http}
 % \todo{prepisat za pouzitia terminologie domen}
 % \\
-Definíciou, v oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami. % \ref{}
-Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS, % \ref{}
-venujem sa v tejto sekcii výhradne protokolom HTTP a jeho zabezpečenej, uvedenej verzii --- HTTPS. 
+V oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami. % \cite{}
+Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS, % \cite{}
+venujem sa v tejto sekcii výhradne protokolom HTTP a jeho zabezpečenej verzii, ktorou je práve spomínaný HTTPS. 
 
 % \ref{https://www.rfc-editor.org/rfc/rfc9110.html}
+% TODO cite
 HTTP, celým názvom HyperText Transfer Protokol, je bezstavový aplikačný protokol pre distribuované hypertextové informačné systémy. 
 Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (daľej v terminológií špecifikácie HTTP už iba ako \textbf{zdroj}).
-Toto rozhranie definuje dva typy zasielateľných správ --- \textbf{žiadosť} a \textbf{odpoveď}. Žiadosť predtavuje doslova žiadosť o zdroj. Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho navrátenie. 
+Toto rozhranie definuje dva typy zasielateľných správ --- \textbf{žiadosť} a \textbf{odpoveď}. 
+Žiadosť predtavuje doslova žiadosť o zdroj. 
+Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho navrátenie. 
 
 Protokol funguje na základe klient-server komunikácie, kde klient a server sú názvy rolí, ktoré môžu prepojené zariadenia zaujať v rámci komunikácie pomocou HTTP:
 \begin{itemize}
     \item \textbf{Klient} zakladá spojenie so serverom za účelom zasielania jednej alebo viacerých \mbox{žiadostí}: 
     
-    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} (skrátene UA, slovensky -- agent používateľa). Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. Webovým prehliadačom sa viac venuje sekcia \ref{webovy-prehliadac}.
+    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} (skrátene UA, slovensky -- agent používateľa). 
+    Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. 
+    Webovým prehliadačom sa viac venuje sekcia \ref{webovy-prehliadac}.
     
     \item \textbf{Server} prijíma spojenia aby obslúžil žiadosti tým, že na ne zasiela prislúchajúce odpovede:
 
     Pre program implementujúci rozhranie takéhoto servera sa používa označenie \textbf{Origin Server} (server pôvodu zdroja, ďalej ako \textbf{origin}).
 \end{itemize}
 
+% TODO how to cite my own figure
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http-client-server.png}
@@ -201,6 +228,7 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
 
 \subsubsection{HTTP žiadosť}
 
+% TODO cite image from mozila mdn probably
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
@@ -209,6 +237,7 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
 \end{center}
 \end{figure}
 
+% TODO cite probably RFC is enough
 Správy HTTP protokolu sú štruktúrované bloky textu.
 Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \begin{enumerate}
@@ -250,12 +279,18 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \end{enumerate}
 
 
+% TODO cite also probably only the RFC for http
 \subsubsection{HTTP odpoveď}
 
+% TODO cite image from mozila mdn probably
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
-    \caption{\centering Príklad HTTP odpovede. Jednotlivé časti odpovede sú na obrázku označené číslami. Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.}
+    \caption{\centering Príklad HTTP odpovede. 
+    Jednotlivé časti odpovede sú na obrázku označené číslami. 
+    Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). 
+    Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). 
+    Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.}
     \label{fig:http-response}
 \end{center}
 \end{figure}
@@ -263,6 +298,7 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 \noindent HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
 
 \begin{enumerate}
+    % TODO see rules for itemizations and enumerations
     \item Verzia protokolu HTTP použitého na odoslanie odpovede
 
     \item Statusový kód reprezentujúci výsledok vykonanej operácie vyvolanej HTTP žiadosťou:
@@ -272,35 +308,38 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
     Kategórie významov sú určené prvou číslicou čísla statusového kódu, ktoré môže nadobúdať hodnoty od 1 po 5:
 
     \begin{enumerate}
-        \item 1xx (informácia):
+        \item 1xx (informácia),
         
-        Status tohto typu s hodnotami od 100 do 199 indikuje predbežné odpovede určené pre komunikáciu stavu pripojenia (v komunikácií HTTP) alebo stavu priebehu spracovania prislúchajúcej žiadosti.
-        Odpovede so statusom 1xx sa zasielajú predtým ako sa dokončí operácia vyžiadaná žiadosťou a zašle sa pre ňu finálna odpoveď.
+        % Status tohto typu s hodnotami od 100 do 199 indikuje predbežné odpovede určené pre komunikáciu stavu pripojenia (v komunikácií HTTP) alebo stavu priebehu spracovania prislúchajúcej žiadosti.
+        % Odpovede so statusom 1xx sa zasielajú predtým ako sa dokončí operácia vyžiadaná žiadosťou a zašle sa pre ňu finálna odpoveď.
         
-        \item 2xx (úspech):
+        \item 2xx (úspech),
         
-        Statusy 2xx s hodnotami od 200 do 299 oznamujú klientovi, že jeho žiadosť bola úspešne prijatá, spracovaná a akceptovaná. 
+        % Statusy 2xx s hodnotami od 200 do 299 oznamujú klientovi, že jeho žiadosť bola úspešne prijatá, spracovaná a akceptovaná. 
         
-        \item 3xx (presmerovanie):
+        \item 3xx (presmerovanie),
         
-        Status 3xx indikuje, že pre dokončenie obsluhy žiadosti klienta musí klient vykonať ďalšiu alebo inú akciu.
-        V odpovedi obsahujúcej presmerovanie sa teda nachádza nový zdroj, ktorý by mal klient vyžiadať, aby mohla byť dokončená obsluha jeho pôvodnej žiadosti. 
-        Statusy tejto kategórie môžu nadobúdať hodnoty od 300 do 399.
+        % Status 3xx indikuje, že pre dokončenie obsluhy žiadosti klienta musí klient vykonať ďalšiu alebo inú akciu.
+        % V odpovedi obsahujúcej presmerovanie sa teda nachádza nový zdroj, ktorý by mal klient vyžiadať, aby mohla byť dokončená obsluha jeho pôvodnej žiadosti. 
+        % Statusy tejto kategórie môžu nadobúdať hodnoty od 300 do 399.
         
-        \item 4xx (chyba klienta):
+        \item 4xx (chyba klienta),
 
-        Status chyby klienta s hodnotami od 400 do 499 oznamuje klientovi, že sa vyskytol problém s jeho žiadosťou.
-        Server teda zasiela klientovi odpoveď, v ktorej vysvetľuje chybu v jeho žiadosti.
+        % Status chyby klienta s hodnotami od 400 do 499 oznamuje klientovi, že sa vyskytol problém s jeho žiadosťou.
+        % Server teda zasiela klientovi odpoveď, v ktorej vysvetľuje chybu v jeho žiadosti.
         
-        \item 5xx (chyba servera):
+        \item 5xx (chyba servera).
 
-        Hodnoty 500 až 599 označujú problémy, ktoré vznikli na strane servera jeho vlastným zapríčinením, alebo zapríčinením jeho závislostí (databáza, sieťové operácie a podobne).
-        Server, ktorý odošle odpoveď so statusom z tejto kategórie oznamuje klientovi, že jeho žiadosť nemôže byť obslúžená, pretože pri obsluhe server zlyhal.
+        % Hodnoty 500 až 599 označujú problémy, ktoré vznikli na strane servera jeho vlastným zapríčinením, alebo zapríčinením jeho závislostí (databáza, sieťové operácie a podobne).
+        % Server, ktorý odošle odpoveď so statusom z tejto kategórie oznamuje klientovi, že jeho žiadosť nemôže byť obslúžená, pretože pri obsluhe server zlyhal.
     \end{enumerate}
 
     \item Správa prislúchajúca k statusovému kódu:
 
-    Ku každému statusovému kódu prislúcha nejaká popisná správa sformovaná ako obyčajný reťazec zakončený ASCII znakom pre nový riadok. Správy sú štandardizované ako frázy spísané v anglickom jazyku.
+    Konkrétny význam statusového kódu však dopĺňajú zvyšné dve číslice kategórie, ktoré sú v jednotlivých kategóriach vyššie reprezentované nahraditeľnými znakmi \code{xx}.
+    Tieto zvyšné číslice môžu nadobúdať hodnoty od 0 po 99.
+    Ku každej takejto hodnote statusového kódu prislúcha nejaká popisná správa sformovaná ako obyčajný reťazec zakončený ASCII znakom pre nový riadok. 
+    Správy sú štandardizované ako frázy spísané v anglickom jazyku.
     Medzi najbežnejšie statusové správy podľa statusových kódov patria:
 
     \begin{itemize}
@@ -323,7 +362,8 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
         \item \code{Content-Length}: dĺžka obsahu odpovede v bajtoch
         \item \code{Content-Type}: typ média prenášaného v obsahu odpovedi
 
-        Hodnota typu média musí byť jedným s registrovaných názvov typov v zozname \textit{Multipurpose Internet Mail Extensions} (MIME). Príkladmi MIME typov pre prenášaný obsah sú hodnoty \code{text/plain} pre obyčajný text, \code{text/html} pre HTML alebo \code{image/png} pre obrázky.
+        Hodnota typu média musí byť jedným s registrovaných názvov typov v zozname \textit{Multipurpose Internet Mail Extensions} (MIME). 
+        Príkladmi MIME typov pre prenášaný obsah sú hodnoty \code{text/plain} pre obyčajný text, \code{text/html} pre HTML alebo \code{image/png} pre obrázky.
     \end{itemize}
 
     \item Obsah odpovede:
@@ -334,6 +374,7 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 
 \subsubsection{HTTPS}
 
+% TODO cite https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
 Dáta spomínané v sekciách o žiadosti a odpovedi sa prenášajú v HTTP komunikácií ako obyčajný text. 
 Tým pádom v prípade odpočúvania a potencionálneho pokusu o ovplyvnenie tejto komunikácie má tretia strana (útočník) prístup k všetkým prenášaným dátam. 
 To znamená, že útočník následne môže dáta z komunikácie čítať, pozmeniť alebo pridať svôj vlastný obsah. 
@@ -346,16 +387,15 @@ V kontextoch senzitívnych operácií vykonávaných na webe, ako napríklad pre
 O samotné šifrovanie v rámci prenosu HTTPS sa stará protokol TLS -- Transport Layer Security (bezpečnosť prepravnej vrstvy).
 TLS je rovnako ako HTTP protokol pre komunikáciu klienta so serverom a jeho použitím pri komunikácií HTTP sa spojenie medzi zariadeniami zabezpečuje proti odpočúvaniu, manipulácií a falšovania správ. 
 
-% https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
-
 
 \subsection{Obsah hľadaných dokumentov}
 \label{obsah-hladanych-dokumentov}
 
+% TODO cite
 Webové dokumenty, alebo iným použitý pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP (viď obrázok \ref{img:fetching-a-page}).
 Tieto dokumenty sú buď získané samostatne ako jednotlivé súbory (textový súbor, obrázok, archív \code{.zip}), alebo ako zoskupená množina viacerých súborov v podobe webovej stránky.
 
-\textbf{Webová stránka} (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext alebo hypermédiá štruktúrované vo formáte \textbf{HTML}.
+Webová stránka (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext alebo hypermédiá štruktúrované vo formáte \textbf{HTML}.
 HTML je formát webového dokumentu skladajúceho sa z počiatočnej definície typu dokumentu a stromovej štruktúry takzvaných elementov, kde prvým je element \code{<html>}. 
 Jednotlivé elementy sa do HTML súboru vpisujú pomocou značiek, pričom, okrem jednotlivých výnimiek, 
 každý element musí mať otváraciu (\code{<elementXY>}) a zatváraciu značku (\code{</elementXY>}).
@@ -364,9 +404,12 @@ Elementy môžu mať k sebe priradené položky uchovávajúce ich doplnkové de
 Napríklad element používaný pre vytvorenie hyperlinku s názvom \code{\textbf{<a>}} (anglicky skratka pre \textit{anchor}) 
 môže mať priradený atribút s názvom \code{\textbf{href}} obsahujúci URL odkazovaného dokumentu.
 
+
+% TODO how to cite my own listing
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Základná štruktúra HTML dokumentu. HTML obsahuje počiatočnú definíciu typu dokumentu (\code{<!DOCTYPE html>}), hlavičku, telo, hyperlink a popisné komentáre.},
+\begin{lstlisting}[caption={\centering Základná štruktúra HTML dokumentu. 
+    HTML obsahuje počiatočnú definíciu typu dokumentu (\code{<!DOCTYPE html>}), hlavičku, telo, hyperlink a popisné komentáre.},
 label=listing:html-struktura, 
 language=HTML, 
 frame=tb,
@@ -388,6 +431,7 @@ xrightmargin=.05\textwidth]
 \end{lstlisting}
 \end{center}
 
+% TODO cite
 Vo výpise \ref{listing:html-struktura} súbor HTML tvorí štruktúru iba pre odkaz na vzdialenú webstránku.
 Pridať rôzne, už spomínané hypermédiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriam elementov. 
 Sú nimi: 
@@ -401,14 +445,13 @@ Sú nimi:
     
     \item Elementy obsahujúce atribút \code{src} patriace do tela HTML.
 
-    Akýkoľvek element z tejto kategórie môže odkazovať na podporovaný typ hypermédia, 
-    ktorý udáva názov takéhoto elementu.
+    Akýkoľvek element z tejto kategórie môže odkazovať na podporovaný typ hypermédia, ktorý udáva názov takéhoto elementu.
     Pre spomínané typy hypermédií ide o elementy: 
     \begin{itemize}
         \item \code{<img>} -- obrázky,
         \item \code{<audio>} -- audio súbory,
         \item \code{<video>} -- videá,
-        \item \code{<iframe>} -- HTML dokumenty, ktoré možno vnoriť do ich referujúcej webstránky.
+        \item \code{<iframe>} -- HTML dokumenty, ktoré možno vnoriť do inej webstránky.
     \end{itemize}
     
 \end{enumerate}
@@ -777,6 +820,7 @@ xrightmargin=.085\textwidth]
 \label{network-error-logging-spec}
 % TODO vysvetlujem ze browser si spaja pravidlo s domenou web servera, z ktoreho NEL hlava prisla ?
 % TODO nehovorim vsetko... nel tiez generuje reporty o uspesnych srandach. Moze tiez byt pouzity na monitorovanie uspesneho HTTP pre sledovanie funkcionality ako caching
+% TODO použiť prehľad z Cloudflare NEL reportu o využívaní (NEXI NB)
 
 NEL, podobne ako Reporting API, je mechanizmus spúšťaný tým, že je User Agentovi pri žiadosti o cieľový zdroj v HTTP odpovedi zaslaná hlavička \code{NEL}.
 Hlavička \code{NEL} môže obsahovať jedno alebo viaceré pravidlá určené pre User Agenta, ktorý ak NEL podporuje, vyberie prvé správne sformované pravidlo v poradí a uloží si ho ako konfiguráciu NEL.
