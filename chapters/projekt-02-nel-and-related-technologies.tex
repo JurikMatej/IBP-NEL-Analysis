@@ -30,7 +30,7 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.55]{obrazky-figures/fetching_a_page.png}
- \caption{\centering Vizualizácia webového prostredia. Obrázok je prevzatý z internetu.}
+ \caption{\centering Vizualizácia webového prostredia \cite{mdn-docs-http-overview}.}
  \label{img:fetching-a-page}
 \end{center}
 \end{figure}
@@ -145,19 +145,21 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 Doménové meno popisované obrázkom \ref{fig:domain-name-structure} --- \code{foo.bar.s3.amazonaws.com} --- sa ako každé iné doménové meno skladá z TLD, SLD a subdomény. 
 Platia tu však niektoré ďalšie dôležité pravidlá pri ich identifikovaní.
 
-Existuje zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných suffixov, skratka \textbf{PSL}), 
-v ktorom sa nachádzajú koncovky doménových mien, pod ktorými je možné registrovať domény a subdomény pre web servery.
-Tieto koncovky uvedené v PSL sa nazývajú efektívne Top Level Domény (\textbf{eTLD}).
-Hodnoty eTLD zahŕňajú vyššie spomínané TLD ako ich poslednú, bodkou oddelenú hodnotu.
-Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
+Hodnoty TLD môžu byť zložené z viacerých bodkou odelených hodnôd, pričom stále spolu figurujú ako jeden level.
+Doteraz však neexistuje algoritmus pre vyhľadávanie levela, ktorý by mohol slúžiť na registrovanie domén pre dané zložené TLD -- levela registrovateľnej domény \cite{mozilla-psl-learn}.
+Preto vznikol zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných suffixov, skratka \textbf{PSL}) ako zoznam práve takých TLD, pod ktorými je možné doménu zaregistrovať.
+Tieto zložené TLD sa formálne nazývajú efektívne Top Level Domény (\textbf{eTLD}).
+Hodnoty eTLD zahŕňajú bežnú hodnotu TLD ako ich poslednú, bodkou oddelenú hodnotu.
 
 \pagebreak
 
+Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
+
 S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné rozdeliť doménové meno z obrázka \ref{fig:domain-name-structure} na jeho levely nasledovne \cite{michal-spacek-etld-article}: 
 \begin{itemize}
-    \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD.
+    \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD,
     \item \code{\underline{bar}.s3.amazonaws.com} predstavuje celé meno SLD -- registrovanú doménu,
-    \item \code{\underline{foo}.bar.s3.amazonaws.com} predstavuje celé meno subdomény,
+    \item \code{\underline{foo}.bar.s3.amazonaws.com} predstavuje celé meno subdomény.
 \end{itemize}
 
 Na záver chcem ako poznámku uviesť, že sa môže pre označenie domény registrovateľnej pod eTLD vyskytovať aj výraz rovnakého významu 
@@ -168,25 +170,35 @@ Keďže pojem registrovateľná doména a skratka PLD sú zameniteľné, no PLD 
 
 \subsection{Protokol HTTP}
 \label{protokol-http}
-% \todo{prepisat za pouzitia terminologie domen}
-% \\
-V oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami. % \cite{}
-Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS, % \cite{}
-venujem sa v tejto sekcii výhradne protokolom HTTP a jeho zabezpečenej verzii, ktorou je práve spomínaný HTTPS. 
 
-% \ref{https://www.rfc-editor.org/rfc/rfc9110.html}
-% TODO cite
-HTTP, celým názvom HyperText Transfer Protokol, je bezstavový aplikačný protokol pre distribuované hypertextové informačné systémy. 
+V oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidiel pre vzájomnú komunikáciu medzi počítačovými zariadeniami \cite{cloudflare-protocol}.
+Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS  \cite{nel-client-side-measurement-e2e-reliability},
+venujem sa v tejto sekcii výhradne protokolom HTTP a jeho zabezpečenej verzii, ktorou je práve spomínaný HTTPS.
+
+HTTP, celým názvom HyperText Transfer Protokol, je bezstavový aplikačný protokol pre distribuované hypertextové informačné systémy \cite{rfc9110}. 
 Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (daľej v terminológií špecifikácie HTTP už iba ako \textbf{zdroj}).
 Toto rozhranie definuje dva typy zasielateľných správ --- \textbf{žiadosť} a \textbf{odpoveď}. 
 Žiadosť predtavuje doslova žiadosť o zdroj. 
-Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho navrátenie. 
+Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho \mbox{navrátenie \cite{rfc7230}}. 
 
-Protokol funguje na základe klient-server komunikácie, kde klient a server sú názvy rolí, ktoré môžu prepojené zariadenia zaujať v rámci komunikácie pomocou HTTP:
+Protokol funguje na základe klient-server komunikácie. Klient zasiela požiadavku na server a server mu naspäť posiela odpoveď.
+Koncept takejto komunikácie je znázornený na obrázku \ref{fig:http-client-server}.
+
+\begin{figure}[htb]
+\begin{center}
+    \includegraphics[scale=0.6]{obrazky-figures/http-client-server.png}
+    \caption{\centering Klient-server komunikácia.}
+    \label{fig:http-client-server}
+\end{center}
+\end{figure}
+
+\pagebreak
+
+Klient a server sú názvy rolí, ktoré môžu prepojené zariadenia zaujať v rámci komunikácie pomocou HTTP:
 \begin{itemize}
     \item \textbf{Klient} zakladá spojenie so serverom za účelom zasielania jednej alebo viacerých \mbox{žiadostí}: 
     
-    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} (skrátene UA, slovensky -- agent používateľa). 
+    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} \cite{rfc9110} (skrátene UA, slovensky -- agent používateľa). 
     Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. 
     Webovým prehliadačom sa viac venuje sekcia \ref{webovy-prehliadac}.
     
@@ -195,38 +207,18 @@ Protokol funguje na základe klient-server komunikácie, kde klient a server sú
     Pre program implementujúci rozhranie takéhoto servera sa používa označenie \textbf{Origin Server} (server pôvodu zdroja, ďalej ako \textbf{origin}).
 \end{itemize}
 
-% TODO how to cite my own figure
-\begin{figure}[htb]
-\begin{center}
-    \includegraphics[scale=0.6]{obrazky-figures/http-client-server.png}
-    \caption{\centering Vizualizácia konceptu komunikácie pomocou protokolu HTTP. Klient zasiela požiadavku na server a server mu naspäť posiela odpoveď.}
-    \label{fig:http-client-server}
-\end{center}
-\end{figure}
-
-\pagebreak
 
 \subsubsection{HTTP žiadosť}
 
-% TODO cite image from mozila mdn probably
-\begin{figure}[htb]
-\begin{center}
-    \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
-    \caption{\centering Príklad HTTP žiadosti. Jednotlivé časti požiadavky sú na obrázku označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia s HTTP hlavičkami (4.).}
-    \label{fig:http-request}
-\end{center}
-\end{figure}
-
-% TODO cite probably RFC is enough
 Správy HTTP protokolu sú štruktúrované bloky textu.
-Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
+Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah \cite{rfc7230, mdn-docs-http-overview}:
 \begin{enumerate}
     \item Metóda žiadosti:
 
     Metóda žiadosti indikuje operáciu, ktorú klient chce aplikovať na žiadaný zdroj.
     Podľa metódy server zistí, aký výsledok úspešne aplikovanej operácie očakáva klient v odpovedi.
 
-    Dôležité metódy sú najmä:
+    Dôležité metódy sú najmä \cite{rfc9110}:
     \begin{itemize}
         \item GET --- klient žiada zdroj v jeho aktuálnom stave. 
         \item POST --- klient chce vykonať špecifický proces s obsahom, ktorý pridá k žiadosti. 
@@ -236,15 +228,15 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
     \item Cesta k požadovanému zdroju:
 
     Jedná sa tu o cestu spomínanú v sekcii \ref{navigacia-na-webe}, bod 3. v popise príkladnej URL (viď obrázok \ref{img:urlstructure}).
-    Cesta môže byť symbolická, teda určená pre interpretáciu samotným serverom (podľa jeho konfigurácie) ako napríklad \code{/glossaries}, alebo priamo označujúca konkrétny zdroj, napríklad \code{/glossaries.txt}.  
+    Cesta môže byť symbolická, teda určená pre interpretáciu samotným serverom (podľa jeho konfigurácie) ako napríklad \code{/glossaries}, alebo priamo označujúca konkrétny zdroj, napríklad \code{/glossaries.txt}.
  
-    \item Verzia protokolu HTTP použitého na nadviazanie a priebeh komunikácie
+    \item Verzia protokolu HTTP použitého na nadviazanie a priebeh komunikácie.
     
     \item Sekcia polí s ďalšími informáciami a nastaveniami komunikácie -- \textbf{HTTP Headers}:
     
     Táto hovorovo nazývaná sekcia \textbf{hlavičiek} obsahuje páry názvov polí a ich priradených hodnôt. 
     Hlavičky slúžia ako definície možností a iných potrebných informácií pri komunikácií medzi zariadeniami.
-    Pre názvy hlavičiek existuje register \textit{Hypertext Transfer Protocol (HTTP) Field Name Registry},
+    Pre názvy hlavičiek existuje register \textit{Hypertext Transfer Protocol (HTTP) Field Name Registry} \cite{rfc9110},
     v ktorom sa uvádzajú oficiálne hlavičky použiteľné pri komunikácií HTTP. 
 
     Príkladom potrebnej informácie pre HTTP žiadosť je hlavička \code{Host}, ktorej hodnota musí reprezentovať doménu cieľového web servera. 
@@ -258,28 +250,24 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
 
 \end{enumerate}
 
-
-% TODO cite also probably only the RFC for http
-\subsubsection{HTTP odpoveď}
-
-% TODO cite image from mozila mdn probably
-\begin{figure}[htb]
+\begin{figure}[htb!]
 \begin{center}
-    \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
-    \caption{\centering Príklad HTTP odpovede. 
-    Jednotlivé časti odpovede sú na obrázku označené číslami. 
-    Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). 
-    Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). 
-    Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.}
-    \label{fig:http-response}
+    \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
+    \caption{\centering Príklad HTTP žiadosti \cite{mdn-docs-http-overview}.}
+    \label{fig:http-request}
 \end{center}
 \end{figure}
 
-\noindent HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti:
+Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request} a označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. 
+Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia s HTTP hlavičkami (4.) 
+
+
+\subsubsection{HTTP odpoveď}
+
+\noindent HTTP odpoveď sa od žiadosti mierne líši. Obsahuje nasledovné časti \cite{rfc7230, mdn-docs-http-overview}:
 
 \begin{enumerate}
-    % TODO see rules for itemizations and enumerations
-    \item Verzia protokolu HTTP použitého na odoslanie odpovede
+    \item Verzia protokolu HTTP použitého na odoslanie odpovede.
 
     \item Statusový kód reprezentujúci výsledok vykonanej operácie vyvolanej HTTP žiadosťou:
 
@@ -330,17 +318,15 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
         \item \code{500} -- \code{INTERNAL SERVER ERROR}: Server pri obsluhe žiadosti zlyhal.
     \end{itemize}
 
-    \pagebreak
-
     \item Sekcia s hlavičkami:
 
     Táto sekcia je štruktúrovaná rovnako ako v HTTP žiadosti. V prípade odpovede sem však naviac pribúdajú ďalšie hlavičky, ktoré by odpoveď mala zahŕňať: 
 
     \begin{itemize}
-        \item \code{Date}: dátum a čas odoslania odpovede
-        \item \code{Server}: software nainštalovaný na web serveri (origin server), ktorý odpoveď zaslal
-        \item \code{Content-Length}: dĺžka obsahu odpovede v bajtoch
-        \item \code{Content-Type}: typ média prenášaného v obsahu odpovedi
+        \item \code{Date}: dátum a čas odoslania odpovede,
+        \item \code{Server}: software nainštalovaný na web serveri (origin server), ktorý odpoveď zaslal,
+        \item \code{Content-Length}: dĺžka obsahu odpovede v bajtoch,
+        \item \code{Content-Type}: typ média prenášaného v obsahu odpovedi.
 
         Hodnota typu média musí byť jedným s registrovaných názvov typov v zozname \textit{Multipurpose Internet Mail Extensions} (MIME). 
         Príkladmi MIME typov pre prenášaný obsah sú hodnoty \code{text/plain} pre obyčajný text, \code{text/html} pre HTML alebo \code{image/png} pre obrázky.
@@ -351,28 +337,41 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah:
     Pre umiestnenie obsahu v odpovedi platí to isté ako pre obsah umiestnený v žiadosti.
 \end{enumerate}
 
+\begin{figure}[htb!]
+\begin{center}
+    \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
+    \caption{\centering Príklad HTTP odpovede \cite{mdn-docs-http-overview}.}
+    \label{fig:http-response}
+\end{center}
+\end{figure}
+
+Jednotlivé časti odpovede sú vyzobrazené na obrázku \ref{fig:http-response} a označené číslami. 
+Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). 
+Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). 
+Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.
+
+\pagebreak
+
 
 \subsubsection{HTTPS}
 
-% TODO cite https://httpwg.org/specs/rfc7230.html, https://httpwg.org/specs/rfc7231.html
 Dáta spomínané v sekciách o žiadosti a odpovedi sa prenášajú v HTTP komunikácií ako obyčajný text. 
 Tým pádom v prípade odpočúvania a potencionálneho pokusu o ovplyvnenie tejto komunikácie má tretia strana (útočník) prístup k všetkým prenášaným dátam. 
 To znamená, že útočník následne môže dáta z komunikácie čítať, pozmeniť alebo pridať svôj vlastný obsah. 
-Je teda nutné ochrániť komunikáciu klienta so serverom pred pred nežiadúcimi zásahmi z tretej strany.
-
-Z toho dôvodu bol vyvinutý protokol HTTPS - Secure (bezpečný) HTTP.
-HTTPS je zabezpečená verzia protokolu HTTP, ktorá šifruje všetky prenášané dáta medzi klientom a serverom.
-V kontextoch senzitívnych operácií vykonávaných na webe, ako napríklad prenos súkromných dokumentov, poskytuje HTTPS bezpečný spôsob vymieňania dát so serverom.
+Je teda nutné ochrániť komunikáciu klienta so serverom pred pred nežiadúcimi zásahmi z tretej strany. 
+Z toho dôvodu bol vyvinutý protokol HTTPS -- Secure (bezpečný) HTTP.
+HTTPS je zabezpečená verzia protokolu HTTP, ktorá šifruje obsah prenášaných správ medzi klientom a serverom.
+V kontextoch senzitívnych operácií vykonávaných na webe, ako napríklad prenos súkromných dokumentov, poskytuje HTTPS bezpečný spôsob vymieňania dát so serverom \cite{cloudflare-http-not-secure}.
 
 O samotné šifrovanie v rámci prenosu HTTPS sa stará protokol TLS -- Transport Layer Security (bezpečnosť prepravnej vrstvy).
-TLS je rovnako ako HTTP protokol pre komunikáciu klienta so serverom a jeho použitím pri komunikácií HTTP sa spojenie medzi zariadeniami zabezpečuje proti odpočúvaniu, manipulácií a falšovania správ. 
+TLS je rovnako ako HTTP protokol pre komunikáciu klienta so serverom a jeho použitím pri komunikácií HTTP sa spojenie medzi zariadeniami zabezpečuje proti odpočúvaniu, manipulácií a falšovania správ \cite{cloudflare-tls}. 
 
 
 \subsection{Obsah hľadaných dokumentov}
 \label{obsah-hladanych-dokumentov}
 
 % TODO cite
-Webové dokumenty, alebo iným použitý pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP (viď obrázok \ref{img:fetching-a-page}).
+Webové dokumenty, alebo iným pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP  (viď obrázok \ref{img:fetching-a-page}).
 Tieto dokumenty sú buď získané samostatne ako jednotlivé súbory (textový súbor, obrázok, archív \code{.zip}), alebo ako zoskupená množina viacerých súborov v podobe webovej stránky.
 
 Webová stránka (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext alebo hypermédiá štruktúrované vo formáte \textbf{HTML}.
@@ -385,7 +384,6 @@ Napríklad element používaný pre vytvorenie hyperlinku s názvom \code{\textb
 môže mať priradený atribút s názvom \code{\textbf{href}} obsahujúci URL odkazovaného dokumentu.
 
 
-% TODO how to cite my own listing
 \begin{center}
 \centering
 \begin{lstlisting}[caption={\centering Základná štruktúra HTML dokumentu. 
