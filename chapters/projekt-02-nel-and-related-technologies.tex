@@ -7,34 +7,30 @@
 % TODO discover what terms i did NOT name
 % TODO mark text that requires citations
 % TODO cite everything 
-% \todo{cite the images} - learn how to cite the images
 
-% TODO cite
 Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo webovom prostredí, 
-kde má svoju rolu v monitorovaní špecifických problémov komunikácie počítačových zariadení využívajúcich služby webu \cite{W3C-NEL}.
+kde má svoju rolu v monitorovaní špecifických problémov komunikácie počítačových zariadení využívajúcich služby webu.
 Pre dostatočné pochopenie, čím je technológia NEL, v tejto kapitole vysvetľujem najprv 
 spomínané prostredie, v ktorom figuruje. 
 Následne popíšem, čo predstavujú pojmy monitorovanie a zlyhanie komunikácie na webe, kde zároveň popíšem body, v ktorých môžu rôzne zlyhania nastať. 
 V prvom rade sa pri popise problematiky zameriavam na terminológiu, ktorá sa v nadchádzajúcich častiach tejto práce frekventovane používa. 
-Samotný popis pre NEL nasleduje za úvodom do technológie, ktorá NEL spojazdňuje ako jeho závislosť, \textbf{Reporting API}, bez ktorej samostatne nemôže fungovať. % refs ?
+Samotný popis pre NEL nasleduje za úvodom do technológie, ktorá NEL spojazdňuje ako jeho závislosť, \textbf{Reporting API}, bez ktorej samostatne nemôže \mbox{fungovať \cite{W3C-NEL}}.
 
 
 \section{Webové prostredie}
 \label{webove-prostredie}
 
-% TODO cite
-V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, ktorá tvorí takzvanú sieť sietí, existuje systém World Wide Web (ďalej už iba web).
-Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server}. 
+V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, existuje systém World Wide Web (ďalej už iba web).
+Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server} \cite{wiki-web}. 
 Vyhľadávanie a získavanie spomínaných dokumentov, a teda obsahu dostupného na web serveri, funguje na základe ich vzájomného prepojenia takzvanými hyperlinkami.
 Termín \textbf{hyperlink} v tomto kontexte prestavuje taký odkaz na dokument, ktorý umožňuje tento dokument identifikovať, lokalizovať a získať z webu. 
-Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo forme či už textu (\textbf{hypertext}) alebo rôznych iných typov médií (\textbf{hypermédiá}), ako napríklad obrázky, videá alebo reklamy. 
+Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo forme či už textu alebo iných médií, ako napríklad obrázkov \cite{wiki-hyperlink}. 
 
 
-% TODO cite
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.55]{obrazky-figures/fetching_a_page.png}
- \caption{\centering Vizualizácia webového prostredia. Za využitia infraštruktúry internetu prepája pomocou hyperlinkov dokumenty, ktoré možno na webe prehliadať.}
+ \caption{\centering Vizualizácia webového prostredia. Obrázok je prevzatý z internetu.}
  \label{img:fetching-a-page}
 \end{center}
 \end{figure}
@@ -45,63 +41,62 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 \subsection{Štruktúra hyperlinku}
 \label{navigacia-na-webe}
 
-% TODO cite
-Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
+Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator \cite{wiki-hyperlink} (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
 Vďaka hyperlinkom obsahujúcim hodnoty URL je možné odkazovať sa na vzdialený obsah webu, prepájať rôzne dokumenty medzi sebou, a tým web navigovať.
-Typická hodnota URL sa skladá z:
+Typická hodnota URL sa skladá z \cite{mdn-docs-url}:
 \begin{enumerate}
-    \item adresy web servera, teda jeho domény (domény sú popísané v sekcii \ref{domeny})
+    \item adresy web servera, teda jeho domény (anglicky \textit{domain}, popísané v sekcii \ref{domeny}),
     
-    \item schémy - označenie \textbf{protokolu} používaného na sieťovú komunikáciu medzi servermi,
+    \item protokolu používaného na sieťovú komunikáciu medzi servermi (anglicky \textit{protocol}),
     
-    \item a cesty k uloženému dokumentu.
+    \item a cesty k uloženému dokumentu (anglicky \textit{path}).
 \end{enumerate}
 
-% TODO cite
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}
- \caption{\centering Základná štruktúra hodnoty URL. Prvá časť (1.) označuje doménu web servera, druhá (2.) komunikačný protokol a tretia (3.) cestu k dokumentu. Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.}
+ \caption{\centering Základná štruktúra hodnoty URL. Obrázok je prevzatý z internetu.}
  \label{img:urlstructure}
 \end{center}
 \end{figure}
 
+Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
+Podľa príkladu na obrázku \ref{img:urlstructure} prvá časť (1.) označuje doménu web servera, druhá (2.) komunikačný protokol a tretia (3.) cestu k dokumentu. 
+
 \pagebreak
 
-% TODO cite
-Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
-Protokol (2.) definuje množinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
-serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL --- doménou (1.). 
-Cestu k uloženému dokumentu (3.) web server interpretuje podľa jeho konfigurácie ako navigačné inštrukcie 
-v rámci jeho vlastného, alebo vzdialeného úložiska jemu sprístupneného. 
-Podľa týchto inštrukcií vyberie server vyžiadaný dokument a zašle ho naspäť spomínanému návštevníkovi webu.
+Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.
+Protokol definuje množinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
+serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL --- doménou. 
+Cestu k uloženému dokumentu web server použije pre určenie miesta, kde je požadovaný dokument uložený. 
+Ak web server vyžiadaný dokument nájde, zašle ho naspäť danému návštevníkovi webu \cite{mdn-docs-url, wiki-web}.
 V ďalších sekciách tento proces postupne opisujem detailnejšie.
+
 
 \subsection{Domény}
 \label{domeny}
 
-% TODO cite
 Pre adresovanie počítačových zariadení na internete sa používa adresa \textbf{IP}.
-Takáto adresa môže mať dve podoby:
+Takáto adresa môže mať dve podoby \cite{mdn-docs-domain}:
 \begin{enumerate}
-    \item IPv4, napríklad \code{192.0.2.172},
-    \item IPv6, napríklad \code{2001:db8:8b73:0000:0000:8a2e:0370:1337}.
+    \item IPv4, napríklad \code{192.168.1.1},
+    \item IPv6, napríklad \code{2400:cb00:2048:1::c629:d7a2}.
 \end{enumerate}
 
 
 Pomocou takýchto adries taktiež funguje navigácia na internete, označovaná pojmom smerovanie správ v komunikácií medzi počítačmi.
 Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, 
-že smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries. % TODO cite
-Ďalej sa využíva protokol TCP, ktorého úlohou je nadviazať spojenie s počítačom označeným adresou IP.
-Využitie týchto dvoch protokolov v spojení sa označuje za TCP/IP sieťovú komunikáciu. % TODO cite
+že smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries.
+
+Ďalej sa využíva protokol TCP, ktorého úlohou je nadviazať spojenie medzi dvoma počítačmi označenými adresami IP.
+Využitie týchto dvoch hlavných a niekoľko ďalších protokolov v spojení sa označuje za TCP/IP sieťovú komunikáciu \cite{wiki-tcpip}.
 
 Vo webovom prostredí však prenášané dokumenty môžu byť uložené na nespočetne veľkom počte počítačových zariadení.
 Dôležitou skutočnosťou je, že IP adresa web serveru poskytujúceho nejaký dokument sa môže časom meniť.
 Ďalej, pre návštevníkov webu je nepraktické pamätať si zložité IP adresy pre dokumenty, ktoré chcú vyhľadať.
 Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré predstavujú mená priradené adresám IP v systéme nazvanom 
 Domain Name System (\textbf{DNS}, systém doménových mien), ktorý ich spravuje. 
-Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých cieľových IP adries používať doménové mená k nim priradené. 
-% TODO cite
+Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých cieľových IP adries používať doménové mená k nim priradené \cite{cloudflare-dns}. 
 
 \subsubsection{Systém doménových mien}
 
@@ -109,52 +104,36 @@ DNS je distribuovaný systém doménových mien prislúchajúcich k IP adresám 
 Na skladovanie a spravovanie týchto mapovaní používa DNS špecifické databáze pre svoj systém. 
 Jeho primárnou službou je vyhľadávanie IP adries podľa spomínaných doménových mien.
 Táto služba sa nazýva \textbf{DNS rezolúcia} (anglicizmus, pojem sa do slovenčiny doslovne neprekladá). 
-O vykonávanie rezolúcií sa stará program nazvaný \textbf{DNS rezolver} (tiež anglicizmus použitý pre zachovanie terminológie z čerpaných zdrojov).
+O vykonávanie rezolúcií sa stará program nazvaný \textbf{DNS rezolver} \cite{cloudflare-dns} (tiež anglicizmus použitý pre zachovanie terminológie z čerpaných zdrojov).
 Proces pridania IP adresy do systému DNS \mbox{s jej} novým doménovým menom sa nazýva \textbf{registrácia}.
-Registrácia môže byť vykonaná:
-\begin{itemize}
-    \item buď \textbf{registrantom} -- majiteľom zariadenia s IP adresou,
 
-    Registrant vytvára žiadosť o registráciu doménového mena (napríklad na stránkach registrara).
-
-    \item alebo \textbf{registrarom}.
-
-    Registrar je správca a poskytovateľ služieb DNS v jemu pridelenej zóne tohto systému. % ?
-    Pri registráciach TLD je bežne vykonávateľom samotnej registrácie registrar. % ? (ale asi celkovo vymazat.. netreba mi to tu)
-\end{itemize}
-% TODO cite
-% rfc8499 pages 2,15,
-% https://developer.mozilla.org/en-US/docs/Glossary/DNS
 
 \subsubsection{Štruktúra doménového mena}
 
-% TODO cite
 Ako bolo zmienené, doménové meno je textová hodnota reprezentujúca adresu webového serveru.
 Doménové meno sa rozdeľuje na viaceré úrovne nazývané levely. 
 Jednotlivé levely sú v ňom oddelené znakmi bodky. 
-Level najviac vpravo v doménovom mene sa nazýva \mbox{\textbf{TLD} -- Top Level Doména}. 
-Ďalší level smerom doľava (predposledná hodnota) spolu s TLD tvorí \mbox{\textbf{SLD} -- Secondary Level Domain}.
-Posledný level spolu s SLD a TLD vytvára SD -- \textbf{subdoménu}.
+Level na konci (najviac vpravo) v doménovom mene sa nazýva \mbox{\textbf{TLD} -- Top Level Doména}. 
 
-V doménovom mene \code{example.domain.com} platí rozdelenie nasledovne: 
-\begin{itemize}
-    \item \code{\underline{example}.domain.com} predstavuje celé meno subdomény,
-    \item \code{\underline{domain}.com} predstavuje celé meno SLD,
-    \item \code{\underline{.com}} predstavuje TLD.
+\pagebreak
+
+Ďalší level smerom doľava (predposledná hodnota) sa nazýva \textbf{SLD} -- Second Level Doména.
+Každý nasledovný level jednak predstavuje level vyššieho rádu (napríklad Third Level Doména, píše sa 3LD) a taktiež je takzvanou \textbf{subdoménou} pre levely nasledujúce za ňou -- v prípade 3LD sú to levely SLD a TLD.
+
+V doménovom mene \code{example.domain.com} platí rozdelenie nasledovne \cite{michal-spacek-etld-article}: 
+\begin{itemize}    
+    \item \code{\underline{com}}: TLD,
+    \item \code{\underline{domain}.com}: podčiarknuté je SLD, spolu levely tvoria názov registrovanej domény,
+    \item \code{\underline{example}.domain.com}: podčiarknuté je 3LD, spolu levely tvoria názov subdomény.
 \end{itemize}
 
-% TODO fact check + weird wording check
-Každá časť oddelená bodkou má v rámci celkového doménového mena svoj vlastný názov a logický význam.
-Kompozícia doménového mena však v určitých prípadoch nemusí byť jednotlivými bodkami rozdelená na vyššie popísané levely. 
+Okrem jednoduchého rozdelenia na levely sa tiež hodnoty doménového mena oddelené bodkou radia podľa ich logického významu na registrovateľnú doménu a efektívnu TLD.
 Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-structure}}, \mbox{ktorý} berie v úvahu doménové meno skladajúce sa až z piatich bodkou oddelených častí.
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.45]{obrazky-figures/domain_name_structure.png}
- \caption{\centering Príklad domény s štruktúrou, ktorá nevyhovuje štandardnému predpisu vyššie. 
- Postupným skladaním hodnôt oddelených bodkou začínajúc \mbox{z pravej} strany vznikajú logické časti mena domény. 
- V tomto prípade ide o výnimku, pri ktorej neplatí, že čiastkové hodnoty oddelené bodkou predstavujú jej jednotlivé levely 
- \mbox{(viď definíciu termínu \textbf{Verejný Suffix} nižšie).}}
+ \caption{\centering Príklad rozdelenia na efektívnu TLD a registrovateľnú doménu. \mbox{Termín \textbf{Verejný Suffix} je popísaný nižšie.}}
  \label{fig:domain-name-structure}
 \end{center}
 \end{figure}
@@ -172,19 +151,20 @@ Tieto koncovky uvedené v PSL sa nazývajú efektívne Top Level Domény (\textb
 Hodnoty eTLD zahŕňajú vyššie spomínané TLD ako ich poslednú, bodkou oddelenú hodnotu.
 Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
 
-S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné rozdeliť doménové meno z obrázka \ref{fig:domain-name-structure} na jeho levely nasledovne: 
-\begin{itemize}
-    \item \code{\underline{foo}.bar.s3.amazonaws.com} predstavuje celé meno subdomény,
-    \item \code{\underline{bar}.s3.amazonaws.com} predstavuje celé meno SLD -- registrovanú doménu,
-    \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD.
-\end{itemize}
+\pagebreak
 
-% https://www.michalspacek.com/origin-site-etld-etld-plus-one-public-suffix-psl-what-are-they
+S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné rozdeliť doménové meno z obrázka \ref{fig:domain-name-structure} na jeho levely nasledovne \cite{michal-spacek-etld-article}: 
+\begin{itemize}
+    \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD.
+    \item \code{\underline{bar}.s3.amazonaws.com} predstavuje celé meno SLD -- registrovanú doménu,
+    \item \code{\underline{foo}.bar.s3.amazonaws.com} predstavuje celé meno subdomény,
+\end{itemize}
 
 Na záver chcem ako poznámku uviesť, že sa môže pre označenie domény registrovateľnej pod eTLD vyskytovať aj výraz rovnakého významu 
 -- \textit{Pay Level Domain} (PLD, preložiteľné so zachovaním významu ako doména zakúpiteľného levelu).
 Keďže pojem registrovateľná doména a skratka PLD sú zameniteľné, no PLD sa zväčša v literatúre nepoužíva, 
-ďalej v práci domény tohto typu označujem pomocou pojmu \textbf{registrovateľná doména}.
+ďalej v práci domény tohto typu označujem pomocou pojmu registrovateľná doména.
+
 
 \subsection{Protokol HTTP}
 \label{protokol-http}
