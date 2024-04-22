@@ -8,20 +8,20 @@ a ktoré z nich sú reálne aj použité v praktickej časti tejto práce. % TOD
 
 \section{Potrebné dáta}
 
-To čo je potrebné zaobstarať pre analýzu v tejto práci sú záznamy konkrétnych služieb, z ktorých možno čerpať aktuálny alebo historický stav. Čo sa týka štruktúry, v ideálnom prípade by išlo o presný výpis všetkých \textbf{webových domén dostupných verejne na internete}, ktoré možno skúmať. 
+To čo je potrebné zaobstarať pre analýzu v tejto práci sú záznamy konkrétnych služieb, z ktorých možno čerpať aktuálny alebo historický stav. Čo sa týka štruktúry, v ideálnom prípade by išlo o presný výpis všetkých webových domén dostupných verejne na internete, ktoré možno skúmať. 
 Zoznam spĺňajúci takýto popis je potrebné zaobstarať práve preto, aby sme jednak vedeli, ktoré domény je vôbec možné analyzovať a ďalej preto, aby sme vo výsledkoch práce vedeli s touto informáciou pracovať a spájať relevantné vzťahy. Napríklad medzi doménou a jej vlastníkom. 
 Práve touto spojitosťou sa môžeme dostať napríklad k prehľadu o tom, kto vlastní najvyšší počet domén využívajúcich NEL. 
 Takýchto zoznamov existuje hneď niekoľko a sú spomenuté v ďalšej sekcií, sekcií číslo \ref{tranco}, kde sú do detailu popísané aj ich dôležité vlastnosti. 
 Taktiež v nej popisujem ten najvhodnejší z uvedených zoznamov.
 
 Následne, keď by už je známe, ktoré domény je možné podrobiť analýze, je ďalej nutné k nim prideliť aj dáta týkajúce sa ich reálneho sieťového prenosu.
-Keďže sa v práci zameriavam na technológiu NEL, pod sieťovým prenosom je myslený menovite protokol \textbf{HTTPS}, v ktorom majú byť preverené prítomnosti hlavičiek NEL. 
+Keďže sa v práci zameriavam na technológiu NEL, pod sieťovým prenosom je myslený menovite protokol HTTPS, v ktorom majú byť preverené prítomnosti hlavičiek NEL. 
 Existujú dva pohľady na tento prenos:
 \begin{enumerate}
     \item Aktuálne dáta:
     
-    Z hľadiska prítomnosti, a teda aktuálneho stavu webových technológií je vhodné použiť napríklad techniku takzvanú \textbf{Web Crawling}.
-    Na účel Web Crawlingu je možné použiť už existujúce technológie ako \textbf{Selenium}. 
+    Z hľadiska prítomnosti, a teda aktuálneho stavu webových technológií je vhodné použiť napríklad techniku takzvanú Web Crawling.
+    Na účel Web Crawlingu je možné použiť už existujúce technológie ako Selenium. 
     Selenium opisuje sekcia \ref{selenium}.
 
     \pagebreak
@@ -196,7 +196,8 @@ Názorná ukážku aplikovania Dowdall rule na rebríčky ukazuje obrázok \ref{
 
 \begin{figure}[htb]
 \begin{center}
- \includegraphics[scale=0.375]{obrazky-figures/dowdall_rule.png}
+ % \includegraphics[scale=0.375]{obrazky-figures/dowdall_rule.png}
+ \includegraphics[scale=0.84]{obrazky-figures/dowdall_rule_size_fit_cropped.pdf}
  \caption{\centering Príklad uplatnenia Dowdall rule na spriemerovanie štyroch vstupných rebríčkov do výsledného rebríčka TRANCO. Generujem nový rebríček o veľkosti štyroch domén, takže beriem do úvahy prvé štyri domény z každého vstupného rebríčka. Skóre sa vypočíta podľa umiestnenia a podľa celkového počtu domén radených v danom zdrojovom rebríčku. Rebríček 4 (úplne napravo) s najvyšším počtom hodnotených domén výsledok ovplyvnil najviac.}
  \label{img:dowdall-rule}
 \end{center}
@@ -239,60 +240,60 @@ xrightmargin=.3875\textwidth]
 
 
 
-\subsubsection{Možnosti konfigurácie vlastného rebríčka TRANCO}
-\label{tranco-config}
+% \subsubsection{Možnosti konfigurácie vlastného rebríčka TRANCO}
+% \label{tranco-config}
 
-Na oficiálnej stránke TRANCO je taktiež možné vytvoriť žiadosť o vygenerovanie rebríčka s vlastnou konfiguráciou.
-Užívateľ môže vyskladať žiadanú konfiguráciu a priložiť ju k žiadosti, aby vygeneroval podľa nej vlastný rebríček.
-Konfigurácia vlastného rebríčka pozostáva z nasledujúcich možností: \cite{tranco-config}
-\begin{enumerate}
-    \item Zdrojové rebríčky domén:
+% Na oficiálnej stránke TRANCO je taktiež možné vytvoriť žiadosť o vygenerovanie rebríčka s vlastnou konfiguráciou.
+% Užívateľ môže vyskladať žiadanú konfiguráciu a priložiť ju k žiadosti, aby vygeneroval podľa nej vlastný rebríček.
+% Konfigurácia vlastného rebríčka pozostáva z nasledujúcich možností: \cite{tranco-config}
+% \begin{enumerate}
+%     \item Zdrojové rebríčky domén:
     
-    Celkový výber možných vstupných rebríčkov je nasledovný -- Chrome User Experience Report, Majestic, Radar, Cisco Umbrella, Alexa, Quantcast, Farsight.
+%     Celkový výber možných vstupných rebríčkov je nasledovný -- Chrome User Experience Report, Majestic, Radar, Cisco Umbrella, Alexa, Quantcast, Farsight.
     
-    \item Počet dní, za ktoré zbierať vstupné rebríčky:
-    \begin{enumerate}
-        \item N dní dopredu od špecifikovaného počiatočného dátumu,
-        \item N dní dozadu od špecifikovaného koncového dátumu.
-    \end{enumerate}
+%     \item Počet dní, za ktoré zbierať vstupné rebríčky:
+%     \begin{enumerate}
+%         \item N dní dopredu od špecifikovaného počiatočného dátumu,
+%         \item N dní dozadu od špecifikovaného koncového dátumu.
+%     \end{enumerate}
 
-    \item Kombinačná metóda hodnotenia domén:
-    \begin{enumerate}
-        \item Aritmetická progresia -- Borda count (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1),
-        \item Harmonická progresia -- Dowdall rule (štandardne zvolená).
-    \end{enumerate}
+%     \item Kombinačná metóda hodnotenia domén:
+%     \begin{enumerate}
+%         \item Aritmetická progresia -- Borda count (skóre postupne v poradí domén udeľované ako N, N-1, N-2, ..., 2, 1),
+%         \item Harmonická progresia -- Dowdall rule (štandardne zvolená).
+%     \end{enumerate}
 
-    \item Počet prvých N domén, ktoré vziať ako vstup z každého rebríčka (štandardne milión).
+%     \item Počet prvých N domén, ktoré vziať ako vstup z každého rebríčka (štandardne milión).
 
-    \item Možnosti filtrovania:
-    \begin{itemize}
-        \item Podľa zaradenia domény v rámci zdrojových rebríčkov:
-        \begin{enumerate}
-            \item nachádza sa v rebríčku aspoň počas N dní,
-            \item nachádza sa aspoň v N rebríčkoch,
-            \item nenachádza sa v rebríčku potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
-        \end{enumerate}
+%     \item Možnosti filtrovania:
+%     \begin{itemize}
+%         \item Podľa zaradenia domény v rámci zdrojových rebríčkov:
+%         \begin{enumerate}
+%             \item nachádza sa v rebríčku aspoň počas N dní,
+%             \item nachádza sa aspoň v N rebríčkoch,
+%             \item nenachádza sa v rebríčku potencionálne nebezpečných domén, \\ ktorý TRANCO využíva na účely filtrovania --- Google Safe Browsing\footnote{\href{https://safebrowsing.google.com}{https://safebrowsing.google.com}}.
+%         \end{enumerate}
 
-        \pagebreak
+%         \pagebreak
 
-        \item Podľa domény samotnej:
-        \begin{enumerate}
-            \item Pracovať iba s registrovateľnými doménami
-            \item Pracovať s doménami podľa ich eTLD:
+%         \item Podľa domény samotnej:
+%         \begin{enumerate}
+%             \item Pracovať iba s registrovateľnými doménami
+%             \item Pracovať s doménami podľa ich eTLD:
             
-            Užívateľ má možnosť definovať zoznam čiarkou oddelených eTLD, ktoré môžu byť buď ako jediné zahrnuté vo
-            výsledku, alebo naopak z neho odfiltrované.
+%             Užívateľ má možnosť definovať zoznam čiarkou oddelených eTLD, ktoré môžu byť buď ako jediné zahrnuté vo
+%             výsledku, alebo naopak z neho odfiltrované.
             
-            \item Pracovať iba s jednou doménou (najpopulárnejšou) pre každú nájdenú organizáciu (napríklad \code{google.com})
-            \item Pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname definovaného používateľom
-        \end{enumerate}
+%             \item Pracovať iba s jednou doménou (najpopulárnejšou) pre každú nájdenú organizáciu (napríklad \code{google.com})
+%             \item Pracovať iba s doménami, ktorých subdomény sa nachádzajú v zozname definovaného používateľom
+%         \end{enumerate}
 
-        \item Podľa možností špecifických pre Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Používateľ pri voľbe filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
-    \end{itemize}
+%         \item Podľa možností špecifických pre Chrome User Experience Report, a teda filtrovanie podľa krajiny, regiónu alebo podregiónu, do ktorého doména spadá. Používateľ pri voľbe filtru musí vyznačiť na predpripravenom zozname, ktoré krajiny, regióny a podregióny si želá zaradiť do výsledného rebríčka.
+%     \end{itemize}
 
-    \item Ohraničenie počtu výsledkov vo finálnom rebríčku (štandardne milión)
+%     \item Ohraničenie počtu výsledkov vo finálnom rebríčku (štandardne milión)
     
-\end{enumerate}
+% \end{enumerate}
 
 
 \section{Selenium}
@@ -414,6 +415,7 @@ Tieto služby sú rozdelené do kategórií ako výpočtová sila, ukladací pri
 Časť záujmu tejto práce spadá práve do kategórie ukladacieho priestoru, kam sa radí služba \textbf{BigQuery}.
 
 \subsubsection{GCP BigQuery}
+\label{big-query}
 
 BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia.
 BigQuery je samo o sebe riešenie populárne označované ako \textbf{platforma poskytovaná ako služba} (PaaS).
@@ -547,45 +549,45 @@ Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapac�
 \textbf{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
 Cena za 1TB kapacity je v čase písania práce \$6.25, pričom stále platí, že prvý terabajt je každý mesiac zadarmo \cite{google-bq-pricing}.
 
-\subsection{Pravidelné správy o stave webu}
+% \subsection{Pravidelné správy o stave webu}
 
-Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive projekt aj prehľady stavu webu formou interaktívnych grafov reprezentujúcich konkrétnu metriku v oblasti záujmu HTTP Archive.
+% Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive projekt aj prehľady stavu webu formou interaktívnych grafov reprezentujúcich konkrétnu metriku v oblasti záujmu HTTP Archive.
 
-\subsubsection{Elementárne reporty metrík}
-Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantný je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom (viď obrázok \ref{img:total-urls-report}).
+% \subsubsection{Elementárne reporty metrík}
+% Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantný je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom (viď obrázok \ref{img:total-urls-report}).
 
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.51815]{obrazky-figures/total_urls_report.png}    
- \caption{\centering Report zobrazujúci počet URL adries analyzovaných v rámci projektu HTTP Archive. Graf reportu znázorňuje dáta od dátumu prvého web crawlingu vykonaného v rámci projektu. Momentálny počet URL adries zakomponovaných do datasetov v BigQuery je 12 224 848 pre testy vykonávané na počítači a 16 277 111 pre testy vykonávané zo simulovaného mobilného prostredia.}
- \label{img:total-urls-report}
-\end{center}
-\end{figure}
+% \begin{figure}[!htb]
+% \begin{center}
+%  \includegraphics[scale=0.51815]{obrazky-figures/total_urls_report.png}    
+%  \caption{\centering Report zobrazujúci počet URL adries analyzovaných v rámci projektu HTTP Archive. Graf reportu znázorňuje dáta od dátumu prvého web crawlingu vykonaného v rámci projektu. Momentálny počet URL adries zakomponovaných do datasetov v BigQuery je 12 224 848 pre testy vykonávané na počítači a 16 277 111 pre testy vykonávané zo simulovaného mobilného prostredia.}
+%  \label{img:total-urls-report}
+% \end{center}
+% \end{figure}
 
-\pagebreak
+% \pagebreak
 
-\subsubsection{Web Almanac}
-\label{web-almanac}
-Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
-Web Almanac spája elementárne dáta do kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
-Posledný report bol už štvrtým vydaním v poradí.
-Vďaka skúsenostiam z predošlých troch rokov autori navýšili relevantnosti metrík, ktoré zahŕňa. 
-Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
+% \subsubsection{Web Almanac}
+% \label{web-almanac}
+% Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
+% Web Almanac spája elementárne dáta do kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
+% Posledný report bol už štvrtým vydaním v poradí.
+% Vďaka skúsenostiam z predošlých troch rokov autori navýšili relevantnosti metrík, ktoré zahŕňa. 
+% Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
 
-Celý obsah reportu je dostupný na jeho oficiálnej stránke\footnote{\href{https://almanac.httparchive.org/en/2022/table-of-contents}{https://almanac.httparchive.org/en/2022/table-of-contents}}. 
-Každý aspekt jeho prieskumu je zatriedený do svojej vlastnej kategórie, ktorá sa v rámci obsahu označuje ako samostatná kapitola.
-Čitatelia tu môžu nájsť napríklad kapitolu zameranú špecificky na JavaScript, použitie WebAssembly na webe, ale aj pre túto prácu relevantnejšie oblasti ako HTTP a bezpečnosť.
+% Celý obsah reportu je dostupný na jeho oficiálnej stránke\footnote{\href{https://almanac.httparchive.org/en/2022/table-of-contents}{https://almanac.httparchive.org/en/2022/table-of-contents}}. 
+% Každý aspekt jeho prieskumu je zatriedený do svojej vlastnej kategórie, ktorá sa v rámci obsahu označuje ako samostatná kapitola.
+% Čitatelia tu môžu nájsť napríklad kapitolu zameranú špecificky na JavaScript, použitie WebAssembly na webe, ale aj pre túto prácu relevantnejšie oblasti ako HTTP a bezpečnosť.
 
-Celkovo sa snahou viacej ako 100 prispievateľov podarilo takouto formou štruktúrovane zaznamenať stav webu textovo, ale aj pomocou detailných grafových vizualizácií.
-Autori sa snažia zvýšiť rozsah projektu a tým aj počet sledovaných relevantných oblastí tak, že každý rok povzbudzujú nových potencionálnych prispievateľov do pripojenia sa k ich iniciatíve. 
+% Celkovo sa snahou viacej ako 100 prispievateľov podarilo takouto formou štruktúrovane zaznamenať stav webu textovo, ale aj pomocou detailných grafových vizualizácií.
+% Autori sa snažia zvýšiť rozsah projektu a tým aj počet sledovaných relevantných oblastí tak, že každý rok povzbudzujú nových potencionálnych prispievateľov do pripojenia sa k ich iniciatíve. 
 
-Do budúcna sa bude kvalita Web Almanac reportov zlepšovať. 
-V tohtoročnom reporte bude oproti tomu minuloročnému zahrnutých viac ako dvojnásobok vzoriek URL, 
-ktoré HTTP Archive podrobí svojmu web crawlingu.
-V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne zdvojnásobí a tým pádom má potenciál byť presnejší a globálne reprezentatívnejší.
+% Do budúcna sa bude kvalita Web Almanac reportov zlepšovať. 
+% V tohtoročnom reporte bude oproti tomu minuloročnému zahrnutých viac ako dvojnásobok vzoriek URL, 
+% ktoré HTTP Archive podrobí svojmu web crawlingu.
+% V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne zdvojnásobí a tým pádom má potenciál byť presnejší a globálne reprezentatívnejší.
 
-Využitie práve tohto reportu by bolo ideálnym spôsobom, ako \textbf{dostať technológiu NEL a jej využitie do verejného povedomia}. 
-Spoluprácou s autormi Web Almanac by sa jedna z nových kapitol budúcich vydaní mohla zaoberať technológiou NEL.
+% Využitie práve tohto reportu by bolo ideálnym spôsobom, ako \textbf{dostať technológiu NEL a jej využitie do verejného povedomia}. 
+% Spoluprácou s autormi Web Almanac by sa jedna z nových kapitol budúcich vydaní mohla zaoberať technológiou NEL.
 
 % \section{Alternatívy}
 % \label{httparchive-alternatives}

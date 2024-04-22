@@ -157,9 +157,9 @@ Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich
 
 S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné rozdeliť doménové meno z obrázka \ref{fig:domain-name-structure} na jeho levely nasledovne \cite{michal-spacek-etld-article}: 
 \begin{itemize}
-    \item \code{\underline{s3.amazonaws.com}} predstavuje eTLD, kde \code{.com} je TLD,
-    \item \code{\underline{bar}.s3.amazonaws.com} predstavuje celé meno SLD -- registrovanú doménu,
-    \item \code{\underline{foo}.bar.s3.amazonaws.com} predstavuje celé meno subdomény.
+    \item \code{s3.amazonaws.com}: eTLD, kde \code{.com} je TLD,
+    \item \code{bar.s3.amazonaws.com}: celé meno SLD -- registrovanú doménu,
+    \item \code{foo.bar.s3.amazonaws.com}: celé meno subdomény.
 \end{itemize}
 
 Na záver chcem ako poznámku uviesť, že sa môže pre označenie domény registrovateľnej pod eTLD vyskytovať aj výraz rovnakého významu 
@@ -556,14 +556,13 @@ ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykona
 \begin{enumerate}
     \item prehliadač získa adresu IP pre doménu web serveru z danej URL v systéme DNS,
     
-    \item prehliadač vytvorí so zariadením adresovaným získanou IP adresou spojenie protokolom TCP 
-    (pojmy DNS a TCP/IP zo sekcie \ref{domeny}),
+    \item prehliadač vytvorí so zariadením adresovaným získanou IP adresou spojenie protokolom TCP,
     
     \item prehliadač použije spojenie TCP s web serverom na zasielanie HTTP žiadostí 
     (popísaných v sekcii \ref{protokol-http}) s cieľom získať zdroj uvedený v danej URL.
 \end{enumerate}
 
-Každý z vyššie uvedených krokov môže skončiť s nejakou chybou, teda neúspešne, čo by spôsobilo celkové zlyhanie procesu získania cieľového zdroja.
+Každý z vyššie uvedených krokov môže skončiť s nejakou chybou, čo by spôsobilo celkové zlyhanie procesu získania cieľového zdroja.
 Na základe týchto troch potrebných krokov pre úspešné získanie zdroja možno rozdeliť zlyhania do troch kategórií:
 \begin{enumerate}
     \item Zlyhania komunikácie s DNS:
@@ -577,7 +576,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
     \begin{itemize}
         \item zakladaní spojenia,
         
-        Adresa IP servera je neplatná, server je nedostupný alebo spojenie neprijal
+        Adresa IP servera je neplatná, server je nedostupný alebo spojenie neprijal.
         
         \item náhlom ukončení spojenia,
 
@@ -595,20 +594,19 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
     
     \item Zlyhania prenosu HTTP:
 
-    Za zlyhanie sa v rámci prenosu HTTP považuje:
-    \begin{itemize}
-        \item zlyhanie samotného protokolu,
+    \begin{enumerate}
+        \item Zlyhanie samotného protokolu.
 
         Napríklad môže programovo zlyhať softvér pre HTTP origin server (chyba v implementácií origin servera).
         HTTP odpoveď môže byť nesprávne skonštruovaná, napríklad, keď obsahuje konfliktné hodnoty hlavičiek a obsahu (hodnota hlavičky \code{Content-Length} nesedí so skutočnou dĺžkou obsahu).  
         Ešte však dochádza aj k situáciam, pri ktorých sa vytvorí takzvaný \textit{redirect loop}, čo predstavuje slučku presmerovaní HTTP klienta. Takáto slučka spôsobuje, že klient neustále zasiela tú istú sekvenciu žiadostí, no nikdy sa nedopracuje k cieľovému zdroju.
         
-        \item ale aj úspešná HTTP odpoveď so statusom z kategórie 4xx, alebo 5xx.
+        \item HTTP odpoveď navrátená so statusom z kategórie 4xx alebo 5xx.
 
         Odpovede so statusom 5xx reprezentujú zlyhanie na strane origin servera, ktorý nebol schopný poskytnúť vyžiadaný zdroj.
         Naopak, odpovede so statusom 4xx sú chybami na strane klienta. 
         Avšak, aj tieto chyby sú z hľadiska monitorovania vzácne, pretože nadmerne časté opakovanie takejto chyby môže pomôcť odhaliť nesprávne zadefinované (alebo jednoducho zastarané a neudržované -- status 404) hyperlinky na webstránke správcu, ktorý ju monitoruje. 
-    \end{itemize}
+    \end{enumerate}
     
 \end{enumerate}
 
