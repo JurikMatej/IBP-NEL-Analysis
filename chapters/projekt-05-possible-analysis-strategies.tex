@@ -8,18 +8,22 @@ V tejto kapitole popisujem návrh na vypracovanie analýzy nasadenia a využíva
 \subsubsection{Cieľ a rozsah}
 
 Cieľom práce je analyzovať nasadenie technológie NEL na webe. 
-Podľa preštudovaných informácií o dostupných zdrojoch dát pre takúto analýzu viem, že sa môžem zamerať
-na skúmanie stavu využívania NEL jednak súčasného, ale aj toho historického.
-Na základe konzultácie s vedúcim tejto práce, pánom Polčákom, som sa teda rozhodol analýzu zhotoviť pre čo 
+Vďaka dostupným zdrojom dát popisovaných v kapitole \ref{data-sources-available-for-research} je možné skúmať stav využívania NEL:
+\begin{enumerate}
+    \item v histórií prehliadania webu zaznamenanej v dátach poskytovaných projektom HTTP Archive,
+    \item v súčasnosti použitím automatizovaného webového prehliadania -- web crawling.
+\end{enumerate}
+
+Na základe konzultácie s vedúcim tejto práce, pánom Polčákom, som sa rozhodol analýzu zhotoviť pre čo 
 najrozsiahlejšie obdobie.
+Zámerom je pokúsiť sa pokryť celé obdobie, za ktoré sa NEL doteraz používalo, no závisí na zdrojoch použitých pre analýzu, či budú všetky potrebné dáta dostupné.
 Ako počiatočný dátum môžem zvoliť 25. september 2018, kedy autori tejto technológie publikovali jej špecifikáciu (viď sekciu \ref{network-error-logging}).
 Od tohto počiatočného dátumu chcem zhotoviť prieskum až po dátum obhajoby tejto práce -- máj 2024.
-To sa mi však podarí iba v takom prípade, že nenarazím na prekážky, ktoré by tomu jednoznačne bránili --- nedostatok historických dát alebo finančných prostriedkov.
 
 \subsubsection{Existujúca analýza}
 
 Taktiež som sa v rámci konzultácií zameral na získanie cenných informácií a poučení z existujúcej analýzy z roku 2023,
-ktorú zhotovil pán Polčák spolu s jeho kolegom, pánom Jeřábkom.
+ktorú zhotovil pán Polčák spolu s jeho kolegom, pánom Jeřábkom \cite{nel-http-archive}.
 Je zameraná na získanie metrík ako celkové využívanie NEL na množine skúmaných domén (viď obrázok \ref{fig:polcak-analysis}), aké NEL kolektory dané domény používajú a v akých konfiguráciách sa nasadené NEL vyskytuje.
 Časové obdobie, za ktoré bola analýza zhotovená, tvorili februárové mesiace každého roku od 2018 do 2023. 
 Za toto obdobie sa im podarilo zistiť, že počiatočné využitie NEL bolo 0\% a do februára roku 2023 stúplo na 11.73\% skúmaných domén.
@@ -50,35 +54,35 @@ aj iný spôsob skúmania stavu využitia technológie NEL.
 
 \subsubsection{Prieskum možností pre vylepšenia}
 
-Preskúmal som spôsob, ktorý vo svojej práci použili na získavanie HTTP Archive dát.
+Preskúmal som spôsob, ktorý vo vyššie uvedenej práci použili na získavanie HTTP Archive dát.
 Bol použitý nástroj pre sťahovanie dát z Google Cloud, ktorý naprogramoval pán 
 Jeřábek\footnote{\href{https://github.com/kjerabek/nel-http-archive-analysis}{https://github.com/kjerabek/nel-http-archive-analysis}}.
 Počas testovania tohto nástroja som zistil, že je možné vylepšiť ho tak, aby som odstránil predošlú, v skutočnosti iba myslenú limitáciu s nedostatkom dát kvôli financiám.
 Postupným skúšaním používania a úprav príkazu GoogleSQL použitého v spomínanom nástroji na extrahovanie dát som prišiel na skutočnosť, že Google Cloud
-si nárokuje poplatky nie za sťahovanie, ale za čítanie dát z jednotlivých stĺpcoch svojich tabuliek.
+si nárokuje poplatky nie za sťahovanie, ale za čítanie dát z jednotlivých stĺpcov svojich tabuliek.
 To pre mňa znamenalo, že nebudem platiť za objem dát, ktoré stiahnem, ale za objem dát, ktoré pri spustení príkazu GoogleSQL bude musieť služba prečítať.
 Prišiel som teda na to, že rozhodnutie obmedziť sa na jeden zdroj pre každú skúmanú doménu v predošlej analýze nezaručilo nižšiu spotrebu financií.
 Tým pádom sa pre mňa otvorila možnosť naplno využiť HTTP Archive dáta úpravou spomínaného príkazu GoogleSQL, pričom by som na to potreboval rovnakú sumu peňazí.
 Táto úprava spočívala v odstránení filtrov z tohto príkazu, ktoré jeho výsledné dáta limitovali na jeden zdroj pre každú doménu.
 
 Google Cloud ako samostatná služba v dobe vypracovania mojej práce ponúkala novo zaregistrovaným účtom zadarmo skúšobný
-kredit 300\$ (približne 282.03\texteuro). 
+kredit 300\$. 
 Podľa Google Cloud cenníka viem, že 1 terabajt prečítaných dát stojí 6.25\$.
 To by znamenalo, že s využitím ponúkaného kreditu mám dostupnú kapacitu 48 terabajtov, 
 pričom s každým uplynulým mesiacom získam ďalší terabajt naviac (viď ceny služby GC BigQuery v sekcií \ref{big-query}).
 
 \subsubsection{Použité metódy}
 
-Vzhľadom na možnosť vylepšenia, ktoré by garantovalo plnú využiteľnosť HTTP Archive dát počas celého zvoleného časového obdobia a výšky sumy zadarmo dostupného kreditu
+Vzhľadom na možnosť vylepšenia, ktoré by garantovalo plnú využiteľnosť HTTP Archive dát počas celého zvoleného časového obdobia a výšky zadarmo dostupného kreditu
 som sa rozhodol založiť celú svoju analýzu práve na HTTP Archive.
 
-Čo sa týka druhej metódy pristupovania k analýze, a to konkrétne skúmania súčasného stavu webu jeho automatizovaným prehliadaním,
-stále je možné doplniť ňou moju prácu.
-Je totiž možné vďaka nej získať najaktuálnejší prehľad stavu na skúmaných doménach medzi tým ako sú publikované výsledky prehliadania webu od HTTP Archive.
+Druhou metódou skúmania stavu nasadenia NEL, automatizovaným prehliadaním webu, je možné ďalej doplniť moju prácu.
+Vďaka nej totiž môžem získať najaktuálnejší prehľad nasadenia NEL na skúmaných doménach medzi tým ako sú publikované výsledky prehliadania webu od HTTP Archive.
 Avšak je zložité pripraviť výpočtovú silu a vhodnú stratégiu prehľadávania webu na priblíženie sa k rozsahu a rýchlosti dosahovanej alternatívnou metódou.
 Výsledok vývoja nového nástroja pre automatizované prehliadanie webu sa teda za čas vyhradený pre túto prácu nemôže vyrovnať existujúcemu komplexnému riešeniu, ktorým je HTTP Archive.
 Je však možné taký nástroj aj vo veľmi jednoduchom prevedení využiť na kontrolu výsledkov, ktoré získam z dát HTTP Archive.
 Preto som sa rozhodol v rámci mojej analýzy taký nástroj zhotoviť.
+Kontrolovať bude do akej miery sa výsledky z najaktuálnejších, alternatívne získaných dát zhodujú s jeho vlastnými výsledkami.
 
 \subsubsection{Vstupy a výstupy}
 
