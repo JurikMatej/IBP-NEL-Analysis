@@ -11,18 +11,18 @@ Potom, v sekcií \ref{sec:results} prezentujem jej celkové výsledky.
 Potrebné nástroje podľa návrhu práce (viď kapitolu \ref{possible-analysis-strategies}) predstavujú implementované skripty pre dve rozdielne metódy analýzy:
 \begin{enumerate}
     \item Práca s HTTP Archive:
-    \begin{enumerate}
-        \item získať \textit{historické} dáta, 
+    \begin{itemize}
+        \item[(a)] získať \textit{historické} dáta, 
         \item analyzovať ich a vyprodukovať výsledné metriky,
         \item výsledky podľa potreby vhodne vizualizovať.
-    \end{enumerate}
+    \end{itemize}
 
     \item Automatizované prehliadanie súčasného webu:
-    \begin{enumerate}
-        \item získať \textit{súčasné} dáta,
+    \begin{itemize}
+        \item[(b)] získať \textit{súčasné} dáta,
         \item analyzovať ich a vyprodukovať výsledné metriky, 
         \item výsledky podľa potreby vhodne vizualizovať.
-    \end{enumerate}
+    \end{itemize}
 \end{enumerate}
 
 Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát som využil pri návrhu skriptov.
@@ -93,8 +93,6 @@ Riešenie som zapracoval do použitého príkazu GoogleSQL.
 Tento problém som rovnako vyriešil postupným zlučovaním dát z jednotlivých čiastkových tabuliek v príkaze GoogleSQL.
 V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som výber jedinečných záznamov z neskoršieho dátumu za daný mesiac a záznamy z tabuliek \code{desktop} pred tými z tabuliek \code{mobile}.
 
-\subsubsection{Použitie}
-
 % TODO priklad pouzitia na obrázku
 
 \subsection{Skript pre automatizované prehliadanie súčasného webu}
@@ -103,9 +101,11 @@ Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_a
 Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc emulujúcich webový 
 prehliadač (viď sekciu \ref{selenium}) som si vybral \textit{Playwright}. 
 Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dát z HTTP Archive.
+Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
+Práve jeho úlohou je načítať celkový zoznam domén, vybrať z nich tie, ktoré majú byť preskúmané a uložiť ich do súboru, ktorý hlavný skript pri spustení použije ako vstup.
 
-Pre každú doménu si najskôr vyžiadam domovskú stránku a v prípade úspešnej odpovede z jej obsahu extrahujem všetky dostupné hyperlinky smerujúce na tú istú doménu.
-Extrahované hyperlinky udržujem v pomocných objektoch triedy \code{DomainLinkTree}.
+Pre každú doménu si najskôr vyžiada domovskú stránku a v prípade úspešnej odpovede z jej obsahu extrahuje všetky dostupné hyperlinky smerujúce na tú istú doménu.
+Extrahované hyperlinky udržuje v pomocných objektoch triedy \code{DomainLinkTree}.
 Ide o implementáciu stromovej štruktúry pre zoznam dostupných hyperlinkov smerujúcich na aktuálne skúmanú doménu. 
 Pri prehliadaní danej domény sa tento strom prehľadáva do šírky (\textit{breadth first search}) aby bol nájdený ďalší hyperlink, ktorý ešte skript nenavštívil.
 Najskôr sa teda prehliadajú rozdielne odvetvia stránok (\code{'/home/x'}, \code{'/login/y'}, \code{'/news/z'}) a až potom rôzne zdroje v nich obsiahnuté (\code{'/home/x'}, \code{'/home/y'}, \code{'/home/z'}).
@@ -122,10 +122,33 @@ Po dokončení prehliadania každej domény sa z nej získané dáta v registri 
 Po dokončení prehliadania poslednej domény sa všetky vytvorené Parquet súbory zlúčia do jedného.
 To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
 
-\subsubsection{Použitie}
-% TODO vyber domen pred pouzitim
+\subsection{Skripty pre analýzu a produkovanie výsledných metrík}
 
-\subsection{Skript pre analýzu a produkovanie výsledných metrík}
+Po úspešnom behu jedného z predošlých skriptov musia byť ako vstupy do tohto kroku dostupné dáta obsahujúce získané informácie o stave používania NEL na skúmaných doménach.
+Z týchto vstupov skripty \code{analyze\_httparchive.py} a \code{analyze\_crawled.py} produkujú predom definované metriky (viď návrh v kapitole \ref{possible-analysis-strategies}).
+Uvedené dva skripty sú z pohľadu funkcionality rovnaké, no rozhodol som ich nezlúčiť pre jednoduchosť práce pri opakovanom vykonávaní analýzy vo fáze testovania.
+Líšia sa totiž v tom, odkiaľ dáta čerpajú a kam dáta zapisujú.
+
+Oba analyzačné skripty vnútorne používajú rovnakú knižnicu určenú pre spracovanie dát do spomínaných výsledných metrík.
+Túto knižnicu, \code{nel\_analysis.py}, som implementoval pomocou \textit{pandas}, knižnice tretej strany pre dátovú analýzu.
+Analyzačné skripty vstupné dáta pre každý skúmaný mesiac načítajú, funkcie knižnice vypočítajú výsledky a uložia ich na nové miesto na disku tak, aby sa vstupy zachovali.
+Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky analýzy, v ich plnom rozsahu.
+
+\subsubsection{Public Suffix List}
+
+Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevziatu knižnicu -- \textit{publicsuffix2}\footnote{\href{https://pypi.org/project/publicsuffix2/}{https://pypi.org/project/publicsuffix2/}}.
+V prípadoch, keď je pre výpočet metriky potrebné zistiť registrovateľnú časť celkového doménového mena,
+sú na to použité funkcie tejto knižnice pracujúce so zoznamom Public Suffix List (PSL).
+
+Je možnosť využiť funkcie tejto knižnice, ktoré interne používajú aktuálny PSL.
+Ja ale používam ňou implementovanú funkciu povolujúcu zvoliť si vlastný PSL.
+PSL zoznamy, ktoré som sa rozhodol použiť, som manuálne stiahol z repozitára GitHub, v rámci ktorého je oficiálny projekt PSL verziovaný\footnote{\href{https://github.com/publicsuffix/list}{https://github.com/publicsuffix/list}}. 
+Pre súčasné dáta som použil aktuálny PSL.
+Pre historické dáta som použil najaktuálnejší PSL dostupný pred každým skúmaným mesiacom.
+Taký zoznam pre každý mesiac počas behu analýzy vždy zlúčim s aktuálnym zoznamom, pričom duplicity odstránim.
+Robím to tak preto, aby výsledný zoznam obsahoval aj tie najaktuálnejšie efektívne Top Level Domény, ale aj tie historické z času skúmaného mesiaca, ktoré mohli byť medzičasom vymazané.
+
+
 \subsection{Skripty pre vizualizáciu výsledkov}
 
 % \section{Results}
