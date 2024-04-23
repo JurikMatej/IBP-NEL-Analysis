@@ -44,7 +44,7 @@ Zistil som, že ako zdroj dát bol použitý HTTP Archive, ktorým sa zaoberá a
 Je však dôležité poznamenať, že predošlá analýza bola vypracovaná iba za pomoci využitia 
 práve jedného zdroja dostupného na každej skúmanej doméne.
 Keďže bol v rámci práce použitý projekt HTTP Archive ako zdroj dát, k tomuto rozhodnutiu obmedziť sa mohlo viesť to, 
-že ním využívaná služba Google Cloud je spoplatnená (viď sekciu \ref{big-query}). 
+že ním využívaná služba BigQuery je spoplatnená (viď sekciu \ref{big-query}). 
 Je pravdepodobné, že autori nemali prostriedky pre financovanie spracovania takého veľkého objemu dát, 
 ktorý predstavuje skúmané obdobie šiestich rokov (od 2018 do 2023).
 Vo svojej práci usúdili, že vzhľadom na túto limitáciu je nutné vypracovať podrobnejšiu analýzu, 
@@ -55,19 +55,19 @@ aj iný spôsob skúmania stavu využitia technológie NEL.
 \subsubsection{Prieskum možností pre vylepšenia}
 
 Preskúmal som spôsob, ktorý vo vyššie uvedenej práci použili na získavanie HTTP Archive dát.
-Bol použitý nástroj pre sťahovanie dát z Google Cloud, ktorý naprogramoval pán 
+Bol použitý nástroj pre sťahovanie dát z Google Cloud BigQuery, ktorý naprogramoval pán 
 Jeřábek\footnote{\href{https://github.com/kjerabek/nel-http-archive-analysis}{https://github.com/kjerabek/nel-http-archive-analysis}}.
 Počas testovania tohto nástroja som zistil, že je možné vylepšiť ho tak, aby som odstránil predošlú, v skutočnosti iba myslenú limitáciu s nedostatkom dát kvôli financiám.
-Postupným skúšaním používania a úprav príkazu GoogleSQL použitého v spomínanom nástroji na extrahovanie dát som prišiel na skutočnosť, že Google Cloud
+Postupným skúšaním používania a úprav príkazu GoogleSQL použitého v spomínanom nástroji na extrahovanie dát som prišiel na skutočnosť, že BigQuery
 si nárokuje poplatky nie za sťahovanie, ale za čítanie dát z jednotlivých stĺpcov svojich tabuliek.
 To pre mňa znamenalo, že nebudem platiť za objem dát, ktoré stiahnem, ale za objem dát, ktoré pri spustení príkazu GoogleSQL bude musieť služba prečítať.
 Prišiel som teda na to, že rozhodnutie obmedziť sa na jeden zdroj pre každú skúmanú doménu v predošlej analýze nezaručilo nižšiu spotrebu financií.
 Tým pádom sa pre mňa otvorila možnosť naplno využiť HTTP Archive dáta úpravou spomínaného príkazu GoogleSQL, pričom by som na to potreboval rovnakú sumu peňazí.
 Táto úprava spočívala v odstránení filtrov z tohto príkazu, ktoré jeho výsledné dáta limitovali na jeden zdroj pre každú doménu.
 
-Google Cloud ako samostatná služba v dobe vypracovania mojej práce ponúkala novo zaregistrovaným účtom zadarmo skúšobný
+Google Cloud ako platforma pre BigQuery v dobe vypracovania mojej práce ponúkala novo zaregistrovaným účtom zadarmo skúšobný
 kredit 300\$. 
-Podľa Google Cloud cenníka viem, že 1 terabajt prečítaných dát stojí 6.25\$.
+Podľa BigQuery cenníka viem, že 1 terabajt prečítaných dát stojí 6.25\$.
 To by znamenalo, že s využitím ponúkaného kreditu mám dostupnú kapacitu 48 terabajtov, 
 pričom s každým uplynulým mesiacom získam ďalší terabajt naviac (viď ceny služby GC BigQuery v sekcií \ref{big-query}).
 
@@ -102,7 +102,7 @@ Na základe toho, čo je možné zistiť zo získaných dát, teda skúmaných h
     \item konfigurácie, v ktorých sa vyskytuje využívaný NEL,
     \item pomer monitorovaných zdrojov k všetkým zdrojom dostupných na danej doméne,
     \item typy monitorovaných zdrojov,
-    \item a nesprávne nasadenie NEL.
+    \item nesprávne nasadenie NEL.
 \end{itemize}
 
 Výsledkom celkovej mojej analýzy bude prezentovanie výsledných metrík vo vhodnej forme s poznamenaním a vysvetlením zistených skutočností a zaujímavostí. 

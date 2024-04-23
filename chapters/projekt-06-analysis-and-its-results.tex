@@ -1,7 +1,99 @@
 \chapter{Analýza}
 
-SERUS.
+Po preskúmaní možností pre vykonanie podrobnej analýzy nasadenia NEL som podľa vypracovaného návrhu implementoval potrebné nástroje.
+Úlohou týchto nástrojov je dopracovať sa k stanoveným cieľom mojej práce.  
+Najskôr v tejto kapitole popisujem svoju prácu z hľadiska toho, čo bolo implementované.
+Potom, v sekcií \ref{sec:results} prezentujem jej celkové výsledky.
+
 
 \section{Implementácia nástrojov pre analýzu}
-\section{Vypočítané metriky}
-\section{Výsledky}
+
+Potrebné nástroje podľa návrhu práce (viď kapitolu \ref{possible-analysis-strategies}) predstavujú implementované skripty pre dve rozdielne metódy analýzy:
+\begin{enumerate}
+    \item Práca s HTTP Archive:
+    \begin{enumerate}
+        \item získať \textit{historické} dáta, 
+        \item analyzovať ich a vyprodukovať výsledné metriky,
+        \item výsledky podľa potreby vhodne vizualizovať.
+    \end{enumerate}
+
+    \item Automatizované prehliadanie súčasného webu:
+    \begin{enumerate}
+        \item získať \textit{súčasné} dáta,
+        \item analyzovať ich a vyprodukovať výsledné metriky, 
+        \item výsledky podľa potreby vhodne vizualizovať.
+    \end{enumerate}
+\end{enumerate}
+
+Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát som využil pri návrhu skriptov.
+Na začiatok som teda definoval štruktúru výstupných dát z prvého kroku oboch metód.
+Spoločná štrutúra dát umožňuje implementovať zvyšné dva kroky pre obe metódy rovnako.
+Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popisuje. 
+% Bližšie ju popisuje nasledujúca sekcia o implementácií nástroja pre HTTP Archive.
+
+\subsection{Skript pre prácu s HTTP Archive}
+
+Vzhľadom na to, že som sa rozhodol ako primárny zdroj dát použiť projekt HTTP Archive, začal som s implementáciou skriptu pre prácu práve s ním.
+K vývoju som pristupoval tak, aby mi vo výsledku skript čo najviac uľahčil prácu pri opakovanom vyhodnocovaní zvolených metrík.
+Stratégiu opakovaného vyhodnocovania metrík som zvolil z toho dôvodu, že som najskôr potreboval dôkladne otestovať optimalizácie získavania dát spomínané v návrhu práce.
+Preto som v prvom rade začal vyhodnocovať iba čiastkové výsledky z malého objemu dát, teda niekoľkých mesiacov na začiatku skúmaného časového obdobia.
+Jednorazové stiahnutie všetkých dát by totiž viedlo k spotrebovaniu prevažnej väčšiny dostupných finančných zdrojov pre prácu s historickými dátami.
+
+Tieto prvé testy som vykonával pomocou skriptu prebratého od autorov predošlej analýzy (viď existujúcu analýzu v rámci návrhu v kapitole \ref{possible-analysis-strategies}).
+Pri ich vykonávaní som objavil problémy v použití prebratého skriptu týkajúce sa mojej optimalizácie použitého príkazu GoogleSQL na extrahovanie dát.
+Cieľom optimalizácie bolo rozšíriť vzorku dát pre každú skúmanú doménu.
+Dôsledkom toho, že sa príkaz optimalizovať podarilo, sa objem dát na stiahnutie z BigQuery niekoľkokrát zvýšil.
+Prebratý skript však používal knižnicu, ktorá nepodporovala sťahovanie dát s vysokým objemom.
+To ma viedlo k vytvoreniu nového skriptu, ktorý sa týmto novým podmienkam prispôsobí.
+
+\subsubsection{Špecifikácia}
+
+Pôvodný, prebratý skript pre sťahovanie dát bol napísaný v jazyku Python3.
+Keďže mojím cieľom bolo implementovať rovnakú funkcionalitu, no podporovať veľký objem dát, rozhodol som sa pre implementáciu v rovnakom jazyku.
+Nový skript, \code{query\_and\_store.py} som napísal v jazyku Python3 s verziou \code{3.12.0}.
+Pôvodný algoritmus bol spustiť GoogleSQL príkaz na BigQuery a stiahnuť jeho službou dočasne uložené výsledky.
+Nedostal som sa k informácií o maximálnej veľkosti dočasných výsledkov, no z pozorovania som zistil, že zlyhávajú pokusy stiahnuť viac ako 100 megabajtov dát.
+Zistil som, že vhodnou alternatívou k tomuto prístupu je vyexportovať výsledné dáta do úložiska Google Cloud Storage nazvaného \textit{bucket} (ďalej už len GCS a GCS bucket).
+Pre službu GCS existuje knižnica \code{google.cloud.storage}, ktorá implementuje klienta pre operácie ako práve sťahovanie veľkých objemov dát z GCS bucketov.
+Pomocou pôvodnej knižnice, \code{google.cloud.bigquery}, som implementoval rozhranie pre extrahovanie a export dát z BigQuery.
+Za pomoci novej knižnice som implementoval rozhranie pre sťahovanie dát z GCS.
+
+Výstupom pôvodného skriptu boli kompresované súbory Apache Parquet (súborová prípona \code{.parquet}), ktoré rovnako ako BigQuery ukladajú dáta formátované s orientáciou na stĺpce.
+Keďže použitím nového skriptu výrazne narastá objem analyzovaných dát, schopnosť vyberať iba niektoré potrebné stĺpce pre výpočty konkrétnej metriky je kľúčová z hľadiska pamäťovej náročnosti.
+Rozhodol som sa preto ponechať pôvodný formát výstupov aj pre nový skript. 
+Na základe toho, že HTTP Archive uverejňuje svoje výsledky po mesiacoch, sú celkovým výstupom 
+nového skriptu všetky relevantné informácie o zdrojoch za daný mesiac.
+Tieto relevantné informácie sú definované ako polia v tabuľke \ref{tab:analysis-data-structure} v prílohách.
+Množinu mesiacov, pre ktoré sa majú stiahnuť dáta, je možné definovať v konfigurácií skriptu.
+Výstupné dáta tohto skriptu slúžia pre analýzu metrík nasadenia NEL.
+Dáta štruktúrované podľa vyššie uvedenej tabuľky teda filtrujem na len tie zdroje, ktoré sú korektne monitorované technológiou NEL.
+Pre nemonitorované alebo nekorektne monitorované (nesprávna konfigurácia) zdroje a domény, si však zaznamenávam ich celkové počty.
+
+\subsubsection{Problémy}
+
+Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuliek (bližšie info k rozdeleniu v sekcií \ref{big-query}):
+\begin{enumerate}
+    \item tabuľka s dátami z prostredia \code{desktop}, napríklad: \code{2018\_09\_01\_desktop},
+    \item tabuľka s dátami z prostredia \code{mobile}, napríklad: \code{2018\_09\_01\_mobile}.
+\end{enumerate}
+
+Po konzultácií s pánom Polčákom (vedúci práce a autor predchádzajúcej analýzy) som zistil, že v predchádzajúcej analýze pracovali s týmto rozdelením tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
+Bolo to však robené manuálne, pretože spracovávali vcelku iba 6 mesiacov.
+Keďže je počet skúmaných mesiacov v tejto práci oveľa vyšší, rozhodol som sa zlúčenie automatizovať.
+Riešenie som zapracoval do použitého príkazu GoogleSQL.
+
+Ďalej, okrem vyššie spomenutého rozdelenia mesačných dát sa v vyskytovali aj mesiace, ktoré boli rozdelené na časti, napríklad:
+\begin{enumerate}
+    \item \code{2018\_09\_01\_desktop},
+    \item \code{2018\_09\_01\_mobile},
+    \item \code{2018\_09\_15\_desktop},
+    \item \code{2018\_09\_15\_mobile}.
+\end{enumerate}
+
+Tento problém som rovnako vyriešil postupným zlučovaním dát z jednotlivých čiastkových tabuliek v príkaze GoogleSQL.
+V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som výber jedinečných záznamov z neskoršieho dátumu za daný mesiac a záznamy z tabuliek \code{desktop} pred tými z tabuliek \code{mobile}.
+
+% TODO priklad pouzitia na obrázku
+
+% \section{Results}
+% \label{sec:results}
