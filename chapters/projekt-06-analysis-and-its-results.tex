@@ -93,7 +93,40 @@ Riešenie som zapracoval do použitého príkazu GoogleSQL.
 Tento problém som rovnako vyriešil postupným zlučovaním dát z jednotlivých čiastkových tabuliek v príkaze GoogleSQL.
 V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som výber jedinečných záznamov z neskoršieho dátumu za daný mesiac a záznamy z tabuliek \code{desktop} pred tými z tabuliek \code{mobile}.
 
+\subsubsection{Použitie}
+
 % TODO priklad pouzitia na obrázku
+
+\subsection{Skript pre automatizované prehliadanie súčasného webu}
+
+Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
+Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc emulujúcich webový 
+prehliadač (viď sekciu \ref{selenium}) som si vybral \textit{Playwright}. 
+Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dát z HTTP Archive.
+
+Pre každú doménu si najskôr vyžiadam domovskú stránku a v prípade úspešnej odpovede z jej obsahu extrahujem všetky dostupné hyperlinky smerujúce na tú istú doménu.
+Extrahované hyperlinky udržujem v pomocných objektoch triedy \code{DomainLinkTree}.
+Ide o implementáciu stromovej štruktúry pre zoznam dostupných hyperlinkov smerujúcich na aktuálne skúmanú doménu. 
+Pri prehliadaní danej domény sa tento strom prehľadáva do šírky (\textit{breadth first search}) aby bol nájdený ďalší hyperlink, ktorý ešte skript nenavštívil.
+Najskôr sa teda prehliadajú rozdielne odvetvia stránok (\code{'/home/x'}, \code{'/login/y'}, \code{'/news/z'}) a až potom rôzne zdroje v nich obsiahnuté (\code{'/home/x'}, \code{'/home/y'}, \code{'/home/z'}).
+Táto stratégia je doplnená o limitovanie maximálneho počtu hyperlinkov, ktoré má skript preskúmať.
+Cieľom takejto implementácie je získať prehľad o využití NEL monitorovania v čo najviac odvetviach stránok na doméne.
+Som si však vedomý, že táto stratégia sa nedá uplatniť pre domény, ktoré neštruktúrujú cesty k svojim stránkam do takýchto odvetví --- majú jednoúrovňové cesty k zdrojom.
+V takých prípadoch generuje \code{DomainLinkTree} ďalšie hyperlinky podľa poradia, v akom sú pridávané.
+
+Chcené dáta sa získavajú z hlavičiek v HTTP odpovediach z prehliadaných stránok, ale aj z nimi používaných zdrojov ako sú obrázky, skripty a iné.
+Tieto dáta sú pre každú doménu separátne ukladané do registra \code{DomainNelDataRegistry}.
+Uvedený register predstavuje objekt triedy implementujúcej rozhranie pre prácu so získanými dátami. 
+Na pozadí používa \code{DataFrame} objekty z Python knižnice \textit{pandas}, do ktorých dáta priebežne pridáva.
+Po dokončení prehliadania každej domény sa z nej získané dáta v registri ukladajú na disk ako Apache Parquet (\code{.parquet}) súbory.
+Po dokončení prehliadania poslednej domény sa všetky vytvorené Parquet súbory zlúčia do jedného.
+To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
+
+\subsubsection{Použitie}
+% TODO vyber domen pred pouzitim
+
+\subsection{Skript pre analýzu a produkovanie výsledných metrík}
+\subsection{Skripty pre vizualizáciu výsledkov}
 
 % \section{Results}
 % \label{sec:results}
