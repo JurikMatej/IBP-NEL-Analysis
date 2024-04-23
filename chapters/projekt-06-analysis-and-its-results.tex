@@ -3,7 +3,7 @@
 Po preskúmaní možností pre vykonanie podrobnej analýzy nasadenia NEL som podľa vypracovaného návrhu implementoval potrebné nástroje.
 Úlohou týchto nástrojov je dopracovať sa k stanoveným cieľom mojej práce.  
 Najskôr v tejto kapitole popisujem svoju prácu z hľadiska toho, čo bolo implementované.
-Potom, v sekcií \ref{sec:results} prezentujem jej celkové výsledky.
+Potom v sekcií \ref{sec:results} prezentujem jej celkové výsledky.
 
 
 \section{Implementácia nástrojov pre analýzu}
@@ -134,7 +134,7 @@ Túto knižnicu, \code{nel\_analysis.py}, som implementoval pomocou \textit{pand
 Analyzačné skripty vstupné dáta pre každý skúmaný mesiac načítajú, funkcie knižnice vypočítajú výsledky a uložia ich na nové miesto na disku tak, aby sa vstupy zachovali.
 Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky analýzy, v ich plnom rozsahu.
 
-\subsubsection{Public Suffix List}
+\subsubsection{Využitie zoznamov Public Suffix List}
 
 Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevziatu knižnicu -- \textit{publicsuffix2}\footnote{\href{https://pypi.org/project/publicsuffix2/}{https://pypi.org/project/publicsuffix2/}}.
 V prípadoch, keď je pre výpočet metriky potrebné zistiť registrovateľnú časť celkového doménového mena,
@@ -151,5 +151,18 @@ Robím to tak preto, aby výsledný zoznam obsahoval aj tie najaktuálnejšie ef
 
 \subsection{Skripty pre vizualizáciu výsledkov}
 
-% \section{Results}
-% \label{sec:results}
+Posledným krokom implementácie nástrojov potrebných pre analýzu bolo vytvoriť skripty pre tvorbu prezentovateľných reprezentácií vypočítaných metrík.
+Ich účel mal byť vhodne vizualizovať zistené informácie o nasadení NEL za celkové skúmané obdobie.
+Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovolne prispôsobiť a výstupy použiť priamo v sekcií s výsledkami tejto práce.
+Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v podobe Jupyter notebooku.
+
+Pre tabuľkové reprezentácie som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
+
+Tieto skripty sú na pamäťovom médiu nachádzajú v priečinku \code{results}.
+Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú s prefixom \code{httparchive\_*}.
+Názvy skriptov pre dáta získané automatizovaným prehliadavaním webu začínajú prefixom \code{crawled\_*}.
+
+% TODO if there is time - add some kind of visualization
+
+\section{Výsledky analýzy}
+\label{sec:results}
