@@ -27,7 +27,7 @@ Potrebné nástroje podľa návrhu práce (viď kapitolu \ref{possible-analysis-
 
 Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát som využil pri návrhu skriptov.
 Na začiatok som teda definoval štruktúru výstupných dát z prvého kroku oboch metód.
-Spoločná štrutúra dát umožňuje implementovať zvyšné dva kroky pre obe metódy rovnako.
+Spoločná štruktúra dát umožňuje implementovať zvyšné dva kroky pre obe metódy rovnako.
 Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popisuje. 
 % Bližšie ju popisuje nasledujúca sekcia o implementácií nástroja pre HTTP Archive.
 
@@ -58,7 +58,7 @@ Pre službu GCS existuje knižnica \code{google.cloud.storage}, ktorá implement
 Pomocou pôvodnej knižnice, \code{google.cloud.bigquery}, som implementoval rozhranie pre extrahovanie a export dát z BigQuery.
 Za pomoci novej knižnice som implementoval rozhranie pre sťahovanie dát z GCS.
 
-Výstupom pôvodného skriptu boli kompresované súbory Apache Parquet (súborová prípona \code{.parquet}), ktoré rovnako ako BigQuery ukladajú dáta formátované s orientáciou na stĺpce.
+Výstupom pôvodného skriptu boli komprimované súbory Apache Parquet (súborová prípona \code{.parquet}), ktoré rovnako ako BigQuery ukladajú dáta formátované s orientáciou na stĺpce.
 Keďže použitím nového skriptu výrazne narastá objem analyzovaných dát, schopnosť vyberať iba niektoré potrebné stĺpce pre výpočty konkrétnej metriky je kľúčová z hľadiska pamäťovej náročnosti.
 Rozhodol som sa preto ponechať pôvodný formát výstupov aj pre nový skript. 
 Na základe toho, že HTTP Archive uverejňuje svoje výsledky po mesiacoch, sú celkovým výstupom 
@@ -71,7 +71,7 @@ Pre nemonitorované alebo nekorektne monitorované (nesprávna konfigurácia) zd
 
 \subsubsection{Problémy}
 
-Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuliek (bližšie info k rozdeleniu v sekcií \ref{big-query}):
+Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuliek (bližšie informácie o rozdelení v sekcií \ref{big-query}):
 \begin{enumerate}
     \item tabuľka s dátami z prostredia \code{desktop}, napríklad: \code{2018\_09\_01\_desktop},
     \item tabuľka s dátami z prostredia \code{mobile}, napríklad: \code{2018\_09\_01\_mobile}.
@@ -120,7 +120,7 @@ Uvedený register predstavuje objekt triedy implementujúcej rozhranie pre prác
 Na pozadí používa \code{DataFrame} objekty z Python knižnice \textit{pandas}, do ktorých dáta priebežne pridáva.
 Po dokončení prehliadania každej domény sa z nej získané dáta v registri ukladajú na disk ako Apache Parquet (\code{.parquet}) súbory.
 Po dokončení prehliadania poslednej domény sa všetky vytvorené Parquet súbory zlúčia do jedného.
-To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
+To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdrojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
 
 \subsection{Skripty pre analýzu a produkovanie výsledných metrík}
 
@@ -136,12 +136,12 @@ Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky anal�
 
 \subsubsection{Využitie zoznamov Public Suffix List}
 
-Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevziatu knižnicu -- \textit{publicsuffix2}\footnote{\href{https://pypi.org/project/publicsuffix2/}{https://pypi.org/project/publicsuffix2/}}.
+Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevzatú knižnicu -- \textit{publicsuffix2}\footnote{\href{https://pypi.org/project/publicsuffix2/}{https://pypi.org/project/publicsuffix2/}}.
 V prípadoch, keď je pre výpočet metriky potrebné zistiť registrovateľnú časť celkového doménového mena,
 sú na to použité funkcie tejto knižnice pracujúce so zoznamom Public Suffix List (PSL).
 
 Je možnosť využiť funkcie tejto knižnice, ktoré interne používajú aktuálny PSL.
-Ja ale používam ňou implementovanú funkciu povolujúcu zvoliť si vlastný PSL.
+Ja ale používam ňou implementovanú funkciu umožňujúcu zvoliť si vlastný PSL.
 PSL zoznamy, ktoré som sa rozhodol použiť, som manuálne stiahol z repozitára GitHub, v rámci ktorého je oficiálny projekt PSL verziovaný\footnote{\href{https://github.com/publicsuffix/list}{https://github.com/publicsuffix/list}}. 
 Pre súčasné dáta som použil aktuálny PSL.
 Pre historické dáta som použil najaktuálnejší PSL dostupný pred každým skúmaným mesiacom.
@@ -153,16 +153,47 @@ Robím to tak preto, aby výsledný zoznam obsahoval aj tie najaktuálnejšie ef
 
 Posledným krokom implementácie nástrojov potrebných pre analýzu bolo vytvoriť skripty pre tvorbu prezentovateľných reprezentácií vypočítaných metrík.
 Ich účel mal byť vhodne vizualizovať zistené informácie o nasadení NEL za celkové skúmané obdobie.
-Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovolne prispôsobiť a výstupy použiť priamo v sekcií s výsledkami tejto práce.
+Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovoľne prispôsobiť a výstupy použiť priamo v sekcií s výsledkami tejto práce.
 Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v podobe Jupyter notebooku.
 
 Pre tabuľkové reprezentácie som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
 
 Tieto skripty sú na pamäťovom médiu nachádzajú v priečinku \code{results}.
 Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú s prefixom \code{httparchive\_*}.
-Názvy skriptov pre dáta získané automatizovaným prehliadavaním webu začínajú prefixom \code{crawled\_*}.
+Názvy skriptov pre dáta získané automatizovaným prehliadaním webu začínajú prefixom \code{crawled\_*}.
 
 % TODO if there is time - add some kind of visualization
 
 \section{Výsledky analýzy}
 \label{sec:results}
+
+% # PART 1
+% # TODO Impl ~= 5str => UML, navaznost skriptov, vstupy, zlozenie programu a ake problemy riesi
+% # TODO Gro prace - analyza ("po konzultacii sa stalo..." pre bod s feedbackom), vysledky a interpretacia dat
+% # TODO priklonit sa k 04.2024 ako poslednemu HTTPArchive mesiacu
+% # TODO posielat postupne grafy
+
+% # PART 2
+% # TODO obsah by mal napovedat, ze vysledky boli dosiahnute
+% # TODO sekcia o automatizovanom prehliadani stranok, Playwright
+% # TODO nie je az tak dolezite, ze su najnavstevovanejsie, ako ze sa to automatizuje
+% # TODO spomenut ale aj Selenium
+
+
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.59]{obrazky-figures/httparchive_nel_deployment.pdf}
+ \caption{\centering Ale seruuus.}
+ \label{fig:httparchive-nel-deployment}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.518]{obrazky-figures/httparchive_nel_deployment_ratios.pdf}
+ \caption{\centering Ale seruuus.}
+ \label{fig:httparchive-nel-deployment}
+\end{center}
+\end{figure}
