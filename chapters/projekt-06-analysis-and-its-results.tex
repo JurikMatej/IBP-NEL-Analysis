@@ -25,7 +25,7 @@ Potrebné nástroje podľa návrhu práce (viď kapitolu \ref{possible-analysis-
     \end{itemize}
 \end{enumerate}
 
-Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát som využil pri návrhu skriptov.
+Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát (získavanie dát v prvom kroku) som využil pri návrhu skriptov.
 Na začiatok som teda definoval štruktúru výstupných dát z prvého kroku oboch metód.
 Spoločná štruktúra dát umožňuje implementovať zvyšné dva kroky pre obe metódy rovnako.
 Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popisuje. 
@@ -35,9 +35,10 @@ Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popis
 \label{query_and_store}
 
 Vzhľadom na to, že som sa rozhodol ako primárny zdroj dát použiť projekt HTTP Archive, začal som s implementáciou skriptu pre prácu práve s ním.
-K vývoju som pristupoval tak, aby mi vo výsledku skript čo najviac uľahčil prácu pri opakovanom vyhodnocovaní zvolených metrík.
-Stratégiu opakovaného vyhodnocovania metrík som zvolil z toho dôvodu, že som najskôr potreboval dôkladne otestovať optimalizácie získavania dát spomínané v návrhu práce.
-Preto som v prvom rade začal vyhodnocovať iba čiastkové výsledky z malého objemu dát, teda niekoľkých mesiacov na začiatku skúmaného časového obdobia.
+K vývoju som pristupoval tak, aby bolo možné dáta sťahovať postupne po jednotlivých mesiacoch. 
+Cieľom bolo v ďalších krokoch umožniť postupné vyhodnocovanie výsledných metrík. 
+Stratégiu postupného vyhodnocovania metrík som si zvolil z toho dôvodu, že som najskôr potreboval dôkladne otestovať optimalizácie získavania dát spomínané v návrhu práce.
+Preto som v prvom rade začal sťahovať a vyhodnocovať iba čiastkové výsledky z malého objemu dát, teda niekoľkých mesiacov na začiatku skúmaného časového obdobia.
 Jednorazové stiahnutie všetkých dát by totiž viedlo k spotrebovaniu prevažnej väčšiny dostupných finančných zdrojov pre prácu s historickými dátami.
 
 Tieto prvé testy som vykonával pomocou skriptu prebratého od autorov predošlej analýzy (viď existujúcu analýzu v rámci návrhu v kapitole \ref{possible-analysis-strategies}).
@@ -102,7 +103,7 @@ V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som
 Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
 Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc emulujúcich webový 
 prehliadač (viď sekciu \ref{selenium}) som si vybral \textit{Playwright}. 
-Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dát z HTTP Archive.
+Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach z HTTP Archive.
 Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
 Práve jeho úlohou je načítať celkový zoznam domén, vybrať z nich tie, ktoré majú byť preskúmané a uložiť ich do súboru, ktorý hlavný skript pri spustení použije ako vstup.
 
@@ -135,7 +136,7 @@ Líšia sa totiž v tom, odkiaľ dáta čerpajú a kam dáta zapisujú.
 Oba analyzačné skripty vnútorne používajú rovnakú knižnicu určenú pre spracovanie dát do spomínaných výsledných metrík.
 Túto knižnicu, \code{nel\_analysis.py}, som implementoval pomocou \textit{pandas}, knižnice tretej strany pre dátovú analýzu.
 Analyzačné skripty vstupné dáta pre každý skúmaný mesiac načítajú, funkcie knižnice vypočítajú výsledky a uložia ich na nové miesto na disku tak, aby sa vstupy zachovali.
-Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky analýzy, v ich plnom rozsahu.
+Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky analýzy v ich plnom rozsahu.
 
 \subsubsection{Využitie zoznamov Public Suffix List}
 
@@ -160,7 +161,7 @@ Ich účel mal byť vhodne vizualizovať zistené informácie o nasadení NEL za
 Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovoľne prispôsobiť a výstupy použiť priamo v sekcií obsahujúcej výsledky tejto práce.
 Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v podobe \textit{Jupyter notebooku}.
 
-Pre tabuľkové reprezentácie som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
+Pre tabuľkové reprezentácie dát som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
 
 Tieto skripty sú na pamäťovom médiu nachádzajú v priečinku \code{results}.
 Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú s prefixom \code{httparchive\_*}.
@@ -193,12 +194,14 @@ S implementovanými nástrojmi som začal vykonávať analýzu postupne. Najskô
 Stiahol som teda HTTP Archive dáta pre všetky februárové mesiace za skúmané obdobie.
 
 Po otestovaní nástrojov a konzultácií priebežných výsledkov s vedúcim práce som začal analyzovať všetky mesiace od februára 2018 až po február 2023.
-V rámci tohto skúmaného rozsahu som zistil, že HTTP Archive z nejakého dôvodu neobsahuje za mesiace máj a jún v roku 2022 žiadne NEL hlavičky žiadnom z uložených zdrojov. 
+V rámci tohto skúmaného rozsahu som zistil, že HTTP Archive z nejakého dôvodu neobsahuje za mesiace máj a jún v roku 2022 žiadne NEL hlavičky 
+v žiadnom z uložených zdrojov. 
+To znamená, že za tie mesiace nie sú v zdrojových dátach žiadne údaje o stave nasadenia NEL.
 Taktiež som zistil, že pre január 2019 neexistujú žiadne HTTP Archive dáta.
-To, že tieto dáta chýbajú sa vyzobrazilo na výsledných metrikách.
+To, že tieto dáta chýbajú sa zobrazilo na výsledných metrikách.
 
 Orezanie zvyšných mesiacov v predošlom kroku bolo nevyhnutné, pretože som pre dáta do februára 2023 vyčerpal finančné zdroje pre spracovávanie dát pomocou služby BigQuery.
-Neskôr som však zistil, že účty tejto služby sú viazané na debitné karty používateľa.
+Neskôr som však zistil, že účty tejto služby sú viazané na debetné karty používateľa.
 Podarilo sa mi vytvoriť nový účet použitím inej karty a znova tak získať kredit pre spracovanie dát.
 Analýzu som teda v neskoršom štádiu práce dokončil aj na zvyšných dátach, teda od marca 2023 do apríla 2024.
 Uchoval som všetky dáta, ktoré som z HTTP Archive stiahol pomocou na to určeného nástroja (viď sekciu \ref{query_and_store}). 
@@ -206,7 +209,7 @@ Tie odovzdávam vedúcemu práce ako zdroj pre jeho ďalší prieskum.
 
 \subsection{Vypočítané metriky}
 
-Z uvedených dát som získal výsledky celkovej práce použítím nástroja pre výpočet preddefinovaných metrík (viď sekciu \ref{analyze_results}).
+Z uvedených dát som získal výsledky celkovej práce použitím nástroja pre výpočet preddefinovaných metrík (viď sekciu \ref{analyze_results}).
 Poradilo sa mi vypočítať všetky zo spomínaných metrík (viď vstupy a výstupy práce v kapitole \ref{possible-analysis-strategies}).
 
 \subsubsection{Domény používajúce NEL}
@@ -229,9 +232,9 @@ Naopak najbadateľnejšie poklesy vo využívaní sa udiali v mesiacoch január 
 Pre pohľad na presné počty po jednotlivých mesiacoch som ďalej zhotovil graf uvedený v obrázku \ref{fig:httparchive-nel-deployment_ratio_values}.
 Z neho je možné vyčítať doplnkové informácie:
 \begin{itemize}
-    \item počiatočný počet skúmaných domén -- 2 096 799, 
-    \item počet skúmaných domén v poslednom skúmanom mesiaci -- 20 424 419,
-    \item presný počet domén pri nárastoch a poklesoch v nasadení NEL:
+    \item počiatočný počet skúmaných domén bol 2 096 799, 
+    \item počet skúmaných domén v poslednom skúmanom mesiaci bol 20 424 419,
+    \item presný počet domén pri výrazných nárastoch a poklesoch v nasadení NEL:
     \begin{itemize}
         \item november 2018 -- nárast z 10 domén na 187,
         \item apríl 2019 -- nárast z 382 domén na 74 590,
@@ -243,7 +246,7 @@ Z neho je možné vyčítať doplnkové informácie:
     \end{itemize}
 \end{itemize}
 
-Na tomto grafe, tak ako aj na niekoľkých ďalších, sa vyzobrazil výpadok dát za mesiace máj a jún v roku 2022.
+Na tomto grafe, tak ako aj na niekoľkých ďalších, sa prejavil výpadok dát za mesiace máj a jún v roku 2022.
 Pre tie mesiace platí, že žiadne NEL domény v dátach HTTP Archive jednoducho nájdené neboli. 
 To platí zároveň pre všetky ostatné mesiace, ku ktorým prislúcha iba číslo 0.
 
@@ -283,8 +286,8 @@ Za posledný preskúmaný mesiac bolo aktívnych presne 326 poskytovateľov.
 
 \pagebreak
 
-Vizualizácia v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} vyzobrazuje najpoužívanejšie NEL kolektory za skúmané obdobie. 
-Vďaka tomuto grafu som zistil, že tie najviac badateľné nárasty v počte domén využívajúcich NEL sú spojené s objavením konkrétnych poskytovateľov NEL kolektorov:
+Vizualizácia v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} zobrazuje najpoužívanejšie NEL kolektory za skúmané obdobie. 
+Vďaka tomuto grafu som zistil, že tie najviac badateľné nárasty v počte domén využívajúcich NEL sú spojené s príchodom konkrétnych poskytovateľov NEL kolektorov:
 \begin{itemize}
 \item november 2018 -- nárast spôsobený kolektormi od \code{report-uri.com},
 \item apríl 2019 -- nárast spôsobený kolektormi od \code{shopifycloud.com},
@@ -304,7 +307,7 @@ Vďaka tomuto grafu som zistil, že tie najviac badateľné nárasty v počte do
 
 Nárast za august 2022 však môžem popísať dátami z použitej metriky pre graf v obrázku vyššie.
 O tento nárast sa prevažne zaslúžil \code{cloudflare.com}, najpoužívanejší poskytovateľ NEL kolektorov v tom čase. 
-Počet ním osbsluhovaných domén totiž z júna 2022 na august 2022 narástol o 836 324.
+Počet ním obsluhovaných domén totiž z júna 2022 na august 2022 narástol o 836 324.
 
 \subsubsection{História hlavných poskytovateľov NEL kolektorov}
 
@@ -318,6 +321,7 @@ Týchto dominantných poskytovateľov už popisuje graf v obrázku \ref{fig:http
 Ako zaujímavých som si nakoniec vybral najpoužívanejších 10 poskytovateľov za posledný mesiac v skúmanom období.
 Zahŕňajú jednak toho najdominantnejšieho poskytovateľa za celé skúmané obdobie, ale aj niektorých, čo poskytujú svoje kolektory už od roku 2020 a skôr.
 Znázorňuje ich tabuľka \ref{tab:top-10-latest-nel-collector-providers-stats}.
+
 Zistil som, že iba \code{cloudflare.com} začal testovať NEL na iba jedinej obsluhovanej doméne. Naopak, maximum domén obsluhovaných v mesiaci nasadenia dosahuje \code{fandom.com}.
 Poskytovateľ, ktorý sa v rámci tejto množiny objavil ako prvý je \code{report-uri.com}.
 Poskytuje totiž NEL kolektory už od druhého skúmaného mesiaca za celé obdobie, konkrétne od októbra 2018.
@@ -347,8 +351,9 @@ Dátum & Poskytovateľ & D. nasadenia & Obsluha (nasadenie) & Obsluha (aktuálne
 \label{tab:top-10-latest-nel-collector-providers-stats}
 \end{table}
 
-Ďalej v obrázku \ref{fig:httparchive-nel-latest-collector-provider-stats} uvádzam graf vizualizujúci približné počty mesačne obsluhovaných domén tymito poskytovateľmi. Z grafu je možné vyčítať ako sa od prvého mesiaca funkčnosti daného poskytovateľa menil počet domén, ktoré obsluhuje.
-Znova pripomínam, že v mesiacoch máj a jún 2022 sa nejedná o prerušenie dostupnosti jednotlivých poskytovateľov, ale o výpadok v HTTP Archive dátach.
+Ďalej v obrázku \ref{fig:httparchive-nel-latest-collector-provider-stats} uvádzam graf vizualizujúci približné počty mesačne obsluhovaných domén týmito poskytovateľmi. 
+Z grafu je možné vyčítať ako sa od prvého mesiaca funkčnosti daného poskytovateľa menil počet domén, ktoré obsluhuje.
+V mesiacoch máj a jún 2022 sa nejedná o prerušenie dostupnosti jednotlivých poskytovateľov, ale o zmienenú absenciu NEL hlavičiek v HTTP Archive dátach.
 
 \begin{figure}[!htb]
 \begin{center}
@@ -429,7 +434,7 @@ Prevládajú nastavenia na hodnoty \code{604800}, teda 7 dní v sekundách, aleb
 Okrem používanosti samostatných hodnôt som zistil aj aké nastavenia celkovej konfigurácie prevažovali za jednotlivé mesiace.
 V tabuľke \ref{tab:nel_config_popular_annual_config} uvádzam najviac vyskytujúce sa variácie konfigurácie NEL za vybrané mesiace.
 Pre túto tabuľku som si vybral koniec každého roka a ako posledný riadok som pridal aj posledný mesiac skúmaného obdobia, apríl 2024.
-Podľa predošlých grafov je z tejto tabuľky možné vyčítať, že sa s jednoznačnou prevahou používajú v každom zvolenom mesiaci tie najpoužívanejšie hodnoty samostatných polí.
+Podľa predošlých grafov je z tejto tabuľky možné vyčítať, že sa s jednoznačnou prevahou používajú v každom zvolenom mesiaci tie najpoužívanejšie hodnoty samostatných polí z daného obdobia.
 
 \begin{table}[!htb]
 \centering
@@ -481,7 +486,7 @@ Moje zistenia znázorňuje obrázok \ref{fig:httparchive-nel-monitored-resources
 
 \subsubsection{Detekcia rôznych konfigurácií na skúmaných doménach}
 
-Vďaka tomu, že sú v dátach záznamy z každého zdroja dostupného na danej doméne, je možné tiež preskúmať, či doména využíva jednu, alebo viac variácií konfigurácie NEL.
+Vďaka tomu, že sú v dátach záznamy pre každý monitorovaný zdroj dostupný na danej doméne, je možné tiež preskúmať, či doména využíva jednu, alebo viac variácií konfigurácie NEL.
 Rozhodol som sa teda uviezť ako príklad zistenia za niektoré mesiace.
 Vybral som znova posledný mesiac za každý rok, pričom som tiež pridal aj posledný preskúmaný mesiac, apríl 2024.
 Zistenia prezentujem v tabuľke \ref{tab:nel-config-variations}.
@@ -525,7 +530,7 @@ Obrázok \ref{fig:httparchive-nel-resource-types-dist} predstavuje graf rozdelen
 \end{figure}
 
 Zistil som, že sa NEL využíva najviac na monitorovanie obrázkov, skriptov a kaskádových štýlov CSS.
-Toto zistenie však možno doplniť predošlým zistením, že domény zväčša monitorujú všetky svoje zdroje
+Toto zistenie však možno doplniť predošlým zistením, že domény zväčša monitorujú všetky svoje zdroje.
 Vzhľadom na to som usúdil, že toto skôr poukazuje na skutočnosť, že sa tieto typy zdrojov skrátka vyskytujú najčastejšie.
 
 \subsubsection{Domény s nesprávne nasadeným NEL}
@@ -556,7 +561,7 @@ Kritéria pre ich výber boli:
     \item musia sa objavovať v rebríčku populárnych domén TRANCO za uvedený mesiac.
 \end{enumerate}
 Kritéria som vybral tak, aby som mohol skúmať dostatočne veľkú vzorku zdrojov na doméne, pričom by bola šanca, že tam NEL detegujem.
-Okrem toho som sa rozhodol použiť tu TRANCO aby som redukoval počet domén na prieskum, pričom ponechám v možine skúmaných tie relevantné.
+Okrem toho som sa rozhodol použiť tu TRANCO aby som redukoval počet domén na prieskum, pričom ponechám v množine skúmaných tie relevantné.
 Zámerom redukcie bolo pracovať iba s takým množstvom domén, ktoré stihnem spracovať skriptom spomínaným v sekcii \ref{crawl_and_store}.
 Pre porovnanie s HTTP Archive dátami som teda z nich vybral domény aplikovaním rovnakých kritérií.
 
