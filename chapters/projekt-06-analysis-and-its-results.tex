@@ -189,6 +189,7 @@ Najskôr uvádzam, aké dáta sa mi podarilo získať a ako som s nimi pracoval.
 Potom prezentujem všetky získané znalosti.
 
 \subsection{Získané dáta}
+\label{result-data}
 
 S implementovanými nástrojmi som začal vykonávať analýzu postupne. Najskôr podľa postupu z predošlej analýzy, aby som overil správnosť nových nástrojov pre vykonávanie tej mojej.
 Stiahol som teda HTTP Archive dáta pre všetky februárové mesiace za skúmané obdobie.
@@ -234,6 +235,8 @@ Z neho je možné vyčítať doplnkové informácie:
 \begin{itemize}
     \item počiatočný počet skúmaných domén bol 2 096 799, 
     \item počet skúmaných domén v poslednom skúmanom mesiaci bol 20 424 419,
+    \item počiatočné percentuálne nasadenie NEL bolo 0.000095\%,
+    \item percentuálne nasadenie NEL v poslednom skúmanom mesiaci bolo 12.77\%,
     \item presný počet domén pri výrazných nárastoch a poklesoch v nasadení NEL:
     \begin{itemize}
         \item november 2018 -- nárast z 10 domén na 187,
@@ -552,8 +555,8 @@ Obrázok \ref{fig:httparchive-nel-deployment-incorrect} znázorňuje vývoj v po
 
 \subsection{Výsledky z automatizovaného prehliadania webu}
 
-Doplnkové dáta z vlastného skriptu na prehliadanie webu sa mi podarilo získať pre 32 921 domén z cieľových 58 596.
-Dáta pre zvyšných 25 675 domén som získať nestihol.
+Doplnkové dáta z vlastného skriptu na prehliadanie webu sa mi podarilo získať pre 33 070 domén z cieľových 58 596.
+Dáta pre zvyšných 25 526 domén som získať nestihol.
 Cieľové domény pochádzajú z posledného analyzovaného mesiaca HTTP Archive dát, apríla 2024.
 Kritéria pre ich výber boli:
 \begin{enumerate}
@@ -563,9 +566,80 @@ Kritéria pre ich výber boli:
 Kritéria som vybral tak, aby som mohol skúmať dostatočne veľkú vzorku zdrojov na doméne, pričom by bola šanca, že tam NEL detegujem.
 Okrem toho som sa rozhodol použiť tu TRANCO aby som redukoval počet domén na prieskum, pričom ponechám v množine skúmaných tie relevantné.
 Zámerom redukcie bolo pracovať iba s takým množstvom domén, ktoré stihnem spracovať skriptom spomínaným v sekcii \ref{crawl_and_store}.
-Pre porovnanie s HTTP Archive dátami som teda z nich vybral domény aplikovaním rovnakých kritérií.
 
-Z celkového počtu domén, 32 921, malo iba 27 785 nasadený NEL.
-Nasadenie NEL je teda v tomto prípade 84.40\%.
-Keďže tieto domény pochádzajú z HTTP Archive dát, predpokladom bolo, že všetky majú NEL nasadený.
-Rozdiel je teda 
+\subsubsection{Domény používajúce NEL}
+
+Z celkového počtu domén, 33 070 sa úspešne podarilo získať dáta iba z 23 183 z nich.
+Prehliadanie zvyšných 9 987 domén skončilo chybou alebo presmerovaním na inú doménu. 
+Zo všetkých úspešne prehliadaných domén malo správne nasadený NEL 23 083 z nich.
+Takže nesprávne nasadený NEL má práve 100 domén a nasadenie NEL je v tomto prípade 99.57\%.
+Oproti HTTP Archive dátam je teda pokles v nasadení NEL približne iba 0.43\%.
+
+\subsubsection{Poskytovatelia používaných NEL kolektorov}
+
+Identifikoval som v celku 15 aktívnych poskytovateľov NEL kolektorov.
+Dominantným bol jednoznačne \code{cloudflare.com} s podielom 99.25\% na obsluhe celkového počtu domén s nasadeným NEL.
+V zozname 10 najpoužívanejších poskytovateľov pre prehliadané domény ostávajú spolu so zmieneným dominantným v nasledujúcom poradí aj:
+\begin{itemize}
+    \item \code{heroku.com},
+    \item \code{yandex.net},
+    \item \code{report-uri.com},
+    \item \code{hhdev.ru},
+    \item \code{wikimedia.org},
+    \item \code{dz8aopenkvv6s.cloudfront.net}.
+\end{itemize}
+Okrem \code{heroku.com}, ktorý obsluhoval 129 domén, každý z poskytovateľov uvedených vyššie obsluhoval menej ako 11 domén.
+
+
+\subsubsection{Konfigurácie}
+
+Nastavenia NEL prevládajú nasledujúce:
+\begin{itemize}
+    \item \code{include\_subdomains} = \code{false} (99.90\%),
+    \item \code{failure\_fraction} = \code{1.0} (99.36\%),
+    \item \code{success\_fraction} = \code{0.0} (94.43\%) alebo \code{0.01} (4.96\%),
+    \item \code{max\_age} = \code{604800}, teda 7 dní (99.27\%).
+\end{itemize}
+
+\subsubsection{Monitorovanie zdrojov na jednotlivých doménach}
+
+Totálny počet monitorovaných zdrojov na prehliadaných doménach bol 3 962 754.
+Oproti počtu úspešne prehliadaných domén, ktorý bol 23 083, je toto číslo nepomerne veľké oproti tomu, aký pomer som našiel v dátach z HTTP Archive.
+HTTP Archive dáta totiž obsahovali pre každú doménu priemerne 7 na nej monitorovaných zdrojov.
+Vo výstupných dátach z môjho skriptu to bolo priemerne 172 monitorovaných zdrojov pre každú doménu.  
+Aj práve táto skutočnosť mohla zapríčiniť to, že sa mi nepodarilo včas dokončiť prehliadanie celkovej množiny vybratých domén. 
+Mojim skriptom totiž prehliadam oveľa viac monitorovaných zdrojov v porovnaní s projektom HTTP Archive a prehliadanie teda trvá príliš dlho.
+
+Zistil som však, že najzastúpenejšie pomery monitorovaných zdrojov k celkovému počtu zdrojov sú:
+\begin{itemize}
+    \item 100\% monitorovanosti zdrojov (85.99\% domén),
+    \item od 75\% po 100\% monitorovanosti zdrojov (10.57\% domén),
+    \item od 10\% po 25\% monitorovanosti zdrojov (2.70\% domén).
+\end{itemize}
+
+\subsubsection{Detekcia rôznych konfigurácií na skúmaných doménach}
+
+Z dát prehliadania sa mi podarilo zistiť, že maximálny počet variácií konfigurácie NEL je tentokrát iba 3.
+Aj v tomto prípade ale väčšina domén používa iba jedinú konfiguráciu (takmer 99\%).
+
+\subsubsection{Použitie NEL podľa typu monitorovaných zdrojov}
+
+Výsledky sú pre túto metriku vypočítanú dátami z prehliadania webu mierne odlišné od výsledkov z dát HTTP Archive. 
+Dalo sa to však očakávať vzhľadom na už spomínaný fakt, že stratégia prehliadania monitorovaných zdrojov sa pre môj skript a projekt HTTP Archive očividne líši.
+Napríklad markantne stúpol počet zdrojov typu \code{html}, pretože môj skript podľa získaných dát prehliada v priemere väčší počet monitorovaných zdrojov na prehliadanej doméne. 
+Najzastúpenejšie typy monitorovaných zdrojov boli:
+\begin{enumerate}
+    \item \code{image} -- 2 457 577 zdrojov,
+    \item \code{script} -- 483 698 zdrojov,
+    \item \code{html} -- 482 927 zdrojov, pričom došlo k značnému nárastu oproti zdrojom typu \code{css},
+    \item \code{css} -- 312 895 zdrojov.
+\end{enumerate}
+
+
+\subsection{Pokračovanie práce}
+
+Vzhľadom na to, že sa mi v mojej práci podarilo získať všetky dáta, ktoré sú potrebné na podrobnú analýzu využívania technológie NEL, je nepravdepodobné, že sa vyžaduje pokračovanie v získavaní zdrojových dát.
+Avšak, určite je možné preskúmať iné, potencionálne lepšie stratégie použiteľné pre skript na automatizované prehliadanie webu, ktorý analýzu môže vykonávať priebežne.
+
+Ako som už zmienil na konci sekcie \ref{result-data}, všetky získané dáta odovzdávam vedúcemu mojej práce.
+Spolu s nimi budú naďalej používané aj mnou implementované nástroje na vykonávanie analýzy za účelom vypracovania vedeckého článku týkajúceho sa využívania technológie NEL. 
