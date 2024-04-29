@@ -32,6 +32,7 @@ Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popis
 % Bližšie ju popisuje nasledujúca sekcia o implementácií nástroja pre HTTP Archive.
 
 \subsection{Skript pre prácu s HTTP Archive}
+\label{query_and_store}
 
 Vzhľadom na to, že som sa rozhodol ako primárny zdroj dát použiť projekt HTTP Archive, začal som s implementáciou skriptu pre prácu práve s ním.
 K vývoju som pristupoval tak, aby mi vo výsledku skript čo najviac uľahčil prácu pri opakovanom vyhodnocovaní zvolených metrík.
@@ -96,6 +97,7 @@ V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som
 % TODO priklad pouzitia na obrázku
 
 \subsection{Skript pre automatizované prehliadanie súčasného webu}
+\label{crawl_and_store}
 
 Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
 Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc emulujúcich webový 
@@ -123,6 +125,7 @@ Po dokončení prehliadania poslednej domény sa všetky vytvorené Parquet súb
 To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdrojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
 
 \subsection{Skripty pre analýzu a produkovanie výsledných metrík}
+\label{analyze_results}
 
 Po úspešnom behu jedného z predošlých skriptov musia byť ako vstupy do tohto kroku dostupné dáta obsahujúce získané informácie o stave používania NEL na skúmaných doménach.
 Z týchto vstupov skripty \code{analyze\_httparchive.py} a \code{analyze\_crawled.py} produkujú predom definované metriky (viď návrh v kapitole \ref{possible-analysis-strategies}).
@@ -150,11 +153,12 @@ Robím to tak preto, aby výsledný zoznam obsahoval aj tie najaktuálnejšie ef
 
 
 \subsection{Skripty pre vizualizáciu výsledkov}
+\label{visualize_results}
 
 Posledným krokom implementácie nástrojov potrebných pre analýzu bolo vytvoriť skripty pre tvorbu prezentovateľných reprezentácií vypočítaných metrík.
 Ich účel mal byť vhodne vizualizovať zistené informácie o nasadení NEL za celkové skúmané obdobie.
-Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovoľne prispôsobiť a výstupy použiť priamo v sekcií s výsledkami tejto práce.
-Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v podobe Jupyter notebooku.
+Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovoľne prispôsobiť a výstupy použiť priamo v sekcií obsahujúcej výsledky tejto práce.
+Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v podobe \textit{Jupyter notebooku}.
 
 Pre tabuľkové reprezentácie som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
 
@@ -179,44 +183,74 @@ Názvy skriptov pre dáta získané automatizovaným prehliadaním webu začína
 % # TODO nie je az tak dolezite, ze su najnavstevovanejsie, ako ze sa to automatizuje
 % # TODO spomenut ale aj Selenium
 
+V tejto sekcií popisujem výsledky mojej analýzy nasadenia technológie NEL. 
+Najskôr uvádzam, aké dáta sa mi podarilo získať a ako som s nimi pracoval.
+Potom prezentujem všetky získané znalosti.
 
+\subsection{Získané dáta}
+
+S implementovanými nástrojmi som začal vykonávať analýzu postupne. Najskôr podľa postupu z predošlej analýzy, aby som overil správnosť nových nástrojov pre vykonávanie tej mojej.
+Stiahol som teda HTTP Archive dáta pre všetky februárové mesiace za skúmané obdobie.
+
+Po otestovaní nástrojov a konzultácií priebežných výsledkov s vedúcim práce som začal analyzovať všetky mesiace od februára 2018 až po február 2023.
+V rámci tohto skúmaného rozsahu som zistil, že HTTP Archive z nejakého dôvodu neobsahuje za mesiace máj a jún v roku 2022 žiadne NEL hlavičky žiadnom z uložených zdrojov. 
+Taktiež som zistil, že pre január 2019 neexistujú žiadne HTTP Archive dáta.
+To, že tieto dáta chýbajú sa vyzobrazilo na výsledných metrikách.
+
+Orezanie zvyšných mesiacov v predošlom kroku bolo nevyhnutné, pretože som pre dáta do februára 2023 vyčerpal finančné zdroje pre spracovávanie dát pomocou služby BigQuery.
+Neskôr som však zistil, že účty tejto služby sú viazané na debitné karty používateľa.
+Podarilo sa mi vytvoriť nový účet použitím inej karty a znova tak získať kredit pre spracovanie dát.
+Analýzu som teda v neskoršom štádiu práce dokončil aj na zvyšných dátach, teda od marca 2023 do apríla 2024.
+Uchoval som všetky dáta, ktoré som z HTTP Archive stiahol pomocou na to určeného nástroja (viď sekciu \ref{query_and_store}). 
+Tie odovzdávam vedúcemu práce ako zdroj pre jeho ďalší prieskum.
+
+\subsection{Vypočítané metriky}
+
+Z uvedených dát som získal výsledky celkovej práce použítím nástroja pre výpočet preddefinovaných metrík (viď sekciu \ref{analyze_results}).
+Poradilo sa mi vypočítať všetky zo spomínaných metrík (viď vstupy a výstupy práce v kapitole \ref{possible-analysis-strategies}).
+
+\subsubsection{Domény používajúce NEL}
+
+Pri pohľade na celé skúmané obdobie, počet domén používajúcich NEL od publikácie jeho špecifikácie do apríla 2024 vzrástol na približne 2.6 milióna. 
+Túto skutočnosť popisuje obrázok \ref{fig:httparchive-nel-deployment}, kde je vykreslený približný počet domén používajúcich NEL pre každý skúmaný mesiac.
+Podľa tohto obrázka je možné vyčítať, že značné nárasty vo využívaní analyzovanej technológie sa udiali v mesiacoch november 2018, apríl 2019, október 2020 a august 2022.
+Naopak najbadateľnejšie poklesy vo využívaní sa udiali v mesiacoch január 2021, október 2021 a v decembri 2023.
 
 \begin{figure}[!htb]
 \begin{center}
  \includegraphics[scale=0.59]{obrazky-figures/httparchive_nel_deployment.pdf}
- \caption{\centering Ale seruuus.}
+ \caption{\centering Graf zobrazujúci rast počtu domén so správne nasadenou technológiou NEL.}
  \label{fig:httparchive-nel-deployment}
 \end{center}
 \end{figure}
 
 \pagebreak
 
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.59]{obrazky-figures/httparchive_nel_deployment_resources.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-deployment-resources}
-\end{center}
-\end{figure}
+Pre pohľad na presné počty po jednotlivých mesiacoch som ďalej zhotovil graf uvedený v obrázku \ref{fig:httparchive-nel-deployment_ratio_values}.
+Z neho je možné vyčítať doplnkové informácie:
+\begin{itemize}
+    \item počiatočný počet skúmaných domén -- 2 096 799, 
+    \item počet skúmaných domén v poslednom skúmanom mesiaci -- 20 424 419,
+    \item presný počet domén pri nárastoch a poklesoch v nasadení NEL:
+    \begin{itemize}
+        \item november 2018 -- nárast z 10 domén na 187,
+        \item apríl 2019 -- nárast z 382 domén na 74 590,
+        \item október 2020 -- nárast z 178 670 domén na 844 665,
+        \item január 2021 -- pokles z 923 400 domén na 789 667,
+        \item október 2021 -- pokles z 1 099 507 domén na 680 909,
+        \item august 2022 -- nárast z 1 233 049 domén na 2 084 724,
+        \item december 2023 -- pokles z 2 653 529 domén na 2 518 117.
+    \end{itemize}
+\end{itemize}
 
-\pagebreak
-
-
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.59]{obrazky-figures/httparchive_nel_deployment_incorrect.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-deployment-incorrect}
-\end{center}
-\end{figure}
-
-\pagebreak
-
+Na tomto grafe, tak ako aj na niekoľkých ďalších, sa vyzobrazil výpadok dát za mesiace máj a jún v roku 2022.
+Pre tie mesiace platí, že žiadne NEL domény v dátach HTTP Archive jednoducho nájdené neboli. 
+To platí zároveň pre všetky ostatné mesiace, ku ktorým prislúcha iba číslo 0.
 
 \begin{figure}[!htb]
 \begin{center}
  \includegraphics[scale=0.518]{obrazky-figures/httparchive_nel_deployment_ratio_values.pdf}
- \caption{\centering Ale seruuus.}
+ \caption{\centering Graf zobrazujúci presné počty domén so správne nasadenou technológiou NELs v porovnaní s celkovým počtom preskúmaných domén za jednotlivé mesiace.}
  \label{fig:httparchive-nel-deployment_ratio_values}
 \end{center}
 \end{figure}
@@ -224,138 +258,71 @@ Názvy skriptov pre dáta získané automatizovaným prehliadaním webu začína
 \pagebreak
 
 
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.55]{obrazky-figures/httparchive_nel_collector_provider_top_1_over_time.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-collector-provider-top-1-over-time}
-\end{center}
-\end{figure}
+\subsubsection{Poskytovatelia používaných NEL kolektorov}
 
-\pagebreak
+% TODO definovať v teórií poskytovateľa kolektorov
+Počet poskytovateľov NEL kolektorov používaných počas skúmaného obdobia je pomerne malý.
+Identifikoval som 425 kolektorov, ktoré sa za toto obdobie vyskytli.
+Počet aktívnych kolektorov po jednotlivých mesiacoch uvádza graf v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time}.
+Graf vykresľuje stabilný, postupný nárast v ich počte.
+Počas tohto rastu dvakrát došlo k výraznému poklesu.
+Prvý v júli 2022, hneď po výpadku HTTP Archive dát.
+Druhý neskôr v marci 2023.
 
+Z výsledných dát vypočítanej metriky pre kolektory viem, že prvým poskytovateľom NEL kolektorov bola doména \code{bingparachute.com}.
+Počiatočne ho používali práve 2 jedinečné domény.
+Za posledný preskúmaný mesiac bolo aktívnych presne 326 poskytovateľov.
 
 \begin{figure}[!htb]
 \begin{center}
  \includegraphics[scale=0.57]{obrazky-figures/httparchive_nel_collector_provider_count.pdf}
- \caption{\centering Ale seruuus.}
+ \caption{\centering Graf zobrazujúci rast počtu poskytovateľov NEL kolektorov.}
  \label{fig:httparchive-nel-collector-provider-top-1-over-time}
 \end{center}
 \end{figure}
 
 \pagebreak
 
+Vizualizácia v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} vyzobrazuje najpoužívanejšie NEL kolektory za skúmané obdobie. 
+Vďaka tomuto grafu som zistil, že tie najviac badateľné nárasty v počte domén využívajúcich NEL sú spojené s objavením konkrétnych poskytovateľov NEL kolektorov:
+\begin{itemize}
+\item november 2018 -- nárast spôsobený kolektormi od \code{report-uri.com},
+\item apríl 2019 -- nárast spôsobený kolektormi od \code{shopifycloud.com},
+\item október 2020 -- nárast spôsobený kolektormi od \code{cloudflare.com},
+\item august 2022 -- nemožno určiť podľa obrázka \ref{fig:httparchive-nel-collector-provider-top-1-over-time}.
+\end{itemize}
 
 \begin{figure}[!htb]
 \begin{center}
- \includegraphics[scale=0.54]{obrazky-figures/httparchive_nel_latest_collector_provider_stats.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-latest-collector-provider-stats}
+ \includegraphics[scale=0.598]{obrazky-figures/httparchive_nel_collector_provider_top_1_over_time.pdf}
+ \caption{\centering Poskytovatelia NEL kolektorov s najvyšším počtom obsluhovaných domén pre každý skúmaný mesiac. }
+ \label{fig:httparchive-nel-collector-provider-top-1-over-time}
 \end{center}
 \end{figure}
 
 \pagebreak
 
+Nárast za august 2022 však môžem popísať dátami z použitej metriky pre graf v obrázku vyššie.
+O tento nárast sa prevažne zaslúžil \code{cloudflare.com}, najpoužívanejší poskytovateľ NEL kolektorov v tom čase. 
+Počet ním osbsluhovaných domén totiž z júna 2022 na august 2022 narástol o 836 324.
 
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_config_ff_dist.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-config-ff-dist}
-\end{center}
-\end{figure}
+\subsubsection{História hlavných poskytovateľov NEL kolektorov}
 
-\pagebreak
+Okrem iného je zo získaných dát možné preskúmať poskytovateľov NEL kolektorov do hĺbky.
+Pre rozsahové limity tejto práce som si na ukážku musel nejakým spôsobom vybrať množinu poskytovateľov na hlbší prieskum.
+Cieľom bolo vybrať tých čo najviac relevantných.
+Z dát som zistil, že sa pre každý mesiac v skúmanom období vyskytoval práve jeden značne dominantný poskytovateľ v počte obsluhovaných domén.
+V prevažnej väčšine mesiacov je pomer obsluhy domén dominantným poskytovateľom k celkovej obsluhe všetkými dostupnými poskytovateľmi viac ako 90\%.
+Týchto dominantných poskytovateľov už popisuje graf v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} vyššie.
 
-
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_config_ma_dist.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-config-ma-dist}
-\end{center}
-\end{figure}
-
-\pagebreak
-
-
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_config_sf_dist.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-config-sf-dist}
-\end{center}
-\end{figure}
-
-\pagebreak
-
-
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.525]{obrazky-figures/httparchive_nel_config_is_dist.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-config-is-dist}
-\end{center}
-\end{figure}
-
-\pagebreak
-
-
-\begin{figure}[!htb]
-\begin{center}
- \includegraphics[scale=0.56]{obrazky-figures/httparchive_nel_monitored_resources_percentage_dist.pdf}
- \caption{\centering Ale seruuus.}
- \label{fig:httparchive-nel-monitored-resources-precentage-dist}
-\end{center}
-\end{figure}
-
-\pagebreak
-
-
-\begin{table}[!htb]
-\centering
-\resizebox{\textwidth}{!}{\begin{tabular}{l||r|r|r|r|r|r|r}
-\toprule
-Dátum & Dec 2018 & Dec 2019 & Dec 2020 & Dec 2021 & Dec 2022 & Dec 2023 & Apr 2024 \\
-Počet variácií &  &  &  &  &  &  &  \\
-\midrule
-\midrule
-1 & 375 & 91,355 & 899,292 & 970,362 & 2,293,385 & 2,484,009 & 2,574,899 \\
-2 & 2 & 16 & 47,796 & 784 & 42,664 & 67,124 & 66,372 \\
-3 & 0 & 6 & 615 & 15 & 51 & 1,563 & 1,317 \\
-4 & 0 & 0 & 4 & 0 & 12 & 8 & 4 \\
-5 & 0 & 0 & 5 & 0 & 80 & 10 & 5 \\
-6 & 0 & 0 & 6 & 0 & 6 & 6 & 6 \\
-7 & 0 & 0 & 0 & 0 & 14 & 0 & 0 \\
-\bottomrule
-\end{tabular}}
-\caption{Ale serusendo!}
-\end{table}
-
-\pagebreak
-
-\begin{table}[!htb]
-\centering
-% \resizebox{\textwidth}{!}{
-\begin{tabular}{l||r|r|r|r|r}
-\toprule
-Dátum & IS & FF & SF & MA & Počet domén \\
-\midrule
-\midrule
-Dec 2018 & true & 0.00001 & 0.0 & 3600 & 249 \\
-Dec 2019 & false & 0.01 & 0.0001 & 2592000 & 90,373 \\
-Dec 2020 & false & 1.0 & 0.0 & 604800 & 732,284 \\
-Dec 2021 & false & 1.0 & 0.0 & 604800 & 894,283 \\
-Dec 2022 & false & 1.0 & 0.0 & 604800 & 1,680,300 \\
-Dec 2023 & false & 1.0 & 0.0 & 604800 & 1,732,435 \\
-Apr 2024 & false & 1.0 & 0.0 & 604800 & 1,811,335 \\
-\bottomrule
-\end{tabular}
-% }
-\caption{Ale serusendo!}
-\end{table}
-
-\pagebreak
+Ako zaujímavých som si nakoniec vybral najpoužívanejších 10 poskytovateľov za posledný mesiac v skúmanom období.
+Zahŕňajú jednak toho najdominantnejšieho poskytovateľa za celé skúmané obdobie, ale aj niektorých, čo poskytujú svoje kolektory už od roku 2020 a skôr.
+Znázorňuje ich tabuľka \ref{tab:top-10-latest-nel-collector-providers-stats}.
+Zistil som, že iba \code{cloudflare.com} začal testovať NEL na iba jedinej obsluhovanej doméne. Naopak, maximum domén obsluhovaných v mesiaci nasadenia dosahuje \code{fandom.com}.
+Poskytovateľ, ktorý sa v rámci tejto množiny objavil ako prvý je \code{report-uri.com}.
+Poskytuje totiž NEL kolektory už od druhého skúmaného mesiaca za celé obdobie, konkrétne od októbra 2018.
+Posledný stĺpec v tabuľke \ref{tab:top-10-latest-nel-collector-providers-stats} potvrdzuje skutočnosť, že \code{cloudflare.com} je naozaj značne dominantným poskytovateľom NEL kolektorov.
+Stĺpec totiž obsahuje hodnoty reprezentujúce podiely na obsluhe celkového počtu domén s nasadeným NEL, pričom \code{cloudflare.com} má podiel skoro 96,3\%.
 
 \begin{table}[!htb]
 \centering
@@ -376,5 +343,224 @@ Dátum & Poskytovateľ & D. nasadenia & Obsluha (nasadenie) & Obsluha (aktuálne
 & gumlytics.com & Dec 2021 & 7 & 610 & 0.023 \\
 \bottomrule
 \end{tabular}}
-\caption{Ale serusendo!}
+\caption{Detaily pre 10 najpoužívanejších poskytovateľov NEL kolektorov za apríl 2024.}
+\label{tab:top-10-latest-nel-collector-providers-stats}
 \end{table}
+
+Ďalej v obrázku \ref{fig:httparchive-nel-latest-collector-provider-stats} uvádzam graf vizualizujúci približné počty mesačne obsluhovaných domén tymito poskytovateľmi. Z grafu je možné vyčítať ako sa od prvého mesiaca funkčnosti daného poskytovateľa menil počet domén, ktoré obsluhuje.
+Znova pripomínam, že v mesiacoch máj a jún 2022 sa nejedná o prerušenie dostupnosti jednotlivých poskytovateľov, ale o výpadok v HTTP Archive dátach.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.54]{obrazky-figures/httparchive_nel_latest_collector_provider_stats.pdf}
+ \caption{\centering Vývin v počte obsluhovaných domén pre 10 najpoužívanejších poskytovateľov NEL kolektorov za apríl 2024.}
+ \label{fig:httparchive-nel-latest-collector-provider-stats}
+\end{center}
+\end{figure}
+
+\pagebreak
+
+\subsubsection{Konfigurácie}
+
+Konfigurácia NEL pozostáva z nastavenia hodnôt pre štyri polia HTTP hlavičky \code{NEL}. Ide o \code{include\_subdomains}, \code{failure\_fraction}, \code{success\_fraction} a \code{max\_age}.
+
+Na základe toho som zhotovil grafy, ktoré sledujú rôzne hodnoty týchto polí počas skúmaného obdobia.
+
+Prvý graf v obrázku \ref{fig:httparchive-nel-config-is-dist} reprezentuje nastavenie poľa \code{include\_subdomains}.
+Hodnota \code{true} pre toto pole prevládala od počiatku využívania NEL až do marca 2019.
+Odvtedy jednoznačne začala prevládať hodnota \code{false}.
+Graf na ose Y vykresľuje hodnoty v logaritmickej škále.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.525]{obrazky-figures/httparchive_nel_config_is_dist.pdf}
+ \caption{\centering Hodnoty konfiguračného poľa \code{include\_subdomains} počas skúmaného obdobia.}
+ \label{fig:httparchive-nel-config-is-dist}
+\end{center}
+\end{figure}
+
+\pagebreak
+
+Hodnotami pre zvyšné konfiguračné polia sú reprezentácie čísel.
+Pre prezentovanie týchto hodnôt som ich rozdelil do intervalov.
+Hraničné hodnoty jednotlivých intervalov som zvolil tak, aby reprezentovali často používané hodnoty pre dané konfiguračné pole.
+
+Graf pre pole \code{failure\_fraction} uvádza obrázok \ref{fig:httparchive-nel-config-ff-dist}.
+Jednoznačne najviac používaná hodnota tohto poľa je \code{1.0}.
+To však platí až od druhej polovice roku 2020. 
+Do tej doby bolo najpoužívanejšou hodnotou \code{0.01}.
+Naopak, hodnoty v rozmedzí od \code{0.05} až \code{0.10} neboli používané nikdy a hodnota \code{0.00} sa za celý čas vyskytla iba raz.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_config_ff_dist.pdf}
+ \caption{\centering Hodnoty konfiguračného poľa \code{failure\_fraction} počas skúmaného obdobia.}
+ \label{fig:httparchive-nel-config-ff-dist}
+\end{center}
+\end{figure}
+
+Graf pre ďalšie pole, \code{success\_fraction} je v obrázku \ref{fig:httparchive-nel-config-sf-dist}. 
+Prevláda tu hodnota \code{0.00}.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_config_sf_dist.pdf}
+ \caption{\centering Hodnoty konfiguračného poľa \code{success\_fraction} počas skúmaného obdobia.}
+ \label{fig:httparchive-nel-config-sf-dist}
+\end{center}
+\end{figure}
+
+\pagebreak
+
+Okrem najčastejšej hodnoty je najzastúpenejšou voľbou \code{0.01}, alebo hodnoty v rozmedzí od \code{0.00} do \code{0.01}.
+Zvyšné intervaly hodnôt sa nepoužívajú skoro vôbec.
+
+Posledné pole, \code{max\_age} popisuje graf v obrázku \ref{fig:httparchive-nel-config-ma-dist}.
+Prevládajú nastavenia na hodnoty \code{604800}, teda 7 dní v sekundách, alebo \code{2592000}, čo predstavuje 30 dní v sekundách.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_config_ma_dist.pdf}
+ \caption{\centering Hodnoty konfiguračného poľa \code{max\_age} počas skúmaného obdobia.}
+ \label{fig:httparchive-nel-config-ma-dist}
+\end{center}
+\end{figure}
+
+Okrem používanosti samostatných hodnôt som zistil aj aké nastavenia celkovej konfigurácie prevažovali za jednotlivé mesiace.
+V tabuľke \ref{tab:nel_config_popular_annual_config} uvádzam najviac vyskytujúce sa variácie konfigurácie NEL za vybrané mesiace.
+Pre túto tabuľku som si vybral koniec každého roka a ako posledný riadok som pridal aj posledný mesiac skúmaného obdobia, apríl 2024.
+Podľa predošlých grafov je z tejto tabuľky možné vyčítať, že sa s jednoznačnou prevahou používajú v každom zvolenom mesiaci tie najpoužívanejšie hodnoty samostatných polí.
+
+\begin{table}[!htb]
+\centering
+% \resizebox{\textwidth}{!}{
+\begin{tabular}{l||r|r|r|r|r}
+\toprule
+Dátum & IS & FF & SF & MA & Počet domén \\
+\midrule
+\midrule
+Dec 2018 & true & 0.00001 & 0.0 & 3600 & 249 \\
+Dec 2019 & false & 0.01 & 0.0001 & 2592000 & 90,373 \\
+Dec 2020 & false & 1.0 & 0.0 & 604800 & 732,284 \\
+Dec 2021 & false & 1.0 & 0.0 & 604800 & 894,283 \\
+Dec 2022 & false & 1.0 & 0.0 & 604800 & 1,680,300 \\
+Dec 2023 & false & 1.0 & 0.0 & 604800 & 1,732,435 \\
+Apr 2024 & false & 1.0 & 0.0 & 604800 & 1,811,335 \\
+\bottomrule
+\end{tabular}
+% }
+\label{tab:nel_config_popular_annual_config}
+\caption{Najpoužívanejšie konfigurácie NEL za vybrané mesiace.}
+\end{table}
+
+
+\subsubsection{Monitorovanie zdrojov na jednotlivých doménach}
+
+Každá doména s nasadeným NEL ho používa na to aby monitorovala zdroje na nej uložené.
+Celkový počet zdrojov, nad ktorými som vykonal analýzu, je viac ako 140 miliónov.
+Graf v obrázku \ref{fig:httparchive-nel-deployment-resources} znázorňuje rast počtu monitorovaných zdrojov na skúmaných doménach počas skúmaného obdobia.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.59]{obrazky-figures/httparchive_nel_deployment_resources.pdf}
+ \caption{\centering Graf zobrazujúci rast počtu monitorovaných zdrojov na doménach so správne nasadenou technológiou NEL.}
+ \label{fig:httparchive-nel-deployment-resources}
+\end{center}
+\end{figure}
+
+Pri zdrojoch dostupných na jednotlivých doménach som sa zameral na zistenie pomeru počtu monitorovaných zdrojov k celkovému počtu zdrojov dostupných na danej doméne.
+Moje zistenia znázorňuje obrázok \ref{fig:httparchive-nel-monitored-resources-precentage-dist} --- prevažná väčšina domén monitoruje všetky zdroje.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.56]{obrazky-figures/httparchive_nel_monitored_resources_percentage_dist.pdf}
+ \caption{\centering Počty domén s nasadeným NEL podľa percenta monitorovaných zdrojov.}
+ \label{fig:httparchive-nel-monitored-resources-precentage-dist}
+\end{center}
+\end{figure}
+
+\subsubsection{Detekcia rôznych konfigurácií na skúmaných doménach}
+
+Vďaka tomu, že sú v dátach záznamy z každého zdroja dostupného na danej doméne, je možné tiež preskúmať, či doména využíva jednu, alebo viac variácií konfigurácie NEL.
+Rozhodol som sa teda uviezť ako príklad zistenia za niektoré mesiace.
+Vybral som znova posledný mesiac za každý rok, pričom som tiež pridal aj posledný preskúmaný mesiac, apríl 2024.
+Zistenia prezentujem v tabuľke \ref{tab:nel-config-variations}.
+Najviac zastúpené sú prípady, kde dané domény používajú iba jednu konfiguráciu pre všetky svoje zdroje.
+Avšak, naprieč skúmaným obdobím som identifikoval značný počet domén, ktoré používali aspoň dve rôzne konfigurácie.
+Domén, ktoré využívali viac ako dve, bolo veľmi málo.
+Zistil som však, že maximálny počet rozdielnych NEL konfigurácií na jednotlivých doménach bol až 7.
+
+\begin{table}[!htb]
+\centering
+\resizebox{\textwidth}{!}{\begin{tabular}{l||r|r|r|r|r|r|r}
+\toprule
+Dátum & Dec 2018 & Dec 2019 & Dec 2020 & Dec 2021 & Dec 2022 & Dec 2023 & Apr 2024 \\
+Počet variácií &  &  &  &  &  &  &  \\
+\midrule
+\midrule
+1 & 375 & 91,355 & 899,292 & 970,362 & 2,293,385 & 2,484,009 & 2,574,899 \\
+2 & 2 & 16 & 47,796 & 784 & 42,664 & 67,124 & 66,372 \\
+3 & 0 & 6 & 615 & 15 & 51 & 1,563 & 1,317 \\
+4 & 0 & 0 & 4 & 0 & 12 & 8 & 4 \\
+5 & 0 & 0 & 5 & 0 & 80 & 10 & 5 \\
+6 & 0 & 0 & 6 & 0 & 6 & 6 & 6 \\
+7 & 0 & 0 & 0 & 0 & 14 & 0 & 0 \\
+\bottomrule
+\end{tabular}}
+\caption{\centering Počty domén s rôznym počtom rozdielnych NEL konfigurácií pre vybrané dátumy.}
+\label{tab:nel-config-variations}
+\end{table}
+
+\subsubsection{Použitie NEL podľa typu monitorovaných zdrojov}
+
+V rámci skúmania zdrojov som tiež preveril, aké bývajú ich typy.
+Obrázok \ref{fig:httparchive-nel-resource-types-dist} predstavuje graf rozdelenia počtov zdrojov podľa ich typu.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.447]{obrazky-figures/httparchive_nel_resource_types_dist.pdf}
+ \caption{\centering Počty NEL monitorovaných zdrojov podľa ich typu.}
+ \label{fig:httparchive-nel-resource-types-dist}
+\end{center}
+\end{figure}
+
+Zistil som, že sa NEL využíva najviac na monitorovanie obrázkov, skriptov a kaskádových štýlov CSS.
+Toto zistenie však možno doplniť predošlým zistením, že domény zväčša monitorujú všetky svoje zdroje
+Vzhľadom na to som usúdil, že toto skôr poukazuje na skutočnosť, že sa tieto typy zdrojov skrátka vyskytujú najčastejšie.
+
+\subsubsection{Domény s nesprávne nasadeným NEL}
+
+Posledným údajom vypočítaným čisto z dát HTTP Archive je vývin počtu domén s nesprávne nasadeným NEL počas skúmaného obdobia.
+Zistil som, že počet týchto domén je zanedbateľný v porovnaní s počtom domén so správne nasadeným NEL.
+No dodnes sa stále vyskytujú domény, ktoré v HTTP odpovediach zasielajú hlavičku NEL, ale nejakým spôsobom to vykonávajú nekorektne.
+Pri prehliadaní HTTP Archive dát v BigQuery som zistil, že častým prípadom bolo vynechanie HTTP hlavičky \code{Report-To} alebo zle pomenované polia v hlavičke \code{NEL} (napríklad zamenené znaky \code{'\_'} za \code{'-'}). 
+Obrázok \ref{fig:httparchive-nel-deployment-incorrect} znázorňuje vývoj v počte domén s nesprávne nasadeným NEL.
+
+\begin{figure}[!htb]
+\begin{center}
+ \includegraphics[scale=0.59]{obrazky-figures/httparchive_nel_deployment_incorrect.pdf}
+ \caption{\centering Graf zobrazujúci rast počtu domén s nesprávne nasadenou technológiou NEL.}
+ \label{fig:httparchive-nel-deployment-incorrect}
+\end{center}
+\end{figure}
+
+
+\subsection{Výsledky z automatizovaného prehliadania webu}
+
+Doplnkové dáta z vlastného skriptu na prehliadanie webu sa mi podarilo získať pre 32 921 domén z cieľových 58 596.
+Dáta pre zvyšných 25 675 domén som získať nestihol.
+Cieľové domény pochádzajú z posledného analyzovaného mesiaca HTTP Archive dát, apríla 2024.
+Kritéria pre ich výber boli:
+\begin{enumerate}
+    \item musia mať dostupných aspoň 20 NEL monitorovaných zdrojov,
+    \item musia sa objavovať v rebríčku populárnych domén TRANCO za uvedený mesiac.
+\end{enumerate}
+Kritéria som vybral tak, aby som mohol skúmať dostatočne veľkú vzorku zdrojov na doméne, pričom by bola šanca, že tam NEL detegujem.
+Okrem toho som sa rozhodol použiť tu TRANCO aby som redukoval počet domén na prieskum, pričom ponechám v možine skúmaných tie relevantné.
+Zámerom redukcie bolo pracovať iba s takým množstvom domén, ktoré stihnem spracovať skriptom spomínaným v sekcii \ref{crawl_and_store}.
+Pre porovnanie s HTTP Archive dátami som teda z nich vybral domény aplikovaním rovnakých kritérií.
+
+Z celkového počtu domén, 32 921, malo iba 27 785 nasadený NEL.
+Nasadenie NEL je teda v tomto prípade 84.40\%.
+Keďže tieto domény pochádzajú z HTTP Archive dát, predpokladom bolo, že všetky majú NEL nasadený.
+Rozdiel je teda 

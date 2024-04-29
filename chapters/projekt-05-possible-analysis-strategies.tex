@@ -95,11 +95,11 @@ Pri celkovej analýze ale tento rebríček môže byť stále užitočný pre z�
 V dôsledku takto sformovanej stratégie pre analýzu využitia technológie NEL sa jej vstupmi stávajú dáta získané z HTTP Archive a spomínaného nástroja na kontrolu najaktuálnejšieho stavu.
 Tieto dáta som sa rozhodol z oboch zdrojov štruktúrovať rovnako, aby ich analýza mohla prebiehať tým istým spôsobom.
 Na základe sformovanej štruktúry týchto dát implementujem nástroj pre ich spracovanie, ktorý z nich vypočíta niekoľko metrík popisujúcich rôzne aspekty využívania technológie NEL.
-Na základe toho, čo je možné zistiť zo získaných dát, teda skúmaných hlavičiek \code{NEL} a \code{Report-To}, som sa rozhodol zamerať sa na výpočet nasledujúcich metrík:
+Na základe obsahu skúmaných hlavičiek \code{NEL} a \code{Report-To}, som sa rozhodol zamerať sa na výpočet nasledujúcich metrík:
 \begin{itemize}
-    \item počet domén, ktoré NEL využívajú,
-    \item NEL kolektory, ktoré sa využívajú, ich počet a najvyužívanejšie z nich,
-    \item konfigurácie, v ktorých sa vyskytuje využívaný NEL,
+    \item počet domén, ktoré NEL používajú,
+    \item NEL kolektory, ktoré sa používajú, ich počet a najpoužívanejšie z nich,
+    \item konfigurácie, v ktorých sa vyskytuje používaný NEL,
     \item pomer monitorovaných zdrojov k všetkým dostupným zdrojom na danej doméne,
     \item typy monitorovaných zdrojov,
     \item nesprávne nasadenie NEL.
