@@ -269,7 +269,7 @@ To platí zároveň pre všetky ostatné mesiace, ku ktorým prislúcha iba čí
 % TODO definovať v teórií poskytovateľa kolektorov
 Počet poskytovateľov NEL kolektorov používaných počas skúmaného obdobia je pomerne malý.
 Identifikoval som 425 kolektorov, ktoré sa za toto obdobie vyskytli.
-Počet aktívnych kolektorov po jednotlivých mesiacoch uvádza graf v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time}.
+Počet aktívnych kolektorov po jednotlivých mesiacoch uvádza graf v obrázku \ref{fig:httparchive-nel-collector-provider-count}.
 Graf vykresľuje stabilný, postupný nárast v ich počte.
 Počas tohto rastu dvakrát došlo k výraznému poklesu.
 Prvý v júli 2022, hneď po výpadku HTTP Archive dát.
@@ -283,7 +283,7 @@ Za posledný preskúmaný mesiac bolo aktívnych presne 326 poskytovateľov.
 \begin{center}
  \includegraphics[scale=0.57]{obrazky-figures/httparchive_nel_collector_provider_count.pdf}
  \caption{\centering Graf zobrazujúci rast počtu poskytovateľov NEL kolektorov.}
- \label{fig:httparchive-nel-collector-provider-top-1-over-time}
+ \label{fig:httparchive-nel-collector-provider-count}
 \end{center}
 \end{figure}
 
@@ -640,6 +640,7 @@ Najzastúpenejšie typy monitorovaných zdrojov boli:
 
 Vzhľadom na to, že sa mi v mojej práci podarilo získať všetky dáta, ktoré sú potrebné na podrobnú analýzu využívania technológie NEL, je nepravdepodobné, že sa vyžaduje pokračovanie v získavaní zdrojových dát.
 Avšak, určite je možné preskúmať iné, potencionálne lepšie stratégie použiteľné pre skript na automatizované prehliadanie webu, ktorý analýzu môže vykonávať priebežne.
+Tiež je pravdepodobné, že v blízkej budúcnosti bude publikovaná nová špecifikácia NEL, ktorá bude fungovať spolu s novšou verziou Reporting API, a teda bude nutné tento skript upraviť.
 
 Ako som už zmienil na konci sekcie \ref{result-data}, všetky získané dáta odovzdávam vedúcemu mojej práce.
 Spolu s nimi budú naďalej používané aj mnou implementované nástroje na vykonávanie analýzy za účelom vypracovania vedeckého článku týkajúceho sa využívania technológie NEL. 

@@ -370,24 +370,23 @@ TLS je rovnako ako HTTP protokol pre komunikáciu klienta so serverom a jeho pou
 \subsection{Obsah hľadaných dokumentov}
 \label{obsah-hladanych-dokumentov}
 
-% TODO cite
 Webové dokumenty, alebo iným pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP  (viď obrázok \ref{img:fetching-a-page}).
 Tieto dokumenty sú buď získané samostatne ako jednotlivé súbory (textový súbor, obrázok, archív \code{.zip}), alebo ako zoskupená množina viacerých súborov v podobe webovej stránky.
 
-Webová stránka (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext alebo hypermédiá štruktúrované vo formáte \textbf{HTML}.
+Webová stránka (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext štruktúrovaný vo formáte \textbf{HTML} \cite{documents-webpage}.
 HTML je formát webového dokumentu skladajúceho sa z počiatočnej definície typu dokumentu a stromovej štruktúry takzvaných elementov, kde prvým je element \code{<html>}. 
 Jednotlivé elementy sa do HTML súboru vpisujú pomocou značiek, pričom, okrem jednotlivých výnimiek, 
 každý element musí mať otváraciu (\code{<elementXY>}) a zatváraciu značku (\code{</elementXY>}).
 Vnútorne sa HTML delí na dve hlavné sekcie --- \textbf{hlavičku} pre metadáta dokumentu a \textbf{telo} pre jeho vnútorné rozpoloženie a obsah.
 Elementy môžu mať k sebe priradené položky uchovávajúce ich doplnkové detaily nazývané atribúty. 
 Napríklad element používaný pre vytvorenie hyperlinku s názvom \code{\textbf{<a>}} (anglicky skratka pre \textit{anchor}) 
-môže mať priradený atribút s názvom \code{\textbf{href}} obsahujúci URL odkazovaného dokumentu.
+môže mať priradený atribút s názvom \code{\textbf{href}} obsahujúci URL odkazovaného dokumentu \cite{documents-html-spec}. 
+Vo výpise \ref{listing:html-struktura} ukážka HTML obsahuje počiatočnú definíciu typu dokumentu (\code{<!DOCTYPE html>}), hlavičku, telo, hyperlink a popisné komentáre.
 
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Základná štruktúra HTML dokumentu. 
-    HTML obsahuje počiatočnú definíciu typu dokumentu (\code{<!DOCTYPE html>}), hlavičku, telo, hyperlink a popisné komentáre.},
+\begin{lstlisting}[caption={\centering Základná štruktúra HTML dokumentu.},
 label=listing:html-struktura, 
 language=HTML, 
 frame=tb,
@@ -409,10 +408,9 @@ xrightmargin=.05\textwidth]
 \end{lstlisting}
 \end{center}
 
-% TODO cite
-Vo výpise \ref{listing:html-struktura} súbor HTML tvorí štruktúru iba pre odkaz na vzdialenú webstránku.
-Pridať rôzne, už spomínané hypermédiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriam elementov. 
-Sú nimi: 
+Vo výpise \ref{listing:html-struktura} súbor HTML však obsahuje odkaz iba na vzdialenú webstránku.
+Pridať odkazy na rôzne iné médiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriam elementov. 
+Sú nimi \cite{documents-html-spec}: 
 \begin{enumerate}
     \item Elementy \code{<link>} patriace do hlavičky HTML.
 
@@ -423,8 +421,8 @@ Sú nimi:
     
     \item Elementy obsahujúce atribút \code{src} patriace do tela HTML.
 
-    Akýkoľvek element z tejto kategórie môže odkazovať na podporovaný typ hypermédia, ktorý udáva názov takéhoto elementu.
-    Pre spomínané typy hypermédií ide o elementy: 
+    Akýkoľvek element z tejto kategórie môže odkazovať na podporovaný typ média, ktorý udáva názov takéhoto elementu.
+    Ide napríklad o elementy: 
     \begin{itemize}
         \item \code{<img>} -- obrázky,
         \item \code{<audio>} -- audio súbory,
@@ -434,7 +432,7 @@ Sú nimi:
     
 \end{enumerate}
 
-Každé samostatné hypermédium, ktoré tieto elementy označujú je potrebné získať ako zdroj ďalšou HTTP žiadosťou spolu so samotnou stránkou, ktorá na toto hypermédium odkazuje.
+Každé samostatné médium, ktoré tieto elementy označujú je potrebné získať ako zdroj ďalšou HTTP žiadosťou spolu so samotnou webstránkou, ktorá na dané médium odkazuje.
 
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
@@ -443,40 +441,34 @@ Každé samostatné hypermédium, ktoré tieto elementy označujú je potrebné 
 % https://developer.mozilla.org/en-US/docs/Glossary/Search_engine
 % http://infolab.stanford.edu/%7Ebackrub/google.html
 
-Softvér, ktorý slúži na navigovanie webu --- získavanie zdrojov na webe --- stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva \textbf{webový prehliadač}. 
+Softvér slúžiaci pre získavanie zdrojov na webe, stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva webový prehliadač \cite{mdn-docs-browser}. 
 Tým, že je prehliadač implementáciou HTTP klienta (viď sekciu \ref{protokol-http}), dokáže zasielať žiadosti a spracovávať odpovede HTTP.
 Je to teda program, ktorý využíva koncepty vysvetlené vyššie a je schopný prehľadávať web.
 
-Používateľ s nainštalovaným prehliadačom má možnosť vyhľadávať zdroje či už podľa 
-kľúčových slov, ktoré obsahujú, alebo podľa špecifických URL na ne odkazujúcich.
-Prehliadač získané zdroje buď ukladá na úložisku zariadenia (jednoduché zdroje ako archív \code{.zip}), alebo, v prípade, že ide o zdroj reprezentujúci webstránku, ju po získaní zobrazuje.  
-
+Používateľ s nainštalovaným prehliadačom má teda možnosť vyhľadávať webstránky.
 Webstránky sú v prehliadači vybudované a zobrazené podľa ich obsahu HTML (viď sekciu \ref{obsah-hladanych-dokumentov}).
-Na uskutočnenie tohto procesu vybudovania a zobrazenia webstránky používa prehliadač svoje zabudované algoritmy.
+Na uskutočnenie tohto procesu vybudovania a zobrazenia webstránky používa prehliadač svoje zabudované algoritmy \cite{mdn-docs-how-browser-works}.
 Moderné webstránky okrem samotného zdroja HTML obsahujú aj prídavné závislé zdroje, ktoré môžu priamo danej webstránke upraviť vzhľad alebo pridať programovateľnú funkcionalitu.
 Prehliadač takéto zdroje získava pomocou odkazov, ktoré sú definované v hlavičke alebo tele dokumentu HTML prislúchajúceho danej webstránke.
-Rovnako ako pre proces zobrazovania HTML má prehliadač zabudované algoritmy aj pre prácu so zdrojmi tohto typu.
 
 V tejto práci je dôležité popísať konkrétne zdroje pridávajúce programovateľnú funkcionalitu.
-Sú nimi zdroje obsahujúce prehliadačom spúšťateľné skripty napísané v programovacom jazyku \textbf{JavaScript}.
+Sú nimi zdroje obsahujúce prehliadačom spúšťateľné skripty napísané v programovacom jazyku JavaScript.
 
 \subsubsection{JavaScript}
 \label{javascript}
 
-Jazyk JavaScript multiplatformový programovací jazyk, ktorého využitím je v oblasti webu práve robiť webstránky interaktívnymi. 
+JavaScript je programovací jazyk, ktorého využitím je v oblasti webu práve robiť webstránky interaktívnymi \cite{mdn-docs-js}. 
 Jedným z jeho využití je manipulácia so stromovou štruktúrou obsahu HTML dokumentu (viď sekciu \ref{obsah-hladanych-dokumentov}).
 Funkcionalita zabezpečujúca podporu pre takúto manipuláciu s obsahom webstránok a ďalšie podobné funkcionality sú v jazyku JavaScript dostupné ako \textbf{Web API}.
 
-API\footnote{API -- Application Programming Interface (programové rozhranie aplikácie)} predstavuje predprogramovaný balík kódu, ktorý uľahčuje jeho používateľom, teda programátorom, prácu v oblasti zamerania funkcionality daného balíka.
+API\footnote{API -- Application Programming Interface (programové rozhranie aplikácie)} predstavuje predprogramovaný balík kódu, ktorý uľahčuje jeho používateľom, teda programátorom, prácu v oblasti zamerania funkcionality daného balíka \cite{mdn-docs-web-api}.
 Ďalej, skutočnosť, že ide o webové API znamená, že je možné taký balík využiť prostredníctvom JavaScriptu spojeného s webstránkou.
 Existuje množstvo webových API, z ktorých niektoré sú poskytované priamo prehliadačom používateľa webu, iné zasa tvorcami tretej strany (Third-party API).
-
-% https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction
 
 \subsubsection{JavaScript Object Notation}
 \label{json}
 
-V spojení s konceptami jazyka JavaScript vznikol jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation.
+V spojení s konceptami jazyka JavaScript vznikol jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation \cite{rfc7159}.
 Štruktúra formátu JSON je jednoduchá a je založená na niektorých dátových typoch jazyku JavaScript.
 Dokáže reprezentovať nasledovné dátové typy:
 \begin{enumerate}
@@ -487,8 +479,6 @@ Dokáže reprezentovať nasledovné dátové typy:
         \item Polia (ďalej ako JSON array):
 
         Array je usporiadaná sekvencia 0 a viac hodnôt. Označuje sa zátvorkami \code{[} a \code{]}. 
-
-        \pagebreak
 
         \item Objekty:
 
@@ -501,9 +491,12 @@ Dokáže reprezentovať nasledovné dátové typy:
 JSON má využitie napríklad ako formát dát pri komunikácií typu HTTP na webe.
 \mbox{V správach}, ktoré obsahujú zdroj typu JSON musí byť nastavená HTTP hlavička s názvom \code{Content-Type} na hodnotu typu MIME \code{application/json}.
 
+Vo výpise \ref{listing:priklad-dokumentu-json} je uvedený príklad takéhoto dokumentu. Položka \code{"student"} predstavuje JSON kľúč, ktorého hodnotou je štruktúrovaný dátový typ objekt. Názornú ukážku dátového typu pole predstavuje hodnota priradená kľúču \code{"predmety"}.
+
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad dokumentu JSON. Položka \code{"student"} predstavuje JSON kľúč, ktorého hodnotou je štruktúrovaný dátový typ objekt. Názornú ukážku dátového typu pole predstavuje hodnota priradená kľúču \code{"predmety"}.},
+\begin{lstlisting}[
+caption={\centering Príklad dokumentu JSON.},
 label=listing:priklad-dokumentu-json, 
 language=json, 
 frame=tb,
@@ -521,7 +514,8 @@ xrightmargin=.15\textwidth]
 \end{lstlisting}
 \end{center}
 
-% JSON spec = https://www.rfc-editor.org/rfc/rfc7159
+\pagebreak
+
 
 \section{Monitorovanie zlyhaní webstránok}
 
@@ -533,25 +527,18 @@ Technológie, na ktorých sa NEL zakladá alebo ich používa, boli vysvetlené 
 \subsection{Monitorovanie}
 \label{monitorovanie}
 
-Pojem monitorovanie webstránok je na verejne dostupných zdrojoch definovaný ako proces testovania a kontrolovania či používateľ webu, konkrétne danej webstránky, môže s ňou pracovať tak, ako to očakáva jej poskytovateľ. 
-
-Keďže sa venujem monitorovaniu v kontexte s technológiou NEL, webstránku možno zameniť za akýkoľvek zdroj uložený na webe.
-Poskytovateľ, teda správca webového serveru, kde sa zdroj nachádza, používa monitorovanie pre získanie informácií ohľadom jeho dostupnosti alebo zlyhaniach pri jeho získavaní.
-Tento proces býva automatizovaný tak, že monitorovací nástroj zaznamenáva žiadosti o získanie zdroja a na zistené zlyhania upozorňuje jej poskytovateľa.  
-Vďaka aplikovanému monitorovaniu teda správca web serveru nadobúda prehľad o stave dostupnosti ním spravovaných zdrojov.
-
-% Toto nie je to prave orechove :(
-% TODO definovat tiez DOSTUPNOST a RELIABILITY
-% https://en.wikipedia.org/wiki/Website_monitoring
-
-\pagebreak
+Pojem \textit{monitorovanie webstránok} je na verejne dostupných zdrojoch definovaný ako proces testovania a kontrolovania či používateľ webu, konkrétne danej webstránky, môže s ňou pracovať tak, ako to očakáva jej poskytovateľ \cite{wiki-website-monitoring}. 
+Webstránku však možno zameniť za akýkoľvek zdroj uložený na webe.
+Správca webového serveru, kde sa zdroj nachádza, môže používať monitorovanie pre získanie informácií ohľadom zlyhaní pri jeho dopyte.
+Monitorovacie nástroje zaznamenávajú žiadosti o získanie určitého zdroja a na zistené zlyhania upozorňuje správcov zaňho zodpovedných.  
+Vďaka aplikovanému monitorovaniu teda správca web serveru nadobúda prehľad o stave dostupnosti ním spravovaných zdrojov a je mu tak umožnené vzniknuté problémy rýchlejšie napraviť.
 
 \subsection{Body zlyhania}
 \label{body-zlyhania}
 
-Proces prehliadania webu môžeme definovať ako získavanie vzdialených zdrojov, ako napríklad webstránok, použitím webového prehliadača.
+Proces prehliadania webu možno definovať ako získavanie vzdialených zdrojov, napríklad webstránok, použitím webového prehliadača.
 Za predpokladu, že používateľ má dostupnú adresu URL pre zdroj (viď sekciu \ref{navigacia-na-webe}), 
-ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykonanie:
+ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykonanie \cite{nel-client-side-measurement-e2e-reliability, mdn-docs-how-browser-works}:
 
 \begin{enumerate}
     \item prehliadač získa adresu IP pre doménu web serveru z danej URL v systéme DNS,
@@ -563,7 +550,7 @@ ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykona
 \end{enumerate}
 
 Každý z vyššie uvedených krokov môže skončiť s nejakou chybou, čo by spôsobilo celkové zlyhanie procesu získania cieľového zdroja.
-Na základe týchto troch potrebných krokov pre úspešné získanie zdroja možno rozdeliť zlyhania do troch kategórií:
+Na základe týchto troch potrebných krokov pre úspešné získanie zdroja možno rozdeliť zlyhania do troch kategórií \cite{nel-client-side-measurement-e2e-reliability, W3C-NEL}:
 \begin{enumerate}
     \item Zlyhania komunikácie s DNS:
 
@@ -574,22 +561,20 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 
     Spojenie s webovým serverom, na ktorom je zdroj uložený, môže zlyhať pri:
     \begin{itemize}
-        \item zakladaní spojenia,
+        \item Zakladaní spojenia.
         
         Adresa IP servera je neplatná, server je nedostupný alebo spojenie neprijal.
         
-        \item náhlom ukončení spojenia,
+        \item Náhlom ukončení spojenia.
 
         Server môže spojenie uzavrieť, resetovať, alebo skrátka prerušiť.  
 
-        \item alebo pri zakladaní bezpečného spojenia (HTTPS),
+        \item Alebo pri zakladaní bezpečného spojenia.
 
         Komunikácia pomocou zabezpečeného protokolu HTTPS, ako už bolo spomínané, využíva na zabezpečenie základnej verzie HTTP protokol nazvaný TLS.
-        V jednoduchosti, TLS spojenie sa vytvorí, iba ak sú pre také spojenie splnené požiadavky na ako webového klienta, tak aj webový server. 
-        Zlyhania zakladania TLS spojenia môžu nastať pri rôznych prípadoch nesplnenia týchto požiadaviek. 
-        Pre referenciu sú takéto prípady vymenované v sekcii o NEL, \ref{network-error-logging-spec-type}, 
-        pod sekciou s preddefinovanými zlyhaniami pre monitorovanie NEL.
-        
+        TLS spojenie sa vytvorí, iba ak sú pre také spojenie splnené požiadavky na ako webového klienta, tak aj webový server. 
+        Zlyhania zakladania TLS spojenia môžu nastať pri rôznych prípadoch nesplnenia týchto požiadaviek.
+
     \end{itemize}
     
     \item Zlyhania prenosu HTTP:
@@ -611,34 +596,31 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 \end{enumerate}
 
 
-% TODO web servers collecting NEL reports -> COLLECTORS (define this term)
 \section{Network Error Logging}
 \label{network-error-logging}
 
 Podľa definície monitorovania zo sekcie \ref{monitorovanie}, NEL slúži ako mechanizmus
-zabezpečujúci monitorovanie zlyhaní žiadostí pre zdroje uložené na web serveri, ktorý NEL používa.
+zabezpečujúci monitorovanie zlyhaní žiadostí pre zdroje uložené na web serveri, ktorý NEL používa \cite{W3C-NEL}.
 Predtým však, ako sa dostanem k popisu NEL, jeho možnostiam a konfigurácii, musím popísať konkrétnu Web API -- Reporting API, na ktorej je z hľadiska svojej funkcionality závislý.
 
 \subsection{Závislosť na Reporting API}
 \label{reporting-api}
-% TODO Asi si tu zamienam pojmy prehliadac a user agent
-% TODO compatibility table
 
 Reporting API je jedným z balíkov označovaných názvom Web API (viď sekciu \ref{javascript}).
 Serverom, ktoré Reporting API používajú, poskytuje možnosť definovať pravidlá pre 
 tvorbu a zasielanie takzvaných hlásení na pravidlami definované web servery.
 Hlásenia sa týkajú špecifických záležitostí prehliadača klienta, ktorý žiada zdroje z web serveru používajúceho Reporting API.
-Medzi takéto špecifické funkcie patrí práve NEL, ale napríklad aj detegovanie výskytov zlyhaní alebo používania zastaraných API na klientskom prehliadači.
+Medzi takéto špecifické funkcie patrí práve NEL, ale napríklad aj detegovanie výskytov zlyhaní alebo používania zastaraných API na klientskom prehliadači \cite{W3C-reporting-api}.
 
 Aby bolo možné tento balík uplatniť, musí ho podporovať webový prehliadač (konkrétne User Agent) používateľa, ktorý zasiela žiadosti o získanie zdrojov zo servera využívajúceho Reporting API.
 
 \subsubsection{Verzia používaná technológiou NEL}
 
-V tomto bode je dôležité povedať, že aj keď je najnovšou verziou tejto API verzia popisovaná špecifikáciou zverejnenou 10. novembra 2023, v tejto sekcii nepopisujem práve túto.
+Je dôležité podotknúť, že najnovšia verzia tejto API, popísaná špecifikáciou z 10. novembra 2023, nie je kompatibilná s momentálnou technológiou NEL.
 Dôvodom je, že technológia NEL je stále v procese vývoja a jej momentálna verzia je implementovaná tak, aby fungovala so staršou verziou Reporting API.
 Konkrétne, NEL je kompatibilný s verziou popisovanou v špecifikácií zverejnenej 
 25. septembra 2018, taktiež označovanou ako verzia \textbf{\code{v0}}.
-Ďalej teda opisujem výhradne Reporting API verzie \code{v0}.
+Ďalej teda opisujem výhradne Reporting API verzie \code{v0}\footnote{\href{https://developer.chrome.com/blog/reporting-api-migration}{https://developer.chrome.com/blog/reporting-api-migration} (zmienky o NEL a Report-API verziách)}.
 
 \subsubsection{Definícia pravidiel}
 
@@ -650,53 +632,65 @@ Obsahom hlavičky \code{Report-To} musí byť textová hodnota vo formáte JSON 
 zapisuje bez zátvoriek, ktoré bežne tvoria JSON array (znaky '\code{[}' a '\code{]}').
 S touto odchýlkou od bežného JSON formátu môže User Agent pracovať vďaka tomu, že pre takto špecifický formát existuje samostatný typ MIME s názvom \code{application/reports+json}. 
 
-\pagebreak
-
 Každý objekt v poli hodnôt hlavičky \code{Report-To} predstavuje pravidlo Reporting API.
 Pravidlá sa musia ukladať v pamäti User Agenta, ktorému je odpoveď s pravidlami zaslaná.
-Hodnota každého pravidla obsahuje nasledovné polia: 
+Hodnota každého pravidla obsahuje nasledovné polia \cite{W3C-reporting-api}: 
 
 \begin{enumerate}
 
-    \item \code{group}
+    \item \code{group},
 
     Pole obsahujúce textový názov skupiny web serverov prislúchajúcich k danému pravidlu.
     
     Ak pravidlo neobsahuje toto pole, názov jeho skupiny web serverov bude \code{"default"}.
     
-    \item \code{endpoints}
+    \item \code{endpoints},
 
-    Povinné pole \code{endpoints} musí definovať zoznam web serverov, ktoré patria do skupiny \code{group} (alebo skupiny \code{"default"}).
+    Povinné pole \code{endpoints} musí definovať zoznam web serverov, ktoré patria do skupiny definovanou poľom \code{group}.
+    
+    Každý web server tu predstavuje takzvaný \textbf{kolektor} chybových hlásení.
+    Ďalej, pojem \textbf{poskytovateľ kolektorov} predstavuje spoločnú registrovateľnú doménu pre kolektory, ktorých doménové meno je jej subdoménou.
+    Napríklad, doména \code{report-uri.com} figuruje ako poskytovateľ kolektorov \code{abc.report-uri.com} aj \code{xyz.report-uri.com}.
+    
     Hodnota tohto poľa musí byť JSON array objektov s nasledovným obsahom:
     \begin{enumerate}
-        \item \code{url} -- URL adresa konkrétneho web servera (povinná hodnota)
-        \item \code{priority} -- Číslo definujúce prioritu servera v rámci skupiny \code{group}
+        \item \code{url} -- URL adresa kolektora (povinná hodnota).
+        \item \code{priority} -- Číslo definujúce prioritu kolektora v rámci skupiny \code{group}.
 
-        Priorita servera predstavuje jeho prednosť pred ostatnými v procese výberu servera, ktorému bude odoslané vygenerované hlásenie.
+        Priorita kolektora predstavuje jeho prednosť pred ostatnými v procese výberu kolektora, ktorému bude odoslané vygenerované hlásenie.
         
-        \item \code{weight} -- Číslo určujúce prioritu serverov s rovnakou prioritou
+        \item \code{weight} -- Číslo určujúce prioritu kolektorov s rovnakou hodnotou poľa \code{priority}.
 
-        Tu priorita zase predstavuje prednosť servera pred ostatnými pri nerozhodnosti v prípade, že majú viaceré servery priradené rovnakú hodnotu \code{priority.}
+        Tu priorita zase predstavuje prednosť kolektora pred ostatnými pri nerozhodnosti v prípade, že majú viaceré kolektory priradené rovnakú hodnotu \code{priority}.
     \end{enumerate}
     
-    \item \code{max\_age}
+    \item \code{max\_age},
 
     Ďalšie povinné pole definujúce životnosť daného pravidla. Jeho hodnotou musí byť nezáporné číslo reprezentujúce sekundy.
 
     Špeciálnym prípadom hodnoty tohto poľa je číslo \code{0}. 
     V prípade, že server pre pravidlo prislúchajúce konkrétnej skupine \code{group} vyplní \code{max\_age} hodnotou \code{0}, pravidlo stráca platnosť a musí byť vymazané.
+
+    \pagebreak
     
-    \item \code{include\_subdomains}
+    \item \code{include\_subdomains}.
 
-    Toto pole obsahuje pravdivostnú hodnotu \code{true} alebo \code{false}, podľa ktorej určuje či sa toto pravidlo platiace pre jeho skupinu \code{group} vzťahuje, a teda má používať, aj pre subdomény web servera, ktorý pravidlo zaslal.
+    Toto pole obsahuje pravdivostnú hodnotu \code{true} alebo \code{false}.
+    Podľa nej web server zasielajúci pravidlo určuje či sa dané pravidlo má používať aj pre subdomény daného web servera.
+    Toto pravidlo platí vždy pre jeho skupinu definovanú poľom \code{group}.
 
-    Ak nie je pole uvedené, pravidlo pre skupinu \code{group} sa nebude vzťahovať aj na subdomény.
+    Ak pole nie je uvedené, pravidlo pre skupinu \code{group} sa na subdomény vzťahovať nebude.
     
 \end{enumerate}
 
+Výpis \ref{listing:priklad-report-to} obsahuje príklad pravidla Reporting API definovaného v HTTP hlavičke \code{Report-To}. 
+Pravidlo tu definuje skupinu s názvom \code{reporting-skupina}, ku ktorej prislúchajú dva kolektory, kam môžu byť hlásenia zasielané s rozdielnou prioritou. 
+Doba platnosti pravidla je 2 592 000 sekúnd, teda 30 dní.
+
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad obsahu hlavičky \code{Report-To}. Pravidlo tu definuje skupinu s názvom \code{reporting-skupina}, ku ktorej prislúchajú dva web servery, kam môžu byť hlásenia zasielané s rozdielnou prioritou. Doba platnosti pravidla je 2 592 000 sekúnd, teda 30 dní.},
+\begin{lstlisting}[
+caption={\centering Príklad obsahu hlavičky \code{Report-To}.},
 label=listing:priklad-report-to, 
 language=json, 
 frame=tb,
@@ -719,59 +713,56 @@ xrightmargin=.04\textwidth]
 Počas doby platnosti aspoň jedného pravidla Reporting API existujúceho v pamäti 
 User Agenta sa na ňom tvoria už spomínané hlásenia.
 Hlásenie je správa týkajúca sa jednej z hlásiteľných udalostí, ktoré môžu nastať v prostredí prehliadača implementujúceho daný User Agent.
-Medzi tieto hlásiteľné udalosti patrí: 
+Medzi tieto hlásiteľné udalosti patrí \cite{W3C-reporting-api}: 
 \begin{itemize}
-    \item Prehliadač použije Web API, ktorá bola označená ako zastaraná
-    \item User Agent sa rozhodol nezaslať ďalšiu žiadosť na Origin Server z bezpečnostných dôvodov
-    \item Prehliadač zlyhal a bol terminovaný
-    \item Došlo k zlyhaniu týkajúceho sa \textbf{oblasti monitorovania NEL}
+    \item prehliadač použil Web API, ktorá bola označená ako zastaraná,
+    \item User Agent zabudovaný v prehliadači sa rozhodol nezaslať ďalšiu HTTP žiadosť na Origin Server z bezpečnostných dôvodov,
+    \item prehliadač zlyhal a bol terminovaný,
+    \item došlo k zlyhaniu týkajúceho sa oblasti monitorovania NEL.
 \end{itemize}
 
 
 \subsubsection{Zasielanie hlásení}
 
 Nahromadené hlásenia sa periodicky odosielajú na web server cieľovej skupiny \code{group} pravidla vybraný podľa jeho priority.
-Špecifikácia verzie \code{v0} Reporting API nedefinuje túto periódu odosielania sama, ale prenecháva túto zodpovednosť na prehliadače, ktoré sa rozhodnú API podporovať.
+Špecifikácia verzie \code{v0} Reporting API nedefinuje túto periódu odosielania sama, ale prenecháva túto zodpovednosť na prehliadače, ktoré sa rozhodnú API podporovať \cite{W3C-reporting-api}.
 
-Ďalej, skupín \code{group} je práve toľko, koľko existuje uložených pravidiel s definovaným menom s zarátaním prípadnej skupiny \code{"default"}.
+Ďalej, skupín \code{group} je práve toľko, koľko existuje uložených pravidiel s definovaným menom so zarátaním prípadnej skupiny \code{"default"}.
 Výber cieľovej skupiny spočíva v ďalšom nastavení súvisiacim s Reporting API --- priradenie typu hlásenia k skupine.
 Pre rôzne typy hlásení sa toto nastavenie zavádza inak.
 V prípade hlásenia zlyhania v oblasti monitorovania NEL sa skupina \code{group} vyberá v samotnom nastavení pre NEL, ktoré priamo spolupracuje s pravidlami Reporting API.
-Tento proces je popísaný v špecifikácií NEL, a to v sekcii \ref{network-error-logging-spec}.
+Tento proces je popísaný v samostatnej špecifikácií NEL, spísanej v sekcii \ref{network-error-logging-spec}.
 
-Hlásenia sú nahromadené a čakajú na odoslanie.
-Každé z nich sa odošle vo formáte JSON na vybraný prioritný web server v nasledujúcej štruktúre:
+Hlásenia sa hromadia a čakajú na odoslanie.
+Každé z nich sa odošle vo formáte JSON na vybraný kolektor s najvyššou vypočítanou prioritou v nasledujúcej štruktúre:
 \begin{itemize}
-    \item \code{type} -- typ hlásenia
+    \item \code{type} -- typ hlásenia,
 
     Hodnoty môžu byť napríklad \code{"crash"} alebo \code{"network-error"}.
     
-    \item \code{age} -- vek hlásenia
+    \item \code{age} -- vek hlásenia,
 
     Vek hlásenia je čas v milisekundách, ktorý uplynul od jeho vytvorenia webovým prehliadačom.
     Podľa implementácie podpory pre Reporting API môže webový prehliadač nechať nahromadiť viaceré hlásenia a zasielať ich oneskorene.
     
-    \item \code{url} -- hodnota URL adresujúcej zdroj pre ktorý sa hlásenie vygenerovalo.
-
-    Pripomínam, že hlásenia sa generujú pre akýkoľvek zdroj získaný z domény web servera, 
-    ktorý definuje v jeho odpovedi pravidlá pre Reporting API.
-
-    % TODO je to spravne ? Skontrolovat v examples sekcii Reporting API
+    \item \code{url} -- hodnota URL adresujúcej zdroj pre ktorý sa hlásenie vygenerovalo,
     
-    \item \code{user\_agent} -- názov a informácie o User Agentovi používateľovho webového prehliadača
+    \item \code{user\_agent} -- názov a informácie o User Agentovi webového prehliadača používateľa,
     
     \item \code{body} -- telo hlásenia
 
     Telo hlásenia je vyplnené pre každý typ hlásenia inak. 
     V sekcii \ref{network-error-logging-spec}, kde sa popisuje priamo NEL, je príklad hlásenia typu NEL vo výpise \ref{listing:priklad-nel-report}.
     Najjednoduchší typ hlásenia je z pohľadu obsahu tohto poľa hlásenie o zlyhaní webového prehliadača.
-    Taký typ hlásenia vyzobrazuje výpis \ref{listing:priklad-generated-report}.
+    Príklad takého typu hlásenia je vo výpise \ref{listing:priklad-generated-report}.
+    Toto hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu \textit{Out Of Memory} (nedostatok pamäte).
 \end{itemize}
 
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača. Hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu \textit{Out Of Memory} (nedostatok pamäte).},
+\begin{lstlisting}[
+caption={\centering Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača.},
 label=listing:priklad-generated-report, 
 language=json, 
 frame=tb,
@@ -794,101 +785,98 @@ xrightmargin=.085\textwidth]
 
 \subsection{Využitie NEL}
 \label{network-error-logging-spec}
-% TODO vysvetlujem ze browser si spaja pravidlo s domenou web servera, z ktoreho NEL hlava prisla ?
+
 % TODO nehovorim vsetko... nel tiez generuje reporty o uspesnych srandach. Moze tiez byt pouzity na monitorovanie uspesneho HTTP pre sledovanie funkcionality ako caching
 % TODO použiť prehľad z Cloudflare NEL reportu o využívaní (NEXI NB)
 
-NEL, podobne ako Reporting API, je mechanizmus spúšťaný tým, že je User Agentovi pri žiadosti o cieľový zdroj v HTTP odpovedi zaslaná hlavička \code{NEL}.
-Hlavička \code{NEL} môže obsahovať jedno alebo viaceré pravidlá určené pre User Agenta, ktorý ak NEL podporuje, vyberie prvé správne sformované pravidlo v poradí a uloží si ho ako konfiguráciu NEL.
+NEL, podobne ako Reporting API, je mechanizmus spúšťaný tým, že je klientovi pri žiadosti o cieľový zdroj z monitorovaného web serveru v HTTP odpovedi zaslaná hlavička \mbox{\code{NEL} \cite{W3C-NEL}}.
+Hlavička \code{NEL} môže obsahovať jedno alebo viaceré pravidlá určené pre klienta, ktorý ak NEL podporuje, vyberie \textit{prvé} správne sformované pravidlo v poradí a uloží si ho ako \textbf{konfiguráciu} NEL.
 Ostatné pravidlá musí User Agent podľa špecifikácie ignorovať.
 
-Spolu s uvedenou hlavičkou s obsahom predstavujúcim konfiguráciu tejto technológie web server musí taktiež posielať klientovi hlavičku \code{Report-To}. 
-Použitím NEL a zároveň aj Reporting API zabezpečuje jednak nastavenie samotného monitorovania NEL, ale aj jeho závislosti -- definovanie pravidiel pre tvorbu a zasielanie NEL hlásení.
-User Agent, ktorý získal obe hlavičky začne generovať hlásenia o zlyhaniach týkajúcich sa prenášaných zdrojov medzi klientom a web serverom, z ktorej \code{NEL} hlavička bola odoslaná. 
+Spolu s uvedenou hlavičkou s obsahom predstavujúcim konfiguráciu tejto technológie musí monitorovaný web server taktiež posielať klientovi hlavičku \code{Report-To}. 
+Použitím NEL spolu s Reporting API zabezpečuje jednak nastavenie samotného monitorovania NEL, ale aj jeho závislosti -- mechanizmu pre tvorbu a zasielanie jeho hlásení.
+User Agent, ktorý získal obe hlavičky, začne generovať hlásenia o zlyhaniach týkajúcich sa prenášaných zdrojov medzi klientom a monitorovaným web serverom, z ktorého hlavičky boli odoslané. 
 
-Definovaných pravidiel môže byť viac ako jedno.
-Všetky sa ukladajú v pamäti webového prehliadača (implementujúceho User Agenta, ktorý získal pravidlo).
-Každé pravidlo prislúcha práve jednej doméne patriacej web serveru, ktorý pravidlo zaslal. 
+Naraz môže byť u klienta definované viac ako jedno pravidlo.
+Všetky sa ukladajú v pamäti webového prehliadača.
+Každé pravidlo prislúcha práve jednej doméne patriacej monitorovanému web serveru, ktorý pravidlo zaslal. 
 
 Ak v pamäti webového prehliadača existuje aspoň jedno pravidlo \code{NEL} využívajúce exitujúce pravidlo \code{Report-To}, 
-webový prehliadač začne tvoriť a odosielať hlásenia s prislúchajúcim typom nastaveným na hodnotu \code{"network-error"}\footnote{Adresu URL, na ktorú sú hlásenia odosielané, definuje pravidlo \code{Report-To} (viď sekciu \ref{reporting-api})}. 
+webový prehliadač začne tvoriť a odosielať hlásenia s prislúchajúcim typom nastaveným na hodnotu \code{"network-error"}\footnote{URL 
+ cieľového kolektora a typ hlásenia sa definuje v pravidle \code{Report-To} (viď sekciu \ref{reporting-api})}. 
 Ďalej hlásenie takéhoto typu budem nazývať už iba ako hlásenie typu NEL.
 
-Používatelia týchto dvoch technológií musia spravovať vlastné pravidlá pre obe z nich.
-Musia si teda definovať adresu URL web servera, na ktorú sa budú hlásenia odosielať.
-Ak je všetko nastavené správne, hlásenia budú zasielané na web server pre ne určený, kde ich používatelia môžu spracovávať ďalej ako uznajú za vhodné.
-Výsledným benefitom pre používateľov je, že si vďaka týmto hláseniam môžu odvodiť stav dostupnosti nimi monitorovaného web servera, kde ukladajú svoje zdroje.
+Používateľmi NEL môžu byť napríklad správci monitorovaného web serveru.
+Musia spravovať vlastné pravidlá pre NEL a Reporting API zároveň.
+Ak je všetko nastavené správne, hlásenia budú generované a zasielané na kolektor pre ne určený, kde ich používatelia NEL môžu podľa potreby spracovávať ďalej.
+Výsledným benefitom pre nich je, že vďaka týmto hláseniam môžu sledovať dostupnosť nimi monitorovaných zdrojov.
+
+V rámci sledovania dostupnosti je okrem monitorovania zlyhaní možné pomocou NEL monitorovať aj úspešne získané zdroje.
+NEL totiž dokáže rovnakým spôsobom ako pre zlyhania generovať aj hlásenia typu NEL popisujúce úspešné získania zdrojov.
+Pre generovanie takých hlásení je nutné v konfigurácií nastaviť jej pole \code{success\_fraction} na hodnotu väčšiu ako 0 (viď nasledujúcu sekciu).
+
 
 \subsection{Štruktúra HTTP hlavičky NEL}
 \label{struktura-http-hlavicky-nel}
-% TODO definuj pojem monitorovaný server
-% TODO compatibility table
 
-HTTP hlavička \code{NEL}, ktorú zasiela monitorovaný server, má formát typu JSON prispôsobeného pre hlásenia Reporting API (MIME typ je \code{application/reports+json}).
-Obsahuje nasledujúce položky:
+HTTP hlavička \code{NEL} má formát typu JSON špecificky prispôsobený pre hlásenia Reporting API, ktorých typ MIME je \code{application/reports+json}.
+Obsahuje nasledujúce \mbox{polia \cite{W3C-NEL}}:
 \begin{enumerate}
     \item \code{report\_to}:
 
     Povinné pole, ktoré prepája mechanizmy NEL a Reporting API.
-    Jeho hodnota musí byť reťazec obsahujúci názov jednej zo skupín web serverov pre zasielanie hlásení.
+    Jeho hodnota musí byť reťazec obsahujúci názov jednej zo skupín kolektorov pre zasielanie hlásení.
     Tieto skupiny definuje Reporting API svojimi pravidlami (pole \code{group} z HTTP hlavičky \code{Report-To} popísané v sekcii \ref{reporting-api}).
     
     \item \code{max\_age}:
 
     Povinné pole.
     Definuje platnosť pravidla NEL, ktoré definuje.
-    
     Jeho hodnotou musí byť nezáporné celé číslo reprezentujúce sekundy.
-
-    Špeciálnym prípadom hodnoty je číslo 0.
-    V prípade, že platnosť je rovná 0, uložené pravidlo NEL s rovnakou hodnotou poľa \code{report\_to} sa vymaže z pamäte webového prehliadača klienta --- stratí platnosť. 
+    Špeciálnym prípadom hodnoty je \mbox{číslo 0}.
+    V prípade, že je v hlavičke zaslané toto pole s hodnotou 0, uložené pravidlo NEL identifikované hodnotou poľa \code{report\_to} sa vymaže z pamäte webového prehliadača klienta --- stratí platnosť. 
     
     \item \code{include\_subdomains}:
 
-    Prepínač monitorovania subdomén. 
-    
-    Ak je hodnota tohto poľa \code{true}, NEL na webovom prehliadači klienta bude generovať reporty aj pre zdroje získané zo subdomén webového servera, ktorého doména 
-    je použitá na definíciu tohto pravidla.
-    
+    Voliteľné pole. Prepínač monitorovania subdomén. 
+    Ak je hodnota tohto poľa \code{true}, NEL na webovom prehliadači klienta bude generovať hlásenia aj pre zdroje získané zo subdomén monitorovaného web servera, ktorého doména 
+    bola použitá na definíciu tohto pravidla.
     Ak je hodnota tohto poľa \code{false}, alebo sa pole v hlavičke nenachádza, NEL hlásenia pre subdomény generované nebudú.
 
     \item \code{failure\_fraction}:
 
-    Voliteľné pole. Umožňuje nastaviť \textbf{percentuálne množstvo všetkých hlásení zlyhaní}, ktoré sa budú zasielať na web servery na to určené.
-
+    Voliteľné pole. Umožňuje nastaviť percentuálne množstvo všetkých hlásení zlyhaní, ktoré sa budú zasielať na určené NEL kolektory.
     Hodnota poľa môže byť desatinné číslo nadobúdajúce hodnoty od \code{0.0} do \code{1.0}.
-    
     Hodnota \code{0.0} predstavuje zamedzenie akéhokoľvek hlásenia o zlyhaní. 
-    
-    Hodnota \code{1.0} predstavuje hlásenie každého jedného zlyhania.
+    Napoak, hodnota \code{1.0} predstavuje hlásenie každého jedného zlyhania.
 
     \item \code{success\_fraction}:
 
-    Toto voliteľné pole umožňuje používateľom NEL generovať hlásenia aj pre úspešne získané zdroje z monitorovaného servera. Určuje \textbf{percentuálne množstvo všetkých hlásení úspechov}, ktoré sa budú zasielať na web servery na to určené.
-
+    Voliteľné pole, ktoré umožňuje používateľom NEL generovať hlásenia aj pre úspešne získané zdroje z monitorovaného web servera. Určuje percentuálne množstvo všetkých hlásení úspechov, ktoré sa budú zasielať na NEL kolektory.
     Hodnota poľa môže byť desatinné číslo nadobúdajúce hodnoty od \code{0.0} do \code{1.0}.
-    
     Hodnota \code{0.0} predstavuje zamedzenie akéhokoľvek hlásenia úspechov. 
-    
-    Hodnota \code{1.0} predstavuje hlásenie každého jedného úspechu.
+    Hodnota \code{1.0} naopak predstavuje hlásenie každého jedného úspechu.
 
-    \pagebreak
-    
     \item \code{request\_headers}:
 
-    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek \textbf{zaslaných v HTTP žiadostiach} určených pre zdroje na monitorovanom web serveri. 
+    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek zaslaných v HTTP žiadostiach určených pre zdroje na monitorovanom web serveri.
     Pre každú z týchto hlavičiek bude jej názov a hodnota pridaná k hláseniu ako dodatková monitorovaná informácia.
     
     \item \code{response\_headers}:
 
-    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek \textbf{zaslaných v HTTP odpovediach} obsahujúcich zdroje zaslané z monitorovaného web servera. 
+    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek zaslaných v HTTP odpovediach obsahujúcich zdroje zaslané z monitorovaného web servera. 
     Pre každú z týchto hlavičiek bude jej názov a hodnota pridaná k hláseniu ako dodatková monitorovaná informácia.
 \end{enumerate}
 
+Príklad korektnej konfigurácie pre NEL a Reporting API je uvedený vo výpise \ref{listing:priklad-nel-header}. 
+Takto zaslané hlavičky spolupracujú tak, že Reporting API skupinu \code{group} referencuje hlavička NEL svojim poľom \code{report\_to}. Obe pravidlá majú rovnako dlhú platnosť. Hlásenia zlyhaní, ale aj úspechov sa budú tvoriť iba pre domény monitorovaného web servera podľa ich samostatne upravených percentuálnych nastavení. Ako dodatková informácia v hláseniach bude figurovať hlavička \code{Content-Type} z odpovedí monitorovaného web servera. Štruktúra hlásení generovaných týmito pravidlami je popísaná v sekcii \ref{struktura-hlasenia-nel} s konkrétnym \mbox{príkladom hlásenia vo výpise \ref{listing:priklad-nel-report}.}
+
+\pagebreak
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad použitia NEL. Zaslané hlavičky týchto dvoch technológií spolupracujú tak, že Reporting API skupinu \code{group} referencuje hlavička NEL svojim poľom \code{report\_to}. Obe pravidlá majú rovnako dlhú platnosť. Hlásenia zlyhaní, ale aj úspechov sa budú tvoriť iba pre \textbf{domény} monitorovaného web servera podľa ich samostatne upravených percentuálnych nastavení. Ako dodatková informácia v hláseniach bude figurovať hlavička \code{Content-Type} z odpovedí monitorovaného web servera. Štruktúra hlásení generovaných týmito pravidlami je popísaná v sekcii \ref{struktura-hlasenia-nel} s konkrétnym \mbox{príkladom hlásenia vo výpise \ref{listing:priklad-nel-report}.}},
+\begin{lstlisting}[caption={
+\centering Príklad použitia NEL spolu s Reporting API.},
 label=listing:priklad-nel-header, 
 language=json, 
 frame=tb,
@@ -919,9 +907,6 @@ NEL: {
 \end{center}
 
 
-\pagebreak
-
-
 \subsection{Štruktúra hlásenia NEL}
 \label{struktura-hlasenia-nel}
 % Telo vygenerovaneho reportu (odkaz na Reporting API)
@@ -934,23 +919,22 @@ V tejto sekcii popisujem štruktúru a obsah týchto hlásení.
 
 \subsubsection{Časť štruktúry vychádzajúcej z Reporting API}
 
-Hlásenia majú podľa špecifikácie Reporting API štruktúru zloženú z polí:
+Hlásenia majú podľa špecifikácie Reporting API štruktúru zloženú z polí \cite{W3C-NEL, W3C-reporting-api}:
 \begin{enumerate}
-    \item \code{type}
-    \item \code{age}
-    \item \code{url} 
-    \item \code{user\_agent}
-    \item \code{body}
+    \item \code{type},
+    \item \code{age},
+    \item \code{url} ,
+    \item \code{user\_agent},
+    \item \code{body}.
 \end{enumerate}
 
 Polia \code{age}, \code{url} a \code{user\_agent} sú vyplnené bežne podľa štandardnej funkcionality Reporting API (viď sekciu \ref{reporting-api}).
-
-Polia \code{type} a \code{body} však definuje NEL, pričom \code{type} vždy nadobúda v hlásení hodnotu \code{\textbf{"network-error"}} a \code{body} nadobúda hodnotu JSON objektu reprezentujúceho \textbf{telo hlásenia typu NEL}.
+Polia \code{type} a \code{body} však definuje NEL, pričom \code{type} vždy nadobúda v hlásení hodnotu \code{\textbf{"network-error"}} a \code{body} nadobúda hodnotu JSON objektu reprezentujúceho telo hlásenia typu NEL.
 
 \subsubsection{Telo hlásenia typu NEL}
 \label{network-error-logging-spec-type}
 
-Štruktúra obsahu poľa \code{body} v hlásení typu NEL záleží na tom, v ktorej časti operácia získavania monitorovaného zdroja zlyhala.
+Štruktúra obsahu poľa \code{body} v hlásení typu NEL záleží na tom, v ktorej časti operácia získavania monitorovaného zdroja zlyhala \cite{W3C-NEL}.
 Podľa toho algoritmus tvorenia nového hlásenia najskôr vytvorí základnú štruktúru, ku ktorej neskôr pridáva dodatočné polia pre konkrétny typ zlyhania.
 Najskôr popisujem spomenutú základnú štruktúru a potom polia špecifické pre každú z možných fáz zlyhania.
 Základná nemenná štruktúra poľa \code{body} sa skladá z nasledovných polí:
@@ -959,7 +943,7 @@ Základná nemenná štruktúra poľa \code{body} sa skladá z nasledovných pol
     \item \code{sampling\_fraction}:
 
     Pole obsahuje skopírovanú hodnotu z pravidla NEL. Kopírovaným poľom je buď \code{failure\_fraction}, ak ide o hlásenie zlyhania, alebo pole \code{success\_fraction}, ak ide o hlásenie úspechu.
-    Pre popis týchto dvoch polí viď predošlú sekciu \ref{struktura-http-hlavicky-nel}, alebo výpis \ref{listing:priklad-nel-header}.
+    Pre popis týchto dvoch polí viď predošlú sekciu \ref{struktura-http-hlavicky-nel}.
     
     \item \code{elapsed\_time}:
 
@@ -968,47 +952,45 @@ Základná nemenná štruktúra poľa \code{body} sa skladá z nasledovných pol
     
     \item \code{\textbf{phase}}:
 
-    Dôležité pole \textbf{určujúce ďalšiu štruktúru tela hlavičky}.
+    Dôležité pole určujúce ďalšiu štruktúru tela hlavičky.
     Pri zlyhaniach obsahuje hodnoty troch hlavných kategórií zlyhaní, ktoré popisuje kapitola \ref{body-zlyhania}.
     Jednotlivé kategórie sú reprezentované nasledujúcimi hodnotami: 
     \begin{itemize}
-        \item \code{"dns"}: zlyhania komunikácie s DNS
-        \item \code{"connection"}: zlyhania nadviazania spojenia TCP/IP
-        \item \code{"}\code{application"}: zlyhania prenosu HTTP
+        \item \code{"dns"}: zlyhania komunikácie s DNS,
+        \item \code{"connection"}: zlyhania nadviazania spojenia TCP/IP,
+        \item \code{"}\code{application"}: zlyhania prenosu HTTP.
     \end{itemize}
 
     Ak však ide o hlásenie úspechu, hodnota tohto poľa sa vyplní ako \code{"}\code{application"}.
 
-    \pagebreak
-    
     \item \code{\textbf{type}}:
 
     Obsahom tohto poľa je špecifický podtyp zlyhania prislúchajúceho k fáze definovanej poľom \code{phase}.
-    Zoznam jednotlivých podtypov je rozsiahly, preto uvádzam iba vzorku príkladov hodnôt pre toto pole:
+    Zoznam jednotlivých podtypov je rozsiahly, preto uvádzam iba vzorku príkladov hodnôt pre toto pole \cite{W3C-NEL}:
     \begin{enumerate}
         \item podtypy zlyhaní fáze \code{"dns"}:
         \begin{itemize}
-            \item \code{dns.unreachable}: DNS server je nedostupný
-            \item \code{dns.name\_not\_resolved}: DNS server odpovedal, ale neuspel v rezolúcií IP adresy
+            \item \code{dns.unreachable}: klientom použitý DNS server je nedostupný,
+            \item \code{dns.name\_not\_resolved}: klientom použitý DNS server odpovedal, ale neuspel v rezolúcií IP adresy.
         \end{itemize}
         
         \item podtypy zlyhaní fáze \code{"connection"}:
         \begin{itemize}
-            \item \code{tcp.refused}: origin server spojenie odmietol
-            \item \code{tcp.aborted}: origin server spojenie zrušil 
+            \item \code{tcp.refused}: monitorovaný web server spojenie odmietol,
+            \item \code{tcp.aborted}: monitorovaný web server spojenie zrušil.
         \end{itemize}
         
         \item podtypy zlyhaní fáze \code{"}\code{application"}:
         \begin{itemize}
-            \item \code{http.error}: odpoveď zo servera úspešne prišla, ale obsahovala status z kategórie \code{4xx} alebo \code{5xx}
+            \item \code{http.error}: odpoveď z monitorovaného web servera úspešne prišla, ale obsahovala status z kategórie \code{4xx} alebo \code{5xx},
             
-            \item \code{http.protocol.error}: spojenie bolo zrušené z dôvodu zlyhania mechanizmu komuníkácie protokolu HTTP 
+            \item \code{http.protocol.error}: spojenie bolo zrušené z dôvodu zlyhania mechanizmu komuníkácie protokolom HTTP. 
         \end{itemize}
     
     \end{enumerate}    
 \end{itemize}
 
-V bode, keď sa polia uvedené vyššie v hlásení vyplnia, jeho základná štruktúra je pripravená.
+Keď už sú polia uvedené vyššie v hlásení NEL vyplnené, jeho základná štruktúra je pripravená.
 Ďalej mechanizmy tvorby hlásenia pridajú dodatočné polia podľa obsahu už vyplneného poľa \code{phase}.
 Výsledná štruktúra môže byť jedna z nasledujúcich: 
 
@@ -1057,10 +1039,15 @@ Výsledná štruktúra môže byť jedna z nasledujúcich:
     \end{itemize}    
 \end{enumerate}
 
+Príkladné telo vygenerovaného hlásenia typu NEL je uvedené vo výpise \ref{listing:priklad-nel-report}. 
+Telo tohto hlásenia bolo vygenerované pre zlyhanie vo fáze \code{"}\code{application"}. \mbox{Z webstránky} s adresou URL z poľa \code{referrer} bola zaslaná HTTP žiadosť typu \code{GET}, ktorú server obslúžil so statusom \code{500} -- server zlyhal pri obsluhe žiadosti. Dodatočne, tak ako bolo definované v pravidlách NEL, telo obsahuje aj hlavičku \code{Content-Type}, ktorá však vyplnená nebola kvôli celkovému zlyhaniu navrátenia cieľového zdroja v odpovedi.
+
+\pagebreak
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Príklad výsledného hlásenia typu NEL vytvoreného pravidlami popísanými vo výpise \ref{listing:priklad-nel-header}. Telo hlásenia bolo vygenerované pre zlyhanie vo fáze \code{"}\code{application"}. \mbox{Z webstránky} s adresou URL z poľa \code{referrer} bola zaslaná HTTP žiadosť typu \code{GET}, ktorú server obslúžil so statusom \code{500} -- server zlyhal pri obsluhe žiadosti. Dodatočne, tak ako bolo definované v pravidlách NEL, telo obsahuje aj hlavičku \code{Content-Type}, ktorá však vyplnená nebola kvôli celkovému zlyhaniu navrátenia cieľového zdroja v odpovedi.},
+\begin{lstlisting}[
+caption={\centering Príklad výsledného hlásenia typu NEL vytvoreného podľa pravidiel z výpisu \ref{listing:priklad-nel-header}.},
 label=listing:priklad-nel-report, 
 language=json, 
 frame=tb,
