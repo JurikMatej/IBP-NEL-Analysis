@@ -76,7 +76,7 @@ TRANCO je ako zdroj skúmaných domén pre túto prácu vhodný, pretože sprís
 Taktiež udržiava ich historické dáta, ktoré už nie sú samostatne dostupné.
 Vzhľadom na to je možné preskočiť výber toho najvhodnejšieho z pomedzi nich a použiť práve TRANCO.
 
-\subsection{Generovanie rebríčka TRANCO}
+\subsubsection{Generovanie rebríčka TRANCO}
 \label{tranco-generation}
 
 V jeho štandardnej forme, rebríček TRANCO sa generuje každý deň v dvoch verziách:
@@ -139,11 +139,16 @@ xrightmargin=.3875\textwidth]
 \end{lstlisting}
 \end{center}
 
+\subsection{Domény navštevované používateľmi prehliadača Google Chrome}
+\label{chrome-user-experience-report}
+
 
 \section{Automatizované prehliadanie webu}
 \label{selenium}
 
 Táto sekcia ešte nie je napísaná.
+
+% Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
 
 \section{HTTP Archive}
 \label{httparchive}
@@ -154,67 +159,59 @@ rôzne podrobné prieskumy a analýzy \cite{httparchive-about}.
 
 Autormi HTTP Archive sú členovia komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
 Momentálne sa na jeho údržbe po stránke vývoja podieľa štvorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly.
-Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca zadarmo prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok \cite{httparchive-about}.
+Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok \cite{httparchive-about}.
 
-Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do minulosti webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným náhľadom a poznatkom dokázať
+Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do histórie webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
-Pre tento účel vyvinuli sadu nástrojov pre zbieranie uvedených dát z verejného internetu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojom webe.
-Naviac sa na uskladnenie dát používa služba \textbf{Google Cloud Platform (GCP)}.
-Tieto dáta sú v rámci GCP verejne prístupné ako databázové tabuľky v prostredí GCP zvanom \textbf{BigQuery}, čo zastrešuje aj potrebu pre prostredie na prehliadanie dát pomocou SQL príkazov 
-a vykonávanie komplexných analýz nad dátami HTTP Archive \cite{httparchive-faq}. 
+Pre tento účel vyvinuli sadu nástrojov pre zbieranie uvedených dát z webu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojej webovej stránke.
+Na uskladnenie dát sa používa služba \mbox{\textbf{BigQuery} poskytovaná} na platforme \textbf{Google Cloud Platform} (ďalej už iba GCP).
+Tieto dáta sú verejne prístupné ako databázové tabuľky v prostredí BigQuery.
+Prehliadať ich možno pomocou príkazov jazyka Structured Query Language, zaužívaného štruktúrovaného jazyka pre správu dát uložených v databáze (ďalej ako SQL).
 
-\pagebreak
-
-Vhodnosť projektu pre túto prácu je založená na tom, že ide o komunitný projekt, ktorého výsledky sú verejne a zadarmo dostupné. Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP(S) komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj analýza v rámci tejto práce.
+Vhodnosť projektu pre túto prácu spočíva v tom, že ide o komunitný projekt, ktorého výsledky sú verejne dostupné. 
+Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP komunikácie na webe, ktoré siahajú až po rok 2010, prirodzene sa z neho stáva primárny zdroj pre výskumy a analýzy, akou je aj analýza v rámci tejto práce.
 
 
 \subsection{Získavanie dát}
 \label{fetching-data}
 
-Základom pre všetky činnosti HTTP Archive sú dáta o stave webu. Tie sú získané pravidelným spúšťaním procesu zvaného \textbf{Web Crawling}.
-Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
-HTTP Archive pomocou web crawlingu získava dáta ohľadom celkového aplikačného prenosu, kde meranou dátovou jednotkou je žiadosť, teda HTTP \textbf{request}, a odpoveď, teda HTTP \textbf{response}, ktorou web server zareaguje. 
-Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z \textbf{desktop}, aj z \textbf{mobilného} prostredia.
+Ako bolo zmienené, HTTP Archive získava dáta z webu. 
+Získava ich pomocou automatizovaného prehliadania webu (viď sekciu \ref{selenium}).
+Cieľové dáta predstavujú celkový aplikačný prenos na prehliadaných doménach, kde meranou dátovou jednotkou je HTTP žiadosť a HTTP odpoveď, ktorou na žiadosť daná doména zareaguje.
+Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z počítačového (\textbf{desktop}), aj z \textbf{mobilného} prostredia.
 Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API) \cite{httparchive-homepage}.
 
-Výber vstupov do tohto procesu predstavuje hľadanie vhodnej sady záznamov URL na skúmanie. 
-HTTP Archive na to momentálne používa projekt \textbf{Chrome User Experience Report}, spomínaný už v sekcii \ref{tranco-source-rankings}.
+Ako zoznam vstupných domén do tohto procesu HTTP Archive momentálne používa projekt Chrome User Experience Report, popísaný v sekcii \ref{chrome-user-experience-report}.
 
 \subsubsection{WebPageTest}
 
-Získané URL adresy sú použité ako vstup do programu WebPageTest. WebPageTest (ďalej označovaný už iba ako WPT) je softvér na testovanie výkonnosti webových stránok vyrobený spoločnosťou Google. 
-Predstavuje komplexné riešenie schopné testovať a merať proces načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
+Nástroj použitý pre automatizované prehliadanie webu je WebPageTest. Tento nástroj (ďalej označovaný už iba ako WPT) je softvér na testovanie výkonnosti webstránok vyvinutý spoločnosťou Google \cite{webpagetest}. 
+Predstavuje komplexné riešenie schopné merať rôzne metriky ako proces načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
 Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\href{https://github.com/catchpoint/WebPageTest}{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod open source licenciou.
-Medzi konkrétne skúmané metriky patria napríklad: \cite{webpagetest}
-\begin{itemize}
-    \item Time to First Byte (TTFB) --- čas do prvej časti odpovede od servera
-    \item First Contentful Paint (FCP) --- čas do začiatku načítavania obrázkov a grafiky
-    \item Largest Contentful Paint (LCP) --- čas do načítania najväčšej časti obsahu stránky 
-    \item Cumulative Layout Shitf (CLS) --- posun a zmena rozpoloženia obsahu stránky počas jej načítavania
-\end{itemize}
 
 HTTP Archive na svoje účely používa vlastnú WPT inštanciu. 
 Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou.
-Vo svojich behoch využíva užitočnú funkcionalitu WPT --- vlastné (prispôsobené) metriky.
-Pridanie vlastných metrík do WPT predstavuje spúšťanie hocijakej funkcie spísanej v jazyku JavaScript na konci behu testovania stránky. 
-Využívaním tohto dokáže HTTP Archive zbierať akékoľvek dodatočné metriky zo svojich testovacích stránok \cite{webpagetest}.
-
-\pagebreak
+Vo svojich behoch využíva doplnkovú funkcionalitu WPT --- vlastné (prispôsobené) metriky.
+Pridanie vlastných metrík do WPT predstavuje spúšťanie ľubovolnej funkcie napísanej v jazyku JavaScript na konci behu testovania danej webstránky. 
+Použitím tejto funkcionality HTTP Archive dokáže zbierať akékoľvek dodatočne vypočítané metriky z webstránok domén, pre ktoré zbiera \mbox{dáta \cite{webpagetest}}.
 
 Je dôležité poznamenať, že stránky sú testované s čistou vyrovnávacou pamäťou cache. 
 Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
-To môže spôsobovať odchýlku oproti reálnemu používaniu testovacích web stránok. 
-Ďalšou limitáciou je fakt, že každá stránka je preskúmaná samostatne a neberie sa žiaden ohľad na jej podstránky.
-WPT je spúšťaný vždy prvý deň v mesiaci a teda obsahuje dáta užitočné za posledný mesiac, kde môže ale nastať duplicita dát v prípade, že predošlý beh WPT trval výrazne dlho.
+To môže spôsobovať odchýlku oproti reálnemu scenáru používania navštevovaných web stránok. 
+WPT je spúšťaný vždy prvý deň v mesiaci, takže HTTP Archive zverejňuje dáta na mesačnej báze.
 
 Pre účely uskladňovania získaných dát je využitý formát HTTP Archive súboru (prípona \code{.har}, ďalej označovaný už len ako HAR).
-Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované ako JSON - JavaScript Object Notation.
+Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované vo formáte JSON.
 Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}. 
-Orientačný príklad obsahu takéhoto súboru je ukazuje výpis \ref{listing:harfile}.
+Orientačný príklad obsahu takéhoto súboru je vo výpise \ref{listing:harfile}.
+Všetky detaily týkajúce sa procesu získania webstránky sú zaznamenané v položke \code{log}. Pole \code{version} definuje verziu súboru HAR. Pole \code{pages} obsahuje napríklad URL získaného zdroja a pole \code{entries} obsahuje HTTP žiadosti \mbox{a odpovede pre daný zdroj a zdroje ním používané.}
+
+\pagebreak
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={\centering Orientačná ukážka obsahu súboru HAR. Všetky detaily o získaní zdroja z web servera je zaznamenaný v položke \code{"log"}. Hlavná štruktúra tejto položky je zložená z párov kľúč--hodnota, kde \code{"version"} definuje verziu súboru HAR , \code{pages} obsahuje napríklad URL získaného zdroja a \code{entries} obsahuje HTTP žiadosť \mbox{a odpoveď pre daný zdroj.}},
+\begin{lstlisting}[
+caption={\centering Orientačná ukážka obsahu súboru HAR.},
 label=listing:harfile, 
 language=json, 
 frame=tb,
@@ -244,45 +241,36 @@ xrightmargin=.09\textwidth]
   }
 }
 \end{lstlisting}
-\end{center}
+\end{center} 
 
+\subsection{Ukladanie dát}
 
-Úspešne serializované a vhodne formátované dáta sú po skončení behu WPT nahrané do existujúcich databázových tabuliek na GCP, čím sú sprístupnené pre používanie \cite{httparchive-faq}. 
+Dáta získané pomocou WPT sa nahrávajú do existujúcich databázových tabuliek prostredia BigQuery, čím sú sprístupnené pre prehliadanie \cite{httparchive-faq}.
 
-\subsection{Skladovanie a práca s dátami}
-Google Cloud Platform (GCP) je súčasťou balíčka služieb Google Cloud. 
-Výraz \textbf{cloud} sa používa pre množinu serverov používaných napríklad na výpočtové práce alebo skladovanie dát, ktoré sú prepojené cez internet.
-Tieto servery zostavujúce cloud infraštruktúru môžu poskytovať rôzne programové riešenia, ktoré sa v terminológii spojenej s cloud výpočtami nazývajú služby \cite{cloudflare-clouddefinition}.
-
-Súčasťou infraštruktúry patriacej práve Google je už spomínaný GCP. Predstavuje výpočtové služby združené pod záštitu jednotnej platformy.
-Tieto služby sú rozdelené do kategórií ako výpočtová sila, ukladací priestor, sieťové riešenia, dátová analýza a strojové učenie \cite{gfg-gcp}.
-Časť záujmu tejto práce spadá práve do kategórie ukladacieho priestoru, kam sa radí služba \textbf{BigQuery}.
-
-\subsubsection{GCP BigQuery}
+\subsubsection{BigQuery}
 \label{big-query}
 
 BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia.
-BigQuery je samo o sebe riešenie populárne označované ako \textbf{platforma poskytovaná ako služba} (PaaS).
+BigQuery je samo o sebe riešenie populárne označované ako platforma poskytovaná ako služba (PaaS).
 Hlavnou výhodou pre užívateľov služby typu PaaS je, že sa nemusia nijako starať o správu infraštruktúry, pod čím sa vlastne myslí daná platforma, kde je služba sprevádzkovaná.
 O správu potrebnej infraštruktúry (servery, sieťové prvky, bezpečnosť) sa stará GCP, teda poskytovateľ tejto služby.
-Tým pádom je možné BigQuery ako skladisko dát veľmi rýchlo zakomponovať do akéhokoľvek vlastného projektu \cite{google-bq}.
+Tým pádom je možné BigQuery ako úložisko dát veľmi rýchlo zakomponovať do akéhokoľvek vlastného projektu \cite{google-bq}.
 
 Dôležitou vlastnosťou Big Query je prispôsobenosť na vysokorýchlostné výpočty nad obrovským množstvom dát.
 Distribúcia výpočtov umožňuje docieliť vykonávanie analýzy nad dátami o veľkosti v terabajtoch za sekundy (TB/s) a petabajtoch za minúty (PB/m).
 K tomu napomáha špeciálna vnútorná reprezentácia uložených tabuliek. 
 Bežný spôsob ukladania dát do tabuliek v databáze je takzvaný riadkovo orientovaný.
 Orientovanie na riadky znamená, že sa záznamy v tabuľke ukladajú priamo vedľa seba na disk databázy.
-To je vhodné pre prípady, keď majú byť na úložisku záznamy hľadané individuálne.
+To je vhodné pre prípady, keď sú na úložisku záznamy vyhľadávané individuálne.
 Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predstavuje problém vo výkonnosti, pretože sa musia potupne pre každý záznam tabuľky prehľadať všetky jeho polia \mbox{(stĺpce) \cite{google-bq}}.
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.7]{obrazky-figures/row-oriented-store.png}
- \caption{\centering Príklad uskladnenia dát v riadkovo orientovanej databáze. Prechádzať dáta po riadkoch predstavuje musieť prehľadať všetky jeho stĺpce.}
+ \caption{\centering Vizualizácia uskladnenia dát v riadkovo orientovanej databáze.}
  \label{img:row-oriented-store}
 \end{center}
 \end{figure}
-
 
 Riešenie, ktorým BigQuery tento problém adresuje je použitie orientácie na jednotlivé stĺpce. 
 Ukladaním dát v stĺpcovom formáte, a teda ukladaním každého stĺpca separátne umožňuje prehľadávať dataset bez viazania sa na všetky ostatné stĺpce.
@@ -292,41 +280,37 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.7]{obrazky-figures/column-oriented-store.png}
- \caption{\centering Príklad uskladnenia dát s využitím orientácie na jednotlivé stĺpce. Dáta je takto možné prehľadávať rýchlejšie a efektívnejšie, pričom sa spracuje menší objem dát. To vyhovuje používateľom BigQuery, ktorí sú obmedzení dostupným objemom dát \mbox{(viď platobné plány BigQuery na konci tejto sekcie).}}
+ \caption{\centering Vizualizácia uskladnenia dát s využitím orientácie na jednotlivé stĺpce.}
  \label{img:column-oriented-store}
 \end{center}
 \end{figure}
 
-Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných \textbf{dataset}.
-Na GCP je dostupné množstvo datasetov pre prehľadávanie.
-Je nutné si najprv založiť \textbf{Google Cloud projekt} na oficiálnej stránke, ktorý slúži ako menný priestor pre zdroje, ktoré užívateľ do neho pridáva a používa.
-K dátam je možné priamo pristupovať prostredníctvom troch rozhraní: \cite{google-cloud} 
+Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných dataset.
+Je dostupné množstvo datasetov pre prehľadávanie.
+Najprv je ale nutné založiť si Google Cloud projekt na oficiálnej stránke, ktorý slúži ako priestor mien pre zdroje, ktoré užívateľ do projektu pridáva a používa.
+K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{google-cloud}:
 \begin{enumerate}
-    \item Google Cloud Console
+    \item Google Cloud Console:
 
     Webové grafické rozhranie pre spravovanie Google Cloud projektov. 
     Časť Google Cloud Console, ktorú užívatelia môžu využiť špecificky na prehliadanie dát BigQuery sa nazýva \textbf{BigQuery Studio}.
     Výhodou tohto spôsobu pracovania so zdrojmi je vysoká úroveň interaktivity, ktorú ponúka zabudované integrované vývojové prostredie pre prácu s dátami. 
-    
-    \item BigQuery nástroj príkazového riadku
 
-    Pre zobrazovanie databáz a tabuliek, prehľadávanie a spravovanie dát v prostredí príkazového riadka je možné využiť nástroj s názvom \textbf{\code{bq}}. 
+    \item BigQuery nástroj príkazového riadku:
+
+    Pre zobrazovanie databáz a tabuliek, prehľadávanie a spravovanie dát v prostredí príkazového riadka je možné využiť nástroj s názvom \code{bq}. 
     
     \item BigQuery klientske knižnice
 
-    Vďaka klientským knižniciam implementujúcim komunikačné rozhranie s BigQuery je taktiež dostupná možnosť programovo manipulovať a prehliadať zdroje priradené k užívateľskému projektu.
+    Vďaka klientským knižniciam implementujúcim komunikačné rozhranie s BigQuery je taktiež dostupná možnosť programovo manipulovať a prehliadať zdroje priradené ku Google Cloud projektu používateľa.
     Táto možnosť je vhodná pre predom definované, opakované úlohy, ktoré či už požadujú zdroje na vstupe, alebo ich počas svojho behu nahrávajú, prípadne upravujú podľa potreby.
 \end{enumerate}
 
-\pagebreak
-
-Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL (Structured Query Language).
-Ide o zaužívaný štruktúrovaný jazyk pre správu dát uložených v databáze.
-V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}} \cite{google-bq}.
-
-Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do Google Cloud.
-Tieto dáta sa nachádzajú práve v Google Cloud Console dostupné ako \textbf{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
-Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\footnote{\href{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\textunderscore bigquery.md}} sa sprístupnia pre používanie nasledovné datasety: \cite{httparchive-repo}
+Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL \cite{google-bq}.
+V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
+Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do BigQuery.
+Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textbf{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
+Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\footnote{\href{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}} sa sprístupnia pre používanie datasety ako napríklad \cite{httparchive-repo}:
 
 \begin{itemize}
     \item \code{summary\_pages}:
@@ -353,128 +337,30 @@ Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\fo
     Ide o veľmi veľké tabuľky, ktoré môžu dosahovať veľkosť \mbox{v jednotkách terabajtov (TB)}.
 \end{itemize}
 
-BigQuery zdroj \code{httparchive} sprístupňuje aj niekoľko ďalších datasetov, no práve tie spomenuté vyššie tvoria sadu dôležitých, ktorými sa táto práca zaoberá. 
+BigQuery zdroj \code{httparchive} sprístupňuje aj niekoľko ďalších datasetov. Táto práca sa jednoznačne najviac zaoberá datasetom \code{summary\_requests}.
 
 Každý z týchto datasetov obsahuje tabuľky nazvané podľa rovnakej konvencie --- dátum vykonaného zberu dát a prostredie, v akom prebiehal.
-Dátum je definovaný formátom YYYY\_MM\_DD, kde YYYY predstavuje rok, MM mesiac a DD deň. Prostredie môže byť buď počítačové alebo mobilné, ako sa spomína už v sekcii \ref{fetching-data}.
-Príkladom názvu tabuľky teda môže byť '\code{2023\_01\_01\_mobile}' alebo '\code{2023\_01\_01\_desktop}'.
-
-\pagebreak
+Dátum je definovaný formátom \code{YYYY\_MM\_DD}, kde \code{YYYY} predstavuje rok, \code{MM} mesiac a \code{DD} deň. 
+Prostredie môže byť buď počítačové alebo mobilné, ako sa spomína už v sekcii \ref{fetching-data}.
+Príkladom názvu tabuľky teda môže byť \code{2018\_01\_15\_mobile} alebo \code{2023\_01\_01\_desktop}.
+Za použitia GoogleSQL je možné tabuľky kombinovať a vytvárať komplexné sady dát pre ďalšiu analýzu.
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.53]{obrazky-figures/bigquery_response_bodies.png}    
- \caption{\centering Otvorené okno v GCP BigQuery pri pohľade na otvorený prehľad datasetu '\code{2023\_01\_01\_mobile}'. 
- Jednotlivé uložené položky sú: \code{page}, \code{url}, \code{body} a \code{truncated}.}
+ \caption{\centering Pohľad na časť otvoreného okna s tabuľkou \code{2023\_01\_01\_desktop} v prostredí BigQuery Studio.}
  \label{img:bigquery-example-table}
 \end{center}
 \end{figure}
 
+Prehľadávaním týchto dát a sledovaním obsahu HTTP hlavičiek je možné dopracovať sa k HTTP odpovediam s pravidlami technológie NEL.
+Každú doménu, ktorá vo svojich odpovediach zaslala hlavičky \code{NEL} a \code{Report-To} je možné skúmať ako doménu s nasadeným monitorovaním NEL.
 
-Za použitia GoogleSQL je možné datasety kombinovať a vytvárať komplexné sady dát (ako na obrázku \ref{img:bigquery-example-query}) pre ďalšiu analýzu.
-Prehľadávaním týchto dát a sledovaním HTTP hlavičiek je možné dopracovať sa k HTTP odpovediam, ktoré obsahujú hlavičky (pravidlá) technológie NEL.
-Každú doménu, ktorá vo svojich odpovediach zaslala hlavičku NEL, môžem skúmať ako doménu s nasadeným monitorovaním NEL.
+\subsection{Poplatky za používanie}
 
-\begin{figure}[!htb]
-\begin{center}
-% height=8.401cm
- \includegraphics[width=11cm, height=10.0125cm]{obrazky-figures/mimeType_summary_example_query.jpg}    
- \caption{\centering Ukážka vytvorenia vlastnej sady dát v prostredí GCP BigQuery. Za použitia príkazov GoogleSQL sú dáta transformované na zoznam typov MIME podľa ich využitia na stránkach uvedených v dátach.}
- \label{img:bigquery-example-query}
-\end{center}
-\end{figure}
-
-\pagebreak
-
-Čo sa platieb týka, GCP BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
+Čo sa platieb týka, BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
 \textbf{Bezplatný plán} zahŕňa 1TB procesnej kapacity dát a 10GB úložného priestoru pre vlastné dáta, pričom dochádza každý mesiac \mbox{k obnove týchto bezplatných zdrojov}.
 Po prečerpaní kapacity uvedenej v tomto pláne je nutné akékoľvek ďalšie operácie doplatiť.
 Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapacít je rozsiahly, no pre prípady použitia tejto práce je relevantný platobný plán zvaný On-demand.
 \textbf{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
 Cena za 1TB kapacity je v čase písania práce \$6.25, pričom stále platí, že prvý terabajt je každý mesiac zadarmo \cite{google-bq-pricing}.
-
-% \subsection{Pravidelné správy o stave webu}
-
-% Okrem samotných dát a prostredia na ich prehľadávanie zostavuje HTTP Archive projekt aj prehľady stavu webu formou interaktívnych grafov reprezentujúcich konkrétnu metriku v oblasti záujmu HTTP Archive.
-
-% \subsubsection{Elementárne reporty metrík}
-% Medzi takéto prehľady patrí napríklad report o zmene priemernej celkovej veľkosti konkrétnej načítanej stránky v kilobajtoch, alebo, taktiež relevantný je aj report zobrazujúci dosiahnuteľnosť HTTP Archive -- počet jedinečných URL analyzovaných týmto projektom (viď obrázok \ref{img:total-urls-report}).
-
-% \begin{figure}[!htb]
-% \begin{center}
-%  \includegraphics[scale=0.51815]{obrazky-figures/total_urls_report.png}    
-%  \caption{\centering Report zobrazujúci počet URL adries analyzovaných v rámci projektu HTTP Archive. Graf reportu znázorňuje dáta od dátumu prvého web crawlingu vykonaného v rámci projektu. Momentálny počet URL adries zakomponovaných do datasetov v BigQuery je 12 224 848 pre testy vykonávané na počítači a 16 277 111 pre testy vykonávané zo simulovaného mobilného prostredia.}
-%  \label{img:total-urls-report}
-% \end{center}
-% \end{figure}
-
-% \pagebreak
-
-% \subsubsection{Web Almanac}
-% \label{web-almanac}
-% Na takýchto a mnoho ďalších nízko úrovňových reportoch každoročne stavia aj komplexný report s názvom \textbf{Web Almanac}, ktorý tiež patrí pod túto iniciatívu.
-% Web Almanac spája elementárne dáta do kontextualizovaných náhľadov, ktoré približujú jeho čitateľom stav webu na vysokej úrovni \cite{httparchive-methodology}.
-% Posledný report bol už štvrtým vydaním v poradí.
-% Vďaka skúsenostiam z predošlých troch rokov autori navýšili relevantnosti metrík, ktoré zahŕňa. 
-% Všetky tieto skúmané metriky sú zároveň dostupné na GitHub stránkach projektu, kde každú jednu reprezentuje hotový SQL skript spustiteľný priamo v prostredí GCP Big Query.
-
-% Celý obsah reportu je dostupný na jeho oficiálnej stránke\footnote{\href{https://almanac.httparchive.org/en/2022/table-of-contents}{https://almanac.httparchive.org/en/2022/table-of-contents}}. 
-% Každý aspekt jeho prieskumu je zatriedený do svojej vlastnej kategórie, ktorá sa v rámci obsahu označuje ako samostatná kapitola.
-% Čitatelia tu môžu nájsť napríklad kapitolu zameranú špecificky na JavaScript, použitie WebAssembly na webe, ale aj pre túto prácu relevantnejšie oblasti ako HTTP a bezpečnosť.
-
-% Celkovo sa snahou viacej ako 100 prispievateľov podarilo takouto formou štruktúrovane zaznamenať stav webu textovo, ale aj pomocou detailných grafových vizualizácií.
-% Autori sa snažia zvýšiť rozsah projektu a tým aj počet sledovaných relevantných oblastí tak, že každý rok povzbudzujú nových potencionálnych prispievateľov do pripojenia sa k ich iniciatíve. 
-
-% Do budúcna sa bude kvalita Web Almanac reportov zlepšovať. 
-% V tohtoročnom reporte bude oproti tomu minuloročnému zahrnutých viac ako dvojnásobok vzoriek URL, 
-% ktoré HTTP Archive podrobí svojmu web crawlingu.
-% V ideálnom prípade to znamená, že sa dosah podkladov pre report efektívne zdvojnásobí a tým pádom má potenciál byť presnejší a globálne reprezentatívnejší.
-
-% Využitie práve tohto reportu by bolo ideálnym spôsobom, ako \textbf{dostať technológiu NEL a jej využitie do verejného povedomia}. 
-% Spoluprácou s autormi Web Almanac by sa jedna z nových kapitol budúcich vydaní mohla zaoberať technológiou NEL.
-
-% \section{Alternatívy}
-% \label{httparchive-alternatives}
-
-% Aj keď je HTTP Archive najvhodnejším zdrojom dát pre účely tejto práce, existujú aj iné, ktoré stoja za zmienku.
-% Dáta, ku ktorým máme prístup vďaka tomuto primárnemu zdroju síce sú postačujúce pre rôzne typy analýz. Sú ale dostupné aj zdroje disponujúce špecifickými výhodami, ktoré
-% zase umožňujú či už spätne kontrolovať správnosť dát HTTP Archive, alebo na ne nadviazať.
-% Z toho dôvodu sú niektoré alternatívy popísané v tejto kapitole.
-
-% \subsection{crawler.ninja}
-
-% Projekt \textbf{crawler.ninja} založený autorom Scottom Helme slúži ako podklad pre jeho prieskum
-% webu, v ktorom pozoruje stav bezpečnosti na internete. 
-% Výsledky tohto prieskumu autor prvýkrát zverejnil už v roku 2015, no o vytvorení projektu crawler.ninja na svojom blogu píše až v júli 2018 \cite{crawler-ninja}. 
-
-% % \pagebreak
-
-% Úmyslom autora pozorovať bezpečnosť vyúsťuje do jeho periodických reportov týkajúcich sa tejto tématiky. 
-% Samotný projekt sa stará o zber dát pre zhotovenie týchto reportov.
-% Aj keď zbieranie dát pretrváva do súčasnosti, posledný report od autora bol publikovaný dávnejšie --- 09.12.2021, od kedy zanechal svoju pravidelnosť (aspoň jeden report za rok).
-
-% Crawler.ninja slúži na prehľadávanie webu technikou Web Crawling za cieľom získať dáta o web stránkach, ktoré autor plánuje skúmať.
-% Ako vstup do tohto procesu, a teda zoznam použitých URL, sa používa rebríček populárnych stránok Alexa Top 1 milion.
-
-% Crawl sa spúšťa každý deň a získané dáta ukladá (podľa toho čo autor zmieňuje na svojom blogu) do databázy MySQL, z ktorej je následne vytvorený takzvaný databázový export.
-% Databázový export predstavuje súbor SQL príkazov, spustením ktorých môže ktokoľvek replikovať pôvodnú databázu aj s obsahom jej tabuliek. 
-% Možnosť vytvoriť takýto súbor poskytuje priamo MySQL databáza. 
-% Jednou z možností ako ho vytvoriť je použitím pomocného programu na tvorbu databázových záloh --- \code{mysqldump} \cite{mysql-doc}.
-% Toto je dôležité pre toho, kto chce výsledné dáta použiť. 
-% Na oficiálnej stránke crawler.ninja autor tieto súbory periodicky (ale nie priebežne za každý deň) zverejňuje pod licenciou \textit{CC BY-SA 4.0}, takže sú všetky získané dáta použiteľné pre študijné, ale aj komerčné účely potencionálnych záujemcov.
-% Sú dostupné vo forme priamo stiahnuteľných archívov ZIP, pomenovaných vždy podľa dátumu, za ktorý boli nazbierané.
-% Ako je spomenuté vyššie, ten, kto chce dáta na svoje účely využiť si ich musí najskôr importovať do svojej databáze MySQL, kde s nimi môže začať pracovať.
-% Docieliť toho je možné napríklad shell príkazom \code{\textbackslash source} v administrátorskej konzole MySQL \cite{mysql-doc}.
-
-% Mimo uvedených dát v podobe databázových exportov sú od Scotta dostpné taktiež konkrétne, pre neho významné, postupne nazbierané metriky, ktoré v reportoch o svojich prieskumoch používa či už priamo, alebo v rôznych kombináciách pri tvorbe grafov. Taktiež sú zverejnené na jeho webe\footnote{\href{https://crawler.ninja/files/}{https://crawler.ninja/files/}}.
-
-% \subsubsection{Výhody a nevýhody}
-
-% Na rozdiel od HTTP Archive je crawler.ninja web crawl spúšťaný každý deň a nie len 
-% na začiatku mesiaca. To znamená, že dáta v tomto prípade nadobúdajú vyššiu granularitu. Crawler.ninja taktiež všetky svoje zdroje ponúka bezplatne.
-% Avšak, problém tu pôsobí skutončosť, že dáta nie sú zverejňované v reálnom čase, ale manuálne autorom po nejakej dobe od ich získania. Tomu nasvedčuje priamo oficiálna stránka projektu, kde sa často nezobrazujú stiahnuteľné archívy s dátami až po aktuálny dátum.
-% Ešte väčší potenciálny problém predstavuje skutočnosť, že sa archívy príliš staré vymazávajú, a teda sú dostupné dáta iba do nedávnej minulosti.
-% Obdobie dostupnosti dát, predstavujúce rozdiel dátumov najaktuálnejšieho dostupného archívu a najstaršieho archívu, je v čase písania tejto práce presne 1 rok, 10 mesiacov a 23 dní \cite{crawler-ninja}.
-
-
-% \subsection{Ešte som niečo našiel ale nestihol pripísať :)}
