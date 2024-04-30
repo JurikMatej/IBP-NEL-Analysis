@@ -46,7 +46,11 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 % Preto je pri výbere takejto množiny kľúčová jej mohutnosť.
 Existujú projekty, ktoré sa zaoberajú získavaním doménových mien pre rôzne účely.
 Niektoré sú vypracované na to aby uchovávali tie, ktorých webstránky sú najčastejšie navšetevované \cite{hacker-target-website-lists-overview, tranco}.
-Iné projekty zase spravujú zoznam tých, ktoré navštevujú používatelia iných služieb autorov daného projektu \cite{chrome-crux}. 
+Takým je napríklad projekt TRANCO, ktorý je popísaný v nasledujúcej sekcií.
+Iné projekty zase spravujú napríklad zoznam domén, ktoré navštevujú používatelia iných služieb patriacich autorom daného projektu \cite{chrome-crux}. 
+Z tých je zase vzhľadom na zadanie tejto práce relevantný projekt Chrome User Experience Report, ktorý je používaný v rámci projektu HTTP Archive. 
+Ten popisuje sekcia \ref{chrome-user-experience-report}.
+
 
 \subsection{Najčastejšie navštevované domény}
 
@@ -72,9 +76,11 @@ Medzi ne patria projekty \cite{tranco-config}:
     \item Chrome User Experience Report,
     \item Cloudflare Radar.
 \end{itemize}
-TRANCO je ako zdroj skúmaných domén pre túto prácu vhodný, pretože sprístupňuje a vylepšuje presnosť záznamov z týchto alternatív.
+TRANCO je ako zdroj skúmaných domén vhodný, pretože sprístupňuje a vylepšuje presnosť záznamov z týchto alternatív.
 Taktiež udržiava ich historické dáta, ktoré už nie sú samostatne dostupné.
 Vzhľadom na to je možné preskočiť výber toho najvhodnejšieho z pomedzi nich a použiť práve TRANCO.
+
+\pagebreak
 
 \subsubsection{Generovanie rebríčka TRANCO}
 \label{tranco-generation}
@@ -106,15 +112,15 @@ Rebríček 4 (v obrázku úplne napravo) s najvyšším počtom hodnotených dom
 \end{center}
 \end{figure}
 
+\pagebreak
+
 Po dokončení priemerovania a zoraďovania sa spolu s výsledným rebríčkom vytvorí na oficiálnom webe TRANCO aj jedinečná stránka obsahujúca odkaz na jeho stiahnutie a tiež citácia, 
 ktorou je možné jedinečne odkazovať na tento nový rebríček v prácach, ktoré ho môžu použiť na svoje účely.
 Zároveň, okrem generovania nových TRANCO rebríčkov sú na oficiálnej stránke dostupné aj historicky vygenerované, spomenuté štandardné, každodenné rebríčky \cite{tranco-homepage}.
 
 Príklad obsahu vygenerovaného rebríčka znázorňuje výpis \ref{listing:tranco-obsah}.
-Rebríček je možné stiahnuť vo formáte \code{zip} archívu, ktorý obsahuje práve jeden súbor nazvaný \textbf{top-1m.csv}. 
+Rebríček je možné stiahnuť vo formáte \code{zip} archívu, ktorý obsahuje práve jeden súbor vo formáte \code{csv}. 
 Obsahom je na každom riadku čiarkou oddelené umiestnenie domény a jej meno.
-
-\pagebreak
 
 \begin{center}
 \centering
@@ -141,6 +147,23 @@ xrightmargin=.3875\textwidth]
 
 \subsection{Domény navštevované používateľmi prehliadača Google Chrome}
 \label{chrome-user-experience-report}
+
+Chrome User Experience Report, skrátene CrUX, je dataset uschovávajúci dáta získané používateľmi prehliadača Google Chrome pri prehliadaní populárnych domén na webe \cite{chrome-crux}.
+Obsiahnuté dáta predstavujú sledované metriky týkajúce sa rôznych aspektov prehliadaných webstránok.
+Podľa dokumentácie sa tieto metriky zbierajú výhradne z webstránok, pre ktorých domény platí, že sú dosiahnuteľné a dostatočne populárne.
+Zoznam týchto domén je možné získať z priamo z CrUX datasetu.
+Je totiž skladovaný v prostredí služby Google Cloud BigQuery, kde je verejne prehliadateľný. 
+Dateset je aktualizovaný novými dátami každý mesiac.
+Službu BigQuery bližšie popisujem v sekcií \ref{big-query}.
+
+Nenašiel som presné podrobnosti o tom, akým spôsobom sú domény získavané, no ako populárne sú označované podľa počtu ich návštevníkov.
+Aby bola určitá doména zaradená do zoznamu domén, s ktorými CrUX pracuje, musí počet jej návštevníkov presahovať predom definované číslo.
+Toto číslo sa však autori dokumentácie rozhodli neuverejniť \cite{chrome-crux-methodology}.
+
+Podľa samotného datasetu v prostredí BigQuery je však možné presvedčiť sa, že CrUX spravuje veľké množstvo týchto populárnych domén.
+Napríklad, pre september 2018, dátum, kedy bola publikovaná prvá stabilná špecifikácia NEL (viď sekciu \ref{network-error-logging}), je počet spravovaných jedinečných domén CrUX 4 375 805.
+Pre aktuálnejší dátum, marec 2024, je to 18 669 191.
+
 
 
 \section{Automatizované prehliadanie webu}
@@ -181,7 +204,7 @@ Cieľové dáta predstavujú celkový aplikačný prenos na prehliadaných domé
 Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z počítačového (\textbf{desktop}), aj z \textbf{mobilného} prostredia.
 Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API) \cite{httparchive-homepage}.
 
-Ako zoznam vstupných domén do tohto procesu HTTP Archive momentálne používa projekt Chrome User Experience Report, popísaný v sekcii \ref{chrome-user-experience-report}.
+Ako zoznam vstupných domén do tohto procesu HTTP Archive momentálne používa projekt Chrome User Experience Report \cite{httparchive-faq}, popísaný v sekcii \ref{chrome-user-experience-report}.
 
 \subsubsection{WebPageTest}
 
@@ -244,6 +267,7 @@ xrightmargin=.09\textwidth]
 \end{center} 
 
 \subsection{Ukladanie dát}
+\label{httparchive-data-storage}
 
 Dáta získané pomocou WPT sa nahrávajú do existujúcich databázových tabuliek prostredia BigQuery, čím sú sprístupnené pre prehliadanie \cite{httparchive-faq}.
 
