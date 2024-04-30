@@ -86,11 +86,10 @@ Kontrolovať bude do akej miery sa výsledky z najaktuálnejších, alternatívn
 
 \subsubsection{Vstupy a výstupy}
 
-Ako skúmané domény som pôvodne navrhoval vybrať domény obsiahnuté v rebríčkoch TRANCO vygenerovaných pre jednotlivé mesiace počas skúmaného obdobia.
-Z pokusov generovania rebríčkov TRANCO som zistil, že jeho veľkosť sa približuje k maximu okolo 4 miliónov domén.
-HTTP Archive nahromadené mesačné dáta však obsahujú viac jedinečných domén už od prvého dňa, za ktorý je možné vygenerovať rebríček TRANCO.
-Preto som sa rozhodol nevyužiť ho ako hlavný zoznam skúmaných domén.
-Pri celkovej analýze ale tento rebríček môže byť stále užitočný pre získanie pohľadu na využívanie a detaily používania NEL najpopulárnejšími doménami z celkovej skúmanej množiny.
+Keďže sa stal primárnym zdrojom dát pre moju analýzu HTTP Archive, jednoznačným výberom množiny skúmaných domén sa stal ním používaný Chrome User Experience Report. 
+Vďaka tomu, že tabuľky HTTP Archive už tieto domény obsahujú, nie je nutné vynakladať úsilie naviac pre ich zaobstarávanie v samostatnom kroku. 
+Preto som sa rozhodol nevyužiť TRANCO ako hlavný zoznam skúmaných domén.
+Pri celkovej analýze ale tento rebríček môže byť stále užitočný pre získanie pohľadu na využívanie a detaily používania NEL tými najpopulárnejšími doménami z celkovej skúmanej množiny.
 
 V dôsledku takto sformovanej stratégie pre analýzu využitia technológie NEL sa jej vstupmi stávajú dáta získané z HTTP Archive a spomínaného nástroja na kontrolu najaktuálnejšieho stavu.
 Tieto dáta som sa rozhodol z oboch zdrojov štruktúrovať rovnako, aby ich analýza mohla prebiehať tým istým spôsobom.

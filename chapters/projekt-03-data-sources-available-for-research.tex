@@ -26,8 +26,9 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 \begin{enumerate}
     \item Súčasnosť -- aktuálne dáta:
     
-    Z hľadiska prítomnosti je možné použiť napríklad techniku automatizovaného webového prehliadania.
-    Na účel toho je možné použiť už existujúce technológie ako Selenium alebo Playwright, ktoré opisuje sekcia \ref{selenium}.
+    Z hľadiska súčasnosti je možné jednoducho prehliadať web a zbierať pri tom HTTP odpovede, ktoré použitý webový prehliadač zaznamená. 
+    Pre veľké množstvo skúmaných domén je tento proces však nutné automatizovať.
+    Na účel toho je možné použiť už existujúce technológie pre automatizáciu prehliadania webu ako Selenium alebo Playwright, ktoré opisuje sekcia \ref{selenium}.
 
     \item Minulosť -- historické dáta:
 
@@ -169,7 +170,37 @@ xrightmargin=.3875\textwidth]
 \section{Automatizované prehliadanie webu}
 \label{selenium}
 
-Táto sekcia ešte nie je napísaná.
+Pre automatizáciu prehliadania webu bolo definované aplikačné programové rozhranie nazvané WebDriver \cite{crawling-webdriver}, ktorého implementácie umožňujú programovo ovládať webový prehliadač.
+WebDriver má aj rôzne iné prípady použitia, no v rámci tejto práce je dôležitá funkcionalita automatizovať webový prehliadač pri načítavaní webstránok a zdrojov nimi používaných. 
+
+\subsection{Získavanie dát}
+
+Pomocou špecifických príkazov je možné programovo spustiť inštanciu ľubovoľného webového prehliadača, navštíviť zvolenú doménu pomocou adresy URL a po úspešnom načítaní získanej webstránky pracovať s jej obsahom.
+Pre podrobné preskúmanie nasadenia NEL na danej doméne je žiadúce na nej prehľadať viaceré webstránky.
+Preto je ďalším krokom jej automatizovaného prehliadania extrahovať z obsahu získanej webstránky dostupné hyperlinky odkazujúce na ďalšie webstránky tej istej domény a prehľadať aj tie.
+V rámci tohto procesu sa dáta pre analýzu nasadenia NEL získavajú ukladaním záznamov hlavičiek HTTP odpovedí pre načítané webstránky a nimi používaných zdrojov.
+
+\subsection{Selenium WebDriver}
+
+Príkladom populárnej implementácie takéhoto rozhrania je Selenium WebDriver \cite{crawling-selenium}.
+Selenium je dostupný pre viaceré programovacie jazyky, ako napríklad pre jazyk \textit{python}.
+Konkrétnou limitáciou Selenium je však skutočnosť, že neimplementuje funkcionalitu pre čítanie hlavičiek HTTP odpovedí získaných zdrojov.
+Je ale stále možné funkcionalitu doplniť knižnicami tretej strany alebo použitím alternatívnych metód pre jej dosiahnutie, ktoré tu však nerozoberám.
+
+\subsection{Playwright}
+
+Alternatívou pre Selenium WebDriver je napríklad Playwright.
+Rovnako implementuje rozhranie pre ovládanie webových prehliadačov,
+pričom tiež podporuje viaceré programovacie jazyky.
+Funkcionalita pre čítanie HTTP prevádzky je ale v tomto prípade zabudovaná priamo do vlastného rozhrania Playwright \cite{crawling-playwright}.
+Pre jednoduchosť v implementácií zaznamenávania potrebných HTTP hlavičiek je Playwright vhodnejším výberom pre nástroj automatizujúci prehliadanie webu.
+
+\subsection{Výhody a nevýhody}
+
+Jednoznačnou prednosťou tejto metódy získavania vlastných dát pre analýzu je skutočnosť, že iným spôsobom nie je možné získať rozsiahle objemy dát popisujúce aktuálny stav nasadenia NEL.
+Tiež je výhodou, že nie je nutné platiť za získavanie dát takýmto spôsobom, nerátajúc náklady na prevádzku počítača, na ktorom sa má automatizované prehliadanie webu spúšťať.
+
+Značnou nevýhodou však je, že v prípade skúmania množstva domén a ich webstránok tento proces trvá veľmi dlho, a to kvôli nutnosti čakať na načítanie každej skúmanej webstránky. 
 
 % Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
 
@@ -228,8 +259,6 @@ Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo web
 Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}. 
 Orientačný príklad obsahu takéhoto súboru je vo výpise \ref{listing:harfile}.
 Všetky detaily týkajúce sa procesu získania webstránky sú zaznamenané v položke \code{log}. Pole \code{version} definuje verziu súboru HAR. Pole \code{pages} obsahuje napríklad URL získaného zdroja a pole \code{entries} obsahuje HTTP žiadosti \mbox{a odpovede pre daný zdroj a zdroje ním používané.}
-
-\pagebreak
 
 \begin{center}
 \centering
@@ -309,6 +338,8 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 \end{center}
 \end{figure}
 
+\pagebreak
+
 Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných dataset.
 Je dostupné množstvo datasetov pre prehľadávanie.
 Najprv je ale nutné založiť si Google Cloud projekt na oficiálnej stránke, ktorý slúži ako priestor mien pre zdroje, ktoré užívateľ do projektu pridáva a používa.
@@ -334,7 +365,10 @@ Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a mani
 V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
 Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do BigQuery.
 Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textbf{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
-Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\footnote{\href{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}} sa sprístupnia pre používanie datasety ako napríklad \cite{httparchive-repo}:
+
+\pagebreak
+
+\noindent Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\footnote{\href{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}} sa sprístupnia pre používanie datasety ako napríklad \cite{httparchive-repo}:
 
 \begin{itemize}
     \item \code{summary\_pages}:
@@ -380,6 +414,8 @@ Za použitia GoogleSQL je možné tabuľky kombinovať a vytvárať komplexné s
 Prehľadávaním týchto dát a sledovaním obsahu HTTP hlavičiek je možné dopracovať sa k HTTP odpovediam s pravidlami technológie NEL.
 Každú doménu, ktorá vo svojich odpovediach zaslala hlavičky \code{NEL} a \code{Report-To} je možné skúmať ako doménu s nasadeným monitorovaním NEL.
 
+\pagebreak
+
 \subsection{Poplatky za používanie}
 
 Čo sa platieb týka, BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
@@ -388,3 +424,12 @@ Po prečerpaní kapacity uvedenej v tomto pláne je nutné akékoľvek ďalšie 
 Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapacít je rozsiahly, no pre prípady použitia tejto práce je relevantný platobný plán zvaný On-demand.
 \textbf{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
 Cena za 1TB kapacity je v čase písania práce \$6.25, pričom stále platí, že prvý terabajt je každý mesiac zadarmo \cite{google-bq-pricing}.
+
+\subsection{Výhody a nevýhody}
+
+V prípade dát poskytovaných projektom HTTP Archive je zásadnou výhodou ich využitia fakt, že poskytujú náhľad do historického vývoja v nasadení technológie NEL.
+Taktiež, keďže sú už všetky dáta dostupné na službe BigQuery, analýza je urýchlená o dĺžku procesu zaobstarávania si vlastných dát.
+Ďalej, obsiahnuté dáta dosahujú veľmi vysoký objem, a teda je možné na základe nich vykonať rozsiahlu analýzu.
+
+Avšak, na rozdiel od využitia vlastných dát, využitie dát projektu HTTP Archive je spoplatnené.
+To znamená, že aj keď je možné vykonať rozsiahlu analýzu, platí, že čím väčší je jej rozsah, tým väčší je aj potrebný poplatok na jej vykonanie.
