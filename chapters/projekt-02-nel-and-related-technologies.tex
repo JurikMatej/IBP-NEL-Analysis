@@ -1,12 +1,5 @@
 \chapter{Network Error Logging a relevantné technológie}
-\label{nel-and-related-technologies}             
-
-% \todo{rewrite after this whole chapter is done}
-% \todo{Chromium based browsers ONLY support NEL}
-% TODO use more from NEL-Client-side-Measurement-of-E2E-WS-Reliability
-% TODO discover what terms i did NOT name
-% TODO mark text that requires citations
-% TODO cite everything 
+\label{nel-and-related-technologies}
 
 Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo webovom prostredí, 
 kde má svoju rolu v monitorovaní špecifických problémov komunikácie počítačových zariadení využívajúcich služby webu.
@@ -133,7 +126,7 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.45]{obrazky-figures/domain_name_structure.png}
- \caption{\centering Príklad rozdelenia na efektívnu TLD a registrovateľnú doménu. \mbox{Termín \textbf{Verejný Suffix} je popísaný nižšie.}}
+ \caption{\centering Príklad rozdelenia na efektívnu TLD a registrovateľnú doménu.}
  \label{fig:domain-name-structure}
 \end{center}
 \end{figure}
@@ -191,8 +184,6 @@ Koncept takejto komunikácie je znázornený na obrázku \ref{fig:http-client-se
     \label{fig:http-client-server}
 \end{center}
 \end{figure}
-
-\pagebreak
 
 Klient a server sú názvy rolí, ktoré môžu prepojené zariadenia zaujať v rámci komunikácie pomocou HTTP:
 \begin{itemize}
@@ -269,7 +260,7 @@ Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request}
 \begin{enumerate}
     \item Verzia protokolu HTTP použitého na odoslanie odpovede.
 
-    \item Statusový kód reprezentujúci výsledok vykonanej operácie vyvolanej HTTP žiadosťou:
+    \item Statusový kód reprezentujúci výsledok operácie vyvolanej HTTP žiadosťou:
 
     Takýto kód v je v odpovedi reprezentovaný ako trojciferné celé číslo, ktoré môže popisovať jeden
     zo stavov rozdelených do piatich kategórií podľa ich významu. 
@@ -437,8 +428,7 @@ Každé samostatné médium, ktoré tieto elementy označujú je potrebné získ
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
 
-% \todo{search engine}
-% https://developer.mozilla.org/en-US/docs/Glossary/Search_engine
+% search engine
 % http://infolab.stanford.edu/%7Ebackrub/google.html
 
 Softvér slúžiaci pre získavanie zdrojov na webe, stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva webový prehliadač \cite{mdn-docs-browser}. 
@@ -786,9 +776,6 @@ xrightmargin=.085\textwidth]
 \subsection{Využitie NEL}
 \label{network-error-logging-spec}
 
-% TODO nehovorim vsetko... nel tiez generuje reporty o uspesnych srandach. Moze tiez byt pouzity na monitorovanie uspesneho HTTP pre sledovanie funkcionality ako caching
-% TODO použiť prehľad z Cloudflare NEL reportu o využívaní (NEXI NB)
-
 NEL, podobne ako Reporting API, je mechanizmus spúšťaný tým, že je klientovi pri žiadosti o cieľový zdroj z monitorovaného web serveru v HTTP odpovedi zaslaná hlavička \mbox{\code{NEL} \cite{W3C-NEL}}.
 Hlavička \code{NEL} môže obsahovať jedno alebo viaceré pravidlá určené pre klienta, ktorý ak NEL podporuje, vyberie \textit{prvé} správne sformované pravidlo v poradí a uloží si ho ako \textbf{konfiguráciu} NEL.
 Ostatné pravidlá musí User Agent podľa špecifikácie ignorovať.
@@ -909,10 +896,6 @@ NEL: {
 
 \subsection{Štruktúra hlásenia NEL}
 \label{struktura-hlasenia-nel}
-% Telo vygenerovaneho reportu (odkaz na Reporting API)
-% Priklad
-
-% sekcia 5, conditional fields... nist moc
 
 Po získaní jedného alebo viacerých pravidiel NEL sa na webovom prehliadači začnú tvoriť hlásenia typu NEL.
 V tejto sekcii popisujem štruktúru a obsah týchto hlásení.
@@ -1077,219 +1060,3 @@ xrightmargin=.085\textwidth]
 }
 \end{lstlisting}
 \end{center}
-
-
-
-
-% \subsection{Výpis druhov hlásenia NEL}
-% % Typy reportov
-% % TODO rewrite if you want to use it (possibly irrelevant, so I decided not to continue writing it)
-
-% Hlásenia NEL musia obsahovať informáciu o tom, o aký typ hlásenia NEL ide a ktorú fázu kuminikácie popisuje.
-% Informácia o fáze komunikácie popisujú v svojom poli \code{phase}, ktoré je popísané v predošlej sekcii \ref{struktura-hlasenia-nel}.
-% Informáciu o type hl...
-% V tejto sekcii vypisujem možné hodnoty pre 
-
-% NEL rozdeľuje rôzne zlyhania, ktoré môžu nastať, do štyroch kategórií. 
-% Prvé tri popisuje táto práca v sekcii \ref{body-zlyhania}.
-% Posledná kategória je vyhradená pre špeciálne prípady.
-% Spomínané pole \code{phase} obsahuje hodnotu prislúchajúcu označeniu jednej z týchto kategórií.
-
-% Definované fázy zlyhaní monitorovaných technológiou NEL sú:
-% \begin{enumerate}
-%     \item \code{dns} -- zlyhania DNS:
-
-%     V tejto fáze sa môžu vyskytnúť nasledovné typy zlyhania:
-%     \begin{itemize}
-%         \item \code{dns.unreachable} -- DNS server je nedostupný
-%         \item \code{dns.name\_not\_resolved} -- DNS server odpovedal, ale neuspel v rezolúcií IP adresy cieľovej domény
-%         \item \code{dns.failed} -- Všehobecné zlyhanie nepopisované ostatnými typmi zlyhania v tejto kategórií
-%         \item \code{dns.address\_changed} -- IP adresa Origin Servera sa zmenila odkedy je na ňom používané monitorovanie NEL
-%     \end{itemize}
-    
-%     \item \code{connection} -- zlyhania založenia spojenia (TCP alebo TLS):
-
-%     V tejto fáze sa môžu vyskytnúť nasledovné typy zlyhania:
-%     \begin{itemize}
-%         \item \code{tcp.timed\_out} -- TCP connection to the server timed out
-%         \item \code{tcp.closed} -- The TCP connection was closed by the server
-%         \item \code{tcp.reset} -- The TCP connection was reset
-%         \item \code{tcp.refused} -- The TCP connection was refused by the server
-%         \item \code{tcp.aborted} -- The TCP connection was aborted
-%         \item \code{tcp.address\_invalid} -- The IP address is invalid
-%         \item \code{tcp.address\_unreachable} -- The IP address is unreachable
-%         \item \code{tcp.failed} -- The TCP connection failed due to reasons not covered by previous errors
-%         \item \code{tls.version\_or\_cipher\_mismatch} -- The TLS connection was aborted due to version or cipher mismatch
-%         \item \code{tls.bad\_client\_auth\_cert} -- The TLS connection was aborted due to invalid client certificate
-%         \item \code{tls.cert.name\_invalid} --  The TLS connection was aborted due to invalid name
-%         \item \code{tls.cert.date\_invalid} --  The TLS connection was aborted due to invalid certificate date
-%         \item \code{tls.cert.authority\_invalid} --  The TLS connection was aborted due to invalid issuing authority
-%         \item \code{tls.cert.invalid} --  The TLS connection was aborted due to invalid certificate
-%         \item \code{tls.cert.revoked} --  The TLS connection was aborted due to revoked server certificate
-%         \item \code{tls.cert.pinned\_key\_not\_in\_cert\_chain} --  The TLS connection was aborted due to a key pinning error
-%         \item \code{tls.protocol.error} --  The TLS connection was aborted due to a TLS protocol error
-%         \item \code{tls.failed} -- The TLS connection failed due to reasons not covered by previous errors
-%     \end{itemize}
-    
-%     \item \code{application} -- zlyhania prenosu HTTP žiadostí a odpovedí:
-
-%     V tejto fáze sa môžu vyskytnúť nasledovné typy zlyhania:
-%     \begin{itemize}
-%         \item \code{http.error} -- The user agent successfully received a response, but it had a 4xx or 5xx status code
-%         \item \code{http.protocol.error} -- The connection was aborted due to an HTTP protocol error
-%         \item \code{http.response.invalid} -- Response is empty, has a content-length mismatch, has improper encoding, and/or other conditions that prevent user agent from processing the response
-%         \item \code{http.response.redirect\_loop} -- The request was aborted due to a detected redirect loop
-%         \item \code{http.failed} -- The connection failed due to errors in HTTP protocol not covered by previous errors
-%         \item \code{abandoned} -- User aborted the resource fetch before it is complete
-%         \item \code{unknown} -- error type is unknown
-%     \end{itemize}
-% \end{enumerate}
-
-
-
-
-
-
-
-
-
-% TODO TODO TODO
-% \subsection{Nespomenuté koncepty}
-% Dodatocne vyhlasenia...
-%   V NELe som nevysvetlil "Report body downgrade"
-% Ako sa bude s nelom pracovat v praci -> definicia terminov ako identifikovatelnost NEL na web stranke
-
-% Security - https://www.w3.org/TR/secure-contexts/
-% Dosiahnuteľnosť Web Serveru
-% Web Reliability
-% Možnosť definovať custom error typy
-
-% Mail od Polcaka - Nieco naviac o NEL
-% Consider - https://w3c.github.io/reporting/network-reporting
-
-
-% POZNAMKY:
-
-% the global system of interconnected computer networks
-% Internet, a system architecture that has revolutionized mass communication, mass media, 
-% and commerce by allowing various computer networks around the world to interconnect. Sometimes referred to as a “network of networks,”
-
-% the world wide web is an information retrieval service of the web. It provides users with a huge array of documents that are connected to each other 
-% by means of hypertext or hypermedia links. Here, hyperlinks are known as electronic connections that link the related data so that users can easily access 
-% the related information hypertext allows the user to pick a word or phrase from text, and using this keyword or word or phrase can access 
-% other documents that contain additional information related to that word or keyword or phrase. World wide web is a project which is created by Timothy Berner’s 
-% Lee in 1989, for researchers to work together effectively at CERN. It is an organization, named World Wide Web Consortium (W3C), 
-% which was developed for further development in the web.
-
-
-
-
-
-
-
-
-
-
-% \section{OLD CONTENT}
-% V tejto sekcii popisujem problematiku, v ktorej sa táto práca venuje. Jedná sa tu o možné nástrahy pri komunikácií typu klient-server,
-% ktoré môžu nastať a spôsobiť probmlémy ako napríklad nedosiahnuteľnosť servera, s ktorým klient komunikáciu pôvodne nadviazal.
-% O takýchto a podobných problémoch sa server ziaľ nemá ako dozvedieť, a preto vzniká potreba nájsť nejaký spôsob ako takéto problémy pri ich
-% vzniku identifikovať a nahlásiť formou štruktúrovanej správy vývojárom zodpovedným za prevádzku daného servera. V prípade, že 
-% na problém takto poukázané, v nasledujúcich krokoch je možné postaviť sa k nemu s vhodnými protiopatreniami a úspešne ho odstrániť, a teda 
-% tak zároveň aj znovuspojazdniť predtým nefunkčnú komunkikáciu s klientami, u ktorých sa tento problém prejavoval.
-% \\
-% V tejto sekcii začnem s úvodom do širšieh spektra zavedenej problematiky, kde spomeniem technológie s podobným účelom 
-% ako Network Error Logging (ďalej označovaný iba ako NEL), aké nedostatky aktuálneho stavu problematiky riešia, no hlavne, aké majú nedostatky. 
-% Tým sa prepracujem k podstate a motivácií k nasadeniu samotného NEL-u a ďalších technológií priamo súvisiacich s ním. 
-% Jedná sa tu čisto o teoretický základ nutný pre pochopenie nasledujúcich sekcii tejto práce. 
-% Aktuálny stav využívania technológií spomínaných nižšie bude uvedený a detailne rozpísaný v sekcii \ref{related-work}.
-
-% \section{Všeobecná problematika zlyhaní v komunikáciach typu klient-server}
-
-% Aké problémy môžu nastať
-% \\
-% Ako sa to prejavuje
-% \\
-% Dôkaz, že server takéto problémy nedokáže detekovať
-
-% \section{Monitoriovanie spoľahlivosti webových služieb}
-
-% Sekcia bude vyplývať z článku priloženého k odporučenej literatúre zadania tejto BP \cite{nel-client-side-measurement-e2e-reliability}
-% \\
-% Existujúce populárne spôsoby riešenia uvedených problémov - napr: DVP, JavaScript...
-% \\
-% Aké problémy tieto riešenia stále nepokrývajú - napr. JavaScript sa vôbec nemusí spustiť (klient ho neobdrží od servera).
-% \\
-% Motivácia používania NEL - aké aktuálne riešenia ponúka pre možné chyby a perspektíva do budúcnosti.
-
-% \todo{Table 1: Properties satisfied by different approaches for detecting service reachability problems at scale.}
-
-% Odkaz na Table 1 - Jednou z motivácií pre vývoj štandardu NEL bolo, že ako jediný by bol schopný presne vyčísliť koľko klientov je
-% v danom čase (aktuálne) afektovaných výpadkom v komunikácií. Práve táto schopnosť ručí za pridanú hodnotu korektného určenia závažnosti,
-% tým pádom aj priority konkrétneho zlyhania. Správci serveru, ktorý interne používa NEL, majú dostatočný prehľad o stave siete a na základe 
-% toho môžu rozhodovať o tom, kam zamerajú svoje úsilie o riešenie závad.    
-
-% \section{Network Error Logging}
-
-% \todo{Náhľad na NEL z hladiska jeho špecifikácie}
-
-% NEL je štandard pre zachytávanie a získavanie chýb a zlyhaní na úrovni webového prehliadača navrhnutý organizáciou World Wide Web 
-% Consortium (ďalej v skratke iba W3C). Tento štandard bol prvýkrát popísaný v článku publikovanom 11/02/2014 a je dodnes aktualizovávaný
-% s tým, že posledná verzia jeho špecifikácie bola vydaná práve v dobe vzniku tejto bakalárskej práce, a to presne 5/10/2023. 
-
-% Hlavným cieľom NEL je poskytovať prevádzkovateľom webových serverov priamy pohľad na chybové stavy, ktoré môžu vzniknúť pri snahe 
-% klientských aplikácií komunikovať s nimi. Pri takejto klient-server komunikácií môže nastať hneď niekoľko kategórií problémov, 
-% kde v každej z nich si zaslúžia jednotlivé chyby svoje vysvetlenie. Dôležité je, že server v obyčajnom scenári takejto komunikácie 
-% nemá žiadnu možnosť dostať sa k informácií o tom, že sa niečo pokazilo, ani čo konkrétne bol samotný problém. Práve toto je cieľom 
-% napraviť pre tento štandard a tým pádom sa tvorcom tejto technológie jedná o postupné zvýšenie dostupnosti služieb poskytovaných 
-% na internete sprevádzkovaním NEL na svojich webových serveroch.
-
-% V nasledujúcich sekciách chcem vysvetliť jednotlivé detaily týkajúce sa tejto technológie, ktoré sú naprosto potrebné k porozumeniu 
-% implementačnej časti tejto práce - kalitole č.\ref{analysis-and-its-results}. Pokiaľ nebude uvedené inak, v tejto kapitole čerpám hlavne 
-% z poslednej dostupnej verzie dokumentu špecifikácie NEL\cite{W3C-NEL}.
-
-% \subsection{Základný model NEL}
-% \todo{Špecifikácia NEL, ktorá je jednoznačne potrebná pre účel pochopenia implementačnej časti (analýzy)} 
-
-% NEL je možné využiť pri komunikácií klienta so serverom pomocou protokolu HTTP. Jeho funkcionalita je zapracovaná do užívateľských 
-% prehliadačov založených na open-source?? distribúcií projektu \textbf{Chromium}, a to menovite napríklad: Google Chrome, Opera alebo 
-% Microsoft Edge. \todo{CITE}
-
-% Jeho vnútorné mechanizmy sú spustené práve vtedy, keď server pri vyhotovovaní novej požiadavky zašle v svojej odpovedi spolu s ostatnými 
-% aj hlavičku \code{NEL}. Tento proces sa nazýva \textbf{Policy delivery} a sprostredkuje dohodu o zbieraní, udržiavaní a nahlasovaní chýb 
-% vzniknutých pri komunikácií. Samotné politiky sú popísané vo väčšom detaile v sekcii \ref{nel-policies}.
-% \\
-% \\
-% Hlavička \code{NEL} vo svojej najjednoduchšej podobe musí obsahovať nasledovné položky: 
-
-% \begin{itemize}
-%     \item \code{report\textunderscore to} - menom označená skupina zberačov reportov (collerctors, viď \ref{reporting-api}) 
-%     \item \code{max\textunderscore age} - doba platnosti zaslanej politiky NEL
-% \end{itemize}
-
-% Tieto hlavičky musia byť zadané vo formáte \code{application\textbackslash json}, takže ukážkový obsah HTTP hlavičky NEL môže vyzerať 
-% napríklad takto:
-
-% \begin{lstlisting}[caption={Ukážka obsahu najjednoduchšej/minimálnej HTTP hlavičky NEL. Akékoľvek chyby budú hlásené do skupiny 
-%     \code{network-errors} po dobu platnosti tejto politiky, ktorá bola nastavená na 7 dní (604 800 / 60s / 60min / 24h)}]
-
-% {"report_to": "network-errors", "max_age": 604800}
-
-% \end{lstlisting}
-% % \label{nel-simple-example}
-% %\todo{center only the lstlisting without the caption}
-% %\\
-% \todo{V návrhu NEL je v detaile opísané, ako požiadavky na bezpečnosť ovplyvnili jeho návrh a funkcionalitu. Toto je nutné spomenúť, no myslím,
-% že sa v tejto práci tomu nie je potreba venovať}
-
-% \subsection{Konfigurácia}
-
-% Všetky položky, ktoré je možné v NEL hlavičke uviezť.
-
-% \subsection{Politiky a ich uskladňovanie na strane klienta}
-% \label{nel-policies}
-
-
-% \subsection{Rozšírenia plánované v budúcnosti}
-
-% Nová verzia NEL, ktorá bude schopná spolupracovať s Reporting API v1 (momentálne funguje iba s v0)
