@@ -20,7 +20,7 @@ Od tohto počiatočného dátumu chcem zhotoviť prieskum až po dátum obhajoby
 
 \subsubsection{Existujúca analýza}
 
-Taktiež som sa v rámci konzultácií zameral na získanie cenných informácií a poučení z existujúcej analýzy z roku 2023,
+Taktiež som sa v rámci konzultácií zameral na získanie cenných informácií a poučení z už existujúcej analýzy z roku 2023,
 ktorú zhotovil pán Polčák spolu s jeho kolegom, pánom Jeřábkom \cite{nel-http-archive}.
 Je zameraná na získanie metrík ako celkové využívanie NEL na množine skúmaných domén (viď obrázok \ref{fig:polcak-analysis}), aké NEL kolektory dané domény používajú a v akých konfiguráciách sa nasadené NEL vyskytuje.
 Časové obdobie, za ktoré bola analýza zhotovená, tvorili februárové mesiace každého roku od 2018 do 2023. 
@@ -31,7 +31,7 @@ Toto percento predstavuje z celkového počtu skúmaných domén 2 247 233 jedin
 \begin{center}
     % \includegraphics[width=0.5\linewidth]{obrazky-figures/polcak-analysis.png}
     \includegraphics[width=0.55\linewidth]{obrazky-figures/polcak-analysis-hd.pdf}
-    \caption{Využitie NEL na skúmaných doménach v analýze vypracovanej vo vedeckom článku Ing. Libora Polčáka Ph.D. a Ing. Kamila Jeřábka \cite{nel-http-archive}.}
+    \caption{Využitie NEL na skúmaných doménach v analýze vypracovanej vo vedeckom článku Ing. Libora Polčáka Ph.D. a Ing. Kamila Jeřábka. Obrázok tabuľky prevzatý z \cite{nel-http-archive}.}
     \label{fig:polcak-analysis}
 \end{center}
 \end{figure}
@@ -54,7 +54,7 @@ aj iný spôsob skúmania stavu využitia technológie NEL.
 
 Preskúmal som spôsob, ktorý vo vyššie uvedenej práci použili na získavanie HTTP Archive dát.
 Bol použitý nástroj pre sťahovanie dát z Google Cloud BigQuery, ktorý naprogramoval pán 
-Jeřábek\footnote{\href{https://github.com/kjerabek/nel-http-archive-analysis}{https://github.com/kjerabek/nel-http-archive-analysis}}.
+Jeřábek\footnote{\url{https://github.com/kjerabek/nel-http-archive-analysis}}.
 Počas testovania tohto nástroja som zistil, že je možné vylepšiť ho tak, aby som odstránil predošlú, v skutočnosti iba myslenú limitáciu s nedostatkom dát kvôli financiám.
 Postupným skúšaním používania a úprav príkazu GoogleSQL použitého v spomínanom nástroji na extrahovanie dát som prišiel na skutočnosť, že BigQuery
 si nárokuje poplatky nie za sťahovanie, ale za čítanie dát z jednotlivých stĺpcov svojich tabuliek.
@@ -79,7 +79,7 @@ Vďaka nej totiž môžem získať najaktuálnejší prehľad nasadenia NEL na s
 Avšak je zložité pripraviť výpočtovú silu a vhodnú stratégiu prehľadávania webu na priblíženie sa k rozsahu a rýchlosti dosahovanej alternatívnou metódou.
 Výsledok vývoja nového nástroja pre automatizované prehliadanie webu sa teda za čas vyhradený pre túto prácu nemôže vyrovnať existujúcemu komplexnému riešeniu, ktorým je HTTP Archive.
 Je však možné taký nástroj aj vo veľmi jednoduchom prevedení využiť na kontrolu výsledkov, ktoré získam z dát HTTP Archive.
-Preto som sa rozhodol v rámci mojej analýzy taký nástroj zhotoviť.
+Preto som sa rozhodol \mbox{v rámci} mojej analýzy taký nástroj zhotoviť.
 Kontrolovať bude do akej miery sa výsledky z najaktuálnejších, alternatívne získaných dát zhodujú s jeho vlastnými výsledkami.
 
 \subsubsection{Vstupy a výstupy}

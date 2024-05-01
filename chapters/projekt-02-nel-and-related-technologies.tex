@@ -23,7 +23,7 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.55]{obrazky-figures/fetching_a_page.png}
- \caption{Vizualizácia webového prostredia \cite{mdn-docs-http-overview}.}
+ \caption{Vizualizácia konceptu webového prostredia. Obrázok prevzatý z \cite{mdn-docs-http-overview}.}
  \label{img:fetching-a-page}
 \end{center}
 \end{figure}
@@ -48,7 +48,7 @@ Typická hodnota URL sa skladá z \cite{mdn-docs-url}:
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}
- \caption{Základná štruktúra hodnoty URL. Obrázok je prevzatý z internetu.}
+ \caption{Základná štruktúra hodnoty URL. Obrázok prevzatý z internetu.}
  \label{img:urlstructure}
 \end{center}
 \end{figure}
@@ -126,7 +126,7 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.45]{obrazky-figures/domain_name_structure.png}
- \caption{Príklad rozdelenia na efektívnu TLD a registrovateľnú doménu.}
+ \caption{Príklad rozdelenia doménového mena na efektívnu Top Level Doménu a registrovateľnú doménu.}
  \label{fig:domain-name-structure}
 \end{center}
 \end{figure}
@@ -146,7 +146,7 @@ Hodnoty eTLD zahŕňajú bežnú hodnotu TLD ako ich poslednú, bodkou oddelenú
 
 \pagebreak
 
-Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
+\noindent Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
 
 S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné rozdeliť doménové meno z obrázka \ref{fig:domain-name-structure} na jeho levely nasledovne \cite{michal-spacek-etld-article}: 
 \begin{itemize}
@@ -158,7 +158,7 @@ S použitím hodnoty eTLD '\code{s3.amazonaws.com}' vybranej z PSL je možné ro
 Na záver chcem ako poznámku uviesť, že sa môže pre označenie domény registrovateľnej pod eTLD vyskytovať aj výraz rovnakého významu 
 -- \textit{Pay Level Domain} (PLD, preložiteľné so zachovaním významu ako doména zakúpiteľného levelu).
 Keďže pojem registrovateľná doména a skratka PLD sú zameniteľné, no PLD sa zväčša v literatúre nepoužíva, 
-ďalej v práci domény tohto typu označujem pomocou pojmu registrovateľná doména.
+ďalej \mbox{v práci} domény tohto typu označujem pomocou pojmu registrovateľná doména.
 
 
 \subsection{Protokol HTTP}
@@ -180,7 +180,7 @@ Koncept takejto komunikácie je znázornený na obrázku \ref{fig:http-client-se
 \begin{figure}[htb]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http-client-server.png}
-    \caption{Klient-server komunikácia.}
+    \caption{Znázornenie komunikácie klient-server.}
     \label{fig:http-client-server}
 \end{center}
 \end{figure}
@@ -237,20 +237,20 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah \cite
     Napríklad obsah pridaný k žiadosti s metódou POST. 
     Obsah sa pridáva pod sekciu HTTP hlavičiek, od ktorej sa oddeľuje prázdnym riadkom (znakmi \code{\textbackslash r\textbackslash n}).
 
-    \item Zakončenie správy: dva prázdne riadky (znaky \code{\textbackslash r\textbackslash n\textbackslash r\textbackslash n})
+    \item Zakončenie správy: dva prázdne riadky (znaky \code{\textbackslash r\textbackslash n\textbackslash r\textbackslash n}).
 
 \end{enumerate}
 
 \begin{figure}[htb!]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_request.png}
-    \caption{Príklad HTTP žiadosti \cite{mdn-docs-http-overview}.}
+    \caption{Príklad obsahu HTTP žiadosti. Obrázok prevzatý z \cite{mdn-docs-http-overview}.}
     \label{fig:http-request}
 \end{center}
 \end{figure}
 
 Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request} a označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. 
-Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia s HTTP hlavičkami (4.) 
+Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia \mbox{s HTTP} hlavičkami (4.) 
 
 
 \subsubsection{HTTP odpoveď}
@@ -331,7 +331,7 @@ Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request}
 \begin{figure}[htb!]
 \begin{center}
     \includegraphics[scale=0.6]{obrazky-figures/http_response.png}
-    \caption{Príklad HTTP odpovede \cite{mdn-docs-http-overview}.}
+    \caption{Príklad obsahu HTTP odpovede. Obrázok prevzatý z \cite{mdn-docs-http-overview}.}
     \label{fig:http-response}
 \end{center}
 \end{figure}
@@ -377,7 +377,7 @@ Vo výpise \ref{listing:html-struktura} ukážka HTML obsahuje počiatočnú def
 
 \begin{center}
 \centering
-\begin{lstlisting}[caption={Základná štruktúra HTML dokumentu.},
+\begin{lstlisting}[caption={Príklad základnej štruktúry obsahu HTML dokumentu.},
 label=listing:html-struktura, 
 language=HTML, 
 frame=tb,
@@ -486,7 +486,7 @@ Vo výpise \ref{listing:priklad-dokumentu-json} je uvedený príklad takéhoto d
 \begin{center}
 \centering
 \begin{lstlisting}[
-caption={Príklad dokumentu JSON.},
+caption={Príklad obsahu dokumentu JSON.},
 label=listing:priklad-dokumentu-json, 
 language=json, 
 frame=tb,
@@ -574,7 +574,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 
         Napríklad môže programovo zlyhať softvér pre HTTP origin server (chyba v implementácií origin servera).
         HTTP odpoveď môže byť nesprávne skonštruovaná, napríklad, keď obsahuje konfliktné hodnoty hlavičiek a obsahu (hodnota hlavičky \code{Content-Length} nesedí so skutočnou dĺžkou obsahu).  
-        Ešte však dochádza aj k situáciam, pri ktorých sa vytvorí takzvaný \textit{redirect loop}, čo predstavuje slučku presmerovaní HTTP klienta. Takáto slučka spôsobuje, že klient neustále zasiela tú istú sekvenciu žiadostí, no nikdy sa nedopracuje k cieľovému zdroju.
+        Ešte však dochádza aj \mbox{k situáciam}, pri ktorých sa vytvorí takzvaný \textit{redirect loop}, čo predstavuje slučku presmerovaní HTTP klienta. Takáto slučka spôsobuje, že klient neustále zasiela tú istú sekvenciu žiadostí, no nikdy sa nedopracuje k cieľovému zdroju.
         
         \item HTTP odpoveď navrátená so statusom z kategórie 4xx alebo 5xx.
 
@@ -591,7 +591,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 
 Podľa definície monitorovania zo sekcie \ref{monitorovanie}, NEL slúži ako mechanizmus
 zabezpečujúci monitorovanie zlyhaní žiadostí pre zdroje uložené na web serveri, ktorý NEL používa \cite{W3C-NEL}.
-Autormi NEL sú členovia organizácie World Wide Web Consortium\footnote{\href{https://www.w3.org/about/}{https://www.w3.org/about/}}, ktorí pre túto technológiu publikovali špefikáciu 25. septembra 2018.
+Autormi NEL sú členovia organizácie World Wide Web Consortium\footnote{\url{https://www.w3.org/about/}}, ktorí pre túto technológiu publikovali špefikáciu 25. septembra 2018.
 Nie je to prvá publikovaná špecifikácia pre túto technológiu.
 Avšak je to prvá publikácia, ktorá špecifikuje verziu NEL stabilne používanú do súčasnosti.
 V tejto práci vychádzam z najaktuálnejšej dostupnej špecifikácie NEL, publikovanej 5. októbra 2023.
@@ -614,7 +614,7 @@ Je dôležité podotknúť, že najnovšia verzia tejto API, popísaná špecifi
 Dôvodom je, že technológia NEL je stále v procese vývoja a jej momentálna verzia je implementovaná tak, aby fungovala so staršou verziou Reporting API.
 Konkrétne, NEL je kompatibilný s verziou popisovanou v špecifikácií zverejnenej 
 25. septembra 2018, taktiež označovanou ako verzia \textbf{\code{v0}}.
-Ďalej teda opisujem výhradne Reporting API verzie \code{v0}\footnote{\href{https://developer.chrome.com/blog/reporting-api-migration}{https://developer.chrome.com/blog/reporting-api-migration} (zmienky o NEL a Report-API verziách)}.
+Ďalej teda opisujem výhradne Reporting API verzie \code{v0}\footnote{\url{https://developer.chrome.com/blog/reporting-api-migration} (zmienky verzií NEL a Reporting API)}.
 
 \subsubsection{Definícia pravidiel}
 
@@ -704,7 +704,7 @@ xrightmargin=.04\textwidth]
 
 Počas doby platnosti aspoň jedného pravidla Reporting API existujúceho v pamäti 
 User Agenta sa na ňom tvoria už spomínané hlásenia.
-Hlásenie je správa týkajúca sa jednej z hlásiteľných udalostí, ktoré môžu nastať v prostredí prehliadača implementujúceho daný User Agent.
+Hlásenie je správa týkajúca sa jednej \mbox{z hlásiteľných} udalostí, ktoré môžu nastať v prostredí prehliadača implementujúceho daný User Agent.
 Medzi tieto hlásiteľné udalosti patrí \cite{W3C-reporting-api}: 
 \begin{itemize}
     \item prehliadač použil Web API, ktorá bola označená ako zastaraná,
@@ -753,7 +753,7 @@ Každé z nich sa odošle vo formáte JSON na vybraný kolektor s najvyššou vy
 \begin{center}
 \centering
 \begin{lstlisting}[
-caption={Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača.},
+caption={Príklad obsahu zaslaného hlásenia pre zlyhanie webového prehliadača. Obsah výpisu prevzatý z \cite{W3C-reporting-api}.},
 label=listing:priklad-generated-report, 
 language=json, 
 frame=tb,
@@ -786,12 +786,11 @@ Použitím NEL spolu s Reporting API zabezpečuje jednak nastavenie samotného m
 User Agent, ktorý získal obe hlavičky, začne generovať hlásenia o zlyhaniach týkajúcich sa prenášaných zdrojov medzi klientom a monitorovaným web serverom, z ktorého hlavičky boli odoslané. 
 
 Naraz môže byť u klienta definované viac ako jedno pravidlo.
-Všetky sa ukladajú v pamäti webového prehliadača.
+Všetky sa ukladajú \mbox{v pamäti} webového prehliadača.
 Každé pravidlo prislúcha práve jednej doméne patriacej monitorovanému web serveru, ktorý pravidlo zaslal. 
 
 Ak v pamäti webového prehliadača existuje aspoň jedno pravidlo \code{NEL} využívajúce exitujúce pravidlo \code{Report-To}, 
-webový prehliadač začne tvoriť a odosielať hlásenia s prislúchajúcim typom nastaveným na hodnotu \code{"network-error"}\footnote{URL 
- cieľového kolektora a typ hlásenia sa definuje v pravidle \code{Report-To} (viď sekciu \ref{reporting-api})}. 
+webový prehliadač začne tvoriť a odosielať hlásenia s prislúchajúcim typom nastaveným na hodnotu \code{"network-error"}. 
 Ďalej hlásenie takéhoto typu budem nazývať už iba ako hlásenie typu NEL.
 
 Používateľmi NEL môžu byť napríklad správci monitorovaného web serveru.
@@ -801,7 +800,7 @@ Výsledným benefitom pre nich je, že vďaka týmto hláseniam môžu sledovať
 
 V rámci sledovania dostupnosti je okrem monitorovania zlyhaní možné pomocou NEL monitorovať aj úspešne získané zdroje.
 NEL totiž dokáže rovnakým spôsobom ako pre zlyhania generovať aj hlásenia typu NEL popisujúce úspešné získania zdrojov.
-Pre generovanie takých hlásení je nutné v konfigurácií nastaviť jej pole \code{success\_fraction} na hodnotu väčšiu ako 0 (viď nasledujúcu sekciu).
+Pre generovanie takých hlásení je nutné v konfigurácií nastaviť jej pole \code{success\_fraction} na hodnotu väčšiu ako 0 (viď popis tohto poľa v nasledujúcej sekcií).
 
 
 \subsection{Štruktúra HTTP hlavičky NEL}
@@ -847,12 +846,12 @@ Obsahuje nasledujúce \mbox{polia \cite{W3C-NEL}}:
 
     \item \code{request\_headers}:
 
-    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek zaslaných v HTTP žiadostiach určených pre zdroje na monitorovanom web serveri.
-    Pre každú z týchto hlavičiek bude jej názov a hodnota pridaná k hláseniu ako dodatková monitorovaná informácia.
+    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek zasielaných \mbox{v HTTP} žiadostiach určených pre zdroje na monitorovanom web serveri.
+    Pre každú \mbox{z týchto} hlavičiek bude jej názov a hodnota pridaná k hláseniu ako dodatková monitorovaná informácia.
     
     \item \code{response\_headers}:
 
-    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek zaslaných v HTTP odpovediach obsahujúcich zdroje zaslané z monitorovaného web servera. 
+    Voliteľné pole, ktoré môže obsahovať zoznam názvov HTTP hlavičiek zasielaných \mbox{v HTTP} odpovediach obsahujúcich zdroje zaslané z monitorovaného web servera. 
     Pre každú z týchto hlavičiek bude jej názov a hodnota pridaná k hláseniu ako dodatková monitorovaná informácia.
 \end{enumerate}
 
@@ -864,7 +863,7 @@ Takto zaslané hlavičky spolupracujú tak, že Reporting API skupinu \code{grou
 \begin{center}
 \centering
 \begin{lstlisting}[caption={
-Príklad použitia NEL spolu s Reporting API.},
+Príklad definície hlavičiek NEL a Reporting API.},
 label=listing:priklad-nel-header, 
 language=json, 
 frame=tb,
@@ -920,7 +919,7 @@ Polia \code{type} a \code{body} však definuje NEL, pričom \code{type} vždy na
 
 Štruktúra obsahu poľa \code{body} v hlásení typu NEL záleží na tom, v ktorej časti operácia získavania monitorovaného zdroja zlyhala \cite{W3C-NEL}.
 Podľa toho algoritmus tvorenia nového hlásenia najskôr vytvorí základnú štruktúru, ku ktorej neskôr pridáva dodatočné polia pre konkrétny typ zlyhania.
-Najskôr popisujem spomenutú základnú štruktúru a potom polia špecifické pre každú z možných fáz zlyhania.
+Najskôr popisujem spomenutú základnú štruktúru a potom polia špecifické pre každú \mbox{z možných} fáz zlyhania.
 Základná nemenná štruktúra poľa \code{body} sa skladá z nasledovných polí:
 
 \begin{itemize}
@@ -1018,13 +1017,13 @@ Výsledná štruktúra môže byť jedna z nasledujúcich:
         Obsah tohto objektu je založený na sledovaných hlavičkách definovaných pravidlom NEL v jeho rovnako nazvaných poliach (viď sekciu \ref{struktura-http-hlavicky-nel}).
         
         Kľúče tohto objektu predstavujú názvy sledovaných hlavičiek.
-        Hodnoty priradené kľúčom sú typu JSON array, kde array obsahuje jeden alebo viaceré reťazce s vyplnené obsahom prislúchajúcej sledovanej hlavičky.
+        Hodnoty priradené kľúčom sú typu JSON array, kde array obsahuje jeden alebo viaceré reťazce vyplnené obsahom prislúchajúcej sledovanej hlavičky.
         
     \end{itemize}    
 \end{enumerate}
 
 Príkladné telo vygenerovaného hlásenia typu NEL je uvedené vo výpise \ref{listing:priklad-nel-report}. 
-Telo tohto hlásenia bolo vygenerované pre zlyhanie vo fáze \code{"}\code{application"}. \mbox{Z webstránky} s adresou URL z poľa \code{referrer} bola zaslaná HTTP žiadosť typu \code{GET}, ktorú server obslúžil so statusom \code{500} -- server zlyhal pri obsluhe žiadosti. Dodatočne, tak ako bolo definované v pravidlách NEL, telo obsahuje aj hlavičku \code{Content-Type}, ktorá však vyplnená nebola kvôli celkovému zlyhaniu navrátenia cieľového zdroja v odpovedi.
+Telo tohto hlásenia bolo vygenerované pre zlyhanie vo fáze \code{"}\code{application"}. \mbox{Z webstránky} s adresou URL z poľa \code{referrer} bola zaslaná HTTP žiadosť typu \code{GET}, ktorú server obslúžil so statusom \code{500} -- server zlyhal pri obsluhe žiadosti. Dodatočne, tak ako bolo definované \mbox{v pravidlách} NEL, telo obsahuje aj hlavičku \code{Content-Type}, ktorá však vyplnená nebola kvôli celkovému zlyhaniu navrátenia cieľového zdroja v odpovedi.
 
 \pagebreak
 

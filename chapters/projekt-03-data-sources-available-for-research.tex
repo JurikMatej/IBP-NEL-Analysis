@@ -22,7 +22,7 @@ V prvom rade je nutné definovať množinu webových serverov, na ktoré sa mož
 Vzhľadom na to, že web servery možno adresovať pomocou ich doménového mena, ďalej tieto web servery označujem ako skúmané domény.
 Množinu skúmaných domén možno zaobstarať z niekoľkých zdrojov, ktoré sú popísané v sekcií \ref{tranco}.
 
-Po definovaní množiny skúmaných domén je možné zmienené záznamy o komunikácií s nimi získať podľa toho, kedy komunikácia prebehla:
+Po definovaní množiny skúmaných domén je možné zmienené záznamy o komunikácií \mbox{s nimi} získať podľa toho, kedy komunikácia prebehla:
 \begin{enumerate}
     \item Súčasnosť -- aktuálne dáta:
     
@@ -101,7 +101,7 @@ Medzi ne patria projekty \cite{tranco-config}:
 \end{itemize}
 TRANCO je ako zdroj skúmaných domén vhodný, pretože sprístupňuje a vylepšuje presnosť záznamov z týchto alternatív.
 Taktiež udržiava ich historické dáta, ktoré už nie sú samostatne dostupné.
-Vzhľadom na to je možné preskočiť výber toho najvhodnejšieho z pomedzi nich a použiť práve TRANCO.
+Vzhľadom na to je možné preskočiť výber toho najvhodnejšieho \mbox{z pomedzi} nich a použiť práve TRANCO.
 
 \subsubsection{Generovanie rebríčka TRANCO}
 \label{tranco-generation}
@@ -146,7 +146,7 @@ Obsahom je na každom riadku čiarkou oddelené umiestnenie domény a jej meno.
 \begin{center}
 \centering
 \begin{lstlisting}[
-caption={Ukážka vygenerovaného denného rebríčku z 12. januára 2024, orezaného na prvých 10 domén.},
+caption={Ukážka vygenerovaného denného rebríčka TRANCO z 12. januára 2024, orezaného na prvých 10 domén.},
 label=listing:tranco-obsah, 
 language=json, 
 frame=lb,
@@ -215,7 +215,7 @@ Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako 
 
 Autormi HTTP Archive sú členovia komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
 Momentálne sa na jeho údržbe po stránke vývoja podieľa štvorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly.
-Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca prístup ku knihám, filmom, hudbe a rovnako aj k miliardám archivovaných webstránok \cite{httparchive-about}.
+Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od roku 1996 slúži ako digitálna knižnica poskytujúca prístup ku knihám, filmom, hudbe \mbox{a rovnako} aj \mbox{k miliardám} archivovaných webstránok \cite{httparchive-about}.
 
 Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do histórie webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
@@ -233,7 +233,7 @@ Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP komu
 
 Ako bolo zmienené, HTTP Archive získava dáta z webu. 
 Získava ich pomocou automatizovaného prehliadania webu (viď sekciu \ref{selenium}).
-Cieľové dáta predstavujú celkový aplikačný prenos na prehliadaných doménach, kde meranou dátovou jednotkou je HTTP žiadosť a HTTP odpoveď, ktorou na žiadosť daná doména zareaguje.
+Cieľové dáta predstavujú celkový aplikačný prenos na prehliadaných doménach, kde meranou dátovou jednotkou je HTTP žiadosť \mbox{a HTTP} odpoveď, ktorou na žiadosť daná doména zareaguje.
 HTTP Archive zaznamenáva výsledky separátne získané z prostredia aj počítačového (desktop), aj mobilného zariadenia.
 Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API) \cite{httparchive-homepage}.
 
@@ -243,7 +243,7 @@ Ako zoznam vstupných domén do tohto procesu HTTP Archive momentálne používa
 
 Nástroj použitý pre automatizované prehliadanie webu je WebPageTest. Tento nástroj (ďalej označovaný už iba ako WPT) je softvér na testovanie výkonnosti webstránok vyvinutý spoločnosťou Google \cite{webpagetest}. 
 Predstavuje komplexné riešenie schopné merať rôzne metriky ako proces načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
-Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\href{https://github.com/catchpoint/WebPageTest}{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod open source licenciou.
+Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\url{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod open source licenciou.
 
 HTTP Archive na svoje účely používa vlastnú WPT inštanciu. 
 Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou.
@@ -305,20 +305,18 @@ Dáta získané pomocou WPT sa nahrávajú do existujúcich databázových tabul
 \subsubsection{BigQuery}
 \label{big-query}
 
-BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia \cite{google-bq}.
-
-Dôležitou vlastnosťou Big Query je prispôsobenosť na vysokorýchlostné výpočty nad obrovským množstvom dát.
+BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia \cite{google-bq}. Dôležitou vlastnosťou Big Query je prispôsobenosť na vysokorýchlostné výpočty nad obrovským množstvom dát.
 Distribúcia výpočtov umožňuje docieliť vykonávanie analýzy nad dátami o veľkosti v terabajtoch za sekundy (TB/s) a petabajtoch za minúty (PB/m).
 K tomu napomáha špeciálna vnútorná reprezentácia uložených tabuliek. 
 Bežný spôsob ukladania dát do tabuliek v databáze je takzvaný riadkovo orientovaný.
 Orientovanie na riadky znamená, že sa záznamy v tabuľke ukladajú priamo vedľa seba na disk databázy.
 To je vhodné pre prípady, keď sú na úložisku záznamy vyhľadávané individuálne.
-Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predstavuje problém vo výkonnosti, pretože sa musia potupne pre každý záznam tabuľky prehľadať všetky jeho polia \mbox{(stĺpce) \cite{google-bq}}.
+Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predstavuje problém vo výkonnosti, pretože sa musia potupne pre každý záznam tabuľky prehľadať všetky jeho polia \mbox{(stĺpce) \cite{google-bq-storage}}.
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.7]{obrazky-figures/row-oriented-store.png}
- \caption{Vizualizácia uskladnenia dát v riadkovo orientovanej databáze.}
+ \caption{Vizualizácia uskladnenia dát v riadkovo orientovanej databáze. Obrázok prevzatý z \cite{google-bq-storage}.}
  \label{img:row-oriented-store}
 \end{center}
 \end{figure}
@@ -326,12 +324,12 @@ Avšak, pre zložité analytické výpočty nad veľkým objemom dát to predsta
 Riešenie, ktorým BigQuery tento problém adresuje je použitie orientácie na jednotlivé stĺpce. 
 Ukladaním dát v stĺpcovom formáte, a teda ukladaním každého stĺpca separátne umožňuje prehľadávať dataset bez viazania sa na všetky ostatné stĺpce.
 Tým sa efektívne znižuje množstvo dát, ktoré sa prehľadávajú naraz.
-Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom uložených záznamov \cite{google-bq}.
+Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom uložených záznamov \cite{google-bq-storage}.
 
 \begin{figure}[htb]
 \begin{center}
  \includegraphics[scale=0.7]{obrazky-figures/column-oriented-store.png}
- \caption{Vizualizácia uskladnenia dát s využitím orientácie na jednotlivé stĺpce.}
+ \caption{Vizualizácia uskladnenia dát s využitím orientácie na jednotlivé stĺpce. Obrázok prevzatý z \cite{google-bq-storage}.}
  \label{img:column-oriented-store}
 \end{center}
 \end{figure}
@@ -341,7 +339,7 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných dataset.
 Verejne je dostupné množstvo datasetov pre prehľadávanie.
 Najprv je ale nutné založiť si Google Cloud projekt na oficiálnej stránke, ktorý slúži ako priestor mien pre zdroje, ktoré užívateľ do projektu pridáva a používa.
-K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{google-cloud}:
+K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{google-bq}:
 \begin{enumerate}
     \item Google Cloud Console:
 
@@ -360,19 +358,19 @@ K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{g
 \end{enumerate}
 
 Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL \cite{google-bq}.
-V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
+V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\url{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
 Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do BigQuery.
 Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textit{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
 
 \pagebreak
 
-\noindent Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\footnote{\href{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}} sa sprístupnia pre používanie datasety ako napríklad \cite{httparchive-repo}:
+\noindent Po pridaní tohto zdroja s priradeným názvom \code{httparchive} do projektu\footnote{\url{https://github.com/HTTPArchive/httparchive.org/blob/main/docs/gettingstarted\_bigquery.md}} sa sprístupnia pre používanie datasety ako napríklad \cite{httparchive-repo}:
 
 \begin{itemize}
     \item \code{summary\_pages}:
 
     Obsahuje detaily o jednotlivých web stránkach ako časy ich načítania, počet žiadostí o jej zdroje, typy zdrojov a ich veľkosti.
-    Taktiež sú tu informácie týkajúce sa presmerovaní, vzniknutých chýb, použitých služieb ako CDN\footnote{\href{https://www.cloudflare.com/learning/cdn/what-is-a-cdn/}{https://www.cloudflare.com/learning/cdn/what-is-a-cdn/}} a iné.
+    Taktiež sú tu informácie týkajúce sa presmerovaní, vzniknutých chýb, použitých služieb ako CDN\footnote{\url{https://www.cloudflare.com/learning/cdn/what-is-a-cdn/}} a iné.
     
     \item \code{summary\_requests}:
 

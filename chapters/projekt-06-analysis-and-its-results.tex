@@ -3,7 +3,7 @@
 
 Po preskúmaní možností pre vykonanie podrobnej analýzy nasadenia NEL som podľa vypracovaného návrhu implementoval potrebné nástroje.
 Úlohou týchto nástrojov je dopracovať sa k stanoveným cieľom mojej práce.  
-Najskôr v tejto kapitole popisujem svoju prácu z hľadiska toho, čo bolo implementované.
+Najskôr v tejto kapitole popisujem svoju prácu \mbox{z hľadiska} toho, čo bolo implementované.
 Potom v sekcií \ref{sec:results} prezentujem jej celkové výsledky.
 
 
@@ -12,22 +12,22 @@ Potom v sekcií \ref{sec:results} prezentujem jej celkové výsledky.
 Potrebné nástroje podľa návrhu práce (viď kapitolu \ref{possible-analysis-strategies}) predstavujú implementované skripty pre dve rozdielne metódy analýzy:
 \begin{enumerate}
     \item Práca s HTTP Archive:
-    \begin{itemize}
-        \item[(a)] získať \textit{historické} dáta, 
-        \item analyzovať ich a vyprodukovať výsledné metriky,
-        \item výsledky podľa potreby vhodne vizualizovať.
-    \end{itemize}
+    \begin{enumerate}
+        \item[1.1.] získať \textit{historické} dáta, 
+        \item[1.2.] analyzovať ich a vyprodukovať výsledné metriky,
+        \item[1.3.] výsledky podľa potreby vhodne vizualizovať.
+    \end{enumerate}
 
     \item Automatizované prehliadanie súčasného webu:
-    \begin{itemize}
-        \item[(b)] získať \textit{súčasné} dáta,
-        \item analyzovať ich a vyprodukovať výsledné metriky, 
-        \item výsledky podľa potreby vhodne vizualizovať.
-    \end{itemize}
+    \begin{enumerate}
+        \item[2.1.] získať \textit{súčasné} dáta,
+        \item[2.2.] analyzovať ich a vyprodukovať výsledné metriky, 
+        \item[2.3.] výsledky podľa potreby vhodne vizualizovať.
+    \end{enumerate}
 \end{enumerate}
 
-Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát (získavanie dát v prvom kroku) som využil pri návrhu skriptov.
-Na začiatok som teda definoval štruktúru výstupných dát z prvého kroku oboch metód.
+Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát som využil pri návrhu skriptov.
+Na začiatok som teda definoval štruktúru výstupných dát z prvého kroku oboch metód (1.1 a 2.1).
 Spoločná štruktúra dát umožňuje implementovať zvyšné dva kroky pre obe metódy rovnako.
 Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popisuje. 
 % Bližšie ju popisuje nasledujúca sekcia o implementácií nástroja pre HTTP Archive.
@@ -80,7 +80,7 @@ Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuli
     \item tabuľka s dátami z prostredia \code{mobile}, napríklad: \code{2018\_09\_01\_mobile}.
 \end{enumerate}
 
-Po konzultácií s pánom Polčákom som zistil, že v predchádzajúcej analýze pracovali s týmto rozdelením tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
+Po konzultácií s pánom Polčákom som zistil, že v predchádzajúcej analýze s týmto rozdelením pracovali tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
 Bolo to však robené manuálne, pretože spracovávali vcelku iba 6 mesiacov.
 Keďže je počet skúmaných mesiacov v tejto práci oveľa vyšší, rozhodol som sa zlúčenie automatizovať.
 Riešenie som zapracoval do použitého príkazu GoogleSQL.
@@ -107,8 +107,9 @@ prehliadač (viď sekciu \ref{selenium}) som si vybral \textit{Playwright}.
 Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach z HTTP Archive.
 Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
 Práve jeho úlohou je načítať celkový zoznam domén, vybrať z nich tie, ktoré majú byť preskúmané a uložiť ich do súboru, ktorý hlavný skript pri spustení použije ako vstup.
+Použitý spôsob výberu tohto zoznamu domén je popísaný pri výsledkoch analýzy dát získaných týmto skriptom \mbox{v sekcií} \ref{crawling-results}. 
 
-Pre každú doménu si najskôr vyžiada domovskú stránku a v prípade úspešnej odpovede z jej obsahu extrahuje všetky dostupné hyperlinky smerujúce na tú istú doménu.
+Pre každú doménu si najskôr vyžiada domovskú stránku a v prípade úspešnej odpovede \mbox{z jej} obsahu extrahuje všetky dostupné hyperlinky smerujúce na tú istú doménu.
 Extrahované hyperlinky udržuje v pomocných objektoch triedy \code{DomainLinkTree}.
 Ide o implementáciu stromovej štruktúry pre zoznam dostupných hyperlinkov smerujúcich na aktuálne skúmanú doménu. 
 Pri prehliadaní danej domény sa tento strom prehľadáva do šírky (\textit{breadth first search}) aby bol nájdený ďalší hyperlink, ktorý ešte skript nenavštívil.
@@ -118,7 +119,7 @@ Cieľom takejto implementácie je získať prehľad o využití NEL monitorovani
 Som si však vedomý, že táto stratégia sa nedá uplatniť pre domény, ktoré neštruktúrujú cesty k svojim stránkam do takýchto odvetví --- majú jednoúrovňové cesty k zdrojom.
 V takých prípadoch generuje \code{DomainLinkTree} ďalšie hyperlinky podľa poradia, v akom sú pridávané.
 
-Potrebné dáta sa získavajú z hlavičiek v HTTP odpovediach z prehliadaných stránok, ale aj z nimi používaných zdrojov ako sú obrázky, skripty a iné.
+Požadované dáta sa získavajú z hlavičiek v HTTP odpovediach z prehliadaných stránok, ale aj z nimi používaných zdrojov ako sú obrázky, skripty a iné.
 Tieto dáta sú pre každú doménu separátne ukladané do registra \code{DomainNelDataRegistry}.
 Uvedený register predstavuje objekt triedy implementujúcej rozhranie pre prácu so získanými dátami. 
 Na pozadí používa \code{DataFrame} objekty z Python knižnice \textit{pandas}, do ktorých dáta priebežne pridáva.
@@ -130,7 +131,7 @@ To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočíta
 \label{analyze_results}
 
 Po úspešnom behu jedného z predošlých skriptov musia byť ako vstupy do tohto kroku dostupné dáta obsahujúce získané informácie o stave používania NEL na skúmaných doménach.
-Z týchto vstupov skripty \code{analyze\_httparchive.py} a \code{analyze\_crawled.py} produkujú predom definované metriky (viď návrh v kapitole \ref{possible-analysis-strategies}).
+Z týchto vstupov skripty \code{analyze\_httparchive.py} a \code{analyze\_crawled.py} produkujú vopred definované metriky (viď návrh v kapitole \ref{possible-analysis-strategies}).
 Uvedené dva skripty sú z pohľadu funkcionality rovnaké, no rozhodol som ich nezlúčiť pre jednoduchosť práce pri opakovanom vykonávaní analýzy vo fáze testovania.
 Líšia sa totiž v tom, odkiaľ dáta čerpajú a kam dáta zapisujú.
 
@@ -141,13 +142,13 @@ Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky anal�
 
 \subsubsection{Využitie zoznamov Public Suffix List}
 
-Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevzatú knižnicu -- \textit{publicsuffix2}\footnote{\href{https://pypi.org/project/publicsuffix2/}{https://pypi.org/project/publicsuffix2/}}.
+Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevzatú knižnicu -- \textit{publicsuffix2}\footnote{\url{https://pypi.org/project/publicsuffix2/}}.
 V prípadoch, keď je pre výpočet metriky potrebné zistiť registrovateľnú časť celkového doménového mena,
 sú na to použité funkcie tejto knižnice pracujúce so zoznamom Public Suffix List (PSL). Príkladom použitia je získavanie registrovateľných častí domén prislúchajúcim NEL kolektorom pre identifikáciu ich poskytovateľa.
 
 Je možnosť využiť funkcie tejto knižnice, ktoré interne používajú aktuálny PSL.
 Ja ale používam ňou implementovanú funkciu umožňujúcu zvoliť si vlastný PSL.
-PSL zoznamy, ktoré som sa rozhodol použiť, som manuálne stiahol z repozitára GitHub, v rámci ktorého je oficiálny projekt PSL verziovaný\footnote{\href{https://github.com/publicsuffix/list}{https://github.com/publicsuffix/list}}. 
+PSL zoznamy, ktoré som sa rozhodol použiť, som manuálne stiahol z repozitára GitHub, v rámci ktorého je oficiálny projekt PSL verziovaný\footnote{\url{https://github.com/publicsuffix/list}}. 
 Pre súčasné dáta som použil aktuálny PSL.
 Pre historické dáta som použil najaktuálnejší PSL dostupný pred každým skúmaným mesiacom.
 Taký zoznam pre každý mesiac počas behu analýzy vždy zlúčim s aktuálnym zoznamom, pričom duplicity odstránim.
@@ -165,7 +166,7 @@ Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v po
 Pre tabuľkové reprezentácie dát som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
 
 Tieto skripty sú na pamäťovom médiu, v rámci priečinka \code{analysis-tools}, nachádzajú v priečinku \code{results}.
-Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú s prefixom \code{httparchive\_*}.
+Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú \mbox{s prefixom} \code{httparchive\_*}.
 Názvy skriptov pre dáta získané automatizovaným prehliadaním webu začínajú prefixom \code{crawled\_*}.
 
 % TODO if there is time - add some kind of visualization
@@ -218,6 +219,7 @@ Naopak najbadateľnejšie poklesy vo využívaní sa udiali v mesiacoch január 
 \end{figure}
 
 Pre pohľad na presné počty po jednotlivých mesiacoch som ďalej zhotovil graf uvedený v obrázku \ref{fig:httparchive-nel-deployment_ratio_values}.
+Je v ňom pre každý mesiac pozdĺž všetkých rokov uvedený počet domén so správne nasadeným NEL (prvé číslo pre daný mesiac) a celkový počet skúmaných domén (druhé číslo pre daný mesiac). 
 Z neho je možné vyčítať doplnkové informácie:
 \begin{itemize}
     \item počiatočný počet skúmaných domén bol 2 096 799, 
@@ -243,7 +245,7 @@ To platí zároveň pre všetky ostatné mesiace, ku ktorým prislúcha iba čí
 \begin{figure}[!htb]
 \begin{center}
  \includegraphics[scale=0.518]{obrazky-figures/httparchive_nel_deployment_ratio_values.pdf}
- \caption{Graf zobrazujúci presné počty domén so správne nasadenou technológiou NELs v porovnaní s celkovým počtom preskúmaných domén za jednotlivé mesiace.}
+ \caption{Graf zobrazujúci presné počty domén so správne nasadenou technológiou NEL \mbox{v porovnaní} s celkovým počtom preskúmaných domén za jednotlivé mesiace.}
  \label{fig:httparchive-nel-deployment_ratio_values}
 \end{center}
 \end{figure}
@@ -304,7 +306,7 @@ Počet ním obsluhovaných domén totiž z júna 2022 na august 2022 narástol o
 Okrem iného je zo získaných dát možné preskúmať poskytovateľov NEL kolektorov do hĺbky.
 Pre rozsahové limity tejto práce som si na ukážku musel nejakým spôsobom vybrať množinu poskytovateľov na hlbší prieskum.
 Cieľom bolo vybrať tých čo najviac relevantných.
-Z dát som zistil, že sa pre každý mesiac v skúmanom období vyskytoval práve jeden značne dominantný poskytovateľ v počte obsluhovaných domén.
+\mbox{Z dát} som zistil, že sa pre každý mesiac v skúmanom období vyskytoval práve jeden značne dominantný poskytovateľ v počte obsluhovaných domén.
 V prevažnej väčšine mesiacov je pomer obsluhy domén dominantným poskytovateľom k celkovej obsluhe všetkými dostupnými poskytovateľmi viac ako 90\%.
 Týchto dominantných poskytovateľov už popisuje graf v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} vyššie.
 
@@ -407,7 +409,7 @@ Prevláda tu hodnota \code{0.00}.
 
 \pagebreak
 
-Okrem najčastejšej hodnoty je najzastúpenejšou voľbou \code{0.01}, alebo hodnoty v rozmedzí od \code{0.00} do \code{0.01}.
+\noindent Okrem najčastejšej hodnoty je najzastúpenejšou voľbou \code{0.01}, alebo hodnoty v rozmedzí od \code{0.00} do \code{0.01}.
 Zvyšné intervaly hodnôt sa nepoužívajú skoro vôbec.
 
 Posledné pole, \code{max\_age} popisuje graf v obrázku \ref{fig:httparchive-nel-config-ma-dist}.
@@ -527,7 +529,10 @@ Vzhľadom na to som usúdil, že toto skôr poukazuje na skutočnosť, že sa ti
 
 Posledným údajom vypočítaným čisto z dát HTTP Archive je vývin počtu domén s nesprávne nasadeným NEL počas skúmaného obdobia.
 Zistil som, že počet týchto domén je zanedbateľný v porovnaní s počtom domén so správne nasadeným NEL.
-No dodnes sa stále vyskytujú domény, ktoré v HTTP odpovediach zasielajú hlavičku NEL, ale nejakým spôsobom to vykonávajú nekorektne.
+Napríklad, \mbox{v poslednom} skúmanom mesiaci bol počet domén s nesprávne nasadeným NEL 2 564. 
+Toto číslo predstavuje 0,098\% domén z celkového počtu domén, na ktorých som vtedy NEL detegoval (2 611 106), pričom počet domén so správne nasadeným NEL bolo 2 608 542.
+
+Dodnes sa teda stále vyskytujú domény, ktoré v HTTP odpovediach zasielajú hlavičku NEL, ale nejakým spôsobom to vykonávajú nekorektne.
 Pri prehliadaní HTTP Archive dát v BigQuery som zistil, že častým prípadom bolo vynechanie HTTP hlavičky \code{Report-To} alebo zle pomenované polia v hlavičke \code{NEL} (napríklad zamenené znaky \code{'\_'} za \code{'-'}). 
 Obrázok \ref{fig:httparchive-nel-deployment-incorrect} znázorňuje vývoj v počte domén s nesprávne nasadeným NEL.
 
@@ -541,11 +546,17 @@ Obrázok \ref{fig:httparchive-nel-deployment-incorrect} znázorňuje vývoj v po
 
 
 \subsection{Výsledky z automatizovaného prehliadania webu}
+\label{crawling-results}
 
-Doplnkové dáta z vlastného skriptu na prehliadanie webu sa mi podarilo získať pre 33 070 domén z cieľových 58 596.
-Dáta pre zvyšných 25 526 domén som získať nestihol.
+Doplnkové dáta z vlastného skriptu na prehliadanie webu sa mi podarilo získať pre 33 070 domén z cieľových 58 596. 
 Cieľové domény pochádzajú z posledného analyzovaného mesiaca HTTP Archive dát, apríla 2024.
-Kritéria pre ich výber boli:
+Dáta pre zvyšných 25 526 domén som získať nestihol.
+Zapríčinil to fakt, že dáta pre posledný analyzovaný mesiac som získal až v neskoršom štádiu práce (viď sekciu \ref{result-data}).
+Tým, že je proces automatizovaného prehliadania webu relatívne pomalý, nestihol sa dokončiť pre všetky cieľové domény. 
+
+\pagebreak
+
+\noindent Kritéria pre výber cieľových domén boli:
 \begin{enumerate}
     \item musia mať dostupných aspoň 20 NEL monitorovaných zdrojov,
     \item musia sa objavovať v rebríčku populárnych domén TRANCO za uvedený mesiac.
@@ -593,8 +604,8 @@ Nastavenia NEL prevládajú nasledujúce:
 Totálny počet monitorovaných zdrojov na prehliadaných doménach bol 3 962 754.
 Oproti počtu úspešne prehliadaných domén, ktorý bol 23 083, je toto číslo nepomerne veľké oproti tomu, aký pomer som našiel v dátach z HTTP Archive.
 HTTP Archive dáta totiž obsahovali pre každú doménu priemerne 7 na nej monitorovaných zdrojov.
-Vo výstupných dátach z môjho skriptu to bolo priemerne 172 monitorovaných zdrojov pre každú doménu.  
-Aj práve táto skutočnosť mohla zapríčiniť to, že sa mi nepodarilo včas dokončiť prehliadanie celkovej množiny vybratých domén. 
+Vo výstupných dátach \mbox{z môjho} skriptu to bolo priemerne 172 monitorovaných zdrojov pre každú doménu.  
+Aj práve táto skutočnosť mohla zapríčiniť to, že sa mi nepodarilo včas dokončiť prehliadanie celkovej množiny cieľových domén. 
 Mojim skriptom totiž prehliadam oveľa viac monitorovaných zdrojov v porovnaní s projektom HTTP Archive a prehliadanie teda trvá príliš dlho.
 
 Zistil som však, že najzastúpenejšie pomery monitorovaných zdrojov k celkovému počtu zdrojov sú:
