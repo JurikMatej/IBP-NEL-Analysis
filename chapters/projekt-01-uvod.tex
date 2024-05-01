@@ -5,11 +5,10 @@
 V modernom svete webových technológií existuje veľký počet možností na tvorbu webových služieb. Čoraz viac narastá počet možností predstavujúcich systémy a rámce poskytujúce spôsob tvorby nového produktu v prostredí webu.
 Tieto webové technológie sa od svojho vzniku, prirodzene, vyvinuli naozaj badateľne. 
 Od jednoduchých stránok, za ktorými stál iba značkovací jazyk 
-HTML sme sa postupne prepracovali cez kaskádové štýly skriptovací jazyk 
+HTML sa web postupne prepracoval cez kaskádové štýly a skriptovací jazyk 
 JavaSript až k súčasným technológiám ako React.js. 
 Po ceste sa k tomuto technologickému jadru pridali aj rôzne 
-nové nápady týkajúce sa architektúry celkovej webovej služby. 
-Využíva sa napríklad takzvaná trojvrstvová architektúra (3-Tier Architecture) alebo mikroslužby (Microservices). 
+nové nápady týkajúce sa architektúry celkovej webovej služby.
 No aj s takýmto pokrokom vpred na strane vývoja webu sa stále stretávame s celkom bežnými problémami, ktoré môžu vzniknúť, aj 
 keď použijeme tú najvhodnejšiu sadu technológií, ktorá je momentálne dostupná.
 
@@ -21,27 +20,9 @@ Medzi podobné nedostatky patrí aj prípad, kedy je zdroj dostupný a web serve
 
 Riešenie takýchto a mnoho ďalších zlyhaní je témou na diskusiu o spoľahlivosti jednotlivých web serverov. 
 V posledných rokoch sa takáto problematika dostáva do popredia a navrhujú sa rôzne 
-spôsoby, akými sa možno vyvarovať spomínaným nástrahám. Jedným z takých spôsobov je nasadenie relatívne novej 
+spôsoby, akými možno monitorovať spomínané problémy. Jedným z takých spôsobov je nasadenie relatívne novej 
 technológie Network Error Logging (NEL).
-
-\pagebreak
-
-V tejto práci sa venujem špecificky technológií NEL a zameriavam sa na analýzu jej nasadenia na širokom spektre web serverov. 
-V nasledujúcich troch kapitolách detailne popisujem:
-\begin{itemize}
-    \item čo je to NEL a ako funguje (v kapitole \ref{nel-and-related-technologies}),
-    \item kde a ako je možné dostať sa k dátam, ktoré obsahujú informácie o jeho nasadení a 
-konfigurácií (v kapitole \ref{data-sources-available-for-research}),
-    \item a aké analytické práce už boli na túto a podobné témy
-týkajúce sa NEL zhotovené a zverejnené (v kapitole \ref{related-work}).
-\end{itemize}
-
-Na koniec uvádzam v kapitole 
-\ref{possible-analysis-strategies} svoj vlastný návrh pre vyhodnotenie využívania tejto technológie a ako sa moja práca od predošlých odlišuje. 
-
-% Analýzu zhodnotím a spolu s jej konkrétnymi výsledkami a 
-% implikáciami, ktoré z nej vyplývajú (\ref{analysis-and-its-results}). 
-% Skripty a akékoľvek iné nástroje, ktoré boli pre zhotovenie tejto práce navrhnuté a 
-% implementované budú popísané v kapitole \ref{tests-for-analysis-tools-created}, kde zhrniem ich použitie a podložím 
-% ich správnosť príkladnými testami, ktorým boli podrobené. Prácu zakončím zhrnutím nadobudnutých poznatkov v závere, ich 
-% hodnotením a návrhmi na jej možné rozšírenia. 
+V tejto práci sa venujem špecificky technológií NEL a zameriavam sa na analýzu jej nasadenia na širokom spektre webových serverov. 
+V kapitole \ref{nel-and-related-technologies} predstavujem, čo je to NEL a ako funguje. V kapitole \ref{data-sources-available-for-research} zase uvádzam, kde a ako je možné dostať sa k dátam, ktoré obsahujú informácie o jeho nasadení.
+Ďalej, kapitola \ref{possible-analysis-strategies} obsahuje môj návrh na vypracovanie analýzy nasadenia technológie NEL a kapitola \ref{analysis-and-its-results} po nej zahŕňa výsledky celkovej analýzy.
+V rámci výsledkov predstavujem aj nástroje, ktoré boli pre ich získanie implementované. Záverom práce je zhrnutie nadobudnutých poznatkov, ich hodnotenie a návrhy na jej možné rozšírenia.
