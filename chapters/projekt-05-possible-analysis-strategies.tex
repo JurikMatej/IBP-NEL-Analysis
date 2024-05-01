@@ -1,8 +1,6 @@
 \chapter{Návrh analýzy}
 \label{possible-analysis-strategies}
 
-% TODO uistit sa, ze \ref-s naozaj obsahujú informácie, na ktoré sa odkazujem
-
 V tejto kapitole popisujem návrh na vypracovanie analýzy nasadenia a využívania technológie NEL.
 
 \subsubsection{Cieľ a rozsah}
@@ -11,7 +9,7 @@ Cieľom práce je analyzovať nasadenie technológie NEL na webe.
 Vďaka dostupným zdrojom dát popisovaných v kapitole \ref{data-sources-available-for-research} je možné skúmať stav využívania NEL:
 \begin{enumerate}
     \item v histórií prehliadania webu zaznamenanej v dátach poskytovaných projektom HTTP Archive,
-    \item v súčasnosti, použitím automatizovaného webového prehliadania -- web crawling.
+    \item v súčasnosti, použitím automatizovaného webového prehliadania.
 \end{enumerate}
 
 Na základe konzultácie s vedúcim tejto práce, pánom Polčákom, som sa rozhodol analýzu zhotoviť pre čo 
@@ -44,8 +42,8 @@ Zistil som, že ako zdroj dát bol použitý HTTP Archive, ktorým sa zaoberá a
 Je však dôležité poznamenať, že predošlá analýza bola vypracovaná iba za pomoci využitia 
 práve jedného zdroja dostupného na každej skúmanej doméne.
 Keďže bol v rámci práce použitý projekt HTTP Archive ako zdroj dát, k tomuto rozhodnutiu obmedziť sa mohlo viesť to, 
-že ním využívaná služba BigQuery je spoplatnená (viď sekciu \ref{big-query}). 
-Je pravdepodobné, že autori nemali prostriedky pre financovanie spracovania takého veľkého objemu dát, 
+že ním využívaná služba BigQuery je spoplatnená (viď sekciu \ref{httparchive-costs}). 
+Je pravdepodobné, že autori nemali prostriedky pre financovanie sťahovania takého veľkého objemu dát, 
 ktorý predstavuje skúmané obdobie šiestich rokov (od 2018 do 2023).
 Vo svojej práci usúdili, že vzhľadom na túto limitáciu je nutné vypracovať podrobnejšiu analýzu, 
 doplnenú o dáta získané alternatívnym spôsobom \cite{nel-http-archive}.
@@ -69,7 +67,7 @@ Google Cloud ako platforma pre BigQuery v dobe vypracovania mojej práce ponúka
 kredit 300\$. 
 Podľa BigQuery cenníka viem, že 1 terabajt prečítaných dát stojí 6.25\$.
 To by znamenalo, že s využitím ponúkaného kreditu mám dostupnú kapacitu 48 terabajtov, 
-pričom s každým uplynulým mesiacom získam ďalší terabajt naviac (viď ceny služby GC BigQuery v sekcií \ref{big-query}).
+pričom s každým uplynulým mesiacom získam ďalší terabajt naviac (viď ceny služby BigQuery v sekcií \ref{httparchive-costs}).
 
 \subsubsection{Použité metódy}
 

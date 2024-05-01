@@ -664,8 +664,6 @@ Hodnota každého pravidla obsahuje nasledovné polia \cite{W3C-reporting-api}:
 
     Špeciálnym prípadom hodnoty tohto poľa je číslo \code{0}. 
     V prípade, že server pre pravidlo prislúchajúce konkrétnej skupine \code{group} vyplní \code{max\_age} hodnotou \code{0}, pravidlo stráca platnosť a musí byť vymazané.
-
-    \pagebreak
     
     \item \code{include\_subdomains}.
 
@@ -746,10 +744,9 @@ Každé z nich sa odošle vo formáte JSON na vybraný kolektor s najvyššou vy
     \item \code{body} -- telo hlásenia
 
     Telo hlásenia je vyplnené pre každý typ hlásenia inak. 
-    V sekcii \ref{network-error-logging-spec}, kde sa popisuje priamo NEL, je príklad hlásenia typu NEL vo výpise \ref{listing:priklad-nel-report}.
-    Najjednoduchší typ hlásenia je z pohľadu obsahu tohto poľa hlásenie o zlyhaní webového prehliadača.
-    Príklad takého typu hlásenia je vo výpise \ref{listing:priklad-generated-report}.
+    Príklad jednoduchého hlásenia je vo výpise \ref{listing:priklad-generated-report}.
     Toto hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu \textit{Out Of Memory} (nedostatok pamäte).
+    V sekcii \ref{network-error-logging-spec} je uvedený príklad hlásenia typu NEL vo výpise \ref{listing:priklad-nel-report}.
 \end{itemize}
 
 

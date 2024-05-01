@@ -61,7 +61,7 @@ Pre službu GCS existuje knižnica \code{google.cloud.storage}, ktorá implement
 Pomocou pôvodnej knižnice, \code{google.cloud.bigquery}, som implementoval rozhranie pre extrahovanie a export dát z BigQuery.
 Za pomoci novej knižnice som implementoval rozhranie pre sťahovanie dát z GCS.
 
-Výstupom pôvodného skriptu boli komprimované súbory Apache Parquet (súborová prípona \code{.parquet}), ktoré rovnako ako BigQuery ukladajú dáta formátované s orientáciou na stĺpce.
+Výstupom pôvodného skriptu boli komprimované súbory Apache Parquet, ktoré rovnako ako BigQuery ukladajú dáta formátované s orientáciou na stĺpce.
 Keďže použitím nového skriptu výrazne narastá objem analyzovaných dát, schopnosť vyberať iba niektoré potrebné stĺpce pre výpočty konkrétnej metriky je kľúčová z hľadiska pamäťovej náročnosti.
 Rozhodol som sa preto ponechať pôvodný formát výstupov aj pre nový skript. 
 Na základe toho, že HTTP Archive uverejňuje svoje výsledky po mesiacoch, sú celkovým výstupom 
@@ -80,7 +80,7 @@ Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuli
     \item tabuľka s dátami z prostredia \code{mobile}, napríklad: \code{2018\_09\_01\_mobile}.
 \end{enumerate}
 
-Po konzultácií s pánom Polčákom (vedúci práce a autor predchádzajúcej analýzy) som zistil, že v predchádzajúcej analýze pracovali s týmto rozdelením tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
+Po konzultácií s pánom Polčákom som zistil, že v predchádzajúcej analýze pracovali s týmto rozdelením tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
 Bolo to však robené manuálne, pretože spracovávali vcelku iba 6 mesiacov.
 Keďže je počet skúmaných mesiacov v tejto práci oveľa vyšší, rozhodol som sa zlúčenie automatizovať.
 Riešenie som zapracoval do použitého príkazu GoogleSQL.
@@ -102,7 +102,7 @@ V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som
 \label{crawl_and_store}
 
 Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
-Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc emulujúcich webový 
+Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc automatizujúcich webový 
 prehliadač (viď sekciu \ref{selenium}) som si vybral \textit{Playwright}. 
 Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach z HTTP Archive.
 Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
@@ -118,11 +118,11 @@ Cieľom takejto implementácie je získať prehľad o využití NEL monitorovani
 Som si však vedomý, že táto stratégia sa nedá uplatniť pre domény, ktoré neštruktúrujú cesty k svojim stránkam do takýchto odvetví --- majú jednoúrovňové cesty k zdrojom.
 V takých prípadoch generuje \code{DomainLinkTree} ďalšie hyperlinky podľa poradia, v akom sú pridávané.
 
-Chcené dáta sa získavajú z hlavičiek v HTTP odpovediach z prehliadaných stránok, ale aj z nimi používaných zdrojov ako sú obrázky, skripty a iné.
+Potrebné dáta sa získavajú z hlavičiek v HTTP odpovediach z prehliadaných stránok, ale aj z nimi používaných zdrojov ako sú obrázky, skripty a iné.
 Tieto dáta sú pre každú doménu separátne ukladané do registra \code{DomainNelDataRegistry}.
 Uvedený register predstavuje objekt triedy implementujúcej rozhranie pre prácu so získanými dátami. 
 Na pozadí používa \code{DataFrame} objekty z Python knižnice \textit{pandas}, do ktorých dáta priebežne pridáva.
-Po dokončení prehliadania každej domény sa z nej získané dáta v registri ukladajú na disk ako Apache Parquet (\code{.parquet}) súbory.
+Po dokončení prehliadania každej domény sa z nej získané dáta v registri ukladajú na disk ako Apache Parquet súbory.
 Po dokončení prehliadania poslednej domény sa všetky vytvorené Parquet súbory zlúčia do jedného.
 To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdrojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
 
@@ -143,7 +143,7 @@ Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky anal�
 
 Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevzatú knižnicu -- \textit{publicsuffix2}\footnote{\href{https://pypi.org/project/publicsuffix2/}{https://pypi.org/project/publicsuffix2/}}.
 V prípadoch, keď je pre výpočet metriky potrebné zistiť registrovateľnú časť celkového doménového mena,
-sú na to použité funkcie tejto knižnice pracujúce so zoznamom Public Suffix List (PSL).
+sú na to použité funkcie tejto knižnice pracujúce so zoznamom Public Suffix List (PSL). Príkladom použitia je získavanie registrovateľných častí domén prislúchajúcim NEL kolektorom pre identifikáciu ich poskytovateľa.
 
 Je možnosť využiť funkcie tejto knižnice, ktoré interne používajú aktuálny PSL.
 Ja ale používam ňou implementovanú funkciu umožňujúcu zvoliť si vlastný PSL.
@@ -164,7 +164,7 @@ Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v po
 
 Pre tabuľkové reprezentácie dát som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib} a \textit{seaborn}.
 
-Tieto skripty sú na pamäťovom médiu nachádzajú v priečinku \code{results}.
+Tieto skripty sú na pamäťovom médiu, v rámci priečinka \code{analysis-tools}, nachádzajú v priečinku \code{results}.
 Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú s prefixom \code{httparchive\_*}.
 Názvy skriptov pre dáta získané automatizovaným prehliadaním webu začínajú prefixom \code{crawled\_*}.
 
@@ -217,8 +217,6 @@ Naopak najbadateľnejšie poklesy vo využívaní sa udiali v mesiacoch január 
 \end{center}
 \end{figure}
 
-\pagebreak
-
 Pre pohľad na presné počty po jednotlivých mesiacoch som ďalej zhotovil graf uvedený v obrázku \ref{fig:httparchive-nel-deployment_ratio_values}.
 Z neho je možné vyčítať doplnkové informácie:
 \begin{itemize}
@@ -257,8 +255,8 @@ To platí zároveň pre všetky ostatné mesiace, ku ktorým prislúcha iba čí
 
 % TODO definovať v teórií poskytovateľa kolektorov
 Počet poskytovateľov NEL kolektorov používaných počas skúmaného obdobia je pomerne malý.
-Identifikoval som 425 kolektorov, ktoré sa za toto obdobie vyskytli.
-Počet aktívnych kolektorov po jednotlivých mesiacoch uvádza graf v obrázku \ref{fig:httparchive-nel-collector-provider-count}.
+Identifikoval som 425 poskytovateľov, ktoré sa za toto obdobie vyskytli.
+Počet aktívnych poskytovateľov po jednotlivých mesiacoch uvádza graf v obrázku \ref{fig:httparchive-nel-collector-provider-count}.
 Graf vykresľuje stabilný, postupný nárast v ich počte.
 Počas tohto rastu dvakrát došlo k výraznému poklesu.
 Prvý v júli 2022, hneď po výpadku HTTP Archive dát.
@@ -278,7 +276,7 @@ Za posledný preskúmaný mesiac bolo aktívnych presne 326 poskytovateľov.
 
 \pagebreak
 
-Vizualizácia v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} zobrazuje najpoužívanejšie NEL kolektory za skúmané obdobie. 
+Vizualizácia v obrázku \ref{fig:httparchive-nel-collector-provider-top-1-over-time} zobrazuje poskytovateľov NEL kolektorov s najvyšším počtom obsluhovaných domén za skúmané obdobie. 
 Vďaka tomuto grafu som zistil, že tie najviac badateľné nárasty v počte domén využívajúcich NEL sú spojené s príchodom konkrétnych poskytovateľov NEL kolektorov:
 \begin{itemize}
 \item november 2018 -- nárast spôsobený kolektormi od \code{report-uri.com},
@@ -553,7 +551,7 @@ Kritéria pre ich výber boli:
     \item musia sa objavovať v rebríčku populárnych domén TRANCO za uvedený mesiac.
 \end{enumerate}
 Kritéria som vybral tak, aby som mohol skúmať dostatočne veľkú vzorku zdrojov na doméne, pričom by bola šanca, že tam NEL detegujem.
-Okrem toho som sa rozhodol použiť tu TRANCO aby som redukoval počet domén na prieskum, pričom ponechám v množine skúmaných tie relevantné.
+Okrem toho som sa rozhodol použiť tu TRANCO aby som redukoval počet domén na prieskum, pričom ponechám v množine skúmaných tie najviac relevantné.
 Zámerom redukcie bolo pracovať iba s takým množstvom domén, ktoré stihnem spracovať skriptom spomínaným v sekcii \ref{crawl_and_store}.
 
 \subsubsection{Domény používajúce NEL}
@@ -625,7 +623,7 @@ Najzastúpenejšie typy monitorovaných zdrojov boli:
 \end{enumerate}
 
 
-\subsection{Pokračovanie práce}
+\section{Pokračovanie práce}
 
 Vzhľadom na to, že sa mi v mojej práci podarilo získať všetky dáta, ktoré sú potrebné na podrobnú analýzu využívania technológie NEL, je nepravdepodobné, že sa vyžaduje pokračovanie v získavaní zdrojových dát.
 Avšak, určite je možné preskúmať iné, potencionálne lepšie stratégie použiteľné pre skript na automatizované prehliadanie webu, ktorý analýzu môže vykonávať priebežne.

@@ -18,7 +18,7 @@ V tejto kapitole sú detailne popísané dostupné zdroje dát a konkrétne spô
 
 \section{Potrebné dáta}
 
-V prvom rade je nutné definovať množinu webových serverov, pre ktoré možno získať potrebné záznamy HTTP komunikácie.
+V prvom rade je nutné definovať množinu webových serverov, na ktoré sa možno zamerať pri získavaní potrebných záznamov HTTP komunikácie.
 Vzhľadom na to, že web servery možno adresovať pomocou ich doménového mena, ďalej tieto web servery označujem ako skúmané domény.
 Množinu skúmaných domén možno zaobstarať z niekoľkých zdrojov, ktoré sú popísané v sekcií \ref{tranco}.
 
@@ -34,8 +34,8 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 
     Pre sledovanie historického vývoja nasadenia NEL je tiež nevyhnutné nahliadnuť do histórie prevádzky skúmaných domén. 
     Z tohto hľadiska je nutné použiť už spracované a uložené dáta. 
-    Vyhovujúcim zdrojom historických dát je napríklad projekt \textbf{HTTP Archive}, ktorému sa táto práca venuje primárne, a to v sekcií \ref{httparchive}.
-    Ide o službu, ktorá zaznamenáva vývoj webu od roku 2010 a teda jej vhodnosť sa potvrdzuje tým, že špecifikácia NEL v tejto práci bola publikovaná až v roku 2018.
+    Vyhovujúcim zdrojom historických dát je projekt \textbf{HTTP Archive}, ktorému sa táto práca venuje primárne, a to v sekcií \ref{httparchive}.
+    Ide o projekt, v rámci ktorého bol zaznamenávaný vývoj webu od roku 2010. Vhodnosť projektu potvrdzuje skutočnosť, že prvá stabilná špecifikácia, podľa ktorej je NEL skúmaný v tejto práci, bola publikovaná až v roku 2018. HTTP Archive teda pokrýva celý vývoj NEL v čase.
 \end{enumerate}
 
 \pagebreak
@@ -46,7 +46,7 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 % Platí, že čím je mohutnejšia množina skúmaných domén, tým presnejšiu analýzu využívania NEL na webe možno vypracovať.
 % Preto je pri výbere takejto množiny kľúčová jej mohutnosť.
 Existujú projekty, ktoré sa zaoberajú získavaním doménových mien pre rôzne účely.
-Niektoré sú vypracované na to aby spravovali napríklad zoznam domén, ktoré navštevujú používatelia služieb patriacich autorom daného projektu \cite{chrome-crux}. 
+Napríklad, niektoré projekty sú vypracované s cieľom spravovať zoznam domén, ktoré často navštevujú používatelia služieb patriacich autorom daného projektu \cite{chrome-crux}. 
 Z tých je vzhľadom na zadanie tejto práce relevantný projekt Chrome User Experience Report, ktorý je používaný v rámci projektu HTTP Archive. 
 Popísaný je v nasledujúcej sekcií.
 
@@ -75,7 +75,7 @@ Pre aktuálnejší dátum, marec 2024, je to 18 669 191.
 
 \subsection{Najčastejšie navštevované domény}
 
-Jeden z projektov, ktorých účelom je zaznamenávanie domén s najčastejšie navštevovanými webstránkami je TRANCO \cite{tranco}.
+Jeden z projektov, ktorých účelom je jednoducho zaznamenávanie domén s najčastejšie navštevovanými webstránkami, je TRANCO \cite{tranco}.
 Projekt TRANCO poskytuje sadu nástrojov pre generovanie rebríčkov najpopulárnejších domén. 
 Tieto rebríčky webových domén zoradených podľa hodnotenia návštevnosti ich webstránok je odolný proti externej manipulácií a vhodný na účely výskumu. 
 Vznikol na základe častej potreby pre skúmanie práve takýchto domén či už pre jednoduchú referenciu, alebo ako podklad pre ďalší prieskum.
@@ -120,7 +120,7 @@ V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú 
 Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, nazývaná Dowdall rule. 
 Dowdall rule hodnotí v zozname obsahujúcom N domén prvú hodnotou 1 a všetky ostatné postupne \(1/2\), \(1/3\) až \(1/(N-1)\) a zakončí hodnotením poslednej -- \(1/N\) \cite{tranco, tranco-config}.
 Názornú ukážku aplikovania Dowdall rule na rebríčky vizualizuje obrázok \ref{img:dowdall-rule}.
-Generuje sa v ňom nový rebríček o veľkosti štyroch domén, takže sa do úvahy beriú prvé štyri domény z každého vstupného rebríčka. 
+Generuje sa v ňom nový rebríček o veľkosti štyroch domén, takže sa do úvahy berú prvé štyri domény z každého vstupného rebríčka. 
 Skóre sa vypočíta podľa umiestnenia a podľa celkového počtu domén radených v danom zdrojovom rebríčku. 
 Rebríček 4 (v obrázku úplne napravo) s najvyšším počtom hodnotených domén výsledok ovplyvnil najviac.
 
@@ -183,7 +183,7 @@ V rámci tohto procesu sa dáta pre analýzu nasadenia NEL získavajú ukladaní
 \subsection{Selenium WebDriver}
 
 Príkladom populárnej implementácie takéhoto rozhrania je Selenium WebDriver \cite{crawling-selenium}.
-Selenium je dostupný pre viaceré programovacie jazyky, ako napríklad pre jazyk \textit{python}.
+Selenium je dostupný pre viaceré programovacie jazyky.
 Konkrétnou limitáciou Selenium je však skutočnosť, že neimplementuje funkcionalitu pre čítanie hlavičiek HTTP odpovedí získaných zdrojov.
 Je ale stále možné funkcionalitu doplniť knižnicami tretej strany alebo použitím alternatívnych metód pre jej dosiahnutie, ktoré tu však nerozoberám.
 
@@ -192,24 +192,26 @@ Je ale stále možné funkcionalitu doplniť knižnicami tretej strany alebo pou
 Alternatívou pre Selenium WebDriver je napríklad Playwright.
 Rovnako implementuje rozhranie pre ovládanie webových prehliadačov,
 pričom tiež podporuje viaceré programovacie jazyky.
-Funkcionalita pre čítanie HTTP prevádzky je ale v tomto prípade zabudovaná priamo do vlastného rozhrania Playwright \cite{crawling-playwright}.
+Funkcionalita pre čítanie HTTP komunikácie je ale v tomto prípade zabudovaná priamo do vlastného rozhrania Playwright \cite{crawling-playwright}.
 Pre jednoduchosť v implementácií zaznamenávania potrebných HTTP hlavičiek je Playwright vhodnejším výberom pre nástroj automatizujúci prehliadanie webu.
 
 \subsection{Výhody a nevýhody}
 
-Jednoznačnou prednosťou tejto metódy získavania vlastných dát pre analýzu je skutočnosť, že iným spôsobom nie je možné získať rozsiahle objemy dát popisujúce aktuálny stav nasadenia NEL.
+Jednoznačnou prednosťou tejto metódy získavania vlastných dát pre analýzu je skutočnosť, že iným spôsobom nie je možné získať rozsiahle objemy dát popisujúce \textit{aktuálny} stav nasadenia NEL.
 Tiež je výhodou, že nie je nutné platiť za získavanie dát takýmto spôsobom, nerátajúc náklady na prevádzku počítača, na ktorom sa má automatizované prehliadanie webu spúšťať.
 
 Značnou nevýhodou však je, že v prípade skúmania množstva domén a ich webstránok tento proces trvá veľmi dlho, a to kvôli nutnosti čakať na načítanie každej skúmanej webstránky. 
+Okrem toho zároveň zo zamerania tejto metódy na súčasnosť vyplýva, že nie je možné získať historické dáta pred prvým spustením hotového nástroja na automatizované prehliadanie webu.  
 
 % Web Crawling je technika skúmania webu, ktorá programovo vstúpi na zvolenú stránku a získava o nej informácie ako metadáta, jej obsah a iné dáta v oblasti záujmu \cite{httparchive-webcrawling}.
 
 \section{HTTP Archive}
 \label{httparchive}
 
-Projekt HTTP Archive sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. Je permanentným repozitárom informácií o webe a udržiava záznamy ako veľkosti
-stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi možné vykonávať
-rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
+Projekt HTTP Archive sa zaoberá zaznamenávaním spôsobu konštrukcie a poskytovania digitálneho obsahu na webe. 
+Je repozitárom informácií o webe a udržiava záznamy ako veľkosti
+stránok, zlyhané HTTP požiadavky alebo technológie využité v rámci konkrétnej stránky. 
+Vďaka týmto dátam je možné pozorovať trendy v histórií vývoja webu ako celku a zároveň je nad nimi možné vykonávať rôzne podrobné prieskumy a analýzy \cite{httparchive-about}. 
 
 Autormi HTTP Archive sú členovia komunity zvanej Web Performance Group. Pôvodným autorom je Steve Souders, ktorý projekt založil v roku 2010 \cite{httparchive-faq}.
 Momentálne sa na jeho údržbe po stránke vývoja podieľa štvorica hlavných členov, a keďže ide o open source projekt, v prevádzke ho udržiavajú sponzori ako aj spoločnosti Google, Mozilla, O'Reilly Media a Fastly.
@@ -232,7 +234,7 @@ Keďže umožňuje prístup k historickým záznamom reálneho prenosu HTTP komu
 Ako bolo zmienené, HTTP Archive získava dáta z webu. 
 Získava ich pomocou automatizovaného prehliadania webu (viď sekciu \ref{selenium}).
 Cieľové dáta predstavujú celkový aplikačný prenos na prehliadaných doménach, kde meranou dátovou jednotkou je HTTP žiadosť a HTTP odpoveď, ktorou na žiadosť daná doména zareaguje.
-Keďže môžu nastať odlišnosti v komunikácií vedenej z bežného počítača oproti takej, ktorá je vedená z mobilného zariadenia, HTTP Archive zaznamenáva výsledky aj z počítačového (\textbf{desktop}), aj z \textbf{mobilného} prostredia.
+HTTP Archive zaznamenáva výsledky separátne získané z prostredia aj počítačového (desktop), aj mobilného zariadenia.
 Zo získaných dát potom svojimi algoritmami extrahuje všetky dôležité poznatky, medzi ktoré patria napríklad aj stránkou používané zdroje a použité webové aplikačné rozhrania (Web API) \cite{httparchive-homepage}.
 
 Ako zoznam vstupných domén do tohto procesu HTTP Archive momentálne používa projekt Chrome User Experience Report \cite{httparchive-faq}, popísaný v sekcii \ref{chrome-user-experience-report}.
@@ -303,11 +305,7 @@ Dáta získané pomocou WPT sa nahrávajú do existujúcich databázových tabul
 \subsubsection{BigQuery}
 \label{big-query}
 
-BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia.
-BigQuery je samo o sebe riešenie populárne označované ako platforma poskytovaná ako služba (PaaS).
-Hlavnou výhodou pre užívateľov služby typu PaaS je, že sa nemusia nijako starať o správu infraštruktúry, pod čím sa vlastne myslí daná platforma, kde je služba sprevádzkovaná.
-O správu potrebnej infraštruktúry (servery, sieťové prvky, bezpečnosť) sa stará GCP, teda poskytovateľ tejto služby.
-Tým pádom je možné BigQuery ako úložisko dát veľmi rýchlo zakomponovať do akéhokoľvek vlastného projektu \cite{google-bq}.
+BigQuery, infraštruktúra pre ukladanie dát v rámci GCP, je produkt, ktorý umožňuje jeho užívateľom spravovať a analyzovať dáta za pomoci vstavaných funkcionalít ako napríklad aj strojového učenia \cite{google-bq}.
 
 Dôležitou vlastnosťou Big Query je prispôsobenosť na vysokorýchlostné výpočty nad obrovským množstvom dát.
 Distribúcia výpočtov umožňuje docieliť vykonávanie analýzy nad dátami o veľkosti v terabajtoch za sekundy (TB/s) a petabajtoch za minúty (PB/m).
@@ -341,7 +339,7 @@ Takto je databáza optimalizovaná pre analýzy nad obrovským množstvom ulože
 \pagebreak
 
 Dáta skladované v BigQuery sú organizované do skupín klasických databázových tabuliek nazývaných dataset.
-Je dostupné množstvo datasetov pre prehľadávanie.
+Verejne je dostupné množstvo datasetov pre prehľadávanie.
 Najprv je ale nutné založiť si Google Cloud projekt na oficiálnej stránke, ktorý slúži ako priestor mien pre zdroje, ktoré užívateľ do projektu pridáva a používa.
 K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{google-cloud}:
 \begin{enumerate}
@@ -364,7 +362,7 @@ K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{g
 Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL \cite{google-bq}.
 V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\href{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
 Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do BigQuery.
-Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textbf{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
+Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textit{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
 
 \pagebreak
 
@@ -378,16 +376,16 @@ Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textbf{zd
     
     \item \code{summary\_requests}:
 
-    Nachádzajú sa tu dáta o konkrétnych objektoch načítaných ako už spomínané zdroje pre web stránky v datasete \code{summary\_pages}.
-    V dátach je možné prehľadávať ako boli zdroje načítané priamo v hlavičkách HTTP odpovede, v ktorej prišli zo serveru poskytujúceho danú stránku.
+    Nachádzajú sa tu dáta o konkrétnych objektoch načítaných ako už spomínané zdroje pre webstránky v datasete \code{summary\_pages}.
+    V dátach je možné prehľadávať ako boli zdroje načítané priamo v hlavičkách HTTP odpovede, v ktorej prišli zo serveru poskytujúceho danú webstránku.
     
     \item \code{pages}:
 
-    Extrahované HAR súbory pre každú URL z prehľadávaných web stránok.
+    Extrahované HAR súbory pre každú URL z prehľadávaných webstránok.
     
     \item \code{requests}:
 
-    Extrahované HAR súbory pre každý zdroj jednotlivých prehľadávaných web sránok \mbox{v \code{pages} datasete}.
+    Extrahované HAR súbory pre každý zdroj jednotlivých prehľadávaných webstránok \mbox{v \code{pages} datasete}.
     
     \item \code{response\_bodies}:
 
@@ -417,6 +415,7 @@ Každú doménu, ktorá vo svojich odpovediach zaslala hlavičky \code{NEL} a \c
 \pagebreak
 
 \subsection{Poplatky za používanie}
+\label{httparchive-costs}
 
 Čo sa platieb týka, BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
 \textbf{Bezplatný plán} zahŕňa 1TB procesnej kapacity dát a 10GB úložného priestoru pre vlastné dáta, pričom dochádza každý mesiac \mbox{k obnove týchto bezplatných zdrojov}.
