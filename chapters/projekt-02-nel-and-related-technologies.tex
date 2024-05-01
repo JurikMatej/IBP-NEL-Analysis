@@ -138,9 +138,9 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 Doménové meno popisované obrázkom \ref{fig:domain-name-structure} --- \code{foo.bar.s3.amazonaws.com} --- sa ako každé iné doménové meno skladá z TLD, SLD a subdomény. 
 Platia tu však niektoré ďalšie dôležité pravidlá pri ich identifikovaní.
 
-Hodnoty TLD môžu byť zložené z viacerých bodkou odelených hodnôd, pričom stále spolu figurujú ako jeden level.
-Doteraz však neexistuje algoritmus pre vyhľadávanie levela, ktorý by mohol slúžiť na registrovanie domén pre dané zložené TLD -- levela registrovateľnej domény \cite{mozilla-psl-learn}.
-Preto vznikol zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných suffixov, skratka \textbf{PSL}) ako zoznam práve takých TLD, pod ktorými je možné doménu zaregistrovať.
+Hodnoty TLD môžu byť zložené z viacerých bodkou oddelených hodnôt, pričom stále spolu figurujú ako jeden level.
+Doteraz však neexistuje algoritmus pre vyhľadávanie levelu, ktorý by mohol slúžiť na registrovanie domén pre dané zložené TLD -- levelu registrovateľnej domény \cite{mozilla-psl-learn}.
+Preto vznikol zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných sufixov, skratka \textbf{PSL}) ako zoznam práve takých TLD, pod ktorými je možné doménu zaregistrovať.
 Tieto zložené TLD sa formálne nazývajú efektívne Top Level Domény (\textbf{eTLD}).
 Hodnoty eTLD zahŕňajú bežnú hodnotu TLD ako ich poslednú, bodkou oddelenú hodnotu.
 
@@ -168,10 +168,10 @@ V oblasti sietí termín protokol predstavuje štandardizovanú množinu pravidi
 Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií za pomoci protokolu HTTPS  \cite{nel-client-side-measurement-e2e-reliability},
 venujem sa v tejto sekcii výhradne protokolom HTTP a jeho zabezpečenej verzii, ktorou je práve spomínaný HTTPS.
 
-HTTP, celým názvom HyperText Transfer Protokol, je bezstavový aplikačný protokol pre distribuované hypertextové informačné systémy \cite{rfc9110}. 
-Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (daľej v terminológií špecifikácie HTTP už iba ako \textbf{zdroj}).
+HTTP, celým názvom HyperText Transfer Protokol, je bez stavový aplikačný protokol pre distribuované hypertextové informačné systémy \cite{rfc9110}. 
+Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (ďalej v terminológií špecifikácie HTTP už iba ako \textbf{zdroj}).
 Toto rozhranie definuje dva typy zasielateľných správ --- \textbf{žiadosť} a \textbf{odpoveď}. 
-Žiadosť predtavuje doslova žiadosť o zdroj. 
+Žiadosť predstavuje doslova žiadosť o zdroj. 
 Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho \mbox{navrátenie \cite{rfc7230}}. 
 
 Protokol funguje na základe klient-server komunikácie. Klient zasiela požiadavku na server a server mu naspäť posiela odpoveď.
@@ -249,7 +249,7 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah \cite
 \end{center}
 \end{figure}
 
-Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request} a označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. 
+Jednotlivé časti žiadosti sú zobrazené na obrázku \ref{fig:http-request} a označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. 
 Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia \mbox{s HTTP} hlavičkami (4.) 
 
 
@@ -295,7 +295,7 @@ Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request}
 
     \item Správa prislúchajúca k statusovému kódu:
 
-    Konkrétny význam statusového kódu však dopĺňajú zvyšné dve číslice kategórie, ktoré sú v jednotlivých kategóriach vyššie reprezentované nahraditeľnými znakmi \code{xx}.
+    Konkrétny význam statusového kódu však dopĺňajú zvyšné dve číslice kategórie, ktoré sú v jednotlivých kategóriách vyššie reprezentované nahraditeľnými znakmi \code{xx}.
     Tieto zvyšné číslice môžu nadobúdať hodnoty od 0 po 99.
     Ku každej takejto hodnote statusového kódu prislúcha nejaká popisná správa sformovaná ako obyčajný reťazec zakončený ASCII znakom pre nový riadok. 
     Správy sú štandardizované ako frázy spísané v anglickom jazyku.
@@ -336,7 +336,7 @@ Jednotlivé časti žiadosti sú vyzobrazené na obrázku \ref{fig:http-request}
 \end{center}
 \end{figure}
 
-Jednotlivé časti odpovede sú vyzobrazené na obrázku \ref{fig:http-response} a označené číslami. 
+Jednotlivé časti odpovede sú zobrazené na obrázku \ref{fig:http-response} a označené číslami. 
 Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). 
 Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). 
 Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.
@@ -348,8 +348,8 @@ Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval
 
 Dáta spomínané v sekciách o žiadosti a odpovedi sa prenášajú v HTTP komunikácií ako obyčajný text. 
 Tým pádom v prípade odpočúvania a potencionálneho pokusu o ovplyvnenie tejto komunikácie má tretia strana (útočník) prístup k všetkým prenášaným dátam. 
-To znamená, že útočník následne môže dáta z komunikácie čítať, pozmeniť alebo pridať svôj vlastný obsah. 
-Je teda nutné ochrániť komunikáciu klienta so serverom pred pred nežiadúcimi zásahmi z tretej strany. 
+To znamená, že útočník následne môže dáta z komunikácie čítať, pozmeniť alebo pridať svoj vlastný obsah. 
+Je teda nutné ochrániť komunikáciu klienta so serverom pred nežiadúcimi zásahmi z tretej strany. 
 Z toho dôvodu bol vyvinutý protokol HTTPS -- Secure (bezpečný) HTTP.
 HTTPS je zabezpečená verzia protokolu HTTP, ktorá šifruje obsah prenášaných správ medzi klientom a serverom.
 V kontextoch senzitívnych operácií vykonávaných na webe, ako napríklad prenos súkromných dokumentov, poskytuje HTTPS bezpečný spôsob vymieňania dát so serverom \cite{cloudflare-http-not-secure}.
@@ -400,7 +400,7 @@ xrightmargin=.05\textwidth]
 \end{center}
 
 Vo výpise \ref{listing:html-struktura} súbor HTML však obsahuje odkaz iba na vzdialenú webstránku.
-Pridať odkazy na rôzne iné médiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriam elementov. 
+Pridať odkazy na rôzne iné médiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriám elementov. 
 Sú nimi \cite{documents-html-spec}: 
 \begin{enumerate}
     \item Elementy \code{<link>} patriace do hlavičky HTML.
@@ -462,7 +462,7 @@ V spojení s konceptami jazyka JavaScript vznikol jeden konkrétne dôležitý t
 Štruktúra formátu JSON je jednoduchá a je založená na niektorých dátových typoch jazyku JavaScript.
 Dokáže reprezentovať nasledovné dátové typy:
 \begin{enumerate}
-    \item primitívne: reťazce, čísla, pravdivostné hodnoty (boolean) a absenciu hodnoty (null)
+    \item primitívne: reťazce, čísla, pravdivostné hodnoty (\code{boolean}) a absenciu hodnoty (\code{null})
     
     \item štruktúrované: 
     \begin{enumerate}
@@ -574,7 +574,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 
         Napríklad môže programovo zlyhať softvér pre HTTP origin server (chyba v implementácií origin servera).
         HTTP odpoveď môže byť nesprávne skonštruovaná, napríklad, keď obsahuje konfliktné hodnoty hlavičiek a obsahu (hodnota hlavičky \code{Content-Length} nesedí so skutočnou dĺžkou obsahu).  
-        Ešte však dochádza aj \mbox{k situáciam}, pri ktorých sa vytvorí takzvaný \textit{redirect loop}, čo predstavuje slučku presmerovaní HTTP klienta. Takáto slučka spôsobuje, že klient neustále zasiela tú istú sekvenciu žiadostí, no nikdy sa nedopracuje k cieľovému zdroju.
+        Ešte však dochádza aj \mbox{k situáciám}, pri ktorých sa vytvorí takzvaný \textit{redirect loop}, čo predstavuje slučku presmerovaní HTTP klienta. Takáto slučka spôsobuje, že klient neustále zasiela tú istú sekvenciu žiadostí, no nikdy sa nedopracuje k cieľovému zdroju.
         
         \item HTTP odpoveď navrátená so statusom z kategórie 4xx alebo 5xx.
 
@@ -591,7 +591,7 @@ Na základe týchto troch potrebných krokov pre úspešné získanie zdroja mo�
 
 Podľa definície monitorovania zo sekcie \ref{monitorovanie}, NEL slúži ako mechanizmus
 zabezpečujúci monitorovanie zlyhaní žiadostí pre zdroje uložené na web serveri, ktorý NEL používa \cite{W3C-NEL}.
-Autormi NEL sú členovia organizácie World Wide Web Consortium\footnote{\url{https://www.w3.org/about/}}, ktorí pre túto technológiu publikovali špefikáciu 25. septembra 2018.
+Autormi NEL sú členovia organizácie World Wide Web Consortium\footnote{\url{https://www.w3.org/about/}}, ktorí pre túto technológiu publikovali špecifikáciu 25. septembra 2018.
 Nie je to prvá publikovaná špecifikácia pre túto technológiu.
 Avšak je to prvá publikácia, ktorá špecifikuje verziu NEL stabilne používanú do súčasnosti.
 V tejto práci vychádzam z najaktuálnejšej dostupnej špecifikácie NEL, publikovanej 5. októbra 2023.
@@ -793,7 +793,7 @@ Ak v pamäti webového prehliadača existuje aspoň jedno pravidlo \code{NEL} vy
 webový prehliadač začne tvoriť a odosielať hlásenia s prislúchajúcim typom nastaveným na hodnotu \code{"network-error"}. 
 Ďalej hlásenie takéhoto typu budem nazývať už iba ako hlásenie typu NEL.
 
-Používateľmi NEL môžu byť napríklad správci monitorovaného web serveru.
+Používateľmi NEL môžu byť napríklad správcovia monitorovaného web serveru.
 Musia spravovať vlastné pravidlá pre NEL a Reporting API zároveň.
 Ak je všetko nastavené správne, hlásenia budú generované a zasielané na kolektor pre ne určený, kde ich používatelia NEL môžu podľa potreby spracovávať ďalej.
 Výsledným benefitom pre nich je, že vďaka týmto hláseniam môžu sledovať dostupnosť nimi monitorovaných zdrojov.
@@ -835,7 +835,7 @@ Obsahuje nasledujúce \mbox{polia \cite{W3C-NEL}}:
     Voliteľné pole. Umožňuje nastaviť percentuálne množstvo všetkých hlásení zlyhaní, ktoré sa budú zasielať na určené NEL kolektory.
     Hodnota poľa môže byť desatinné číslo nadobúdajúce hodnoty od \code{0.0} do \code{1.0}.
     Hodnota \code{0.0} predstavuje zamedzenie akéhokoľvek hlásenia o zlyhaní. 
-    Napoak, hodnota \code{1.0} predstavuje hlásenie každého jedného zlyhania.
+    Naopak, hodnota \code{1.0} predstavuje hlásenie každého jedného zlyhania.
 
     \item \code{success\_fraction}:
 
@@ -967,7 +967,7 @@ Základná nemenná štruktúra poľa \code{body} sa skladá z nasledovných pol
         \begin{itemize}
             \item \code{http.error}: odpoveď z monitorovaného web servera úspešne prišla, ale obsahovala status z kategórie \code{4xx} alebo \code{5xx},
             
-            \item \code{http.protocol.error}: spojenie bolo zrušené z dôvodu zlyhania mechanizmu komuníkácie protokolom HTTP. 
+            \item \code{http.protocol.error}: spojenie bolo zrušené z dôvodu zlyhania mechanizmu komunikácie protokolom HTTP. 
         \end{itemize}
     
     \end{enumerate}    
