@@ -31,7 +31,7 @@ Toto percento predstavuje z celkového počtu skúmaných domén 2 247 233 jedin
 \begin{center}
     % \includegraphics[width=0.5\linewidth]{obrazky-figures/polcak-analysis.png}
     \includegraphics[width=0.55\linewidth]{obrazky-figures/polcak-analysis-hd.pdf}
-    \caption{\centering Využitie NEL na skúmaných doménach v analýze vypracovanej vo vedeckom článku Ing. Libora Polčáka Ph.D. a Ing. Kamila Jeřábka \cite{nel-http-archive}.}
+    \caption{Využitie NEL na skúmaných doménach v analýze vypracovanej vo vedeckom článku Ing. Libora Polčáka Ph.D. a Ing. Kamila Jeřábka \cite{nel-http-archive}.}
     \label{fig:polcak-analysis}
 \end{center}
 \end{figure}
@@ -111,96 +111,7 @@ Výsledkom celkovej mojej analýzy bude prezentovanie výsledných metrík vo vh
  % \includegraphics[scale=0.48]{obrazky-figures/analysis-activity-diagram.png}    
  % \includegraphics[scale=0.65]{obrazky-figures/analysis-activity-diagram-hd.pdf}    
  \includegraphics[scale=0.65]{obrazky-figures/analysis-activity-diagram-revised.pdf}    
- \caption{\centering Diagram aktivít analýzy.}
+ \caption{Diagram aktivít analýzy.}
  \label{img:analysis-activity-diagram}
 \end{center}
 \end{figure}
-
-
-% \noindent V tejto kapitole popisujem návrh na vypracovanie analýzy nasadenia a využívania technológie NEL.
-% Najskôr uvediem, aké poznatky boli zistené v už existujúcich prácach. Ďalej predstavujem rozsah a rozdelenie vlastnej analýzy na postupnosť potrebných krokov k jej vykonaniu.
-% Potom prechádzam k spôsobom, akými jednotlivé časti navrhujem vypracovať.
-
-% \section{Poznatky z existujúcej analýzy}
-% \label{praca-veduceho}
-% \label{skript}
-
-% Existuje predošlá analýza zameraná na technológiu NEL \cite{nel-http-archive}. 
-% Je zameraná na získanie metrík ako celkovú využívanosť NEL na sade skúmaných domén, aké NEL kolektory dané domény používajú a v akých konfiguráciach sa nasadené NEL vyskytuje.
-% Časové obdobie, za ktoré bola analýza zhotovená, tvorili februárové mesiace každého roku od 2018 do 2023. 
-% Za toto obdobie sa podarilo zistiť, že počiatočné využitie NEL bolo 0\% a do februára roku 2023 stúplo na 11.73\% skúmaných domén.
-% Toto percento predstavuje z celkového zoznamu skúmaných domén 2,247,233 jedinečných domén.
-
-% \begin{figure}[!htb]
-% \begin{center}
-%     % \includegraphics[width=0.5\linewidth]{obrazky-figures/polcak-analysis.png}
-%     \includegraphics[width=0.55\linewidth]{obrazky-figures/polcak-analysis-hd.pdf}
-%     \caption{\centering Využitie NEL na skúmaných doménach v analýze vypracovanej vo vedeckom článku Ing. Libora Polčáka Ph.D. a Ing. Kamila Jeřábka \cite{nel-http-archive}.}
-%     \label{fig:polcak-analysis}
-% \end{center}
-% \end{figure}
-
-% Je dôležité poznamenať, že sa táto analýza pracovala iba s domovskými stránkami pre každú skúmanú doménu.
-% To znamená, že bol pre každú cieľovú doménu preskúmaný práve jeden zdroj na nej dostupný.
-% Keďže bol v rámci práce použitý projekt HTTP Archive ako zdroj dát, toto rozhodnutie mohlo zapríčiniť to, že ním využívaná služba Google Cloud je spoplatnená (viď sekciu \ref{big-query}). 
-% Je pravdepodobné, že autori nemali prostriedky pre financovanie spracovania takého veľkého objemu dát, ktorý predstavuje skúmané obdobie šiestich rokov.
-% Vo svojej práci usúdili, že vzhľadom na túto limitáciu je nutné vypracovať podrobnejšiu analýzu, doplnenú o dáta získané alternatívnym spôsobom \cite{nel-http-archive}.
-% Práve z toho dôvodu je nutné v mojej analýze okrem použitia HTTP Archive navrhnúť aj iný spôsob skúmania stavu využitia technológie NEL.
-
-
-% \section{Vlastná analýza}
-
-% Mojim cieľom je podrobne analyzovať využívanie technológie NEL na webe. 
-% Podľa prieskumu možných zdrojov dát pre analýzu z predošlej kapitoly možno vypracovať vlastnú analýzu v nasledujúcich krokoch:
-% \begin{enumerate}
-%     \item vybrať domény, ktoré budem skúmať,
-%     \item získať záznamy HTTP odpovedí z web stránok na daných doménach,
-%     \item zo získaných záznamov vyhodnotiť využívanosť NEL v podobe rôznych metrík
-%     \item a nakoniec vhodne prezentovať vyhodnotené metriky ako výsledky.
-% \end{enumerate}
-
-% \begin{figure}[!htb]
-% \begin{center}
-%  % \includegraphics[scale=0.48]{obrazky-figures/analysis-activity-diagram.png}    
-%  \includegraphics[scale=0.65]{obrazky-figures/analysis-activity-diagram-hd.pdf}    
-%  \caption{\centering Diagram možných aktivít pre čiastkové úlohy vlastnej analýzy.}
-%  \label{img:analysis-activity-diagram}
-% \end{center}
-% \end{figure}
-
-
-% \subsubsection{Skúmané domény}
-
-% V záležitosti výberu skúmaných domén som uznal za vhodné vybrať domény z dát projektu HTTP Archive.
-% Viackrát spomínaný rebríček TRANCO som sa rozhodol nevyužiť ako hlavný zoznam domén na skúmanie primárne preto, že oproti HTTP Archive ponúka značne menej domén.
-% Z pokusov generovania rebríčkov TRANCO som zistil, že jeho veľkosť sa približuje k maximu okolo 4 miliónov domén.
-% HTTP Archive nahromaždené mesačné dáta však obsahujú viac jedinečných domén už od prvého dňa, za ktorý je možné vygenerovať rebríček TRANCO.
-% Pri celkovej analýze ale tento rebríček môže byť v prípade potreby stále užitočný pre zameranie sa na tie najpopulárnejšie domény z celkovej skúmanej množiny.
-
-% \subsubsection{Získavanie potrebných dát}
-
-% Samotné dáta, ktoré ako vstup pre analýzu potrebujem sú záznamy HTTP odpovedí z webových stránok na skúmaných doménach.
-% K takýmto dátam poskytovaným projektom HTTP Archive mám prístup cez rozhranie Google Cloud.
-% Keďže tieto dáta boli analyzované iba pre februárové mesiace každého skúmaného roka,
-% pokúsim sa preskúmať celý rozsah skúmaného obdobia, a to od dátumu verejného publikovania špecifikácie NEL --- 25. septembra 2018 --- až po najaktuálnejšie dáta dostupné z HTTP Archive.
-% Podľa zistení v práci spomínanej v predošlej sekcií je pri tom dôležité pokúsiť sa optimalizovať spôsob získavania dát z ich úložiska.
-% Optimalizácia sa týka minimalizovania využitia finančných zdrojov potrebných na získanie žiadaných dát.
-
-% Pre prieskum aktuálneho stavu som sa rozhodol navrhnúť a implementovať vlastný program na prechádzanie webu -- web crawler.
-% Jeho úlohou bude prechádzať web stránky dostupné na skúmaných doménach a ukladať záznamy o nájdených NEL HTTP hlavičkách.
-% Vzhľadom na to, že v tomto prípade ide o aktuálny stav webu, vyberiem ako vstupné domény tie, ktoré obsahuje dataset z posledného mesiaca HTTP Archive.
-
-% \subsubsection{Spracovanie dát a výsledky}
-
-% Po získaní historických a aktuálnych dát nasleduje hlavná časť práce, a to vyhodnotenie výsledkov.
-% Využitím nadobudnutých záznamov HTTP odpovedí zo skúmaných domén sa zameriam na výpočet niekoľkých metrík:
-% \begin{itemize}
-%     \item počet domén, ktoré NEL využívajú,
-%     \item NEL kolektory, ktoré sa využívajú, ich počet a najvyužívanejšie z nich,
-%     \item konfigurácie, v ktorých sa vyskytuje využívaný NEL,
-%     \item pomer monitorovaných zdrojov k všetkým zdrojom dostupných na danej doméne,
-%     \item typy monitorovaných zdrojov,
-%     \item a nesprávne nasadenie NEL.
-% \end{itemize}
-
-% \noindent Po spracovaní dát a vyhodnotení zvolených metrík budem výsledky prezentovať zvlášť pre historické a pre aktuálne dáta.  
