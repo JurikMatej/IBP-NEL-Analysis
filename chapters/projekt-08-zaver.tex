@@ -1,16 +1,17 @@
 \chapter{Záver}
 \label{zaver}
 
-Cieľom tejto práce bolo navrhnúť spôsob analýzy využitia technológie zvanej Network Error Logging (NEL), pričom bolo nutné zohľadniť podobné existujúce práce aby táto analýza prinášala nové poznatky.
-Pri vytváraní návrhu som sa zoznámil so samotnou skúmanou technológiou, ale aj s nástrojmi, ktoré je možné využiť na jej skúmanie.
-Menovite som sa zameral na projekt HTTP Archive, ktorý uverejňuje na platforme Google Cloud BigQuery dáta použiteľné na získanie informácií o využití NEL doménami webu.
-Keďže som zistil, že je však tento projekt nedostatočným podkladom pre analýzu skúmanej technológie, zameral som sa taktiež na Selenium.
-S využitím Selenium je možné prehľadávať web v reálnom čase a popri tom ukladať informácie naznačujúce využitie NEL na jednotlivých prehľadávaných webstránkach.
+Cieľom tejto práce bolo navrhnúť spôsob analýzy využitia technológie zvanej Network Error Logging (NEL), pričom bolo nutné zohľadniť predošlú existujúcu prácu, na ktorú mala táto práca naväzovať novými poznatkami.
+Výsledkom je rozsiahlejšia, ale aj podrobnejšia analýza, v rámci ktorej bol preskúmaný stav od septembra 2018 do apríla 2024.
 
-Taktiež som zistil, že predtým ako môžem analýzu zhotoviť, budem musieť získať rozsiahly zoznam domén web serverov, ktoré budem skúmať. 
-S ohľadom na túto skutočnosť som prehľadal dostupné možnosti zaobstarávania si zoznamov domén, pri čom som našiel projekt TRANCO.
+Pre vykonanie tejto analýzy boli implementované niekoľké nástroje automatizujúce procesy získavania vstupných dát, ich spracovanie na navrhnuté metriky a ich prezentovanie.
+Proces získavania dát bol implementovaný ako sťahovanie dát projektu HTTP Archive, pričom tieto dáta boli doplnené o dáta zíkané automatizovaným prehliadaním webu nástrojom na to zhotoveným v rámci tejto práce. 
+Analýza navrhnutých metrík prebehla skúmaním počtov domén s nasadeným NEL, počtov poskytovateľov NEL kolektorov, a tiež vyskytujúcich sa konfigurácií NEL a monitorovaných zdrojov.
+Výsledky analýzy boli prezentované ako novo nadobudnuté poznatky.
 
-Na základe získaných vedomostí som vymyslel návrh pre vykonanie vlastnej analýzy.
-Jej výsledkom bude popis dôležitých metrík týkajúcich sa využitia NEL, ako napríklad percentuálny pomer domén, na ktorých sa NEL úspešne detegoval, k doménam, na ktorých sa nenachádzal.
-Ďalej uvádzam, že ako dodatočnú súčasť práce je vhodné vytvoriť balík vizualizačných funkcií pre tvorbu grafickej reprezentácie získaných metrík.
-Taká výstupná forma mojej analýzy má totiž potenciál stať sa súčasťou každoročného hlásenia o stave webu zvanom Web Almanac. 
+Vzhľadom na to, že sa v tejto práci podarilo získať všetky dáta, ktoré sú potrebné na podrobnú analýzu využívania technológie NEL za preskúmané obdobie, je nepravdepodobné, že sa vyžaduje pokračovanie v získavaní zdrojových dát.
+Avšak, určite je možné preskúmať iné, potencionálne lepšie stratégie použiteľné pre implementovaný nástroj na automatizované prehliadanie webu, ktorý analýzu môže vykonávať priebežne.
+Tiež je pravdepodobné, že v blízkej budúcnosti bude publikovaná nová špecifikácia NEL, ktorá bude fungovať spolu s novšou verziou Reporting API, a teda bude nutné tento nástroj upraviť.
+
+Všetky získané dáta boli odovzdané vedúcemu tejto práce.
+Spolu s nimi budú naďalej používané aj nástroje implementované v rámci tejto práce na pokračovanie vykonávania analýzy za účelom vypracovania vedeckého článku týkajúceho sa využívania technológie NEL. 
