@@ -1,15 +1,6 @@
 \chapter{Zdroje dát pre analýzu}
 \label{data-sources-available-for-research}
 
-% # PART 2
-% # TODO obsah by mal napovedat, ze vysledky boli dosiahnute
-%        nejčastěji navštěvovaných stránek
-%        Selenium
-%        výhody a nevýhody vlastnych a externych dat
-% # TODO sekcia o automatizovanom prehliadani stranok, Playwright
-% # TODO nie je az tak dolezite, ze su najnavstevovanejsie, ako ze sa to automatizuje
-% # TODO spomenut ale aj Selenium
-
 Poznávacím znamením využívania technológie NEL je prítomnosť hlavičiek \code{NEL} a \code{Report-To} v HTTP odpovediach z monitorovaných web serverov. 
 Pre účely analýzy jej využívania je teda nutné získať dáta obsahujúce tieto odpovede.
 Cieľom je pozerať sa buď na reálne komunikácie, ktoré už prebehli, alebo skúmať ako web servery aktuálne dosiahnuteľné na internete
@@ -43,8 +34,6 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 \section{Množina skúmaných domén}
 \label{tranco}
 
-% Platí, že čím je mohutnejšia množina skúmaných domén, tým presnejšiu analýzu využívania NEL na webe možno vypracovať.
-% Preto je pri výbere takejto množiny kľúčová jej mohutnosť.
 Existujú projekty, ktoré sa zaoberajú získavaním doménových mien pre rôzne účely.
 Napríklad, niektoré projekty sú vypracované s cieľom spravovať zoznam domén, ktoré často navštevujú používatelia služieb patriacich autorom daného projektu \cite{chrome-crux}. 
 Z tých je vzhľadom na zadanie tejto práce relevantný projekt Chrome User Experience Report, ktorý je používaný v rámci projektu HTTP Archive. 

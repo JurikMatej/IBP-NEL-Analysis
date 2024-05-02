@@ -81,7 +81,7 @@ Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuli
 \end{enumerate}
 
 Po konzultácií s pánom Polčákom som zistil, že v predchádzajúcej analýze s týmto rozdelením pracovali tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
-Bolo to však robené manuálne, pretože spracovávali vcelku iba 6 mesiacov.
+Bolo to však robené manuálnym spúšťaním GoogleSQL príkazov v prostredí BigQuery Studio, pretože spracovávali vcelku iba 6 mesiacov.
 Keďže je počet skúmaných mesiacov v tejto práci oveľa vyšší, rozhodol som sa zlúčenie automatizovať.
 Riešenie som zapracoval do použitého príkazu GoogleSQL.
 
