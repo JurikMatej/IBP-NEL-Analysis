@@ -104,7 +104,7 @@ V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som
 Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
 Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. 
 Z knižníc automatizujúcich webový prehliadač som si vybral \textit{Playwright} a  ako konkrétny prehliadač som zvolil \textit{Google Chrome} (viď sekciu \ref{selenium}). 
-Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach z HTTP Archive.
+Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach \mbox{z HTTP} Archive.
 Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
 Práve jeho úlohou je načítať celkový zoznam domén, vybrať z nich tie, ktoré majú byť preskúmané a uložiť ich do súboru, ktorý hlavný skript pri spustení použije ako vstup.
 Použitý spôsob výberu tohto zoznamu domén je popísaný pri výsledkoch analýzy dát získaných týmto skriptom \mbox{v sekcií} \ref{crawling-results}. 
@@ -530,7 +530,7 @@ Napríklad, \mbox{v poslednom} skúmanom mesiaci bol počet domén s nesprávne 
 Toto číslo predstavuje 0,098\% domén z celkového počtu domén, na ktorých som vtedy NEL detegoval (2 611 106), pričom počet domén so správne nasadeným NEL bolo 2 608 542.
 
 Dodnes sa teda stále vyskytujú domény, ktoré v HTTP odpovediach zasielajú hlavičku NEL, ale nejakým spôsobom to vykonávajú nekorektne.
-Pri prehliadaní HTTP Archive dát v BigQuery som zistil, že častým prípadom bolo vynechanie HTTP hlavičky \code{Report-To} alebo zle pomenované polia v hlavičke \code{NEL} (napríklad zamenené znaky \code{'\_'} za \code{'-'}). 
+Pri prehliadaní HTTP Archive dát \mbox{v BigQuery} som zistil, že častým prípadom bolo vynechanie HTTP hlavičky \code{Report-To} alebo zle pomenované polia v hlavičke \code{NEL} (napríklad zamenené znaky \code{'\_'} za \code{'-'}). 
 Obrázok \ref{fig:httparchive-nel-deployment-incorrect} znázorňuje vývoj v počte domén s nesprávne nasadeným NEL.
 
 \begin{figure}[!htb]
