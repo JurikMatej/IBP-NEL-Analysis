@@ -791,6 +791,7 @@ Každé pravidlo prislúcha práve jednej doméne patriacej monitorovanému web 
 
 Ak v pamäti webového prehliadača existuje aspoň jedno pravidlo \code{NEL} využívajúce exitujúce pravidlo \code{Report-To}, 
 webový prehliadač začne tvoriť a odosielať hlásenia s prislúchajúcim typom nastaveným na hodnotu \code{"network-error"}. 
+Destináciou vygenerovaných hlásení je kolektor definovaný v pravidle hlavičky \code{Report-To}, ďalej označovaný ako NEL kolektor. 
 Ďalej hlásenie takéhoto typu budem nazývať už iba ako hlásenie typu NEL.
 
 Používateľmi NEL môžu byť napríklad správcovia monitorovaného web serveru.

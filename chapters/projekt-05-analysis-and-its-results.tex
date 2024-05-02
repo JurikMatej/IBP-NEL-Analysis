@@ -102,8 +102,8 @@ V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som
 \label{crawl_and_store}
 
 Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
-Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. Z knižníc automatizujúcich webový 
-prehliadač (viď sekciu \ref{selenium}) som si vybral \textit{Playwright}. 
+Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. 
+Z knižníc automatizujúcich webový prehliadač som si vybral \textit{Playwright} a  ako konkrétny prehliadač som zvolil \textit{Google Chrome} (viď sekciu \ref{selenium}). 
 Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach z HTTP Archive.
 Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
 Práve jeho úlohou je načítať celkový zoznam domén, vybrať z nich tie, ktoré majú byť preskúmané a uložiť ich do súboru, ktorý hlavný skript pri spustení použije ako vstup.

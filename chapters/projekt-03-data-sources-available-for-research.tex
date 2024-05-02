@@ -172,7 +172,8 @@ V rámci tohto procesu sa dáta pre analýzu nasadenia NEL získavajú ukladaní
 \subsection{Selenium WebDriver}
 
 Príkladom populárnej implementácie takéhoto rozhrania je Selenium WebDriver \cite{crawling-selenium}.
-Selenium je dostupný pre viaceré programovacie jazyky.
+Selenium podporuje automatizáciu viacerých populárnych webových prehliadačov, ako napríklad Google Chrome, Mozilla Firefox a Microsoft Edge.
+
 Konkrétnou limitáciou Selenium je však skutočnosť, že neimplementuje funkcionalitu pre čítanie hlavičiek HTTP odpovedí získaných zdrojov.
 Je ale stále možné funkcionalitu doplniť knižnicami tretej strany alebo použitím alternatívnych metód pre jej dosiahnutie, ktoré tu však nerozoberám.
 
@@ -180,8 +181,8 @@ Je ale stále možné funkcionalitu doplniť knižnicami tretej strany alebo pou
 
 Alternatívou pre Selenium WebDriver je napríklad Playwright.
 Rovnako implementuje rozhranie pre ovládanie webových prehliadačov,
-pričom tiež podporuje viaceré programovacie jazyky.
-Funkcionalita pre čítanie HTTP komunikácie je ale v tomto prípade zabudovaná priamo do vlastného rozhrania Playwright \cite{crawling-playwright}.
+pričom tiež podporuje viaceré z nich, konkrétne napríklad Google Chrome.
+Funkcionalita pre čítanie HTTP komunikácie je ale v tomto prípade zabudovaná priamo do vlastného rozhrania \mbox{Playwright \cite{crawling-playwright}}.
 Pre jednoduchosť v implementácií zaznamenávania potrebných HTTP hlavičiek je Playwright vhodnejším výberom pre nástroj automatizujúci prehliadanie webu.
 
 \subsection{Výhody a nevýhody}
