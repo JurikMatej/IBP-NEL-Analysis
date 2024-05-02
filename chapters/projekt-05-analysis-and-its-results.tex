@@ -531,7 +531,7 @@ Toto číslo predstavuje 0,098\% domén z celkového počtu domén, na ktorých 
 
 Dodnes sa teda stále vyskytujú domény, ktoré v HTTP odpovediach zasielajú hlavičku NEL, ale nejakým spôsobom to vykonávajú nekorektne.
 Pri prehliadaní HTTP Archive dát \mbox{v BigQuery} som zistil, že častým prípadom bolo vynechanie HTTP hlavičky \code{Report-To} alebo zle pomenované polia v hlavičke \code{NEL} (napríklad zamenené znaky \code{'\_'} za \code{'-'}). 
-Obrázok \ref{fig:httparchive-nel-deployment-incorrect} znázorňuje vývoj v počte domén s nesprávne nasadeným NEL.
+\mbox{Obrázok \ref{fig:httparchive-nel-deployment-incorrect}} znázorňuje vývoj v počte domén s nesprávne nasadeným NEL.
 
 \begin{figure}[!htb]
 \begin{center}
@@ -552,8 +552,7 @@ Cieľové domény pochádzajú z posledného analyzovaného mesiaca HTTP Archive
 Dáta pre zvyšných 25 526 domén som získať nestihol.
 Zapríčinil to fakt, že dáta pre posledný analyzovaný mesiac som získal až v neskoršom štádiu práce (viď sekciu \ref{result-data}).
 Tým, že je proces automatizovaného prehliadania webu relatívne pomalý, nestihol sa dokončiť pre všetky cieľové domény. 
-
-\noindent Kritéria pre výber cieľových domén boli:
+Kritéria pre výber cieľových domén boli:
 \begin{enumerate}
     \item musia mať dostupných aspoň 20 NEL monitorovaných zdrojov,
     \item musia sa objavovať v rebríčku populárnych domén TRANCO za uvedený mesiac.
