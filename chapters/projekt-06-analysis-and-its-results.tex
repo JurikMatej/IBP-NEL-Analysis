@@ -114,7 +114,7 @@ Vďaka tomuto grafu som zistil, že tie najviac badateľné nárasty v počte do
 \begin{figure}[!htb]
 \begin{center}
  \includegraphics[scale=0.598]{obrazky-figures/httparchive_nel_collector_provider_top_1_over_time.pdf}
- \caption{Identifikácia dominantných poskytovateľov NEL kolektorov (s najvyšším počtom obsluhovaných domén) pre každý skúmaný mesiac. V legende grafu je priložený údaj o maximálnom počte obsluhovaných domén za celkové obdobie výskytu jednotlivých dominantných poskytovateľov.}
+ \caption{Identifikácia dominantných poskytovateľov NEL kolektorov (s najvyšším počtom obsluhovaných domén) pre každý skúmaný mesiac. V legende grafu je priložený údaj \mbox{o maximálnom} počte obsluhovaných domén za celkové obdobie výskytu jednotlivých dominantných poskytovateľov.}
  \label{fig:httparchive-nel-collector-provider-top-1-over-time}
 \end{center}
 \end{figure}
@@ -386,7 +386,7 @@ Pri prehliadaní HTTP Archive dát \mbox{v BigQuery} som zistil, že častým pr
 \section{Výsledky z automatizovaného prehliadania webu}
 \label{crawling-results}
 
-Po dokončení analýzy pomocou HTTP Archive dát som množinu skúmaných domén pre hĺbkový prieskum som zostavil aplikovaním dvoch kritérií na domény zahrnuté v poslednom analyzovanom mesiaci. 
+Po dokončení analýzy pomocou HTTP Archive dát som množinu skúmaných domén pre hĺbkový prieskum zostavil aplikovaním dvoch kritérií na domény zahrnuté v poslednom analyzovanom mesiaci. 
 Kritéria pre výber cieľových domén boli:
 \begin{enumerate}
     \item Musia mať dostupných aspoň 20 NEL monitorovaných zdrojov.
@@ -433,9 +433,9 @@ Prevažná väčšina skúmaných domén (98.95\%) monitorovala svoje zdroje pom
 Až na jeden prípad s troma konfiguráciami NEL, všetky zvyšné domény používali práve dve konfigurácie NEL.
 Na týchto možno skúmať stratégie využitia NEL podľa typu zdrojov hlbšie.
 
-Zistil som, že tieto domény používajú jednu konfiguráciu pre majoritu svojich zdrojov a druhú pre menšiu množinu \textit{vybraných} zdrojov.
+Zistil som, že tieto domény používajú jednu konfiguráciu pre majoritu svojich zdrojov \mbox{a druhú} pre menšiu množinu \textit{vybraných} zdrojov.
 Medzi hlavné zdroje väčšinou patrila domovská webstránka spolu s jednoznačnou väčšinou ostatných dostupných webstránok, obrázkov a štýlov CSS.
-Napríklad, na doméne \code{comparepower.com} som našiel väčšinovú konfiguráciu pre všetky monitorované webstránky a obrázky so 100\% hlásením zlyhaní a 1\% hlásením úspechov. 
+Napríklad, na doméne \code{comparepower.com} som našiel väčšinovú konfiguráciu pre všetky monitorované webstránky a obrázky so 100\% hlásením zlyhaní \mbox{a 1\% hlásením} úspechov. 
 Táto konfigurácia tiež obsahovala prevažnú majoritu monitorovaných skriptov.
 Druhá konfigurácia obsahovala ďalších 22 skriptov a tiež 7 zdrojov typu \code{font},
 pričom bola nastavená na hlásenie všetkých zlyhaní a žiadnych úspechov.
@@ -445,15 +445,17 @@ Iným častým rozdelením bolo rozdelenie na konfiguráciu pre zdroje samotnej 
 Pravdepodobne teda ide o sekundárnu konfiguráciu vytvorenú používaním konkrétnej služby od poskytovateľa \code{cloudflare.com}.
 
 Tiež sa vyskytovali prípady, v ktorých pre zdroje typu \code{html} bola jedna konfigurácia nastavená na monitorovanie 5\% chýb a 0.5\% úspechov prevažnej väčšiny zdrojov.
-Tieto zdroje boli ale paradoxne práve tie hlavné zdroje domény ako aj domovské stránky.
+Tieto zdroje boli ale paradoxne práve tie hlavné zdroje danej domény ako napríklad aj domovské stránky.
 Takáto konfigurácia bola charakteristická pre poskytovateľa \code{heroku.com}.
 Doplňujúcou konfiguráciou pre tieto prípady bola napríklad pre doménu \code{nuovopay.com} konfigurácia monitorujúca webstránky obsahujúce hlavne informatívny obsah.
 Tento obsah však bol monitorovaný pre 100\% zlyhaní a 0\% úspechov.
 
 Je náročné jednoznačne určiť konkrétnu stratégiu, s ktorou si domény vyberajú rôzne konfigurácie pre rôzne typy svojich zdrojov.
 Zistil som však, že samotné nastavenie konfigurácií, ktoré som preskúmal, prevažne závisí od použitého poskytovateľa NEL kolektorov.
-V prípadoch, že obe konfigurácie využívali \code{cloudflare.com} kolektor, jedna bola nastavená pre hlavné zdroje domény a druhá pre tie vedľajšie, najčastejšie skripty prevziate od samotného cloudflare.
+V prípadoch, že obe konfigurácie využívali \code{cloudflare.com} kolektor, jedna bola nastavená pre hlavné zdroje domény a druhá pre tie vedľajšie, najčastejšie skripty prevzaté od samotného cloudflare.
 Domény využívajúce aj \code{heroku.com}, aj \code{cloudflare.com}, rozdelili svoje zdroje tak, aby na \code{heroku.com} boli zasielané hlásenia menej často, pričom sledovali aj úspechy, no na \code{cloudflare.com} zasielajú všetky zlyhania vybraných zdrojov bez ohľadu na úspechy. 
+Konfigurácie používajúce iných poskytovateľov NEL kolektorov boli vždy spárované s buď \code{cloudflare.com}, alebo s \code{heroku.com}, pričom počet ich výskytov bol v dátach zanedbateľný.
+
 
 
 

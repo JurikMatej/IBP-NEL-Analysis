@@ -32,7 +32,6 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 \pagebreak
 
 \section{Množina skúmaných domén}
-\label{tranco}
 
 Existujú projekty, ktoré sa zaoberajú získavaním doménových mien pre rôzne účely.
 Napríklad, niektoré projekty sú vypracované s cieľom spravovať zoznam domén, ktoré často navštevujú používatelia služieb patriacich autorom daného projektu \cite{chrome-crux}. 
@@ -59,6 +58,7 @@ Pre aktuálnejší dátum, marec 2024, je to 18 669 191.
 
 
 \subsection{Najčastejšie navštevované domény}
+\label{tranco}
 
 Jeden z projektov, ktorých účelom je jednoducho zaznamenávanie domén s najčastejšie navštevovanými webstránkami, je TRANCO \cite{tranco}.
 Projekt TRANCO poskytuje sadu nástrojov pre generovanie rebríčkov najpopulárnejších domén. 
@@ -101,7 +101,7 @@ V jeho štandardnej forme, rebríček TRANCO sa generuje každý deň v dvoch ve
 
 V tomto každodenne generovanom rebríčku sú prednastavené aj zdroje dát, teda použité zdrojové rebríčky, aj dátumový rozsah, za ktorý sa zo zdrojových rebríčkov má čerpať.
 Štandardne sa vytvára výsledok z rebríčkov Chrome User Experience Report, Majestic Million, Cloudflare Radar a Cisco Umbrella.
-Dátumový rozsah je nastavený na posledných 30 dní \cite{tranco-config}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
+Dátumový rozsah je nastavený na \mbox{posledných 30} dní \cite{tranco-config}, pričom TRANCO použije ako kompletný zdroj dát všetky spomenuté rebríčky vygenerované za túto dobu. 
 
 V novom TRANCO rebríčku sa zo zdrojových rebríčkov spriemeruje pre každú doménu jej zaradenie aplikovaním jednej z dostupných kombinačných metód pre upravenie finálneho hodnotenia domén.
 Pre štandardný rebríček je využitá kombinačná metóda takzvanej harmonickej progresie, nazývaná Dowdall rule. 
@@ -188,7 +188,7 @@ Pre jednoduchosť v implementácií zaznamenávania potrebných HTTP hlavičiek 
 Prednosťou tejto metódy získavania vlastných dát pre analýzu je skutočnosť, že iným spôsobom nie je možné získať rozsiahle objemy dát popisujúce \textit{aktuálny} stav nasadenia NEL.
 Tiež je výhodou, že nie je nutné platiť za získavanie dát takýmto spôsobom, nerátajúc náklady na prevádzku počítača, na ktorom má byť spúšťané.
 Výraznou výhodou je ale aj možnosť hĺbkovo preskúmať každú vybranú doménu.
-Pomocou hyperlinov odkazujúcich sa na webstránky dostupné na rovnakej doméne je totiž možné na nej prehliadať a skúmať všetky návštevníkovi dostupné webstránky.
+Pomocou hyperlinkov odkazujúcich sa na webstránky dostupné na rovnakej doméne je totiž možné na nej prehliadať a skúmať všetky návštevníkovi dostupné webstránky.
 
 Značnou nevýhodou však je, že v prípade skúmania množstva domén a ich webstránok tento proces trvá veľmi dlho, a to kvôli nutnosti čakať na načítanie každej skúmanej webstránky. 
 Okrem toho zároveň zo zamerania tejto metódy na súčasnosť vyplýva, že nie je možné získať historické dáta pred prvým spustením hotového nástroja na automatizované prehliadanie webu.  
@@ -423,5 +423,5 @@ Taktiež, keďže sú už všetky dáta dostupné na službe BigQuery, analýza 
 
 Avšak, na rozdiel od využitia vlastných dát, využitie dát projektu HTTP Archive je spoplatnené.
 To znamená, že aj keď je možné vykonať rozsiahlu analýzu, platí, že čím väčší je jej rozsah, tým väčší je aj potrebný poplatok na jej vykonanie.
-Okrem toho je ešte limitáciou týchto dát fakt, že sa v nich pre každú doménu nachádza okrem zdrojov ako skripty a obrázky iba zopár záznamov reálnych webstránok na nej dostupných. 
+Okrem toho je ešte limitáciou týchto dát fakt, že sa v nich pre každú doménu nachádza okrem zdrojov ako skripty \mbox{a obrázky} iba zopár záznamov reálnych webstránok na nej dostupných. 
 Z toho dôvodu nie je možné takto preskúmať jednotlivé domény do hĺbky, ale iba relatívne povrchne.

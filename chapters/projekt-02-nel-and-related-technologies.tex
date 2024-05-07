@@ -24,17 +24,17 @@ Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo f
 
 Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator \cite{wiki-hyperlink} (jednotný lokátor zdrojov, ďalej už iba \emph{URL} \cite{rfc3986}).
 Vďaka hyperlinkom obsahujúcim hodnoty URL je možné odkazovať sa na vzdialený obsah webu, prepájať rôzne dokumenty medzi sebou, a tým web navigovať.
-Typická hodnota URL sa skladá z:
+Typická hodnota URL má nasledujúce časti:
 \begin{enumerate}
-    \item protokolu používaného na sieťovú komunikáciu medzi servermi (anglicky \textit{protocol}),
+    \item protokol používaný na sieťovú komunikáciu medzi servermi (anglicky \textit{protocol}),
 
-    \item adresy web servera, teda jeho domény (anglicky \textit{domain}, popísané v sekcii \ref{domeny}),
+    \item adresa web servera, teda jeho doména (anglicky \textit{domain}, popísané v sekcii \ref{domeny}),
     
-    \item a cesty k uloženému dokumentu (anglicky \emph{path}).
+    \item cesta k uloženému dokumentu (anglicky \emph{path}).
 \end{enumerate}
 
 Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
-Príladom typickej URL môže byť \code{https://priklad.com/dokument}, kde \code{https://} označuje komunikačný protokol, \code{priklad.com} doménu web servera a \code{dokument} cestu k dokumentu. 
+Príkladom typickej URL môže byť \code{https://priklad.com/dokument}, kde \code{https://} označuje komunikačný protokol, \code{priklad.com} doménu web servera a \code{dokument} cestu k dokumentu. 
 
 Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.
 Protokol definuje množinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
@@ -195,8 +195,8 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah \cite
 \end{center}
 \end{figure}
 
-Jednotlivé časti žiadosti sú zobrazené na obrázku \ref{fig:http-request} a označené číslami. Postupne, prvá časť (1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (2.)}. 
-Ďalšia je vyznačená verzia protokolu HTTP (3.), pod ktorou je v poslednom rade umiestnená sekcia \mbox{s HTTP} hlavičkami (4.) 
+Jednotlivé časti žiadosti sú zobrazené na obrázku \ref{fig:http-request} a označené číslami. Postupne, prvá časť (bod 1.) predstavuje metódu žiadosti, nasleduje cesta \mbox{k zdroju (bod 2.)}. 
+Ďalšia je vyznačená verzia protokolu HTTP (bod 3.), pod ktorou je v poslednom rade umiestnená sekcia \mbox{s HTTP} hlavičkami (bod 4.) 
 
 
 \subsubsection{HTTP odpoveď}
@@ -283,8 +283,8 @@ Jednotlivé časti žiadosti sú zobrazené na obrázku \ref{fig:http-request} a
 \end{figure}
 
 Jednotlivé časti odpovede sú zobrazené na obrázku \ref{fig:http-response} a označené číslami. 
-Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (2.)} a správa k nemu prislúchajúca (3.). 
-Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). 
+Prvú časť (bod 1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statusový kód (bod 2.)} a správa k nemu prislúchajúca (bod 3.). 
+Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (bod 4.). 
 Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.
 
 \subsubsection{HTTPS}
@@ -731,6 +731,7 @@ Existujú však aj online služby, ktoré v rámci svojich riešení poskytujú 
 Napríklad, platforma \emph{Heroku} 25. septembra 2023 oznámila, že NEL interne nasadila\footnote{\url{https://devcenter.heroku.com/changelog-items/2678}}.
 Ďalej, platformy ako \emph{Raygun}, \emph{ReportURI} a \emph{URIports} poskytujú NEL kolektory ako službu, ku ktorej publikovali návody na používanie\footnote{Napríklad \url{https://www.uriports.com/getting-started-with-website-monitoring}}.
 Súčasťou takto poskytovaných služieb je pre vymenované platformy vizualizovanie prehľadu nazbieraných dát z hlásení NEL, prípadne taktiež zasielanie notifikácií o zvýšenom počte zlyhaní zákazníkovi služby prostredníctvom mailu.
-Značne zainteresovanou je aj platforma \emph{Cloudflare}, ktorá okrem poskytovania NEL ako služby tiež prispela svojimi skúsenosťami s používaním NEL do diskuzie s organizáciou Mozilla na konci roku 2023\footnote{\url{https://github.com/mozilla/standards-positions/issues/99}}.
-V zminenom príspevku Cloudflare hovorí o tom, že NEL používa na hlásenie výskytov zlyhanií, hlásenie poklesov výskytov zlyhaní (úspešné opravy problémov), monitorovanie problémov v rámci priebehu vývoja ich vlastnej infraštruktúry, detekciu blokujúcich sieťových uzlov a podobne.
-Súčasťou tejto diskuzie je taktiež príspevok, v ktorom jeho autor tvrdí, že organizácia \emph{Wikimedia Foundation} tiež používa NEL pre detekciu výpadkov v dostupnosti webstránok Wikipédie, ktorú prevádzkuje. 
+Značne zainteresovanou je aj platforma \emph{Cloudflare}, ktorá okrem poskytovania NEL ako služby tiež prispela svojimi skúsenosťami s používaním NEL do diskusie s organizáciou Mozilla na konci roku 2023\footnote{\url{https://github.com/mozilla/standards-positions/issues/99}}.
+V zmienenom príspevku Cloudflare hovorí o tom, že NEL používa na hlásenie výskytov zlyhaní, hlásenie poklesov výskytov zlyhaní (úspešné opravy problémov), monitorovanie problémov v rámci priebehu vývoja ich vlastnej infraštruktúry, detekciu blokujúcich sieťových uzlov a podobne.
+Súčasťou tejto diskusie je taktiež príspevok, v ktorom jeho autor tvrdí, že organizácia \emph{Wikimedia Foundation} tiež používa NEL pre detekciu výpadkov v dostupnosti webstránok Wikipédie, ktorú prevádzkuje. 
+Všeobecne je v nájdených zmienkach NEL označovaný za veľmi užitočnú technológiu.

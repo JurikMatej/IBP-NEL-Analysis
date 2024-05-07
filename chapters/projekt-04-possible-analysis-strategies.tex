@@ -16,7 +16,7 @@ Na základe konzultácie s vedúcim tejto práce, pánom Polčákom, som sa rozh
 najrozsiahlejšie obdobie.
 Zámerom je pokúsiť sa pokryť celé obdobie, za ktoré sa NEL doteraz používalo, no závisí na zdrojoch použitých pre analýzu, či budú všetky potrebné dáta dostupné.
 Ako počiatočný dátum môžem zvoliť 25. september 2018, kedy autori tejto technológie publikovali jej špecifikáciu (viď sekciu \ref{network-error-logging}).
-Od tohto počiatočného dátumu chcem zhotoviť prieskum až po dátum odovzdania tejto práce -- apríl 2024.
+Od tohto počiatočného dátumu chcem zhotoviť prieskum až po mesiac pred odovzdaním tejto práce -- apríl 2024.
 
 \subsubsection{Existujúca analýza}
 
@@ -69,7 +69,7 @@ pričom s každým uplynulým mesiacom získam ďalší terabajt naviac (viď ce
 Vzhľadom na možnosť vylepšenia, ktoré by garantovalo plnú využiteľnosť HTTP Archive dát počas celého zvoleného časového obdobia a výšky zadarmo dostupného kreditu
 som sa rozhodol vykonať rozsiahlejšiu a podrobnejšiu HTTP Archive analýzu.
 Definitívnym nedostatkom tejto metódy však ostáva limitovaný počet zaznamenávaných zdrojov pre jednotlivé domény v historických dátach.
-Tieto historické dáta totiž neobsahujú záznamy o všektých zdrojoch dostupných na danej doméne, ale iba určitý malý počet.
+Tieto historické dáta totiž neobsahujú záznamy o všetkých zdrojoch dostupných na danej doméne, ale iba určitý malý počet.
 
 Preto ďalej doplním tento nedostatok použitím automatizovaného prehliadania webu.
 Využitím vlastnej implementácie nástroja s vlastnou stratégiou prehľadávania skúmaných domén môžem navštíviť viac zdrojov na nich dostupných. 
@@ -92,7 +92,7 @@ V prípade analýzy historických dát som si vybral množinu skúmaných domén
 Vďaka tomu, že tabuľky HTTP Archive už tieto domény obsahujú, nie je nutné vynakladať úsilie naviac pre ich zaobstarávanie v samostatnom kroku. 
 Rozhodol som sa TRANCO nepoužiť ako zdroj pre množinu skúmaných domén do analýzy \textit{historických} dát.
 
-Pre nástroj na prehliadanie webu si po dokončení analýzy HTTP Archive vyberiem domény z polsedného analyzovaného mesiaca. 
+Pre nástroj na prehliadanie webu si po dokončení analýzy HTTP Archive vyberiem domény z posledného analyzovaného mesiaca. 
 Z nich pomocou rebríčka TRANCO získam tie najpopulárnejšie domény, aby som redukoval počet skúmaných domén, ale zároveň stále pracoval s tými najrelevantnejšími.
 Redukovať počet domén som sa rozhodol z dôvodu predpokladanej nižšej výkonnosti dosahovanej navrhnutým nástrojom pre prehliadanie webu \mbox{v porovnaní} s nástrojom použitým v rámci HTTP Archive. 
 
