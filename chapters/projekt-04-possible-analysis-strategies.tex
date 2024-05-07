@@ -16,7 +16,7 @@ Na základe konzultácie s vedúcim tejto práce, pánom Polčákom, som sa rozh
 najrozsiahlejšie obdobie.
 Zámerom je pokúsiť sa pokryť celé obdobie, za ktoré sa NEL doteraz používalo, no závisí na zdrojoch použitých pre analýzu, či budú všetky potrebné dáta dostupné.
 Ako počiatočný dátum môžem zvoliť 25. september 2018, kedy autori tejto technológie publikovali jej špecifikáciu (viď sekciu \ref{network-error-logging}).
-Od tohto počiatočného dátumu chcem zhotoviť prieskum až po dátum obhajoby tejto práce -- máj 2024.
+Od tohto počiatočného dátumu chcem zhotoviť prieskum až po dátum odovzdania tejto práce -- apríl 2024.
 
 \subsubsection{Existujúca analýza}
 
@@ -40,28 +40,23 @@ Toto percento predstavuje z celkového počtu skúmaných domén 2 247 233 jedin
 
 Zistil som, že ako zdroj dát bol použitý HTTP Archive, ktorým sa zaoberá aj moja práca.
 Je však dôležité poznamenať, že predošlá analýza bola vypracovaná iba za pomoci využitia 
-práve jedného zdroja dostupného na každej skúmanej doméne.
-Keďže bol v rámci práce použitý projekt HTTP Archive ako zdroj dát, k tomuto rozhodnutiu obmedziť sa mohlo viesť to, 
-že ním využívaná služba BigQuery je spoplatnená (viď sekciu \ref{httparchive-costs}). 
-Je pravdepodobné, že autori nemali prostriedky pre financovanie sťahovania takého veľkého objemu dát, 
-ktorý predstavuje skúmané obdobie šiestich rokov (od 2018 do 2023).
-Vo svojej práci usúdili, že vzhľadom na túto limitáciu je nutné vypracovať podrobnejšiu analýzu, 
-doplnenú o dáta získané alternatívnym spôsobom \cite{nel-http-archive}.
-Práve z toho dôvodu som počiatočne usúdil, že je nutné v mojej analýze okrem použitia HTTP Archive navrhnúť 
-aj iný spôsob skúmania stavu využitia technológie NEL.
+práve jedného zdroja dostupného na každej skúmanej doméne \cite{nel-http-archive}.
+Tým pádom neboli dostupné dáta využité naplno a ostal priestor pre vylepšenia.
 
 \subsubsection{Prieskum možností pre vylepšenia}
 
 Preskúmal som spôsob, ktorý vo vyššie uvedenej práci použili na získavanie HTTP Archive dát.
 Bol použitý nástroj pre sťahovanie dát z Google Cloud BigQuery, ktorý naprogramoval pán 
 Jeřábek\footnote{\url{https://github.com/kjerabek/nel-http-archive-analysis}}.
-Počas testovania tohto nástroja som zistil, že je možné vylepšiť ho tak, aby som odstránil predošlú, v skutočnosti iba myslenú limitáciu s nedostatkom dát kvôli financiám.
-Postupným skúšaním používania a úprav príkazu GoogleSQL použitého v spomínanom nástroji na extrahovanie dát som prišiel na skutočnosť, že BigQuery
-si nárokuje poplatky nie za sťahovanie, ale za čítanie dát z jednotlivých stĺpcov svojich tabuliek.
+Počas testovania tohto nástroja som zistil, že je možné vylepšiť ho tak, aby som odstránil predošlú limitáciu.
+Interne používal príkaz GoogleSQL pre sťahovanie dát \mbox{z BigQuery}.
+Práve tento príkaz dáta pred stiahnutím filtroval na jeden zdroj pre každú skúmanú doménu.
+Filtrovanie sa dá jednoducho odstrániť, no to prirodzene povedie k zvýšeniu objemu dát, ktoré bude nutné stiahnuť.
+V skutočnosti si ale BigQuery nárokuje poplatky nie za sťahovanie, ale za čítanie dát z jednotlivých stĺpcov svojich tabuliek.
+Prišiel som na to postupným testovaním spomínaného príkazu GoogleSQL.
 To pre mňa znamenalo, že nebudem platiť za objem dát, ktoré stiahnem, ale za objem dát, ktoré pri spustení príkazu GoogleSQL bude musieť služba prečítať.
-Prišiel som teda na to, že rozhodnutie obmedziť sa na jeden zdroj pre každú skúmanú doménu v predošlej analýze nezaručilo nižšiu spotrebu financií.
-Tým pádom sa pre mňa otvorila možnosť naplno využiť HTTP Archive dáta úpravou spomínaného príkazu GoogleSQL, pričom by som na to potreboval rovnakú sumu peňazí.
-Táto úprava spočívala v odstránení filtrov z tohto príkazu, ktoré jeho výsledné dáta limitovali na jeden zdroj pre každú doménu.
+Použitie príkazu bez filtra teda spotrebuje rovnakú sumu finančných zdrojov ako použitie príkazu s filtrom.
+Tým pádom sa pre mňa otvorila možnosť naplno využiť projekt HTTP Archive odstránením filtrácie dostupných dát, pričom sa nenavýši spotreba finančných prostriedkov.
 
 Google Cloud ako platforma pre BigQuery v dobe vypracovania mojej práce ponúkala novo zaregistrovaným účtom zadarmo skúšobný
 kredit 300\$. 
@@ -72,30 +67,39 @@ pričom s každým uplynulým mesiacom získam ďalší terabajt naviac (viď ce
 \subsubsection{Použité metódy}
 
 Vzhľadom na možnosť vylepšenia, ktoré by garantovalo plnú využiteľnosť HTTP Archive dát počas celého zvoleného časového obdobia a výšky zadarmo dostupného kreditu
-som sa rozhodol založiť celú svoju analýzu práve na HTTP Archive.
+som sa rozhodol vykonať rozsiahlejšiu a podrobnejšiu HTTP Archive analýzu.
+Definitívnym nedostatkom tejto metódy však ostáva limitovaný počet zaznamenávaných zdrojov pre jednotlivé domény v historických dátach.
+Tieto historické dáta totiž neobsahujú záznamy o všektých zdrojoch dostupných na danej doméne, ale iba určitý malý počet.
 
-Druhou metódou skúmania stavu nasadenia NEL, automatizovaným prehliadaním webu, je možné ďalej doplniť moju prácu.
-Vďaka nej totiž môžem získať najaktuálnejší prehľad nasadenia NEL na skúmaných doménach medzi tým ako sú publikované výsledky prehliadania webu od HTTP Archive.
-Avšak je zložité pripraviť výpočtovú silu a vhodnú stratégiu prehľadávania webu na priblíženie sa k rozsahu a rýchlosti dosahovanej alternatívnou metódou.
-Výsledok vývoja nového nástroja pre automatizované prehliadanie webu sa teda za čas vyhradený pre túto prácu nemôže vyrovnať existujúcemu komplexnému riešeniu, ktorým je HTTP Archive.
-Je však možné taký nástroj aj vo veľmi jednoduchom prevedení využiť na kontrolu výsledkov, ktoré získam z dát HTTP Archive.
+Preto ďalej doplním tento nedostatok použitím automatizovaného prehliadania webu.
+Využitím vlastnej implementácie nástroja s vlastnou stratégiou prehľadávania skúmaných domén môžem navštíviť viac zdrojov na nich dostupných. 
+Tým pádom každú doménu preskúmam do hĺbky, do akej ju nemožno preskúmať za pomoci dát z HTTP Archive. 
+
+Hlavným cieľom zamerania sa na pokrytie vyššieho počtu zdrojov na doméne je kontrola jednotnosti v nasadení NEL.
+To znamená rozsiahle kontrolovanie prítomnosti rôznych variácií konfigurácie NEL na jednotlivých doménach.
+Okrem toho, takýmto spôsobom môžem získať najaktuálnejší prehľad o nasadení NEL na skúmaných doménach medzi tým ako sú publikované výsledky prehliadania webu od HTTP Archive.
+
+Avšak, je zložité pripraviť výpočtovú silu a vhodnú stratégiu prehľadávania webu na priblíženie sa k rýchlosti a efektivite získavania výsledkov dosahovanej existujúcim riešením používaným v rámci HTTP Archive.
+Výsledok vývoja nového nástroja pre automatizované prehliadanie webu sa teda za čas vyhradený pre túto prácu nemôže vyrovnať zmienenému existujúcemu komplexnému riešeniu.
+Je však možné taký nástroj aj v jednoduchom prevedení využiť na predsavzaté účely.
 Preto som sa rozhodol \mbox{v rámci} mojej analýzy taký nástroj zhotoviť.
-Kontrolovať bude do akej miery sa výsledky z najaktuálnejších, alternatívne získaných dát zhodujú s jeho vlastnými výsledkami. 
-Pre implementáciu tohto nástroja si zvolím jednu z implementácií rozhrania WebDriver spomínaných v sekcií \ref{selenium}.
-V predošlej analýze autori uvádzajú zistenie, že NEL je podporovaný prehliadačom Google Chrome \cite{nel-http-archive}.
-V rámci implementácie nástroja na automatizované prehliadanie som sa teda rozhodol použiť práve tento prehliadač.
+Na jeho vývoj si zvolím jednu z implementácií rozhrania WebDriver spomínaných v sekcií \ref{selenium}.
+Ďalej, podľa zistenia z predošlej analýzy, kde autori uvádzajú Google Chrome ako prehliadač podporujúci NEL \cite{nel-http-archive}, implementujem automatizáciu prehliadania webu používajúcu prehliadač Google Chrome.
 
 \subsubsection{Vstupy a výstupy}
 
-Keďže sa stal primárnym zdrojom dát pre moju analýzu HTTP Archive, jednoznačným výberom množiny skúmaných domén sa stal ním používaný Chrome User Experience Report. 
+V prípade analýzy historických dát som si vybral množinu skúmaných domén z dát CrUX. 
 Vďaka tomu, že tabuľky HTTP Archive už tieto domény obsahujú, nie je nutné vynakladať úsilie naviac pre ich zaobstarávanie v samostatnom kroku. 
-Preto som sa rozhodol nevyužiť TRANCO ako hlavný zoznam skúmaných domén.
-Pri celkovej analýze ale tento rebríček môže byť stále užitočný pre získanie pohľadu na využívanie a detaily používania NEL tými najpopulárnejšími doménami z celkovej skúmanej množiny.
+Rozhodol som sa TRANCO nepoužiť ako zdroj pre množinu skúmaných domén do analýzy \textit{historických} dát.
 
-V dôsledku takto sformovanej stratégie pre analýzu využitia technológie NEL sa jej vstupmi stávajú dáta získané z HTTP Archive a spomínaného nástroja na kontrolu najaktuálnejšieho stavu.
+Pre nástroj na prehliadanie webu si po dokončení analýzy HTTP Archive vyberiem domény z polsedného analyzovaného mesiaca. 
+Z nich pomocou rebríčka TRANCO získam tie najpopulárnejšie domény, aby som redukoval počet skúmaných domén, ale zároveň stále pracoval s tými najrelevantnejšími.
+Redukovať počet domén som sa rozhodol z dôvodu predpokladanej nižšej výkonnosti dosahovanej navrhnutým nástrojom pre prehliadanie webu \mbox{v porovnaní} s nástrojom použitým v rámci HTTP Archive. 
+
+V dôsledku takto sformovanej stratégie pre analýzu využitia technológie NEL sa jej vstupmi stávajú dáta získané z HTTP Archive a spomínaného nástroja pre automatizované prehliadanie webu.
 Tieto dáta som sa rozhodol z oboch zdrojov štruktúrovať rovnako, aby ich analýza mohla prebiehať tým istým spôsobom.
 Na základe sformovanej štruktúry týchto dát implementujem nástroj pre ich spracovanie, ktorý z nich vypočíta niekoľko metrík popisujúcich rôzne aspekty využívania technológie NEL.
-Na základe obsahu skúmaných hlavičiek \code{NEL} a \code{Report-To}, som sa rozhodol zamerať sa na výpočet nasledujúcich metrík:
+Podľa obsahu skúmaných hlavičiek \code{NEL} a \code{Report-To} som sa rozhodol zamerať sa na výpočet nasledujúcich metrík:
 \begin{itemize}
     \item počet domén, ktoré NEL používajú,
     \item NEL kolektory, ktoré sa používajú, ich počet a najpoužívanejšie z nich,
@@ -106,14 +110,12 @@ Na základe obsahu skúmaných hlavičiek \code{NEL} a \code{Report-To}, som sa 
 \end{itemize}
 
 Výsledkom celkovej mojej analýzy bude prezentovanie výsledných metrík vo vhodnej forme s poznamenaním a vysvetlením zistených skutočností a zaujímavostí. 
-
-\pagebreak
+Diagram aktivít v obrázku \ref{img:analysis-activity-diagram} znázorňuje jednotlivé kroky navrhnutej analýzy nasadenia technológie NEL. 
 
 \begin{figure}[!htb]
 \begin{center}
- % \includegraphics[scale=0.48]{obrazky-figures/analysis-activity-diagram.png}    
- % \includegraphics[scale=0.65]{obrazky-figures/analysis-activity-diagram-hd.pdf}    
- \includegraphics[scale=0.65]{obrazky-figures/analysis-activity-diagram-revised.pdf}    
+ % \includegraphics[scale=0.65]{obrazky-figures/analysis-activity-diagram-revised.pdf}    
+ \includegraphics[scale=0.76]{obrazky-figures/analysis-activity-diagram-final.pdf}    
  \caption{Diagram aktivít analýzy.}
  \label{img:analysis-activity-diagram}
 \end{center}

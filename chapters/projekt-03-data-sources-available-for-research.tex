@@ -25,7 +25,7 @@ Po definovaní množiny skúmaných domén je možné zmienené záznamy o komun
 
     Pre sledovanie historického vývoja nasadenia NEL je tiež nevyhnutné nahliadnuť do histórie prevádzky skúmaných domén. 
     Z tohto hľadiska je nutné použiť už spracované a uložené dáta. 
-    Vyhovujúcim zdrojom historických dát je projekt \textbf{HTTP Archive}, ktorému sa táto práca venuje primárne, a to v sekcií \ref{httparchive}.
+    Vyhovujúcim zdrojom historických dát je projekt \emph{HTTP Archive}, ktorému sa táto práca venuje primárne, a to v sekcií \ref{httparchive}.
     Ide o projekt, v rámci ktorého bol zaznamenávaný vývoj webu od roku 2010. Vhodnosť projektu potvrdzuje skutočnosť, že prvá stabilná špecifikácia, podľa ktorej je NEL skúmaný v tejto práci, bola publikovaná až v roku 2018. HTTP Archive teda pokrýva celý vývoj NEL v čase.
 \end{enumerate}
 
@@ -45,17 +45,13 @@ Takým je napríklad projekt TRANCO, ktorý popisujem v sekcií \ref{tranco}.
 \subsection{Domény navštevované používateľmi prehliadača Google Chrome}
 \label{chrome-user-experience-report}
 
-Chrome User Experience Report, skrátene CrUX, je dataset uschovávajúci dáta získané používateľmi prehliadača Google Chrome pri prehliadaní populárnych domén na webe \cite{chrome-crux}.
+Chrome User Experience Report (CrUX) je dataset uschovávajúci dáta získané používateľmi prehliadača Google Chrome pri prehliadaní populárnych domén na webe \cite{chrome-crux}.
 Obsiahnuté dáta predstavujú sledované metriky týkajúce sa rôznych aspektov prehliadaných webstránok.
 Podľa dokumentácie sa tieto metriky zbierajú výhradne z webstránok, pre ktorých domény platí, že sú dosiahnuteľné a dostatočne populárne.
 Zoznam týchto domén je možné získať z priamo z CrUX datasetu.
 Je totiž skladovaný v prostredí služby Google Cloud BigQuery, kde je verejne prehliadateľný. 
 Dateset je aktualizovaný novými dátami každý mesiac.
 Službu BigQuery bližšie popisujem v sekcií \ref{big-query}.
-
-Nenašiel som presné podrobnosti o tom, akým spôsobom sú domény získavané, no ako populárne sú označované podľa počtu ich návštevníkov.
-Aby bola určitá doména zaradená do zoznamu domén, s ktorými CrUX pracuje, musí počet jej návštevníkov presahovať predom definované číslo.
-Toto číslo sa však autori dokumentácie rozhodli neuverejniť \cite{chrome-crux-methodology}.
 
 Podľa samotného datasetu v prostredí BigQuery je však možné presvedčiť sa, že CrUX spravuje veľké množstvo týchto populárnych domén.
 Napríklad, pre september 2018, dátum, kedy bola publikovaná prvá stabilná špecifikácia NEL (viď sekciu \ref{network-error-logging}), je počet spravovaných jedinečných domén CrUX 4 375 805.
@@ -68,10 +64,12 @@ Jeden z projektov, ktorých účelom je jednoducho zaznamenávanie domén s naj�
 Projekt TRANCO poskytuje sadu nástrojov pre generovanie rebríčkov najpopulárnejších domén. 
 Tieto rebríčky webových domén zoradených podľa hodnotenia návštevnosti ich webstránok je odolný proti externej manipulácií a vhodný na účely výskumu. 
 Vznikol na základe častej potreby pre skúmanie práve takýchto domén či už pre jednoduchú referenciu, alebo ako podklad pre ďalší prieskum.
+
 TRANCO nie je prvým takýmto rebríčkom, ale je prvým, ktorý sa zaoberá nedostatkami iných existujúcich rebríčkov.
 Existujúce rebríčky využíva ako zdroje dát pre tvorbu toho svojho.
-Nový rebríček TRANCO sa tvorí zlučovaním zdrojových rebríčkov do nového, stabilnejšieho rebríčka, ktorý reprezentuje domény v globálnej škále.
+Tvorí sa zlučovaním zdrojových rebríčkov do nového, stabilnejšieho rebríčka, ktorý reprezentuje domény v globálnej škále.
 TRANCO dokonca do určitej miery odstraňuje zo zdrojových rebríčkov domény, na ktorých môže byť zverejnený nežiadúci (nebezpečný) obsah.
+
 Obsahuje primárne registrovateľné domény, čo sú domény, ktoré si môže priamo zakúpiť či už jednotlivec alebo organizácia. 
 Príkladom môžu byť domény registrované pod TLD \code{com}, ale aj domény registrované pod eTLD zo zoznamu verejných sufixov ako \mbox{\code{co.uk} \cite{tranco}}.
 
@@ -187,8 +185,10 @@ Pre jednoduchosť v implementácií zaznamenávania potrebných HTTP hlavičiek 
 
 \subsection{Výhody a nevýhody}
 
-Jednoznačnou prednosťou tejto metódy získavania vlastných dát pre analýzu je skutočnosť, že iným spôsobom nie je možné získať rozsiahle objemy dát popisujúce \textit{aktuálny} stav nasadenia NEL.
-Tiež je výhodou, že nie je nutné platiť za získavanie dát takýmto spôsobom, nerátajúc náklady na prevádzku počítača, na ktorom sa má automatizované prehliadanie webu spúšťať.
+Prednosťou tejto metódy získavania vlastných dát pre analýzu je skutočnosť, že iným spôsobom nie je možné získať rozsiahle objemy dát popisujúce \textit{aktuálny} stav nasadenia NEL.
+Tiež je výhodou, že nie je nutné platiť za získavanie dát takýmto spôsobom, nerátajúc náklady na prevádzku počítača, na ktorom má byť spúšťané.
+Výraznou výhodou je ale aj možnosť hĺbkovo preskúmať každú vybranú doménu.
+Pomocou hyperlinov odkazujúcich sa na webstránky dostupné na rovnakej doméne je totiž možné na nej prehliadať a skúmať všetky návštevníkovi dostupné webstránky.
 
 Značnou nevýhodou však je, že v prípade skúmania množstva domén a ich webstránok tento proces trvá veľmi dlho, a to kvôli nutnosti čakať na načítanie každej skúmanej webstránky. 
 Okrem toho zároveň zo zamerania tejto metódy na súčasnosť vyplýva, že nie je možné získať historické dáta pred prvým spustením hotového nástroja na automatizované prehliadanie webu.  
@@ -210,7 +210,7 @@ Taktiež je tento projekt súčasťou projektu Internet Archive, ktorý už od r
 Cieľom projektu je vytvoriť a udržiavať služby poskytujúce možnosť nahliadnuť do histórie webu, pozorovať jeho prechod do momentálneho stavu a vďaka získaným poznatkom dokázať
 predpovedať potencionálne nové trendy blízkej budúcnosti. 
 Pre tento účel vyvinuli sadu nástrojov pre zbieranie uvedených dát z webu, efektívne ukladanie nadobudnutých dát a ich reprezentáciu na svojej webovej stránke.
-Na uskladnenie dát sa používa služba \mbox{\textbf{BigQuery} poskytovaná} na platforme \textbf{Google Cloud Platform} (ďalej už iba GCP).
+Na uskladnenie dát sa používa služba \mbox{\emph{BigQuery} poskytovaná} na platforme \emph{Google Cloud Platform} (ďalej už iba GCP).
 Tieto dáta sú verejne prístupné ako databázové tabuľky v prostredí BigQuery.
 Prehliadať ich možno pomocou príkazov jazyka Structured Query Language, zaužívaného štruktúrovaného jazyka pre správu dát uložených v databáze (ďalej ako SQL).
 
@@ -231,9 +231,10 @@ Ako zoznam vstupných domén do tohto procesu HTTP Archive momentálne používa
 
 \subsubsection{WebPageTest}
 
-Nástroj použitý pre automatizované prehliadanie webu je WebPageTest. Tento nástroj (ďalej označovaný už iba ako WPT) je softvér na testovanie výkonnosti webstránok vyvinutý spoločnosťou Google \cite{webpagetest}. 
+Nástroj použitý pre automatizované prehliadanie webu je WebPageTest. 
+Tento nástroj (ďalej už iba WPT) je softvér na testovanie výkonnosti webstránok vyvinutý spoločnosťou Google \cite{webpagetest}. 
 Predstavuje komplexné riešenie schopné merať rôzne metriky ako proces načítavania, vykresľovania a využitia siete pre vybrané web stránky. 
-Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\url{https://github.com/catchpoint/WebPageTest}} spolu s priloženou dokumentáciou, a to pod open source licenciou.
+Je zverejnený priamo na stránkach jeho oficiálneho repozitára GitHub\footnote{\url{https://github.com/catchpoint/WebPageTest}} pod open source licenciou.
 
 HTTP Archive na svoje účely používa vlastnú WPT inštanciu. 
 Táto inštancia je priebežne synchronizovaná s najnovšou dostupnou verziou.
@@ -246,11 +247,13 @@ Taktiež sa na stránkach vyžadujúcich autentifikáciu nikdy neprihlasuje.
 To môže spôsobovať odchýlku oproti reálnemu scenáru používania navštevovaných web stránok. 
 WPT je spúšťaný vždy prvý deň v mesiaci, takže HTTP Archive zverejňuje dáta na mesačnej báze.
 
-Pre účely uskladňovania získaných dát je využitý formát HTTP Archive súboru (prípona \code{.har}, ďalej označovaný už len ako HAR).
-Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. Samotné dáta sú serializované vo formáte JSON.
+Pre účely uskladňovania získaných dát je využitý formát HTTP Archive súboru (prípona \mbox{\code{.har}, ďalej} už len HAR).
+Formát HAR je prispôsobený na uskladňovanie dát spojenia nadviazanom vo webovom prehliadači. 
+Samotné dáta sú serializované vo formáte JSON.
 Bežným obsahom HAR súboru býva HTTP žiadosť, prislúchajúca odpoveď, metriky výkonnosti načítania stránky a iné \cite{httparchive-harfile}. 
 Orientačný príklad obsahu takéhoto súboru je vo výpise \ref{listing:harfile}.
-Všetky detaily týkajúce sa procesu získania webstránky sú zaznamenané v položke \code{log}. Pole \code{version} definuje verziu súboru HAR. Pole \code{pages} obsahuje napríklad URL získaného zdroja a pole \code{entries} obsahuje HTTP žiadosti \mbox{a odpovede pre daný zdroj a zdroje ním používané.}
+Všetky detaily týkajúce sa procesu získania webstránky sú zaznamenané v položke \code{log}. 
+Pole \code{version} definuje verziu súboru HAR. Pole \code{pages} obsahuje napríklad URL získaného zdroja a pole \code{entries} obsahuje HTTP žiadosti \mbox{a odpovede pre daný zdroj a zdroje ním používané.}
 
 \begin{center}
 \centering
@@ -334,7 +337,7 @@ K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{g
     \item Google Cloud Console:
 
     Webové grafické rozhranie pre spravovanie Google Cloud projektov. 
-    Časť Google Cloud Console, ktorú užívatelia môžu využiť špecificky na prehliadanie dát BigQuery sa nazýva \textbf{BigQuery Studio}.
+    Časť Google Cloud Console, ktorú užívatelia môžu využiť špecificky na prehliadanie dát BigQuery sa nazýva \emph{BigQuery Studio}.
     Výhodou tohto spôsobu pracovania so zdrojmi je vysoká úroveň interaktivity, ktorú ponúka zabudované integrované vývojové prostredie pre prácu s dátami. 
 
     \item BigQuery nástroj príkazového riadku:
@@ -348,7 +351,7 @@ K dátam je možné priamo pristupovať prostredníctvom troch rozhraní \cite{g
 \end{enumerate}
 
 Pri využití ktorejkoľvek z týchto možností platí, že prehliadanie a manipuláciu dát umožňuje jazyk SQL \cite{google-bq}.
-V prostredí BigQuery sa používa dialekt pre SQL nazývaný \textbf{GoogleSQL}\footnote{\url{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
+V prostredí BigQuery sa používa dialekt pre SQL nazývaný \emph{GoogleSQL}\footnote{\url{https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax}}.
 Ako už bolo uvedené, HTTP Archive ukladá svoje výstupné dáta práve do BigQuery.
 Tieto dáta možno nájsť pomocou Google Cloud Console dostupné ako \textit{zdroj} (anglicky resource), ktorý si môže prihlásený používateľ pridať do svojho projektu.
 
@@ -406,10 +409,10 @@ Každú doménu, ktorá vo svojich odpovediach zaslala hlavičky \code{NEL} a \c
 \label{httparchive-costs}
 
 Čo sa platieb týka, BigQuery pre užívateľov poskytuje bezplatný plán s nastavenými limitmi pre využívanie konkrétnych funkcií.
-\textbf{Bezplatný plán} zahŕňa 1TB procesnej kapacity dát a 10GB úložného priestoru pre vlastné dáta, pričom dochádza každý mesiac \mbox{k obnove týchto bezplatných zdrojov}.
+\emph{Bezplatný plán} zahŕňa 1TB procesnej kapacity dát a 10GB úložného priestoru pre vlastné dáta, pričom dochádza každý mesiac \mbox{k obnove týchto bezplatných zdrojov}.
 Po prečerpaní kapacity uvedenej v tomto pláne je nutné akékoľvek ďalšie operácie doplatiť.
 Zoznam spôsobov, akými je možné zaplatiť za navýšenie spomenutých kapacít je rozsiahly, no pre prípady použitia tejto práce je relevantný platobný plán zvaný On-demand.
-\textbf{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
+\emph{On-demand plán}, alebo platba podľa potreby sa vzťahuje na procesnú kapacitu, ktorá sa vyčerpáva vykonávaním operácií nad dátami.
 Cena za 1TB kapacity je v čase písania práce \$6.25, pričom stále platí, že prvý terabajt je každý mesiac zadarmo \cite{google-bq-pricing}.
 
 \subsection{Výhody a nevýhody}
@@ -420,3 +423,5 @@ Taktiež, keďže sú už všetky dáta dostupné na službe BigQuery, analýza 
 
 Avšak, na rozdiel od využitia vlastných dát, využitie dát projektu HTTP Archive je spoplatnené.
 To znamená, že aj keď je možné vykonať rozsiahlu analýzu, platí, že čím väčší je jej rozsah, tým väčší je aj potrebný poplatok na jej vykonanie.
+Okrem toho je ešte limitáciou týchto dát fakt, že sa v nich pre každú doménu nachádza okrem zdrojov ako skripty a obrázky iba zopár záznamov reálnych webstránok na nej dostupných. 
+Z toho dôvodu nie je možné takto preskúmať jednotlivé domény do hĺbky, ale iba relatívne povrchne.

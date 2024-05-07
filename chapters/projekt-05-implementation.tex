@@ -1,0 +1,165 @@
+\chapter{Implementácia nástrojov}
+
+Po preskúmaní možností pre vykonanie podrobnej analýzy nasadenia NEL som podľa vypracovaného návrhu implementoval potrebné nástroje.
+Úlohou týchto nástrojov je dopracovať sa k stanoveným cieľom mojej práce.  
+Potrebné nástroje podľa návrhu práce (viď \mbox{kapitolu \ref{possible-analysis-strategies})} predstavujú implementované skripty pre dve rozdielne metódy analýzy:
+\begin{enumerate}
+    \item Práca s HTTP Archive:
+    \begin{enumerate}
+        \item[1.1.] získať \textit{historické} dáta, 
+        \item[1.2.] analyzovať ich a vyprodukovať výsledné metriky,
+        \item[1.3.] výsledky podľa potreby vhodne vizualizovať.
+    \end{enumerate}
+
+    \item Automatizované prehliadanie súčasného webu:
+    \begin{enumerate}
+        \item[2.1.] získať \textit{súčasné} dáta,
+        \item[2.2.] analyzovať ich a vyprodukovať výsledné metriky, 
+        \item[2.3.] výsledky podľa potreby vhodne vizualizovať.
+    \end{enumerate}
+\end{enumerate}
+
+Skutočnosť, že sa tieto dve metódy odlišujú iba v spôsobe získavania vstupných dát som využil pri návrhu skriptov.
+Na začiatok som teda definoval štruktúru výstupných dát z prvého kroku oboch metód (1.1 a 2.1).
+Ich spoločná štruktúra umožňila implementovať zvyšné dva kroky pre obe metódy rovnako.
+Tabuľka \ref{tab:analysis-data-structure} v prílohách túto štruktúru popisuje. 
+% Bližšie ju popisuje nasledujúca sekcia o implementácií nástroja pre HTTP Archive.
+
+\section{Skript pre prácu s HTTP Archive}
+\label{query_and_store}
+
+Vzhľadom na to, že som sa rozhodol ako primárny zdroj dát použiť projekt HTTP Archive, začal som s implementáciou skriptu pre prácu práve s ním.
+K vývoju som pristupoval tak, aby bolo možné dáta sťahovať postupne po jednotlivých mesiacoch. 
+Cieľom bolo v ďalších krokoch umožniť postupné vyhodnocovanie výsledných metrík. 
+Stratégiu postupného vyhodnocovania metrík som si zvolil z toho dôvodu, že som najskôr potreboval dôkladne otestovať optimalizácie získavania dát spomínané v návrhu práce.
+Preto som v prvom rade začal sťahovať a vyhodnocovať iba čiastkové výsledky z malého objemu dát, teda niekoľkých mesiacov na začiatku skúmaného časového obdobia.
+Jednorazové stiahnutie všetkých dát by totiž viedlo k spotrebovaniu prevažnej väčšiny dostupných finančných zdrojov pre prácu s historickými dátami.
+
+Tieto prvé testy som vykonával pomocou skriptu prebratého od autorov predošlej analýzy (viď existujúcu analýzu v rámci návrhu v kapitole \ref{possible-analysis-strategies}).
+Pri ich vykonávaní som objavil problémy v použití prebratého skriptu týkajúce sa mojej optimalizácie použitého príkazu GoogleSQL na extrahovanie dát.
+Cieľom optimalizácie bolo rozšíriť vzorku dát pre každú skúmanú doménu.
+Dôsledkom toho, že sa príkaz optimalizovať podarilo, sa objem dát na stiahnutie z BigQuery niekoľkokrát zvýšil.
+Prebratý skript však používal knižnicu, ktorá nepodporovala sťahovanie dát s vysokým objemom.
+To ma viedlo k vytvoreniu nového skriptu, ktorý sa týmto novým podmienkam prispôsobí.
+
+\subsubsection{Špecifikácia}
+
+Pôvodný, prebratý skript pre sťahovanie dát bol napísaný v jazyku Python3.
+Keďže mojím cieľom bolo implementovať rovnakú funkcionalitu, no podporovať veľký objem dát, rozhodol som sa pre implementáciu v rovnakom jazyku.
+Nový skript, \code{query\_and\_store.py} som napísal v jazyku Python3 s verziou \code{3.12.0}.
+Pôvodný algoritmus bol spustiť GoogleSQL príkaz na BigQuery a stiahnuť jeho službou dočasne uložené výsledky.
+Nedostal som sa k informácií o maximálnej veľkosti dočasných výsledkov, no z pozorovania som zistil, že zlyhávajú pokusy stiahnuť viac ako 100 megabajtov dát.
+Zistil som, že vhodnou alternatívou k tomuto prístupu je vyexportovať výsledné dáta do úložiska Google Cloud Storage nazvaného \textit{bucket} (ďalej už len GCS a GCS bucket).
+Pre službu GCS existuje knižnica \code{google.cloud.storage}, ktorá implementuje klienta pre operácie ako práve sťahovanie veľkých objemov dát z GCS bucketov.
+Pomocou pôvodnej knižnice, \code{google.cloud.bigquery}, som implementoval rozhranie pre extrahovanie a export dát z BigQuery.
+Za pomoci novej knižnice som implementoval rozhranie pre sťahovanie dát z GCS.
+
+Výstupom pôvodného skriptu boli komprimované súbory Apache Parquet, ktoré rovnako ako BigQuery ukladajú dáta formátované s orientáciou na stĺpce.
+Keďže použitím nového skriptu výrazne narastá objem analyzovaných dát, schopnosť vyberať iba niektoré potrebné stĺpce pre výpočty konkrétnej metriky je kľúčová z hľadiska pamäťovej náročnosti.
+Rozhodol som sa preto ponechať pôvodný formát výstupov aj pre nový skript. 
+Na základe toho, že HTTP Archive uverejňuje svoje výsledky po mesiacoch, sú celkovým výstupom 
+nového skriptu všetky relevantné informácie o zdrojoch za daný mesiac.
+Tieto relevantné informácie sú definované ako polia v tabuľke \ref{tab:analysis-data-structure} v prílohách.
+Množinu mesiacov, pre ktoré sa majú stiahnuť dáta, je možné definovať v konfigurácií skriptu.
+Výstupné dáta tohto skriptu slúžia pre analýzu metrík nasadenia NEL.
+Dáta štruktúrované podľa vyššie uvedenej tabuľky teda filtrujem na len tie zdroje, ktoré sú korektne monitorované technológiou NEL.
+Pre nemonitorované alebo nekorektne monitorované (nesprávna konfigurácia) zdroje a domény, si však zaznamenávam ich celkové počty.
+
+\subsubsection{Problémy}
+
+Mesačné dáta HTTP Archive sa v BigQuery vyskytujú rozdelené do dvoch tabuliek (bližšie informácie o rozdelení v sekcií \ref{big-query}):
+\begin{enumerate}
+    \item tabuľka s dátami z prostredia \code{desktop}, napríklad: \code{2018\_09\_01\_desktop},
+    \item tabuľka s dátami z prostredia \code{mobile}, napríklad: \code{2018\_09\_01\_mobile}.
+\end{enumerate}
+
+Po konzultácií s pánom Polčákom som zistil, že v predchádzajúcej analýze s týmto rozdelením pracovali tak, že obsah tabuliek zlúčili \cite{nel-http-archive}.
+Bolo to však robené manuálnym spúšťaním GoogleSQL príkazov v prostredí BigQuery Studio, pretože spracovávali vcelku iba 6 mesiacov.
+Keďže je počet skúmaných mesiacov v tejto práci oveľa vyšší, rozhodol som sa zlúčenie automatizovať.
+Riešenie som zapracoval do použitého príkazu GoogleSQL.
+
+Ďalej, okrem vyššie spomenutého rozdelenia mesačných dát sa vyskytovali aj mesiace, ktoré boli rozdelené na časti, napríklad:
+\begin{enumerate}
+    \item \code{2018\_09\_01\_desktop},
+    \item \code{2018\_09\_01\_mobile},
+    \item \code{2018\_09\_15\_desktop},
+    \item \code{2018\_09\_15\_mobile}.
+\end{enumerate}
+
+Tento problém som rovnako vyriešil postupným zlučovaním dát z jednotlivých čiastkových tabuliek v príkaze GoogleSQL.
+V oboch spomínaných problémoch som rátal s duplicitami dát a preferoval som výber jedinečných záznamov z neskoršieho dátumu za daný mesiac a záznamy z tabuliek \code{desktop} pred tými z tabuliek \code{mobile}.
+
+% TODO priklad pouzitia na obrázku
+
+\section{Skript pre automatizované prehliadanie súčasného webu}
+\label{crawl_and_store}
+
+Automatizovaný prehliadač súčasného webu implementuje skript \code{crawl\_and\_store.py}.
+Je implementovaný pomocou jazyka Python3 vo verzií \code{3.12.0}. 
+Z knižníc automatizujúcich webový prehliadač som si vybral \textit{Playwright} a  ako konkrétny prehliadač som zvolil \textit{Google Chrome} (viď sekciu \ref{selenium}). 
+Za pomoci jej rozhrania prehliadam webové stránky na doménach patriacich do zoznamu domén preskúmaných v najaktuálnejších mesačných dátach \mbox{z HTTP} Archive.
+Zoznam týchto domén je však možné spravovať pomocou vedľajšieho skriptu \code{select\_domains\_to\_crawl.ipynb}.
+Práve jeho úlohou je načítať celkový zoznam domén, vybrať z nich tie, ktoré majú byť preskúmané a uložiť ich do súboru, ktorý hlavný skript pri spustení použije ako vstup.
+Použitý spôsob výberu tohto zoznamu domén je popísaný pri výsledkoch analýzy dát získaných týmto skriptom \mbox{v sekcií} \ref{crawling-results}. 
+
+Pre každú doménu si najskôr vyžiada domovskú stránku a v prípade úspešnej odpovede \mbox{z jej} obsahu extrahuje všetky dostupné hyperlinky smerujúce na tú istú doménu.
+Extrahované hyperlinky udržuje v pomocných objektoch triedy \code{DomainLinkTree}.
+Ide o implementáciu stromovej štruktúry pre zoznam dostupných hyperlinkov smerujúcich na aktuálne skúmanú doménu. 
+Pri prehliadaní danej domény sa tento strom prehľadáva do šírky (\textit{breadth first search}) aby bol nájdený ďalší hyperlink, ktorý ešte skript nenavštívil.
+Najskôr sa teda prehliadajú rozdielne odvetvia stránok (\code{'/home/x'}, \code{'/login/y'}, \code{'/news/z'}) a až potom rôzne zdroje v nich obsiahnuté (\code{'/home/x'}, \code{'/home/y'}, \code{'/home/z'}).
+Táto stratégia je doplnená o limitovanie maximálneho počtu hyperlinkov, ktoré má skript preskúmať.
+Cieľom takejto implementácie je získať prehľad o využití NEL monitorovania v čo najviac odvetviach stránok na doméne (viď návrh použitých metód v kapitole \ref{possible-analysis-strategies}).
+Som si však vedomý, že táto stratégia sa nedá uplatniť pre domény, ktoré neštruktúrujú cesty k svojim stránkam do takýchto odvetví --- majú jednoúrovňové cesty k zdrojom.
+V takých prípadoch generuje \code{DomainLinkTree} ďalšie hyperlinky podľa poradia, v akom sú pridávané.
+
+Požadované dáta sa získavajú z hlavičiek v HTTP odpovediach z prehliadaných stránok, ale aj z nimi používaných zdrojov ako sú obrázky, skripty a iné.
+Tieto dáta sú pre každú doménu separátne ukladané do registra \code{DomainNelDataRegistry}.
+Uvedený register predstavuje objekt triedy implementujúcej rozhranie pre prácu so získanými dátami. 
+Na pozadí používa \code{DataFrame} objekty z Python knižnice \textit{pandas}\footnote{\url{https://pandas.pydata.org/}}, do ktorých dáta priebežne pridáva.
+Po dokončení prehliadania každej domény sa z nej získané dáta v registri ukladajú na disk ako Apache Parquet súbory.
+Po dokončení prehliadania poslednej domény sa všetky vytvorené Parquet súbory zlúčia do jedného.
+To je docielené tak, že sa všetky načítajú do pamäte skriptu, prepočítajú sa celkové počty spracovaných domén a zdrojov a výsledok sa uloží na disk v štruktúre zdieľanej s HTTP Archive skriptom, popísanej tabuľkou \ref{tab:analysis-data-structure}.
+
+\section{Skripty pre analýzu a produkovanie výsledných metrík}
+\label{analyze_results}
+
+Po úspešnom behu jedného z predošlých skriptov musia byť ako vstupy do tohto kroku dostupné dáta obsahujúce získané informácie o stave používania NEL na skúmaných doménach.
+Z týchto vstupov skripty \code{analyze\_httparchive.py} a \code{analyze\_crawled.py} produkujú vopred definované metriky (viď návrh v kapitole \ref{possible-analysis-strategies}).
+Uvedené dva skripty sú z pohľadu funkcionality rovnaké, no rozhodol som ich nezlúčiť pre jednoduchosť práce pri opakovanom vykonávaní analýzy vo fáze testovania.
+Líšia sa totiž v tom, odkiaľ dáta čerpajú a kam dáta zapisujú.
+
+Oba analyzačné skripty vnútorne používajú rovnakú knižnicu určenú pre spracovanie dát do spomínaných výsledných metrík.
+Túto knižnicu, \code{nel\_analysis.py}, som implementoval pomocou \textit{pandas}, knižnice pre dátovú analýzu.
+Analyzačné skripty vstupné dáta pre každý skúmaný mesiac načítajú, funkcie knižnice vypočítajú výsledky a uložia ich na nové miesto na disku tak, aby sa vstupy zachovali.
+Výstupy tohto kroku teda predstavujú zanalyzované dáta, teda výsledky analýzy v ich plnom rozsahu.
+
+\subsubsection{Využitie zoznamov Public Suffix List}
+
+Mnou implementovaná knižnica \code{nel\_analysis.py} okrem \textit{pandas} používa aj ďalšiu prevzatú knižnicu -- \textit{publicsuffix2}\footnote{\url{https://pypi.org/project/publicsuffix2/}}.
+V prípadoch, keď je pre výpočet metriky potrebné zistiť registrovateľnú časť celkového doménového mena,
+sú na to použité funkcie tejto knižnice pracujúce so zoznamom Public Suffix List (PSL). Príkladom použitia je získavanie registrovateľných častí domén prislúchajúcim NEL kolektorom pre identifikáciu ich poskytovateľa.
+
+Prvou možnosťou je využiť funkcie tejto knižnice, ktoré interne používajú aktuálny PSL.
+Ja ale používam ňou implementovanú funkciu umožňujúcu zvoliť si vlastný PSL.
+PSL zoznamy, ktoré som sa rozhodol použiť, som manuálne stiahol z repozitára GitHub, v rámci ktorého je oficiálny projekt PSL verziovaný\footnote{\url{https://github.com/publicsuffix/list}}. 
+Pre súčasné dáta som použil aktuálny PSL.
+Pre historické dáta som použil najaktuálnejší PSL dostupný pred každým skúmaným mesiacom.
+Taký zoznam pre každý mesiac počas behu analýzy vždy zlúčim s aktuálnym zoznamom, pričom duplicity odstránim.
+Robím to tak preto, aby výsledný zoznam obsahoval aj tie najaktuálnejšie efektívne Top Level Domény, ale aj tie historické z času skúmaného mesiaca, ktoré mohli byť medzičasom vymazané.
+
+
+\section{Skripty pre vizualizáciu výsledkov}
+\label{visualize_results}
+
+Posledným krokom implementácie nástrojov potrebných pre analýzu bolo vytvoriť skripty pre tvorbu prezentovateľných reprezentácií vypočítaných metrík.
+Ich účel mal byť vhodne vizualizovať zistené informácie o nasadení NEL za celkové skúmané obdobie.
+Rozhodol som sa ich implementovať tak, aby som ich vstupy mohol ľubovoľne prispôsobiť a výstupy použiť priamo v sekcií obsahujúcej výsledky tejto práce.
+Preto som pre každý výsledok, ktorý chcem prezentovať, vytvoril skript v podobe \textit{Jupyter notebooku}\footnote{\url{https://jupyter-notebook.readthedocs.io/en/latest/}}.
+
+Pre tabuľkové reprezentácie dát som použil knižnicu \textit{pandas} a pre vizualizáciu v podobe grafov zase knižnice \textit{matplotlib}\footnote{\url{https://matplotlib.org/}} a \textit{seaborn}\footnote{\url{https://seaborn.pydata.org/}}.
+
+Tieto skripty sú na pamäťovom médiu, v rámci priečinka \code{analysis-tools}, nachádzajú v priečinku \code{results}.
+Názvy vizualizačných skriptov pre HTTP Archive dáta začínajú \mbox{s prefixom} \code{httparchive\_*}.
+Názvy skriptov pre dáta získané automatizovaným prehliadaním webu začínajú prefixom \code{crawled\_*}.
+
+% TODO if there is time - add some kind of visualization

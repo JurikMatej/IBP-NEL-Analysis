@@ -1,119 +1,66 @@
 \chapter{Network Error Logging a relevantné technológie}
 \label{nel-and-related-technologies}
 
-Network Error Logging (ďalej už iba \textbf{NEL}) je technológia využívaná vo webovom prostredí, 
+Network Error Logging (ďalej už iba \emph{NEL}) je technológia využívaná vo webovom prostredí, 
 kde má svoju rolu v monitorovaní špecifických problémov komunikácie počítačových zariadení využívajúcich služby webu.
 Pre dostatočné pochopenie, čím je technológia NEL, v tejto kapitole vysvetľujem najprv 
 spomínané prostredie, v ktorom figuruje. 
 Následne popíšem, čo predstavujú pojmy monitorovanie a zlyhanie komunikácie na webe, kde zároveň popíšem body, v ktorých môžu rôzne zlyhania nastať. 
 V prvom rade sa pri popise problematiky zameriavam na terminológiu, ktorá sa v nadchádzajúcich častiach tejto práce frekventovane používa. 
-Samotný popis pre NEL nasleduje za úvodom do technológie, ktorá NEL spojazdňuje ako jeho závislosť, \textbf{Reporting API}, bez ktorej samostatne nemôže \mbox{fungovať \cite{W3C-NEL}}.
+Samotný popis pre NEL nasleduje za úvodom do technológie, ktorá NEL spojazdňuje ako jeho závislosť, \emph{Reporting API}, bez ktorej samostatne nemôže \mbox{fungovať \cite{W3C-NEL}}.
 
 
 \section{Webové prostredie}
 \label{webove-prostredie}
 
 V rámci internetu, globálnej infraštruktúry sieťou prepojených zariadení, existuje systém World Wide Web (ďalej už iba web).
-Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \textbf{web server} \cite{wiki-web}. 
+Web je služba ponúkajúca možnosť získavať dokumenty uložené na internete, a teda na zariadeniach do neho pripojených, nazývaných taktiež \emph{web server} \cite{wiki-web}. 
 Vyhľadávanie a získavanie spomínaných dokumentov, a teda obsahu dostupného na web serveri, funguje na základe ich vzájomného prepojenia takzvanými hyperlinkami.
-Termín \textbf{hyperlink} v tomto kontexte prestavuje taký odkaz na dokument, ktorý umožňuje tento dokument identifikovať, lokalizovať a získať z webu. 
+Termín \emph{hyperlink} v tomto kontexte prestavuje taký odkaz na dokument, ktorý umožňuje tento dokument identifikovať, lokalizovať a získať z webu. 
 Hyperlinky sa vyskytujú ako súčasti obsahu získavaného dokumentu, a to vo forme či už textu alebo iných médií, ako napríklad obrázkov \cite{wiki-hyperlink}. 
-
-
-\begin{figure}[htb]
-\begin{center}
- \includegraphics[scale=0.55]{obrazky-figures/fetching_a_page.png}
- \caption{Vizualizácia konceptu webového prostredia. Obrázok prevzatý z \cite{mdn-docs-http-overview}.}
- \label{img:fetching-a-page}
-\end{center}
-\end{figure}
-
-
-\pagebreak
 
 \subsection{Štruktúra hyperlinku}
 \label{navigacia-na-webe}
 
-Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator \cite{wiki-hyperlink} (jednotný lokátor zdrojov, ďalej už iba \textbf{URL}).
+Hyperlinky na iné dokumenty sú formované ako reťazcová hodnota nazývaná Uniform Resource Locator \cite{wiki-hyperlink} (jednotný lokátor zdrojov, ďalej už iba \emph{URL} \cite{rfc3986}).
 Vďaka hyperlinkom obsahujúcim hodnoty URL je možné odkazovať sa na vzdialený obsah webu, prepájať rôzne dokumenty medzi sebou, a tým web navigovať.
-Typická hodnota URL sa skladá z \cite{mdn-docs-url}:
+Typická hodnota URL sa skladá z:
 \begin{enumerate}
+    \item protokolu používaného na sieťovú komunikáciu medzi servermi (anglicky \textit{protocol}),
+
     \item adresy web servera, teda jeho domény (anglicky \textit{domain}, popísané v sekcii \ref{domeny}),
     
-    \item protokolu používaného na sieťovú komunikáciu medzi servermi (anglicky \textit{protocol}),
-    
-    \item a cesty k uloženému dokumentu (anglicky \textit{path}).
+    \item a cesty k uloženému dokumentu (anglicky \emph{path}).
 \end{enumerate}
 
-\begin{figure}[htb]
-\begin{center}
- \includegraphics[scale=0.52]{obrazky-figures/the-anatomy-of-a-url.png}
- \caption{Základná štruktúra hodnoty URL. Obrázok prevzatý z internetu.}
- \label{img:urlstructure}
-\end{center}
-\end{figure}
-
 Tieto hlavné zložky hodnôt URL predstavujú samostatne dôležité koncepty pre navigáciu vo webe.
-Podľa príkladu na obrázku \ref{img:urlstructure} prvá časť (1.) označuje doménu web servera, druhá (2.) komunikačný protokol a tretia (3.) cestu k dokumentu. 
-
-\pagebreak
+Príladom typickej URL môže byť \code{https://priklad.com/dokument}, kde \code{https://} označuje komunikačný protokol, \code{priklad.com} doménu web servera a \code{dokument} cestu k dokumentu. 
 
 Hodnoty bývajú rôzne a môžu sa skladať z niekoľkých ďalších častí, no tie však nie je potrebné pre účely tejto práce rozoberať.
 Protokol definuje množinu platných pravidiel pre komunikáciu zariadenia návštevníka webu s web 
 serverom, ktorého prislúchajúce meno je definované ďalšou časťou URL -- doménou. 
 Cestu k uloženému dokumentu web server použije pre určenie miesta, kde je požadovaný dokument uložený. 
 Ak web server vyžiadaný dokument nájde, zašle ho naspäť danému návštevníkovi webu \cite{mdn-docs-url, wiki-web}.
-V ďalších sekciách tento proces postupne opisujem detailnejšie.
 
 
 \subsection{Domény}
 \label{domeny}
 
-Pre adresovanie počítačových zariadení na internete sa používa adresa \textbf{IP}.
-Takáto adresa môže mať dve podoby \cite{mdn-docs-domain}:
-\begin{enumerate}
-    \item IPv4, napríklad \code{192.168.1.1},
-    \item IPv6, napríklad \code{2400:cb00:2048:1::c629:d7a2}.
-\end{enumerate}
-
-
-Pomocou takýchto adries taktiež funguje navigácia na internete, označovaná pojmom smerovanie správ v komunikácií medzi počítačmi.
-Popis funkcionality smerovania správ nie je dôležitý pre oblasť záujmu tejto práce, no dôležitým faktom je, 
-že smerovanie dokumentov vo webovom prostredí funguje na základe smerovania správ pomocou IP adries.
-
-Ďalej sa využíva protokol TCP, ktorého úlohou je nadviazať spojenie medzi dvoma počítačmi označenými adresami IP.
-Využitie týchto dvoch hlavných a niekoľko ďalších protokolov v spojení sa označuje za TCP/IP sieťovú komunikáciu \cite{wiki-tcpip}.
-
-Vo webovom prostredí však prenášané dokumenty môžu byť uložené na nespočetne veľkom počte počítačových zariadení.
+Vo webovom prostredí môžu byť dokumenty uložené na veľkom počte počítačových zariadení.
 Dôležitou skutočnosťou je, že IP adresa web serveru poskytujúceho nejaký dokument sa môže časom meniť.
 Ďalej, pre návštevníkov webu je nepraktické pamätať si zložité IP adresy pre dokumenty, ktoré chcú vyhľadať.
-Z týchto dôvodov sa zaviedlo používanie \textbf{doménových mien}, ktoré predstavujú mená priradené adresám IP v systéme nazvanom 
-Domain Name System (\textbf{DNS}, systém doménových mien), ktorý ich spravuje. 
+Z týchto dôvodov sa zaviedlo používanie \emph{doménových mien}, ktoré predstavujú mená priradené adresám IP v systéme nazvanom 
+Domain Name System (\emph{DNS}, systém doménových mien), ktorý ich spravuje. 
 Využitím systému DNS je teda možné v hodnotách URL namiesto zložitých cieľových IP adries používať doménové mená k nim priradené \cite{cloudflare-dns}. 
-
-\subsubsection{Systém doménových mien}
-
-DNS je distribuovaný systém doménových mien prislúchajúcich k IP adresám počítačových zariadení na internete.
-Na skladovanie a spravovanie týchto mapovaní používa DNS špecifické databáze pre svoj systém. 
-Jeho primárnou službou je vyhľadávanie IP adries podľa spomínaných doménových mien.
-Táto služba sa nazýva \textbf{DNS rezolúcia} (anglicizmus, pojem sa do slovenčiny doslovne neprekladá). 
-O vykonávanie rezolúcií sa stará program nazvaný \textbf{DNS rezolver} \cite{cloudflare-dns} (tiež anglicizmus použitý pre zachovanie terminológie z čerpaných zdrojov).
-Proces pridania IP adresy do systému DNS \mbox{s jej} novým doménovým menom sa nazýva \textbf{registrácia}.
-
 
 \subsubsection{Štruktúra doménového mena}
 
-Ako bolo zmienené, doménové meno je textová hodnota reprezentujúca adresu webového serveru.
 Doménové meno sa rozdeľuje na viaceré úrovne nazývané levely. 
 Jednotlivé levely sú v ňom oddelené znakmi bodky. 
-Level na konci (najviac vpravo) v doménovom mene sa nazýva \mbox{\textbf{TLD} -- Top Level Doména}. 
-
-\pagebreak
-
-Ďalší level smerom doľava (predposledná hodnota) sa nazýva \textbf{SLD} -- Second Level Doména.
-Každý nasledovný level jednak predstavuje level vyššieho rádu (napríklad Third Level Doména, píše sa 3LD) a taktiež je takzvanou \textbf{subdoménou} pre levely nasledujúce za ňou --- v prípade 3LD sú to levely SLD a TLD.
-
-V doménovom mene \code{example.domain.com} platí rozdelenie nasledovne \cite{michal-spacek-etld-article}: 
+Level na konci (najviac vpravo) v doménovom mene sa nazýva \mbox{\emph{TLD} -- Top Level Doména}. 
+Ďalší level smerom doľava (predposledná hodnota) sa nazýva \emph{SLD} -- Second Level Doména.
+Každý nasledovný level jednak predstavuje level vyššieho rádu (napríklad Third Level Doména, píše sa 3LD) a taktiež je takzvanou \emph{subdoménou} pre levely nasledujúce za ňou --- v prípade 3LD sú to levely SLD a TLD.
+V príkladnom doménovom mene \code{example.domain.com} platí rozdelenie nasledovne \cite{michal-spacek-etld-article}: 
 \begin{itemize}    
     \item \code{\underline{com}}: TLD,
     \item \code{\underline{domain}.com}: podčiarknuté je SLD, spolu levely tvoria názov registrovanej domény,
@@ -131,6 +78,7 @@ Túto skutočnosť popisuje nasledujúci \mbox{obrázok \ref{fig:domain-name-str
 \end{center}
 \end{figure}
 
+\pagebreak
 
 \subsubsection{Verejný Suffix a eTLD}
 \label{public-suffix-and-etld}
@@ -140,11 +88,9 @@ Platia tu však niektoré ďalšie dôležité pravidlá pri ich identifikovaní
 
 Hodnoty TLD môžu byť zložené z viacerých bodkou oddelených hodnôt, pričom stále spolu figurujú ako jeden level.
 Doteraz však neexistuje algoritmus pre vyhľadávanie levelu, ktorý by mohol slúžiť na registrovanie domén pre dané zložené TLD -- levelu registrovateľnej domény \cite{mozilla-psl-learn}.
-Preto vznikol zoznam nazývaný \textbf{Public Suffix List} (zoznam verejných sufixov, skratka \textbf{PSL}) ako zoznam práve takých TLD, pod ktorými je možné doménu zaregistrovať.
-Tieto zložené TLD sa formálne nazývajú efektívne Top Level Domény (\textbf{eTLD}).
+Preto vznikol zoznam nazývaný \emph{Public Suffix List} (zoznam verejných sufixov, skratka \emph{PSL}) ako zoznam práve takých TLD, pod ktorými je možné doménu zaregistrovať.
+Tieto zložené TLD sa formálne nazývajú efektívne Top Level Domény (\emph{eTLD}).
 Hodnoty eTLD zahŕňajú bežnú hodnotu TLD ako ich poslednú, bodkou oddelenú hodnotu.
-
-\pagebreak
 
 \noindent Preto je pri celých menách registrovaných domén vhodnejšie rozdeľovať ich na eTLD, SLD (meno registrovanej domény) a subdoménu.
 
@@ -169,8 +115,8 @@ Vzhľadom na to, že funkčnosť technológie NEL sa zakladá na komunikácií z
 venujem sa v tejto sekcii výhradne protokolom HTTP a jeho zabezpečenej verzii, ktorou je práve spomínaný HTTPS.
 
 HTTP, celým názvom HyperText Transfer Protokol, je bez stavový aplikačný protokol pre distribuované hypertextové informačné systémy \cite{rfc9110}. 
-Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (ďalej v terminológií špecifikácie HTTP už iba ako \textbf{zdroj}).
-Toto rozhranie definuje dva typy zasielateľných správ --- \textbf{žiadosť} a \textbf{odpoveď}. 
+Poskytuje jednotné komunikačné rozhranie pre prenos dokumentov (ďalej v terminológií špecifikácie HTTP už iba ako \emph{zdroj}).
+Toto rozhranie definuje dva typy zasielateľných správ --- \emph{žiadosť} a \emph{odpoveď}. 
 Žiadosť predstavuje doslova žiadosť o zdroj. 
 Odpoveď je reakciou na žiadosť, kde je možné, že sa navráti buď žiadaný zdroj, alebo popis chyby, ktorá vznikla pri pokuse o jeho \mbox{navrátenie \cite{rfc7230}}. 
 
@@ -187,15 +133,15 @@ Koncept takejto komunikácie je znázornený na obrázku \ref{fig:http-client-se
 
 Klient a server sú názvy rolí, ktoré môžu prepojené zariadenia zaujať v rámci komunikácie pomocou HTTP:
 \begin{itemize}
-    \item \textbf{Klient} zakladá spojenie so serverom za účelom zasielania jednej alebo viacerých \mbox{žiadostí}: 
+    \item \emph{Klient} zakladá spojenie so serverom za účelom zasielania jednej alebo viacerých \mbox{žiadostí}: 
     
-    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \textbf{User Agent} \cite{rfc9110} (skrátene UA, slovensky -- agent používateľa). 
-    Pre bežného návštevníka webu ako UA \mbox{figuruje} \textbf{webový prehliadač} nainštalovaný na jeho zariadení. 
+    Program implementujúci komunikačné rozhranie pre rolu klienta sa nazýva tiež \emph{User Agent} \cite{rfc9110} (skrátene UA, slovensky -- agent používateľa). 
+    Pre bežného návštevníka webu ako UA \mbox{figuruje} \emph{webový prehliadač} nainštalovaný na jeho zariadení. 
     Webovým prehliadačom sa viac venuje sekcia \ref{webovy-prehliadac}.
     
-    \item \textbf{Server} prijíma spojenia aby obslúžil žiadosti tým, že na ne zasiela prislúchajúce odpovede:
+    \item \emph{Server} prijíma spojenia aby obslúžil žiadosti tým, že na ne zasiela prislúchajúce odpovede:
 
-    Pre program implementujúci rozhranie takéhoto servera sa používa označenie \textbf{Origin Server} (server pôvodu zdroja, ďalej ako \textbf{origin}).
+    Pre program implementujúci rozhranie takéhoto servera sa používa označenie \emph{Origin Server} (server pôvodu zdroja, ďalej ako \emph{origin}).
 \end{itemize}
 
 
@@ -209,6 +155,8 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah \cite
     Metóda žiadosti indikuje operáciu, ktorú klient chce aplikovať na žiadaný zdroj.
     Podľa metódy server zistí, aký výsledok úspešne aplikovanej operácie očakáva klient v odpovedi.
 
+    \pagebreak
+
     Dôležité metódy sú najmä \cite{rfc9110}:
     \begin{itemize}
         \item GET -- klient žiada zdroj v jeho aktuálnom stave. 
@@ -218,18 +166,16 @@ Správa nadväzujúca HTTP spojenie, teda žiadosť, má nasledovný obsah \cite
     
     \item Cesta k požadovanému zdroju:
 
-    Jedná sa tu o cestu spomínanú v sekcii \ref{navigacia-na-webe}, bod 3. v popise príkladnej URL (viď obrázok \ref{img:urlstructure}).
     Cesta môže byť symbolická, teda určená pre interpretáciu samotným serverom (podľa jeho konfigurácie) ako napríklad \code{/glossaries}, alebo priamo označujúca konkrétny zdroj, napríklad \code{/glossaries.txt}.
  
     \item Verzia protokolu HTTP použitého na nadviazanie a priebeh komunikácie.
     
-    \item Sekcia polí s ďalšími informáciami a nastaveniami komunikácie -- \textbf{HTTP Headers}:
+    \item Sekcia polí s ďalšími informáciami a nastaveniami komunikácie -- \emph{HTTP Headers}:
     
-    Táto hovorovo nazývaná sekcia \textbf{hlavičiek} obsahuje páry názvov polí a ich priradených hodnôt. 
+    Táto hovorovo nazývaná sekcia \emph{hlavičiek} obsahuje páry názvov polí a ich priradených hodnôt. 
     Hlavičky slúžia ako definície možností a iných potrebných informácií pri komunikácií medzi zariadeniami.
     Pre názvy hlavičiek existuje register \textit{Hypertext Transfer Protocol (HTTP) Field Name Registry} \cite{rfc9110},
     v ktorom sa uvádzajú oficiálne hlavičky použiteľné pri komunikácií HTTP. 
-
     Príkladom potrebnej informácie pre HTTP žiadosť je hlavička \code{Host}, ktorej hodnota musí reprezentovať doménu cieľového web servera. 
     
     \item Prípadný obsah žiadosti:
@@ -341,9 +287,6 @@ Prvú časť (1.) tvorí verzia protokolu HTTP, za ňou sa nachádza \mbox{statu
 Pod nimi je na konci odpovede umiestnená sekcia s HTTP hlavičkami (4.). 
 Väčšinou býva k odpovedi pridaný aj dodatočný obsah, ktorý by nasledoval ako časť oddelená prázdnym riadkom od hlavičiek.
 
-\pagebreak
-
-
 \subsubsection{HTTPS}
 
 Dáta spomínané v sekciách o žiadosti a odpovedi sa prenášajú v HTTP komunikácií ako obyčajný text. 
@@ -358,72 +301,13 @@ O samotné šifrovanie v rámci prenosu HTTPS sa stará protokol TLS -- Transpor
 TLS je rovnako ako HTTP protokol pre komunikáciu klienta so serverom a jeho použitím pri komunikácií HTTP sa spojenie medzi zariadeniami zabezpečuje proti odpočúvaniu, manipulácií a falšovania správ \cite{cloudflare-tls}. 
 
 
-\subsection{Obsah hľadaných dokumentov}
+\subsubsection{Obsah dokumentov}
 \label{obsah-hladanych-dokumentov}
 
-Webové dokumenty, alebo iným pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP  (viď obrázok \ref{img:fetching-a-page}).
+Webové dokumenty, alebo iným pomenovaním -- webové zdroje, sa prenášajú v prostredí webu pomocou protokolu HTTP.
 Tieto dokumenty sú buď získané samostatne ako jednotlivé súbory (textový súbor, obrázok, archív \code{.zip}), alebo ako zoskupená množina viacerých súborov v podobe webovej stránky.
+Webová stránka (skrátene \emph{webstránka}) je typ dokumentu, ktorého obsahom je hypertext štruktúrovaný vo formáte \emph{HTML} \cite{documents-webpage}.
 
-Webová stránka (skrátene \textbf{webstránka}) je typ dokumentu, ktorého obsahom je hypertext štruktúrovaný vo formáte \textbf{HTML} \cite{documents-webpage}.
-HTML je formát webového dokumentu skladajúceho sa z počiatočnej definície typu dokumentu a stromovej štruktúry takzvaných elementov, kde prvým je element \code{<html>}. 
-Jednotlivé elementy sa do HTML súboru vpisujú pomocou značiek, pričom, okrem jednotlivých výnimiek, 
-každý element musí mať otváraciu (\code{<elementXY>}) a zatváraciu značku (\code{</elementXY>}).
-Vnútorne sa HTML delí na dve hlavné sekcie --- \textbf{hlavičku} pre metadáta dokumentu a \textbf{telo} pre jeho vnútorné rozpoloženie a obsah.
-Elementy môžu mať k sebe priradené položky uchovávajúce ich doplnkové detaily nazývané atribúty. 
-Napríklad element používaný pre vytvorenie hyperlinku s názvom \code{\textbf{<a>}} (anglicky skratka pre \textit{anchor}) 
-môže mať priradený atribút s názvom \code{\textbf{href}} obsahujúci URL odkazovaného dokumentu \cite{documents-html-spec}. 
-Vo výpise \ref{listing:html-struktura} ukážka HTML obsahuje počiatočnú definíciu typu dokumentu (\code{<!DOCTYPE html>}), hlavičku, telo, hyperlink a popisné komentáre.
-
-
-\begin{center}
-\centering
-\begin{lstlisting}[caption={Príklad základnej štruktúry obsahu HTML dokumentu.},
-label=listing:html-struktura, 
-language=HTML, 
-frame=tb,
-xleftmargin=.05\textwidth, 
-xrightmargin=.05\textwidth]
-    <!DOCTYPE html>
-    <!-- %*Toto je komentár, ktorý sa na stránke klientovi nezobrazí*) -->
-    <html lang="sk">       
-        <!-- %*HTML hlavička*) -->
-        <head>
-         <title>%*Príklad HTML dokumentu*)</title>
-        </head>
-        <!-- %*HTML telo*) -->
-        <body>
-         <!-- %*Ukážka vytvorenia hyperlinku: element <a> a jeho atribút href*) -->
-         <a href="https://google.com">%*Hypertext odkazujúci na stránku google*)</a>
-        </body>
-    </html>
-\end{lstlisting}
-\end{center}
-
-Vo výpise \ref{listing:html-struktura} súbor HTML však obsahuje odkaz iba na vzdialenú webstránku.
-Pridať odkazy na rôzne iné médiá ako obrázky, audio a video (ale aj dokumenty HTML), je však možné vďaka dvom ďalším kategóriám elementov. 
-Sú nimi \cite{documents-html-spec}: 
-\begin{enumerate}
-    \item Elementy \code{<link>} patriace do hlavičky HTML.
-
-    Tieto elementy odkazujú na vzdialené metadáta pre samotnú webstránku.
-    Typ metadát udáva atribút s názvom \code{rel}, ktorý môže nadobúdať napríklad hodnotu 
-    \code{'author'} alebo \code{'help'} pre vytvorenie odkazu na autora stránky, alebo dokumentu poskytujúcemu 
-    pomocný manuál pre obsah stránky.
-    
-    \item Elementy obsahujúce atribút \code{src} patriace do tela HTML.
-
-    Akýkoľvek element z tejto kategórie môže odkazovať na podporovaný typ média, ktorý udáva názov takéhoto elementu.
-    Ide napríklad o elementy: 
-    \begin{itemize}
-        \item \code{<img>} -- obrázky,
-        \item \code{<audio>} -- audio súbory,
-        \item \code{<video>} -- videá,
-        \item \code{<iframe>} -- HTML dokumenty, ktoré možno vnoriť do inej webstránky.
-    \end{itemize}
-    
-\end{enumerate}
-
-Každé samostatné médium, ktoré tieto elementy označujú je potrebné získať ako zdroj ďalšou HTTP žiadosťou spolu so samotnou webstránkou, ktorá na dané médium odkazuje.
 
 \subsection{Webový prehliadač}
 \label{webovy-prehliadac}
@@ -431,7 +315,7 @@ Každé samostatné médium, ktoré tieto elementy označujú je potrebné získ
 % search engine
 % http://infolab.stanford.edu/%7Ebackrub/google.html
 
-Softvér slúžiaci pre získavanie zdrojov na webe, stavaný ako implementácia HTTP klienta, teda ako UA (User Agent) sa nazýva webový prehliadač \cite{mdn-docs-browser}. 
+Softvér slúžiaci pre získavanie zdrojov na webe, stavaný ako implementácia HTTP klienta, teda ako UA sa nazýva webový prehliadač \cite{mdn-docs-browser}. 
 Tým, že je prehliadač implementáciou HTTP klienta (viď sekciu \ref{protokol-http}), dokáže zasielať žiadosti a spracovávať odpovede HTTP.
 Je to teda program, ktorý využíva koncepty vysvetlené vyššie a je schopný prehľadávať web.
 
@@ -441,71 +325,13 @@ Na uskutočnenie tohto procesu vybudovania a zobrazenia webstránky používa pr
 Moderné webstránky okrem samotného zdroja HTML obsahujú aj prídavné závislé zdroje, ktoré môžu priamo danej webstránke upraviť vzhľad alebo pridať programovateľnú funkcionalitu.
 Prehliadač takéto zdroje získava pomocou odkazov, ktoré sú definované v hlavičke alebo tele dokumentu HTML prislúchajúceho danej webstránke.
 
-V tejto práci je dôležité popísať konkrétne zdroje pridávajúce programovateľnú funkcionalitu.
-Sú nimi zdroje obsahujúce prehliadačom spúšťateľné skripty napísané v programovacom jazyku JavaScript.
-
 \subsubsection{JavaScript}
 \label{javascript}
 
 JavaScript je programovací jazyk, ktorého využitím je v oblasti webu práve robiť webstránky interaktívnymi \cite{mdn-docs-js}. 
 Jedným z jeho využití je manipulácia so stromovou štruktúrou obsahu HTML dokumentu (viď sekciu \ref{obsah-hladanych-dokumentov}).
-Funkcionalita zabezpečujúca podporu pre takúto manipuláciu s obsahom webstránok a ďalšie podobné funkcionality sú v jazyku JavaScript dostupné ako \textbf{Web API}.
-
-API\footnote{API -- Application Programming Interface (programové rozhranie aplikácie)} predstavuje predprogramovaný balík kódu, ktorý uľahčuje jeho používateľom, teda programátorom, prácu v oblasti zamerania funkcionality daného balíka \cite{mdn-docs-web-api}.
-Ďalej, skutočnosť, že ide o webové API znamená, že je možné taký balík využiť prostredníctvom JavaScriptu spojeného s webstránkou.
-Existuje množstvo webových API, z ktorých niektoré sú poskytované priamo prehliadačom používateľa webu, iné zasa tvorcami tretej strany (Third-party API).
-
-\subsubsection{JavaScript Object Notation}
-\label{json}
-
-V spojení s konceptami jazyka JavaScript vznikol jeden konkrétne dôležitý textový formát dát s názvom \textbf{JSON} -- JavaScript Object Notation \cite{rfc7159}.
-Štruktúra formátu JSON je jednoduchá a je založená na niektorých dátových typoch jazyku JavaScript.
-Dokáže reprezentovať nasledovné dátové typy:
-\begin{enumerate}
-    \item primitívne: reťazce, čísla, pravdivostné hodnoty (\code{boolean}) a absenciu hodnoty (\code{null})
-    
-    \item štruktúrované: 
-    \begin{enumerate}
-        \item Polia (ďalej ako JSON array):
-
-        Array je usporiadaná sekvencia 0 a viac hodnôt. Označuje sa zátvorkami \code{[} a \code{]}. 
-
-        \item Objekty:
-
-        Objekt je neusporiadaná kolekcia 0 a viac párov kľúč--hodnota, kde kľúč je reťazec
-        a hodnota môže byť akýkoľvek primitívny alebo štruktúrovaný dátový typ.
-        Označuje sa zátvorkami \code{\{} a \code{\}}.
-    \end{enumerate}
-\end{enumerate}
-
-JSON má využitie napríklad ako formát dát pri komunikácií typu HTTP na webe.
-\mbox{V správach}, ktoré obsahujú zdroj typu JSON musí byť nastavená HTTP hlavička s názvom \code{Content-Type} na hodnotu typu MIME \code{application/json}.
-
-Vo výpise \ref{listing:priklad-dokumentu-json} je uvedený príklad takéhoto dokumentu. Položka \code{"student"} predstavuje JSON kľúč, ktorého hodnotou je štruktúrovaný dátový typ objekt. Názornú ukážku dátového typu pole predstavuje hodnota priradená kľúču \code{"predmety"}.
-
-\begin{center}
-\centering
-\begin{lstlisting}[
-caption={Príklad obsahu dokumentu JSON.},
-label=listing:priklad-dokumentu-json, 
-language=json, 
-frame=tb,
-xleftmargin=.15\textwidth, 
-xrightmargin=.15\textwidth]
-    {       
-        "student": {
-            "login": "xjurik12",
-            "kredity": 162,
-            "predmety": ["ITT", "IBP"],
-            "vyborny_priemer": false
-            "diplom": null
-        }
-    }
-\end{lstlisting}
-\end{center}
-
-\pagebreak
-
+Funkcionalita zabezpečujúca podporu pre takúto manipuláciu s obsahom webstránok a ďalšie podobné funkcionality sú v jazyku JavaScript dostupné ako \emph{Web API}.
+API (skratka pre Application Programming Interface, preložiteľné ako programové rozhranie aplikácie) predstavuje predprogramovaný balík kódu, ktorý uľahčuje jeho používateľom, teda programátorom, prácu v oblasti zamerania funkcionality daného balíka \cite{mdn-docs-web-api}.
 
 \section{Monitorovanie zlyhaní webstránok}
 
@@ -531,11 +357,11 @@ Za predpokladu, že používateľ má dostupnú adresu URL pre zdroj (viď sekci
 ktorý chce získať, má tento proces nasledovnú postupnosť úkonov na vykonanie \cite{nel-client-side-measurement-e2e-reliability, mdn-docs-how-browser-works}:
 
 \begin{enumerate}
-    \item prehliadač získa adresu IP pre doménu web serveru z danej URL v systéme DNS,
+    \item Prehliadač získa adresu IP pre doménu web serveru z danej URL v systéme DNS,
     
-    \item prehliadač vytvorí so zariadením adresovaným získanou IP adresou spojenie protokolom TCP,
+    \item Prehliadač vytvorí so zariadením adresovaným získanou IP adresou spojenie protokolom TCP,
     
-    \item prehliadač použije spojenie TCP s web serverom na zasielanie HTTP žiadostí 
+    \item Prehliadač použije spojenie TCP s web serverom na zasielanie HTTP žiadostí 
     (popísaných v sekcii \ref{protokol-http}) s cieľom získať zdroj uvedený v danej URL.
 \end{enumerate}
 
@@ -606,21 +432,21 @@ tvorbu a zasielanie takzvaných hlásení na pravidlami definované web servery.
 Hlásenia sa týkajú špecifických záležitostí prehliadača klienta, ktorý žiada zdroje z web serveru používajúceho Reporting API.
 Medzi takéto špecifické funkcie patrí práve NEL, ale napríklad aj detegovanie výskytov zlyhaní alebo používania zastaraných API na klientskom prehliadači \cite{W3C-reporting-api}.
 
-Aby bolo možné tento balík uplatniť, musí ho podporovať webový prehliadač (konkrétne User Agent) používateľa, ktorý zasiela žiadosti o získanie zdrojov zo servera využívajúceho Reporting API.
+Aby bolo možné tento balík uplatniť, musí ho podporovať webový prehliadač používateľa, ktorý zasiela žiadosti o získanie zdrojov zo servera využívajúceho Reporting API.
 
 \subsubsection{Verzia používaná technológiou NEL}
 
 Je dôležité podotknúť, že najnovšia verzia tejto API, popísaná špecifikáciou z 10. novembra 2023, nie je kompatibilná s momentálnou technológiou NEL.
 Dôvodom je, že technológia NEL je stále v procese vývoja a jej momentálna verzia je implementovaná tak, aby fungovala so staršou verziou Reporting API.
 Konkrétne, NEL je kompatibilný s verziou popisovanou v špecifikácií zverejnenej 
-25. septembra 2018, taktiež označovanou ako verzia \textbf{\code{v0}}.
+25. septembra 2018, taktiež označovanou ako verzia \emph{\code{v0}}.
 Ďalej teda opisujem výhradne Reporting API verzie \code{v0}\footnote{\url{https://developer.chrome.com/blog/reporting-api-migration} (zmienky verzií NEL a Reporting API)}.
 
 \subsubsection{Definícia pravidiel}
 
 Vyššie spomínané pravidlá môže definovať server, ktorý chce využívať tento API balík. 
 Definícia pravidiel funguje prostredníctvom zaslania HTTP hlavičky \code{Report-To} v HTTP odpovedi pre vybraný zdroj.
-Obsahom hlavičky \code{Report-To} musí byť textová hodnota vo formáte JSON (viď sekciu \ref{json}), pričom jej štruktúru tvorí striktne JSON array objektov.
+Obsahom hlavičky \code{Report-To} musí byť textová hodnota vo formáte JSON, pričom jej štruktúru tvorí striktne JSON array objektov.
 
 Špecifickým rozdielom od klasického JSON formátu však je, že sa táto hodnota do hlavičky
 zapisuje bez zátvoriek, ktoré bežne tvoria JSON array (znaky '\code{[}' a '\code{]}').
@@ -642,8 +468,8 @@ Hodnota každého pravidla obsahuje nasledovné polia \cite{W3C-reporting-api}:
 
     Povinné pole \code{endpoints} musí definovať zoznam web serverov, ktoré patria do skupiny definovanou poľom \code{group}.
     
-    Každý web server tu predstavuje takzvaný \textbf{kolektor} chybových hlásení.
-    Ďalej, pojem \textbf{poskytovateľ kolektorov} predstavuje spoločnú registrovateľnú doménu pre kolektory, ktorých doménové meno je jej subdoménou.
+    Každý web server tu predstavuje takzvaný \emph{kolektor} chybových hlásení.
+    Ďalej, pojem \emph{poskytovateľ kolektorov} predstavuje spoločnú registrovateľnú doménu pre kolektory, ktorých doménové meno je jej subdoménou.
     Napríklad, doména \code{report-uri.com} figuruje ako poskytovateľ kolektorov \code{abc.report-uri.com} aj \code{xyz.report-uri.com}.
     
     Hodnota tohto poľa musí byť JSON array objektov s nasledovným obsahom:
@@ -664,6 +490,8 @@ Hodnota každého pravidla obsahuje nasledovné polia \cite{W3C-reporting-api}:
 
     Špeciálnym prípadom hodnoty tohto poľa je číslo \code{0}. 
     V prípade, že server pre pravidlo prislúchajúce konkrétnej skupine \code{group} vyplní \code{max\_age} hodnotou \code{0}, pravidlo stráca platnosť a musí byť vymazané.
+
+    \pagebreak
     
     \item \code{include\_subdomains}.
 
@@ -719,6 +547,8 @@ Medzi tieto hlásiteľné udalosti patrí \cite{W3C-reporting-api}:
 Nahromadené hlásenia sa periodicky odosielajú na web server cieľovej skupiny \code{group} pravidla vybraný podľa jeho priority.
 Špecifikácia verzie \code{v0} Reporting API nedefinuje túto periódu odosielania sama, ale prenecháva túto zodpovednosť na prehliadače, ktoré sa rozhodnú API podporovať \cite{W3C-reporting-api}.
 
+\pagebreak
+
 Ďalej, skupín \code{group} je práve toľko, koľko existuje uložených pravidiel s definovaným menom so zarátaním prípadnej skupiny \code{"default"}.
 Výber cieľovej skupiny spočíva v ďalšom nastavení súvisiacim s Reporting API --- priradenie typu hlásenia k skupine.
 Pre rôzne typy hlásení sa toto nastavenie zavádza inak.
@@ -746,7 +576,6 @@ Každé z nich sa odošle vo formáte JSON na vybraný kolektor s najvyššou vy
     Telo hlásenia je vyplnené pre každý typ hlásenia inak. 
     Príklad jednoduchého hlásenia je vo výpise \ref{listing:priklad-generated-report}.
     Toto hlásenie bolo odoslané 42 milisekúnd po jeho vytvorení na prehliadači Mozilla. Vygenerované bolo chybou, ktorá nastala po získaní zdroja prislúchajúceho k URL \code{https://example.com}. \mbox{Telo hlásenia} obsahuje ID zlyhania a ako dôvod je uvedená hodnota \code{oom}, ktorá reprezentuje chybu \textit{Out Of Memory} (nedostatok pamäte).
-    V sekcii \ref{network-error-logging-spec} je uvedený príklad hlásenia typu NEL vo výpise \ref{listing:priklad-nel-report}.
 \end{itemize}
 
 
@@ -772,13 +601,13 @@ xrightmargin=.085\textwidth]
 \end{lstlisting}
 \end{center}
 
-
+\pagebreak
 
 \subsection{Využitie NEL}
 \label{network-error-logging-spec}
 
 NEL, podobne ako Reporting API, je mechanizmus spúšťaný tým, že je klientovi pri žiadosti o cieľový zdroj z monitorovaného web serveru v HTTP odpovedi zaslaná hlavička \mbox{\code{NEL} \cite{W3C-NEL}}.
-Hlavička \code{NEL} môže obsahovať jedno alebo viaceré pravidlá určené pre klienta, ktorý ak NEL podporuje, vyberie \textit{prvé} správne sformované pravidlo v poradí a uloží si ho ako \textbf{konfiguráciu} NEL.
+Hlavička \code{NEL} môže obsahovať jedno alebo viaceré pravidlá určené pre klienta, ktorý ak NEL podporuje, vyberie \textit{prvé} správne sformované pravidlo v poradí a uloží si ho ako \emph{konfiguráciu} NEL.
 Ostatné pravidlá musí User Agent podľa špecifikácie ignorovať.
 
 Spolu s uvedenou hlavičkou s obsahom predstavujúcim konfiguráciu tejto technológie musí monitorovaný web server taktiež posielať klientovi hlavičku \code{Report-To}. 
@@ -857,7 +686,7 @@ Obsahuje nasledujúce \mbox{polia \cite{W3C-NEL}}:
 \end{enumerate}
 
 Príklad korektnej konfigurácie pre NEL a Reporting API je uvedený vo výpise \ref{listing:priklad-nel-header}. 
-Takto zaslané hlavičky spolupracujú tak, že Reporting API skupinu \code{group} referencuje hlavička NEL svojim poľom \code{report\_to}. Obe pravidlá majú rovnako dlhú platnosť. Hlásenia zlyhaní, ale aj úspechov sa budú tvoriť iba pre domény monitorovaného web servera podľa ich samostatne upravených percentuálnych nastavení. Ako dodatková informácia v hláseniach bude figurovať hlavička \code{Content-Type} z odpovedí monitorovaného web servera. Štruktúra hlásení generovaných týmito pravidlami je popísaná v sekcii \ref{struktura-hlasenia-nel} s konkrétnym \mbox{príkladom hlásenia vo výpise \ref{listing:priklad-nel-report}.}
+Takto zaslané hlavičky spolupracujú tak, že Reporting API skupinu \code{group} referencuje hlavička NEL svojim poľom \code{report\_to}. Obe pravidlá majú rovnako dlhú platnosť. Hlásenia zlyhaní, ale aj úspechov sa budú tvoriť iba pre domény monitorovaného web servera podľa ich samostatne upravených percentuálnych nastavení. Ako dodatková informácia v hláseniach bude figurovať hlavička \code{Content-Type} z odpovedí monitorovaného web servera.
 
 \pagebreak
 
@@ -894,170 +723,14 @@ NEL: {
 \end{lstlisting}
 \end{center}
 
+\subsection{Zmienky o používaní NEL}
 
-\subsection{Štruktúra hlásenia NEL}
-\label{struktura-hlasenia-nel}
-
-Po získaní jedného alebo viacerých pravidiel NEL sa na webovom prehliadači začnú tvoriť hlásenia typu NEL.
-V tejto sekcii popisujem štruktúru a obsah týchto hlásení.
-
-\subsubsection{Časť štruktúry vychádzajúcej z Reporting API}
-
-Hlásenia majú podľa špecifikácie Reporting API štruktúru zloženú z polí \cite{W3C-NEL, W3C-reporting-api}:
-\begin{enumerate}
-    \item \code{type},
-    \item \code{age},
-    \item \code{url} ,
-    \item \code{user\_agent},
-    \item \code{body}.
-\end{enumerate}
-
-Polia \code{age}, \code{url} a \code{user\_agent} sú vyplnené bežne podľa štandardnej funkcionality Reporting API (viď sekciu \ref{reporting-api}).
-Polia \code{type} a \code{body} však definuje NEL, pričom \code{type} vždy nadobúda v hlásení hodnotu \code{\textbf{"network-error"}} a \code{body} nadobúda hodnotu JSON objektu reprezentujúceho telo hlásenia typu NEL.
-
-\subsubsection{Telo hlásenia typu NEL}
-\label{network-error-logging-spec-type}
-
-Štruktúra obsahu poľa \code{body} v hlásení typu NEL záleží na tom, v ktorej časti operácia získavania monitorovaného zdroja zlyhala \cite{W3C-NEL}.
-Podľa toho algoritmus tvorenia nového hlásenia najskôr vytvorí základnú štruktúru, ku ktorej neskôr pridáva dodatočné polia pre konkrétny typ zlyhania.
-Najskôr popisujem spomenutú základnú štruktúru a potom polia špecifické pre každú \mbox{z možných} fáz zlyhania.
-Základná nemenná štruktúra poľa \code{body} sa skladá \mbox{z nasledovných} polí:
-
-\begin{itemize}
-    \item \code{sampling\_fraction}:
-
-    Pole obsahuje skopírovanú hodnotu z pravidla NEL. Kopírovaným poľom je buď \code{failure\_fraction}, ak ide o hlásenie zlyhania, alebo pole \code{success\_fraction}, ak ide o hlásenie úspechu.
-    Pre popis týchto dvoch polí viď predošlú sekciu \ref{struktura-http-hlavicky-nel}.
-    
-    \item \code{elapsed\_time}:
-
-    Pole obsahuje hodnotu reprezentujúcu čas od zaslania HTTP žiadosti pre monitorovaný zdroj do jej zlyhania.
-    Tento čas je uvedený v milisekundách.
-    
-    \item \code{\textbf{phase}}:
-
-    Dôležité pole určujúce ďalšiu štruktúru tela hlavičky.
-    Pri zlyhaniach obsahuje hodnoty troch hlavných kategórií zlyhaní, ktoré popisuje kapitola \ref{body-zlyhania}.
-    Jednotlivé kategórie sú reprezentované nasledujúcimi hodnotami: 
-    \begin{itemize}
-        \item \code{"dns"}: zlyhania komunikácie s DNS,
-        \item \code{"connection"}: zlyhania nadviazania spojenia TCP/IP,
-        \item \code{"}\code{application"}: zlyhania prenosu HTTP.
-    \end{itemize}
-
-    Ak však ide o hlásenie úspechu, hodnota tohto poľa sa vyplní ako \code{"}\code{application"}.
-
-    \item \code{\textbf{type}}:
-
-    Obsahom tohto poľa je špecifický podtyp zlyhania prislúchajúceho k fáze definovanej poľom \code{phase}.
-    Zoznam jednotlivých podtypov je rozsiahly, preto uvádzam iba vzorku príkladov hodnôt pre toto pole \cite{W3C-NEL}:
-    \begin{enumerate}
-        \item podtypy zlyhaní fáze \code{"dns"}:
-        \begin{itemize}
-            \item \code{dns.unreachable}: klientom použitý DNS server je nedostupný,
-            \item \code{dns.name\_not\_resolved}: klientom použitý DNS server odpovedal, ale neuspel v rezolúcií IP adresy.
-        \end{itemize}
-        
-        \item podtypy zlyhaní fáze \code{"connection"}:
-        \begin{itemize}
-            \item \code{tcp.refused}: monitorovaný web server spojenie odmietol,
-            \item \code{tcp.aborted}: monitorovaný web server spojenie zrušil.
-        \end{itemize}
-        
-        \item podtypy zlyhaní fáze \code{"}\code{application"}:
-        \begin{itemize}
-            \item \code{http.error}: odpoveď z monitorovaného web servera úspešne prišla, ale obsahovala status z kategórie \code{4xx} alebo \code{5xx},
-            
-            \item \code{http.protocol.error}: spojenie bolo zrušené z dôvodu zlyhania mechanizmu komunikácie protokolom HTTP. 
-        \end{itemize}
-    
-    \end{enumerate}    
-\end{itemize}
-
-Keď už sú polia uvedené vyššie v hlásení NEL vyplnené, jeho základná štruktúra je pripravená.
-Ďalej mechanizmy tvorby hlásenia pridajú dodatočné polia podľa obsahu už vyplneného poľa \code{phase}.
-Výsledná štruktúra môže byť jedna z nasledujúcich: 
-
-\begin{enumerate}
-    \item Dodatočné polia, ak hodnota poľa \code{phase} je \code{"dns"}:
-
-    Do existujúcej štruktúry tela hlásenia nebude pridané už žiadne ďalšie pole.
-    Hlásenie je v tomto bode úspešne vytvorené.
-    
-    \item Dodatočné polia, ak hodnota poľa \code{phase} je \code{"connection"}:
-    \begin{itemize}
-        \item \code{server\_ip}:
-    
-        Pole obsahuje IP adresu monitorovaného web servera, ktorá bola získaná DNS rezolúciou.
-        
-        \item \code{protocol}:
-    
-        Možnými hodnotami sú názvy spolu s verziami protokolov použitých na vyžiadanie monitorovaného zdroja.
-        Napríklad \code{"http/1.1"}.
-    \end{itemize}
-    
-    \item Dodatočné polia, ak hodnota poľa \code{phase} je \code{"}\code{application"}:
-
-    Jednak budú doplnené polia prislúchajúce k predchádzajúcej fáze (\code{"connection"}), ale tiež budú pridané aj nasledovné:
-    \begin{itemize}
-        \item \code{referrer}:
-
-        Obsahom je URL adresa zdroja, ktorý obsahoval hyperlink na práve ten zdroj, pre ktorý vzniklo zlyhanie pri jeho vyžiadaní z monitorovaného web servera.
-
-        \item \code{status\_code}:
-
-        Pole s hodnotou HTTP statusu odpovede web servera.
-
-        \item \code{method}:
-
-        Pole obsahuje HTTP metódu žiadosti, ktorá bola zaslaná klientom pre získanie monitorovaného zdroja.
-        
-        \item \code{request\_headers} a \code{response\_headers}:
-    
-        Polia vyplnené ako JSON objekt. 
-        Obsah tohto objektu je založený na sledovaných hlavičkách definovaných pravidlom NEL v jeho rovnako nazvaných poliach (viď sekciu \ref{struktura-http-hlavicky-nel}).
-        
-        Kľúče tohto objektu predstavujú názvy sledovaných hlavičiek.
-        Hodnoty priradené kľúčom sú typu JSON array, kde array obsahuje jeden alebo viaceré reťazce vyplnené obsahom prislúchajúcej sledovanej hlavičky.
-        
-    \end{itemize}    
-\end{enumerate}
-
-Príkladné telo vygenerovaného hlásenia typu NEL je uvedené vo výpise \ref{listing:priklad-nel-report}. 
-Telo tohto hlásenia bolo vygenerované pre zlyhanie vo fáze \code{"}\code{application"}. \mbox{Z webstránky} s adresou URL z poľa \code{referrer} bola zaslaná HTTP žiadosť typu \code{GET}, ktorú server obslúžil so statusom \code{500} -- server zlyhal pri obsluhe žiadosti. Dodatočne, tak ako bolo definované \mbox{v pravidlách} NEL, telo obsahuje aj hlavičku \code{Content-Type}, ktorá však vyplnená nebola kvôli celkovému zlyhaniu navrátenia cieľového zdroja v odpovedi.
-
-\pagebreak
-
-\begin{center}
-\centering
-\begin{lstlisting}[
-caption={Príklad výsledného hlásenia typu NEL vytvoreného podľa pravidiel z výpisu \ref{listing:priklad-nel-header}.},
-label=listing:priklad-nel-report, 
-language=json, 
-frame=tb,
-xleftmargin=.085\textwidth, 
-xrightmargin=.085\textwidth]
-{
-    "age": 0,
-    "type": "network-error",
-    "url": "https://www.example.com/web-stranka2",
-    "body": {
-        "sampling_fraction": 0.2,
-        "referrer": "http://example.com/web-stranka1",
-        "server_ip": "192.0.2.3",
-        "protocol": "http/1.1",
-        "method": "GET",
-        "request_headers": {},
-        "response_headers": {
-            "Content-Type": [
-                ""
-            ]
-        },
-        "status_code": 500,
-        "elapsed_time": 823,
-        "phase": "application",
-        "type": "http.error"
-    }
-}
-\end{lstlisting}
-\end{center}
+Na internete existuje pomerne malý počet zmienok týkajúcich sa technológie NEL.
+Majorita z nich je popisného charakteru, pričom prevažne ide o príspevky online blogov popisujúce jej funkcionalitu a využitie.
+Existujú však aj online služby, ktoré v rámci svojich riešení poskytujú aj monitorovanie NEL.
+Napríklad, platforma \emph{Heroku} 25. septembra 2023 oznámila, že NEL interne nasadila\footnote{\url{https://devcenter.heroku.com/changelog-items/2678}}.
+Ďalej, platformy ako \emph{Raygun}, \emph{ReportURI} a \emph{URIports} poskytujú NEL kolektory ako službu, ku ktorej publikovali návody na používanie\footnote{Napríklad \url{https://www.uriports.com/getting-started-with-website-monitoring}}.
+Súčasťou takto poskytovaných služieb je pre vymenované platformy vizualizovanie prehľadu nazbieraných dát z hlásení NEL, prípadne taktiež zasielanie notifikácií o zvýšenom počte zlyhaní zákazníkovi služby prostredníctvom mailu.
+Značne zainteresovanou je aj platforma \emph{Cloudflare}, ktorá okrem poskytovania NEL ako služby tiež prispela svojimi skúsenosťami s používaním NEL do diskuzie s organizáciou Mozilla na konci roku 2023\footnote{\url{https://github.com/mozilla/standards-positions/issues/99}}.
+V zminenom príspevku Cloudflare hovorí o tom, že NEL používa na hlásenie výskytov zlyhanií, hlásenie poklesov výskytov zlyhaní (úspešné opravy problémov), monitorovanie problémov v rámci priebehu vývoja ich vlastnej infraštruktúry, detekciu blokujúcich sieťových uzlov a podobne.
+Súčasťou tejto diskuzie je taktiež príspevok, v ktorom jeho autor tvrdí, že organizácia \emph{Wikimedia Foundation} tiež používa NEL pre detekciu výpadkov v dostupnosti webstránok Wikipédie, ktorú prevádzkuje. 
